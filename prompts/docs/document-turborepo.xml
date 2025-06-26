@@ -1,0 +1,602 @@
+<prompt>
+  <task>
+    <description>Create and maintain comprehensive turborepo documentation with AGENTS.md files for agentic development</description>
+    <requirements>
+      <requirement>Analyze existing documentation and identify gaps, outdated content, or inconsistencies</requirement>
+      <requirement>Preserve valuable existing content while updating or creating missing documentation</requirement>
+      <requirement>Capture the application's purpose and primary user workflows</requirement>
+      <requirement>Update documentation to reflect current state of architecture, APIs, and workflows</requirement>
+      <requirement>Create or update AGENTS.md files in key locations (repo root and all app directories)</requirement>
+      <requirement>Provide diagrams, wireframes, and visual documentation where missing or outdated</requirement>
+      <requirement>Track documentation changes and improvements made</requirement>
+    </requirements>
+    <context>
+      <repository>
+        <structure>Turborepo monorepo with apps/ and packages/ directories</structure>
+        <current_state>Documentation may be incomplete, inconsistent, or outdated</current_state>
+        <sdlc_stage>Could be first-time documentation or ongoing maintenance</sdlc_stage>
+      </repository>
+    </context>
+  </task>
+  
+  <priority_guidelines>
+    <essential>AGENTS.md files must exist in root and all app directories</essential>
+    <essential>Core setup and development workflows must be documented</essential>
+    <important>Architecture diagrams should reflect current system state</important>
+    <important>API documentation must match actual endpoints</important>
+    <nice_to_have>Advanced debugging and optimization guides</nice_to_have>
+    <optional>Historical decision records and rationale</optional>
+  </priority_guidelines>
+  
+  <documentation_lifecycle>
+    <phase id="discovery" time_limit="45_minutes">
+      <instructions>
+        <instruction>Scan for all existing documentation files (README.md, AGENTS.md, docs/ directories)</instruction>
+        <instruction>Assess quality, accuracy, and completeness of existing documentation</instruction>
+        <instruction>Identify documentation gaps and outdated content</instruction>
+        <instruction>Determine what can be preserved vs. what needs updating/replacement</instruction>
+        <instruction>Analyze developer pain points from missing documentation</instruction>
+      </instructions>
+      <output>Documentation audit report with preservation and update recommendations</output>
+    </phase>
+    
+    <phase id="planning" time_limit="30_minutes">
+      <instructions>
+        <instruction>Prioritize documentation updates based on accuracy gaps and developer impact</instruction>
+        <instruction>Plan incremental updates that preserve valuable existing content</instruction>
+        <instruction>Identify new documentation needed for recent code changes</instruction>
+        <instruction>Determine optimal update strategy (incremental vs. rewrite)</instruction>
+        <instruction>Consider documentation maintenance sustainability</instruction>
+      </instructions>
+      <output>Documentation update plan with priorities and preservation strategy</output>
+    </phase>
+    
+    <phase id="implementation" time_limit="3-4_hours">
+      <instructions>
+        <instruction>Update existing files incrementally rather than wholesale replacement</instruction>
+        <instruction>Create new documentation files for identified gaps</instruction>
+        <instruction>Ensure consistency across updated and existing documentation</instruction>
+        <instruction>Maintain existing documentation structure where it works well</instruction>
+        <instruction>Add visual diagrams using ASCII art or Mermaid where helpful</instruction>
+      </instructions>
+      <output>Updated and new documentation files with tracked changes</output>
+    </phase>
+    
+    <phase id="validation" time_limit="30_minutes">
+      <instructions>
+        <instruction>Verify documentation accuracy against current codebase</instruction>
+        <instruction>Ensure consistency in style and structure across all documentation</instruction>
+        <instruction>Test that examples and instructions actually work</instruction>
+        <instruction>Confirm all key areas are adequately covered</instruction>
+        <instruction>Run documentation linters if available</instruction>
+      </instructions>
+      <output>Validated documentation with verified accuracy and consistency</output>
+    </phase>
+  </documentation_lifecycle>
+  
+  <context_awareness>
+    <codebase_analysis>
+      <instruction>Analyze code structure to understand actual architecture</instruction>
+      <instruction>Extract API endpoints and data models automatically where possible</instruction>
+      <instruction>Identify integration patterns between components</instruction>
+      <instruction>Map dependency relationships for accurate documentation</instruction>
+    </codebase_analysis>
+    
+    <developer_experience>
+      <instruction>Consider common onboarding challenges</instruction>
+      <instruction>Address frequently asked questions proactively</instruction>
+      <instruction>Include troubleshooting for known issues</instruction>
+      <instruction>Provide copy-paste ready examples</instruction>
+    </developer_experience>
+    
+    <industry_standards>
+      <instruction>Follow documentation best practices (Diátaxis framework)</instruction>
+      <instruction>Use standard diagram notations (C4, UML where appropriate)</instruction>
+      <instruction>Adopt common markdown conventions</instruction>
+      <instruction>Include OpenAPI/AsyncAPI specs where relevant</instruction>
+    </industry_standards>
+  </context_awareness>
+  
+  <anti_patterns>
+    <anti_pattern name="Documentation Rot">
+      <description>Creating documentation that immediately becomes outdated</description>
+      <signs>Hard-coded values, specific version numbers, detailed implementation specifics</signs>
+      <prevention>Link to code, use relative references, focus on concepts over specifics</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Over-Documentation">
+      <description>Documenting obvious things while missing critical information</description>
+      <signs>Explaining what every function does, missing architecture overview</signs>
+      <prevention>Focus on the "why" not the "what", document intentions and trade-offs</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Orphaned Documentation">
+      <description>Documentation disconnected from the code it describes</description>
+      <signs>Docs in separate repos, no links between docs and code</signs>
+      <prevention>Co-locate documentation with code, use inline references</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Template Blindness">
+      <description>Following templates without adapting to actual needs</description>
+      <signs>Empty sections, irrelevant content, cookie-cutter descriptions</signs>
+      <prevention>Adapt templates to project needs, remove irrelevant sections</prevention>
+    </anti_pattern>
+  </anti_patterns>
+  
+  <visual_representations>
+    <architecture_overview>
+      <ascii_structure>
+        <header>Turborepo Root</header>
+        <apps_section>Apps</apps_section>
+        <packages_section>Packages</packages_section>
+        <integration_lines>Connection lines between components</integration_lines>
+      </ascii_structure>
+      <mermaid_structure>
+        <layers>
+          <layer name="Apps">
+            <app name="App 1"/>
+            <app name="App 2"/>
+            <app name="App 3"/>
+          </layer>
+          <layer name="Packages">
+            <package name="@repo/ui"/>
+            <package name="@repo/shared"/>
+            <package name="@repo/config"/>
+          </layer>
+        </layers>
+        <relationships>
+          <connection from="App 1" to="@repo/ui"/>
+          <connection from="App 1" to="@repo/shared"/>
+          <connection from="App 2" to="@repo/shared"/>
+          <connection from="App 3" to="@repo/ui"/>
+          <connection from="App 3" to="@repo/config"/>
+        </relationships>
+      </mermaid_structure>
+    </architecture_overview>
+    
+    <development_flow>
+      <sequence>
+        <participant name="Developer"/>
+        <participant name="Local Env"/>
+        <participant name="Tests"/>
+        <participant name="Build"/>
+        <participant name="Production"/>
+      </sequence>
+      <interactions>
+        <interaction from="Developer" to="Local Env" message="pnpm install"/>
+        <interaction from="Developer" to="Local Env" message="pnpm dev"/>
+        <interaction from="Local Env" to="Developer" message="Hot reload"/>
+        <interaction from="Developer" to="Tests" message="pnpm test"/>
+        <interaction from="Tests" to="Developer" message="Test results"/>
+        <interaction from="Developer" to="Build" message="pnpm build"/>
+        <interaction from="Build" to="Developer" message="Build artifacts"/>
+        <interaction from="Developer" to="Production" message="Deploy"/>
+      </interactions>
+    </development_flow>
+  </visual_representations>
+  
+  <existing_content_strategy>
+    <preserve>
+      <criterion>Content is accurate and up-to-date</criterion>
+      <criterion>Well-structured sections that don't need changes</criterion>
+      <criterion>Historical context or architectural decisions that remain relevant</criterion>
+      <criterion>Working examples and code snippets that are current</criterion>
+    </preserve>
+    
+    <update>
+      <criterion>Content has minor inaccuracies or missing details</criterion>
+      <criterion>Structure is good but content needs refreshing</criterion>
+      <criterion>Examples work but could be improved or expanded</criterion>
+      <criterion>Information is incomplete but foundation is solid</criterion>
+    </update>
+    
+    <replace>
+      <criterion>Content is significantly outdated or incorrect</criterion>
+      <criterion>Structure doesn't serve current needs</criterion>
+      <criterion>Examples don't work or use deprecated patterns</criterion>
+      <criterion>Documentation doesn't match current codebase</criterion>
+    </replace>
+    
+    <create_new>
+      <criterion>No existing documentation for important areas</criterion>
+      <criterion>New features or components lack documentation</criterion>
+      <criterion>Integration points or workflows are undocumented</criterion>
+      <criterion>Developer experience gaps identified</criterion>
+    </create_new>
+  </existing_content_strategy>
+  
+  <deliverable_templates>
+    <documentation_audit id="documentation-audit">
+      <header>
+        <title>Documentation Audit Report</title>
+      </header>
+      
+      <executive_summary>
+        <total_files_audited>{count}</total_files_audited>
+        <health_score>{percentage}%</health_score>
+        <critical_gaps>{count}</critical_gaps>
+        <quick_wins>{count}</quick_wins>
+      </executive_summary>
+      
+      <existing_documentation_assessment>
+        <documentation_coverage_map>{Visual representation of what's documented vs gaps}</documentation_coverage_map>
+        
+        <found_documentation>
+          <document path="{path}" status="exists|missing" quality="good|fair|poor" action_needed="preserve|update|replace|create" priority="high|medium|low"/>
+        </found_documentation>
+        
+        <quality_metrics>
+          <accurate_files count="{count}">Files match current codebase</accurate_files>
+          <outdated_files count="{count}">Files need updates</outdated_files>
+          <missing_areas count="{count}">Critical areas lack documentation</missing_areas>
+          <inconsistent_files count="{count}">Files have style/structure issues</inconsistent_files>
+        </quality_metrics>
+      </existing_documentation_assessment>
+      
+      <pain_point_analysis>
+        <developer_friction_points>
+          <friction_point area="{area}" impact="{description}"/>
+        </developer_friction_points>
+      </pain_point_analysis>
+      
+      <recommendations>
+        <immediate_actions timeline="This Sprint">
+          <recommendation rationale="{rationale}" effort_estimate="{estimate}">{specific recommendation}</recommendation>
+        </immediate_actions>
+        
+        <short_term timeline="Next 2-4 Weeks">
+          <recommendation rationale="{rationale}" effort_estimate="{estimate}">{specific recommendation}</recommendation>
+        </short_term>
+        
+        <long_term_improvements>
+          <improvement rationale="{rationale}">{strategic improvement}</improvement>
+        </long_term_improvements>
+      </recommendations>
+      
+      <preservation_plan>
+        <keep_as_is>{list of files that don't need changes}</keep_as_is>
+        <incremental_updates>{list of files needing minor updates}</incremental_updates>
+        <major_rewrites>{list of files needing significant changes}</major_rewrites>
+      </preservation_plan>
+      
+      <success_metrics>
+        <documentation_coverage current="{current}%" target="{target}%"/>
+        <developer_onboarding_time current="{current}" target="{target}"/>
+        <documentation_freshness current="{current}" target="{target}"/>
+      </success_metrics>
+    </documentation_audit>
+    
+    <agents_md_structure id="agents-md">
+      <required_locations>
+        <location path="/" description="Root AGENTS.md for entire turborepo" required="true"/>
+        <location path="/apps/*/" description="App-level AGENTS.md for each application" required="true"/>
+        <location path="/packages/*/" description="Package-level AGENTS.md for key packages" required="false"/>
+      </required_locations>
+      
+      <content_structure>
+        <section name="Overview">Repository/app purpose and architecture</section>
+        <section name="Quick Start">Fastest path to running the project</section>
+        <section name="Dev Environment">Setup commands, tools, versions, and workflows</section>
+        <section name="Architecture">High-level design and key decisions</section>
+        <section name="Testing Instructions">How to run and validate tests</section>
+        <section name="Code Standards">Style guides and patterns to follow</section>
+        <section name="PR Instructions">Contribution guidelines and review process</section>
+        <section name="Key Files">Critical code paths and entry points</section>
+        <section name="Integration Points">How components connect and interact</section>
+        <section name="Troubleshooting">Common issues and solutions</section>
+        <section name="Recent Changes">Summary of recent updates (for SDLC continuity)</section>
+      </content_structure>
+      
+      <update_strategy>
+        <approach>Check existing AGENTS.md files and update sections that are outdated</approach>
+        <approach>Preserve sections that are accurate and well-written</approach>
+        <approach>Add "Recent Changes" section to track evolution</approach>
+        <approach>Maintain consistent structure across all AGENTS.md files</approach>
+        <approach>Include visual diagrams for architecture understanding</approach>
+      </update_strategy>
+    </agents_md_structure>
+    
+    <documentation_structure id="documentation">
+      <directory_structure>
+        <docs_directory path="/docs">
+          <subdirectory name="architecture" purpose="System diagrams and design decisions"/>
+          <subdirectory name="api" purpose="Endpoint documentation and integration guides"/>
+          <subdirectory name="workflows" purpose="Development and deployment procedures"/>
+          <subdirectory name="guides" purpose="How-to guides for common tasks"/>
+          <subdirectory name="reference" purpose="Technical specifications and standards"/>
+          <subdirectory name="roadmap" purpose="Current priorities and next steps"/>
+          <subdirectory name="changelog" purpose="Documentation update history"/>
+          <subdirectory name="decisions" purpose="ADRs (Architecture Decision Records)"/>
+        </docs_directory>
+        <app_docs path="/apps/*/docs" purpose="App-specific detailed documentation"/>
+        <package_docs path="/packages/*/docs" purpose="Package-specific detailed documentation"/>
+      </directory_structure>
+      
+      <quality_standards>
+        <standard name="Accuracy">Match current code state exactly</standard>
+        <standard name="Completeness">Cover all significant aspects</standard>
+        <standard name="Clarity">Clear language with minimal jargon</standard>
+        <standard name="Structure">Consistent formatting and navigation</standard>
+        <standard name="Visual Aids">Include diagrams where beneficial</standard>
+        <standard name="Code Examples">Practical, runnable examples</standard>
+        <standard name="Versioning">Include version information</standard>
+        <standard name="Change Tracking">Document what was updated and why</standard>
+        <standard name="Searchability">Use clear headings and keywords</standard>
+        <standard name="Maintainability">Easy to update as code evolves</standard>
+      </quality_standards>
+    </documentation_structure>
+    
+    <completion_checklist id="completion-checklist">
+      <core_requirements>
+        <requirement>Root AGENTS.md exists and is comprehensive</requirement>
+        <requirement>All apps have AGENTS.md files</requirement>
+        <requirement>README.md is accurate and welcoming</requirement>
+        <requirement>Setup instructions tested and working</requirement>
+      </core_requirements>
+      
+      <architecture_design>
+        <requirement>System architecture diagram present</requirement>
+        <requirement>Data flow documented</requirement>
+        <requirement>Key design decisions recorded</requirement>
+        <requirement>Integration points mapped</requirement>
+      </architecture_design>
+      
+      <developer_experience>
+        <requirement>Quick start guide under 5 minutes</requirement>
+        <requirement>Common tasks documented</requirement>
+        <requirement>Troubleshooting section comprehensive</requirement>
+        <requirement>Examples are copy-paste ready</requirement>
+      </developer_experience>
+      
+      <api_interfaces>
+        <requirement>All endpoints documented</requirement>
+        <requirement>Request/response examples provided</requirement>
+        <requirement>Error codes and handling explained</requirement>
+        <requirement>Authentication flows clear</requirement>
+      </api_interfaces>
+      
+      <quality_assurance>
+        <requirement>All links tested and working</requirement>
+        <requirement>Code examples verified</requirement>
+        <requirement>No outdated information</requirement>
+        <requirement>Consistent formatting throughout</requirement>
+      </quality_assurance>
+      
+      <maintenance_sustainability>
+        <requirement>Change log updated</requirement>
+        <requirement>Update process documented</requirement>
+        <requirement>Review schedule established</requirement>
+        <requirement>Ownership assigned</requirement>
+      </maintenance_sustainability>
+    </completion_checklist>
+    
+    <change_tracking id="change-tracking">
+      <header>
+        <title>Documentation Changes: {Date}</title>
+      </header>
+      
+      <summary>
+        <files_updated>{count}</files_updated>
+        <files_created>{count}</files_created>
+        <lines_changed additions="{additions}" deletions="{deletions}"/>
+        <time_invested>{hours}</time_invested>
+      </summary>
+      
+      <files_updated>
+        <file_update path="{file path}">
+          <description>{description of changes made}</description>
+          <before>{brief description}</before>
+          <after>{brief description}</after>
+          <reason>{why the change was needed}</reason>
+        </file_update>
+      </files_updated>
+      
+      <files_created>
+        <file_creation path="{file path}">
+          <purpose>{purpose and content description}</purpose>
+          <addresses>{what gap this fills}</addresses>
+          <key_content>{main topics covered}</key_content>
+        </file_creation>
+      </files_created>
+      
+      <content_preserved>
+        <preserved_file path="{file path}">
+          <preserved_content>{what was kept and why}</preserved_content>
+          <quality_reason>{why it didn't need changes}</quality_reason>
+        </preserved_file>
+      </content_preserved>
+      
+      <improvements_made>
+        <improvement impact="{measurable impact}">{improvement description}</improvement>
+      </improvements_made>
+      
+      <metrics>
+        <documentation_coverage before="{before}%" after="{after}%"/>
+        <accuracy_score before="{before}" after="{after}"/>
+        <developer_satisfaction>{if measured}</developer_satisfaction>
+      </metrics>
+      
+      <next_steps>
+        <next_step timeline="{timeline}">{area description}</next_step>
+      </next_steps>
+      
+      <lessons_learned>
+        <lesson>{insight about documentation process}</lesson>
+        <lesson>{insight about codebase understanding}</lesson>
+      </lessons_learned>
+    </change_tracking>
+  </deliverable_templates>
+  
+  <sustainability_framework>
+    <maintenance_strategy>
+      <principle>Documentation as Code</principle>
+      <implementation>
+        <practice>Store docs in version control</practice>
+        <practice>Review docs in PRs alongside code changes</practice>
+        <practice>Automate freshness checks where possible</practice>
+        <practice>Use linters for consistency</practice>
+      </implementation>
+    </maintenance_strategy>
+    
+    <freshness_indicators>
+      <indicator>Last updated timestamps on key pages</indicator>
+      <indicator>Links to specific code versions</indicator>
+      <indicator>Automated API doc generation where feasible</indicator>
+      <indicator>Regular review cycles scheduled</indicator>
+    </freshness_indicators>
+    
+    <ownership_model>
+      <role name="Documentation Champion">Overall documentation health</role>
+      <role name="App Owners">App-specific AGENTS.md maintenance</role>
+      <role name="API Team">API documentation accuracy</role>
+      <role name="DevEx Team">Developer guide improvements</role>
+    </ownership_model>
+  </sustainability_framework>
+  
+  <optimization_for_agents>
+    <guideline>Provide clear code pointers with greppable identifiers</guideline>
+    <guideline>Include verification steps for functionality</guideline>
+    <guideline>Specify tools to use for different tasks</guideline>
+    <guideline>Add detailed environment configuration guidance</guideline>
+    <guideline>Structure documentation with clear markdown formatting</guideline>
+    <guideline>Split complex topics into smaller, focused sections</guideline>
+    <guideline>Include troubleshooting guidance for common issues</guideline>
+    <guideline>Track changes to support ongoing maintenance</guideline>
+    <guideline>Use consistent naming conventions throughout</guideline>
+    <guideline>Provide both conceptual overviews and detailed references</guideline>
+  </optimization_for_agents>
+  
+  <execution_workflow>
+    <step name="Documentation Discovery">
+      <actions>
+        <action>Scan entire repository for existing documentation files</action>
+        <action>Read and assess quality of found documentation</action>
+        <action>Compare documentation against current codebase state</action>
+        <action>Identify developer pain points through doc gaps</action>
+        <action>Create comprehensive documentation audit report</action>
+      </actions>
+    </step>
+    
+    <step name="Strategic Planning">
+      <actions>
+        <action>Prioritize updates based on developer impact and effort</action>
+        <action>Determine preservation vs. update vs. replace strategy for each file</action>
+        <action>Plan incremental approach that minimizes disruption</action>
+        <action>Identify net-new documentation requirements</action>
+        <action>Set measurable success criteria</action>
+      </actions>
+    </step>
+    
+    <step name="AGENTS.md Excellence">
+      <actions>
+        <action>Check existing AGENTS.md files and assess current accuracy</action>
+        <action>Update sections that are outdated while preserving good content</action>
+        <action>Create missing AGENTS.md files following established patterns</action>
+        <action>Add visual diagrams for architecture understanding</action>
+        <action>Ensure consistency across all AGENTS.md files</action>
+      </actions>
+    </step>
+    
+    <step name="Comprehensive Documentation">
+      <actions>
+        <action>Update API documentation to match current endpoints</action>
+        <action>Refresh architecture diagrams if changes occurred</action>
+        <action>Update workflow documentation for current processes</action>
+        <action>Create new documentation for gaps identified</action>
+        <action>Add troubleshooting guides for common issues</action>
+      </actions>
+    </step>
+    
+    <step name="Quality Assurance">
+      <actions>
+        <action>Verify all updated documentation against current codebase</action>
+        <action>Test examples and code snippets to ensure they work</action>
+        <action>Run documentation linters and spell checkers</action>
+        <action>Validate all links and references</action>
+        <action>Get feedback from developers on clarity</action>
+      </actions>
+    </step>
+    
+    <step name="Sustainability Setup">
+      <actions>
+        <action>Create change tracking document for this update cycle</action>
+        <action>Set up automation for documentation freshness checks</action>
+        <action>Establish review schedule and ownership</action>
+        <action>Document the documentation process itself</action>
+        <action>Identify any remaining areas needing future attention</action>
+      </actions>
+    </step>
+  </execution_workflow>
+  
+  <sdlc_continuity>
+    <first_run>
+      <focus>Comprehensive documentation creation from analysis</focus>
+      <approach>Create full documentation suite with thorough coverage</approach>
+      <deliverables>Complete AGENTS.md files, docs/ structure, and change tracking setup</deliverables>
+    </first_run>
+    
+    <subsequent_runs>
+      <focus>Incremental updates preserving valuable existing content</focus>
+      <approach>Audit existing docs, update outdated content, fill gaps</approach>
+      <deliverables>Updated documentation with change tracking and preserved content</deliverables>
+    </subsequent_runs>
+    
+    <continuous_improvement>
+      <principle>Each run should improve documentation quality without losing good content</principle>
+      <principle>Track changes to enable rollback if updates introduce issues</principle>
+      <principle>Focus on high-impact updates that improve developer experience</principle>
+      <principle>Maintain consistency and quality standards across all documentation</principle>
+      <principle>Measure and report on documentation health metrics</principle>
+    </continuous_improvement>
+  </sdlc_continuity>
+  
+  <knowledge_repository>
+    <repository_structure>
+      <file_path>docs/.documentation-patterns/README.md</file_path>
+      <purpose>Capture successful documentation patterns and learnings</purpose>
+      <sections>
+        <successful_patterns>
+          <pattern context="{Where it worked well and why}">{Pattern}</pattern>
+        </successful_patterns>
+        <anti_patterns_avoided>
+          <anti_pattern prevention="{How we prevented it}">{Anti-pattern}</anti_pattern>
+        </anti_patterns_avoided>
+        <template_evolution>
+          <template improvement="{How it improved over time}">{Template}</template>
+        </template_evolution>
+        <developer_feedback>
+          <feedback response="{How we addressed it}">{Feedback}</feedback>
+        </developer_feedback>
+        <automation_wins>
+          <tool improvement="{What it improved}">{Tool/Process}</tool>
+        </automation_wins>
+      </sections>
+    </repository_structure>
+  </knowledge_repository>
+  
+  <meta_guidelines>
+    <guideline name="Preservation First">
+      <guidance>Always check what exists before creating new content</guidance>
+    </guideline>
+    
+    <guideline name="Incremental Improvement">
+      <guidance>Focus on gaps and outdated content rather than wholesale rewrites</guidance>
+    </guideline>
+    
+    <guideline name="Change Transparency">
+      <guidance>Document what was changed and why for future reference</guidance>
+    </guideline>
+    
+    <guideline name="SDLC Awareness">
+      <guidance>Adapt approach based on whether this is first run or maintenance</guidance>
+    </guideline>
+    
+    <guideline name="Developer Empathy">
+      <guidance>Write documentation from the perspective of someone new to the codebase</guidance>
+    </guideline>
+    
+    <guideline name="Living Documentation">
+      <guidance>Create documentation that evolves with the code, not despite it</guidance>
+    </guideline>
+  </meta_guidelines>
+</prompt>

@@ -1,0 +1,64 @@
+<prompt>
+  <task>
+    <description>Document core app functionality and map potential feature evolution using insights from state and document prompts</description>
+    <requirements>
+      <requirement>Summarize the app's current capabilities</requirement>
+      <requirement>Review recent state analysis and documentation for context</requirement>
+      <requirement>Brainstorm innovative features and tooling ideas</requirement>
+      <requirement>Highlight UI/UX improvements that could enhance the product</requirement>
+      <requirement>Sketch roadmaps showing how concepts might evolve</requirement>
+      <requirement>Capture open questions and vision notes for future planning</requirement>
+    </requirements>
+  </task>
+
+  <ideation_framework>
+    <phase id="spark" time_limit="15_minutes">
+      <instructions>
+        <instruction>Absorb key themes from recent repo status entries</instruction>
+        <instruction>Let imaginative associations surface freely</instruction>
+        <instruction>Note any surprising connections or metaphors</instruction>
+      </instructions>
+      <output>List of raw concept fragments and emotional tones</output>
+    </phase>
+
+    <phase id="shape" time_limit="30_minutes">
+      <instructions>
+        <instruction>Group related fragments into rough feature ideas</instruction>
+        <instruction>Consider how each idea could improve user experience</instruction>
+        <instruction>Describe the essence of each idea in a short paragraph</instruction>
+      </instructions>
+      <output>Collection of short-form concept descriptions</output>
+    </phase>
+
+    <phase id="plan" time_limit="30_minutes">
+      <instructions>
+        <instruction>Sketch possible milestones or iterations for promising ideas</instruction>
+        <instruction>Identify open questions and assumptions for future research</instruction>
+        <instruction>Keep plans high-level and adaptable</instruction>
+      </instructions>
+      <output>Loose roadmaps and question lists for further exploration</output>
+    </phase>
+  </ideation_framework>
+
+  <output_format>
+    <primary_deliverable>
+      <file>docs/vision/product-vision-{DATE}.md</file>
+      <content>Snapshot of current functionality and future concepts</content>
+    </primary_deliverable>
+  </output_format>
+
+  <meta_guidelines>
+    <guideline name="Playful Exploration">
+      <guidance>Embrace creativity and avoid early judgment of ideas</guidance>
+    </guideline>
+    <guideline name="User Grounding">
+      <guidance>Tie imaginative concepts back to real user needs</guidance>
+    </guideline>
+    <guideline name="Current App Awareness">
+      <guidance>Describe today's functionality before sketching new ideas</guidance>
+    </guideline>
+    <guideline name="Iterative Vision">
+      <guidance>Capture directions that can evolve alongside the project</guidance>
+    </guideline>
+  </meta_guidelines>
+</prompt>

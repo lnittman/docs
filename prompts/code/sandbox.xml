@@ -1,0 +1,618 @@
+<prompt>
+  <task>
+    <description>Conceive, specify, and implement a novel sandboxed feature that extends the project in unexpected, valuable, domain-aware ways</description>
+    <requirements>
+      <requirement>Create something interesting, novel, and relevant to the project</requirement>
+      <requirement>Deliver a fully sandboxed, testable implementation that can be independently evaluated</requirement>
+      <requirement>Bridge technical innovation with meaningful user experience improvements</requirement>
+      <requirement>Ensure the feature respects and enhances the existing architecture</requirement>
+      <requirement>Incorporate industry best practices throughout specification and implementation</requirement>
+    </requirements>
+  </task>
+  
+  <priority_guidelines>
+    <essential>Core innovation must be demonstrated with working code</essential>
+    <essential>Integration patterns with existing architecture must be clear</essential>
+    <important>Documentation should enable others to understand and extend</important>
+    <important>Demo should work without additional setup</important>
+    <nice_to_have>Performance optimizations beyond proof of concept</nice_to_have>
+    <optional>Extended documentation examples and edge cases</optional>
+  </priority_guidelines>
+  
+  <creation_process>
+    <phase id="inspiration" time_limit="30_minutes">
+      <instructions>
+        <instruction>Absorb the essence of the codebase without getting lost in its details</instruction>
+        <instruction>Identify invisible assumptions and unrecognized patterns across modules</instruction>
+        <instruction>Observe the gaps between user needs and current implementation</instruction>
+        <instruction>Consider the pulse of emerging technologies that could be meaningfully integrated</instruction>
+        <instruction>Research current market solutions and competitive landscape</instruction>
+      </instructions>
+      <output>A collection of possibility spaces—regions where innovation might flourish</output>
+    </phase>
+    
+    <phase id="contemplation" time_limit="45_minutes">
+      <instructions>
+        <instruction>Let ideas gestate without forcing concrete form too quickly</instruction>
+        <instruction>Imagine radical alternatives to current approaches</instruction>
+        <instruction>Consider what would feel like magic to users but is technically feasible</instruction>
+        <instruction>Identify invisible frictions in the current user experience that could be eliminated</instruction>
+        <instruction>Analyze market differentiation opportunities</instruction>
+      </instructions>
+      <output>Three distinct conceptual directions with their potential impact</output>
+    </phase>
+
+    <phase id="crystallization" time_limit="1_hour">
+      <instructions>
+        <instruction>Select the concept with the highest impact-to-complexity ratio</instruction>
+        <instruction>Refine its boundaries and interfaces with existing systems</instruction>
+        <instruction>Identify the minimal viable implementation that demonstrates its core value</instruction>
+        <instruction>Define success criteria that would justify further investment</instruction>
+        <instruction>Consider long-term sustainability and maintenance implications</instruction>
+      </instructions>
+      <output>A precise specification of the feature with scope delineation</output>
+    </phase>
+
+    <phase id="manifestation" time_limit="3-4_hours">
+      <instructions>
+        <instruction>Create the minimal implementation that proves the concept's viability</instruction>
+        <instruction>Build within a cleanly isolated sandbox environment</instruction>
+        <instruction>Ensure testability and demonstrability without production dependencies</instruction>
+        <instruction>Balance between prototype quality and conveying the full vision</instruction>
+        <instruction>Focus on creating a Minimum Lovable Product - delightful even in simplicity</instruction>
+      </instructions>
+      <output>Working implementation with self-contained demo capabilities</output>
+    </phase>
+
+    <phase id="reflection" time_limit="30_minutes">
+      <instructions>
+        <instruction>Articulate what was learned through the implementation process</instruction>
+        <instruction>Identify the most valuable aspects that emerged unexpectedly</instruction>
+        <instruction>Consider integration paths with the broader ecosystem</instruction>
+        <instruction>Document limitations and potential future directions</instruction>
+        <instruction>Capture lessons for the innovation repository</instruction>
+      </instructions>
+      <output>Insights and recommendations for evolution or integration</output>
+    </phase>
+  </creation_process>
+  
+  <context_awareness>
+    <market_analysis>
+      <instruction>Research current solutions in the problem space</instruction>
+      <instruction>Identify emerging technologies that could disrupt this domain</instruction>
+      <instruction>Analyze user behavior trends and shifting expectations</instruction>
+      <deliverable_section>Add "Market Context" section to VISION.md including competitive analysis and differentiation points</deliverable_section>
+    </market_analysis>
+  </context_awareness>
+  
+  <innovation_dimensions>
+    <dimension name="Ambient Intelligence">
+      <description>Features that observe patterns and proactively assist without explicit invocation</description>
+      <examples>
+        <example>Anticipating resource needs before they become critical</example>
+        <example>Surfacing relevant context from related modules during development</example>
+        <example>Learning from historical build patterns to optimize future builds</example>
+      </examples>
+    </dimension>
+
+    <dimension name="Cross-boundary Integration">
+      <description>Features that bridge traditionally separate domains or tools</description>
+      <examples>
+        <example>Blending design systems with runtime code generation</example>
+        <example>Connecting analytics insights with development priorities</example>
+        <example>Linking documentation and implementation in bidirectional ways</example>
+      </examples>
+    </dimension>
+
+    <dimension name="Emergent Intelligence">
+      <description>Systems that reveal patterns or insights in novel ways</description>
+      <examples>
+        <example>Identifying implicit architectural patterns across the codebase</example>
+        <example>Detecting and leveraging emerging trends</example>
+        <example>Suggesting optimal resource allocation based on relationships</example>
+      </examples>
+    </dimension>
+
+    <dimension name="Developer Flow Optimization">
+      <description>Features that minimize context switching and cognitive load</description>
+      <examples>
+        <example>Just-in-time documentation that appears when needed</example>
+        <example>Predictive test selection based on change impact analysis</example>
+        <example>Contextual command suggestions based on current development activity</example>
+      </examples>
+    </dimension>
+  </innovation_dimensions>
+  
+  <ai_integration_guidelines>
+    <guideline name="Route AI through apps/ai if it exists - otherwise use Vercel AI SDK">
+      <principle>Route all AI functionality through the established apps/ai turborepo app</principle>
+      <rationale>Maintain consistency and leverage existing infrastructure for AI capabilities</rationale>
+      <implementation>
+        <step>Use Agent class from '@mastra/core/agent'</step>
+        <step>Follow loadPrompt pattern for XML prompt templates</step>
+        <step>Implement proper error boundaries for AI calls</step>
+        <step>Include retry logic with exponential backoff</step>
+        <step>Reference mastra.ai patterns in apps/ai/src/mastra</step>
+        <step>Reference mastra.ai documentation if present in apps/ai/docs/mastra</step>
+      </implementation>
+      <implementation_vercel>
+        <step>Use Vercel AI SDK throughout for AI functionality</step>
+        <step>Follow Vercel AI SDK patterns for AI capabilities</step>
+        <step>Implement proper error boundaries for AI calls</step>
+        <step>Include retry logic with exponential backoff</step>
+        <step>Reference Vercel AI SDK documentation if present in apps/ai/docs/vercel</step>
+      </implementation_vercel>
+    </guideline>
+    
+    <guideline name="Mastra agent composition">
+      <principle>Follow Mastra agent composition patterns</principle>
+      <rationale>Ensures consistency with existing AI infrastructure</rationale>
+      <implementation>
+        <step>Define agents with clear single responsibilities</step>
+        <step>Use structured input/output schemas with Zod</step>
+        <step>Compose workflows from multiple agents when needed</step>
+        <step>Store prompts as XML templates in dedicated directories</step>
+      </implementation>
+    </guideline>
+    
+    <guideline name="Graceful degradation">
+      <principle>Design for graceful degradation when AI services are unavailable</principle>
+      <rationale>Ensure features remain functional even with limited AI capabilities</rationale>
+      <implementation>Implement fallback mechanisms and clear user communication for degraded states</implementation>
+    </guideline>
+
+    <guideline name="User agency balance">
+      <principle>Balance AI autonomy with user agency and transparency</principle>
+      <rationale>Maintain user trust and control while providing intelligent assistance</rationale>
+      <implementation>Make AI suggestions clearly distinct from user-directed actions</implementation>
+    </guideline>
+
+    <guideline name="Continuous learning">
+      <principle>Optimize for continuous learning and improvement</principle>
+      <rationale>Allow the system to become more valuable through usage patterns</rationale>
+      <implementation>Design appropriate feedback loops that respect privacy constraints</implementation>
+    </guideline>
+  </ai_integration_guidelines>
+  
+  <anti_patterns>
+    <anti_pattern name="Over-Engineering">
+      <description>Creating unnecessarily complex solutions for simple problems</description>
+      <signs>Multiple abstraction layers, 10+ files for a simple feature, complex dependency graphs</signs>
+      <prevention>Start with the simplest working implementation, add complexity only when justified</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Innovation Theater">
+      <description>Building flashy features with no real user value</description>
+      <signs>Heavy on UI effects but light on actual functionality, no clear problem statement</signs>
+      <prevention>Validate user need before implementation, focus on outcomes over outputs</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Scope Creep">
+      <description>Expanding beyond the sandbox into production code</description>
+      <signs>Modifying existing packages, adding production dependencies, changing core configs</signs>
+      <prevention>Maintain strict sandbox boundaries, use mocks for external dependencies</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Documentation Debt">
+      <description>Building without explaining the why and how</description>
+      <signs>Missing README, no architectural diagrams, unclear integration points</signs>
+      <prevention>Document as you build, not after; write for your future self</prevention>
+    </anti_pattern>
+  </anti_patterns>
+  
+  <implementation_constraints>
+    <constraint name="Production isolation">
+      <rule>Complete isolation from production systems and data</rule>
+      <justification>Enables exploration without risk to existing functionality</justification>
+      <approach>Implement in a dedicated sandbox directory with clear boundaries</approach>
+    </constraint>
+    
+    <constraint name="Time-boxed phases">
+      <rule>Time-boxed implementation phases</rule>
+      <justification>Prevents over-engineering and ensures progress</justification>
+      <approach>Follow time limits for each phase, move forward even if not perfect</approach>
+    </constraint>
+    
+    <constraint name="Self-contained dependencies">
+      <rule>Self-contained dependencies and resources</rule>
+      <justification>Simplifies evaluation without complex environment setup</justification>
+      <approach>Bundle or mock required external services within the implementation</approach>
+    </constraint>
+
+    <constraint name="Clear entry points">
+      <rule>Clear entry points for demonstration</rule>
+      <justification>Facilitates immediate understanding and evaluation</justification>
+      <approach>Provide simple commands or interfaces to launch and interact with the feature</approach>
+    </constraint>
+
+    <constraint name="Comprehensive documentation">
+      <rule>Comprehensive but concise documentation</rule>
+      <justification>Enables others to understand the implementation and vision</justification>
+      <approach>Include a dedicated README with rationale, usage, and future directions</approach>
+    </constraint>
+  </implementation_constraints>
+  
+  <visual_representations>
+    <architecture_diagram>
+      <ascii_structure>
+        <existing_system>Existing System</existing_system>
+        <innovation_layer>Innovation Layer</innovation_layer>
+        <future_state>Future State</future_state>
+        <integration_points>Integration Points</integration_points>
+      </ascii_structure>
+      <mermaid_structure>
+        <flow_elements>
+          <element name="User Need"/>
+          <element name="Innovation"/>
+          <element name="Integration Layer"/>
+          <element name="Existing System"/>
+          <element name="Demo Interface"/>
+          <element name="User Validation"/>
+          <element name="Future Development"/>
+        </flow_elements>
+        <connections>
+          <connection from="User Need" to="Innovation"/>
+          <connection from="Innovation" to="Integration Layer"/>
+          <connection from="Integration Layer" to="Existing System"/>
+          <connection from="Innovation" to="Demo Interface"/>
+          <connection from="Demo Interface" to="User Validation"/>
+          <connection from="User Validation" to="Future Development"/>
+        </connections>
+      </mermaid_structure>
+    </architecture_diagram>
+    
+    <data_flow_diagram>
+      <sequence>
+        <participant name="User"/>
+        <participant name="Innovation"/>
+        <participant name="Existing System"/>
+        <participant name="AI Service"/>
+      </sequence>
+      <interactions>
+        <interaction from="User" to="Innovation" message="Interact"/>
+        <interaction from="Innovation" to="AI Service" message="Request Enhancement"/>
+        <interaction from="AI Service" to="Innovation" message="AI Response"/>
+        <interaction from="Innovation" to="Existing System" message="Integration Call"/>
+        <interaction from="Existing System" to="Innovation" message="System Response"/>
+        <interaction from="Innovation" to="User" message="Enhanced Result"/>
+      </interactions>
+    </data_flow_diagram>
+  </visual_representations>
+  
+  <deliverable_templates>
+    <vision_document id="vision-document">
+      <header>
+        <title>{Feature Name}: Vision & Rationale</title>
+      </header>
+      
+      <sections>
+        <essence>
+          <content>A concise, compelling statement of what this feature enables that wasn't possible before</content>
+        </essence>
+        
+        <discovery_journey>
+          <content>How this concept emerged from the existing turborepo context</content>
+        </discovery_journey>
+        
+        <market_context>
+          <current_solutions>Analysis of existing solutions in this problem space</current_solutions>
+          <differentiation_points>What makes this approach unique</differentiation_points>
+          <future_trends>How this aligns with emerging patterns</future_trends>
+        </market_context>
+        
+        <alternative_directions>
+          <alternative name="Alternative 1">
+            <core_idea>Brief description</core_idea>
+            <potential_value>Why it might have been valuable</potential_value>
+            <why_not_selected>Reasoning for choosing a different direction</why_not_selected>
+          </alternative>
+          <alternative name="Alternative 2">
+            <core_idea>Brief description</core_idea>
+            <potential_value>Why it might have been valuable</potential_value>
+            <why_not_selected>Reasoning for choosing a different direction</why_not_selected>
+          </alternative>
+        </alternative_directions>
+        
+        <unexplored_territory>
+          <content>Aspects of this concept that warrant further exploration beyond this implementation</content>
+        </unexplored_territory>
+      </sections>
+    </vision_document>
+
+    <technical_specification id="technical-specification">
+      <header>
+        <title>{Feature Name}: Technical Specification</title>
+      </header>
+      
+      <sections>
+        <architecture_overview>
+          <content>Diagram or description of the feature's components and their relationships</content>
+        </architecture_overview>
+        
+        <core_components>
+          <component name="{Component 1}">
+            <purpose>What this component does</purpose>
+            <implementation_strategy>How it's built</implementation_strategy>
+            <interfaces>How other components interact with it</interfaces>
+          </component>
+          <component name="{Component 2}">
+            <purpose>What this component does</purpose>
+            <implementation_strategy>How it's built</implementation_strategy>
+            <interfaces>How other components interact with it</interfaces>
+          </component>
+        </core_components>
+        
+        <data_flow>
+          <content>Description of how data moves through the system</content>
+        </data_flow>
+        
+        <integration_points>
+          <content>How this feature connects with the broader ecosystem</content>
+        </integration_points>
+        
+        <sustainability_considerations>
+          <maintenance_requirements>What ongoing work is needed</maintenance_requirements>
+          <dependency_management>How to keep dependencies current</dependency_management>
+          <scaling_considerations>How the feature handles growth</scaling_considerations>
+        </sustainability_considerations>
+        
+        <future_proofing>
+          <content>Design decisions that enable future evolution</content>
+        </future_proofing>
+      </sections>
+    </technical_specification>
+
+    <implementation_structure id="implementation">
+      <sandbox_directory name="sandboxes/{feature-name}/">
+        <file name="README.md" purpose="Overview and getting started"/>
+        <file name="VISION.md" purpose="Vision document"/>
+        <file name="SPEC.md" purpose="Technical specification"/>
+        <file name="CHECKLIST.md" purpose="Completion checklist"/>
+        <file name="package.json" purpose="Dependencies and scripts"/>
+        <directory name="src/" purpose="Implementation code"/>
+        <directory name="demo/" purpose="Demo application"/>
+        <directory name="tests/" purpose="Test suite"/>
+        <file name="REFLECTION.md" purpose="Post-implementation insights"/>
+      </sandbox_directory>
+    </implementation_structure>
+
+    <demo_guide id="demo-guide">
+      <header>
+        <title>{Feature Name}: Demo Guide</title>
+      </header>
+      
+      <sections>
+        <prerequisites>
+          <content>What's needed to run the demo</content>
+        </prerequisites>
+        
+        <quick_start>
+          <commands>
+            <command>cd sandboxes/{feature-name}</command>
+            <command>npm install</command>
+            <command>npm run demo</command>
+          </commands>
+        </quick_start>
+        
+        <demonstration_scenarios>
+          <scenario name="Scenario 1">
+            <step>Step 1</step>
+            <step>Step 2</step>
+            <step>Step 3</step>
+          </scenario>
+          <scenario name="Scenario 2">
+            <step>Step 1</step>
+            <step>Step 2</step>
+            <step>Step 3</step>
+          </scenario>
+        </demonstration_scenarios>
+        
+        <behind_the_scenes>
+          <content>Explanation of what's happening during the demo</content>
+        </behind_the_scenes>
+      </sections>
+    </demo_guide>
+
+    <reflection_document id="reflection">
+      <header>
+        <title>{Feature Name}: Implementation Reflection</title>
+      </header>
+      
+      <sections>
+        <unexpected_discoveries>
+          <content>Insights gained during implementation that weren't apparent during planning</content>
+        </unexpected_discoveries>
+        
+        <implementation_challenges>
+          <content>Technical obstacles encountered and how they were addressed</content>
+        </implementation_challenges>
+        
+        <value_proposition_evolution>
+          <content>How the perceived value of the feature shifted during implementation</content>
+        </value_proposition_evolution>
+        
+        <integration_pathway>
+          <content>Recommended approach for moving from sandbox to production if desired</content>
+        </integration_pathway>
+        
+        <further_exploration>
+          <content>Specific areas that warrant deeper investigation based on implementation experience</content>
+        </further_exploration>
+        
+        <lessons_for_repository>
+          <content>Key insights to add to the shared learning repository</content>
+        </lessons_for_repository>
+      </sections>
+    </reflection_document>
+    
+    <completion_checklist id="completion-checklist">
+      <header>
+        <title>{Feature Name}: Completion Checklist</title>
+      </header>
+      
+      <validation_categories>
+        <innovation_validation>
+          <check>Creates new capability not previously possible</check>
+          <check>Addresses real user need (not just technical curiosity)</check>
+          <check>Integrates cleanly with existing architecture</check>
+          <check>Demonstrates clear value proposition</check>
+        </innovation_validation>
+        
+        <implementation_quality>
+          <check>All code follows project conventions</check>
+          <check>Test coverage demonstrates core functionality</check>
+          <check>Documentation explains both "what" and "why"</check>
+          <check>Demo runs without additional setup</check>
+          <check>Error handling is comprehensive</check>
+          <check>Code is readable and maintainable</check>
+        </implementation_quality>
+        
+        <sustainability>
+          <check>Feature can be maintained by other developers</check>
+          <check>Dependencies are minimal and well-justified</check>
+          <check>Performance impact is acceptable</check>
+          <check>Security considerations addressed</check>
+          <check>Scalability path is clear</check>
+        </sustainability>
+        
+        <knowledge_transfer>
+          <check>Vision document clearly articulates value</check>
+          <check>Technical spec enables understanding</check>
+          <check>Reflection captures key learnings</check>
+          <check>Integration path is documented</check>
+          <check>Lessons added to innovation repository</check>
+        </knowledge_transfer>
+        
+        <anti_pattern_avoidance>
+          <check>No over-engineering detected</check>
+          <check>Real value delivered (not innovation theater)</check>
+          <check>Stayed within sandbox boundaries</check>
+          <check>Documentation debt avoided</check>
+        </anti_pattern_avoidance>
+      </validation_categories>
+    </completion_checklist>
+  </deliverable_templates>
+  
+  <evaluation_criteria>
+    <criterion name="Innovation Quotient">
+      <description>The degree to which the feature represents a genuine advance rather than an incremental improvement</description>
+      <questions>
+        <question>Does this create a new capability that didn't exist before?</question>
+        <question>Does it challenge fundamental assumptions about how the system should work?</question>
+        <question>Would it be difficult for others to arrive at this solution through conventional thinking?</question>
+      </questions>
+    </criterion>
+    
+    <criterion name="Impact Potential">
+      <description>The breadth and depth of positive change this feature could enable</description>
+      <questions>
+        <question>How many developers or users would benefit from this feature?</question>
+        <question>How substantial would the improvement be for each affected person?</question>
+        <question>What second-order effects might emerge from this capability?</question>
+      </questions>
+    </criterion>
+
+    <criterion name="Implementation Elegance">
+      <description>The quality and craft evident in the technical execution</description>
+      <questions>
+        <question>Is the code clear, maintainable, and well-structured?</question>
+        <question>Does the architecture reflect deep understanding of the problem space?</question>
+        <question>Are appropriate patterns and practices employed throughout?</question>
+      </questions>
+    </criterion>
+
+    <criterion name="Future Compatibility">
+      <description>How well the feature aligns with likely evolution of the ecosystem</description>
+      <questions>
+        <question>Does this feature anticipate emerging trends in development practices?</question>
+        <question>Is it built on stable foundations that won't rapidly become obsolete?</question>
+        <question>Does it open pathways for further innovation without creating technical debt?</question>
+      </questions>
+    </criterion>
+    
+    <criterion name="Sustainability Score">
+      <description>Long-term viability and maintenance burden</description>
+      <questions>
+        <question>Can this be maintained by developers unfamiliar with the original implementation?</question>
+        <question>Will this feature remain valuable as the system scales?</question>
+        <question>Are the dependencies likely to remain supported?</question>
+        <question>What is the estimated maintenance cost over 2 years?</question>
+      </questions>
+    </criterion>
+  </evaluation_criteria>
+  
+  <meta_principles>
+    <principle name="Embrace ambiguity">
+      <guidance>Resist the urge to narrow possibilities too quickly; let multiple directions coexist until their merits become clear</guidance>
+    </principle>
+    
+    <principle name="Balance novelty and usefulness">
+      <guidance>A feature that's merely surprising without delivering value is a curiosity, not an innovation</guidance>
+    </principle>
+
+    <principle name="Notice what you notice">
+      <guidance>Pay attention to subtle patterns and observations that might reveal unrecognized opportunities</guidance>
+    </principle>
+
+    <principle name="Question every limitation">
+      <guidance>For each apparent constraint, ask whether it's truly immutable or merely an accepted convention</guidance>
+    </principle>
+
+    <principle name="Seek the elegant minimum">
+      <guidance>The most profound innovations often remove complexity rather than adding it</guidance>
+    </principle>
+    
+    <principle name="Build the Minimum Lovable Product">
+      <guidance>Beyond MVP - create something that delights even in its simplest form. The feature should feel complete and polished within its limited scope, not like a rough prototype.</guidance>
+    </principle>
+  </meta_principles>
+  
+  <output_artifacts>
+    <primary_artifact>
+      <file_path>sandboxes/{feature-name}/README.md</file_path>
+      <purpose>Central entry point explaining the feature and how to explore it</purpose>
+    </primary_artifact>
+    
+    <supporting_artifacts>
+      <artifact file_path="sandboxes/{feature-name}/VISION.md" purpose="Articulation of the conceptual breakthrough and its potential"/>
+      <artifact file_path="sandboxes/{feature-name}/SPEC.md" purpose="Technical blueprint and architecture documentation"/>
+      <artifact file_path="sandboxes/{feature-name}/DEMO.md" purpose="Step-by-step guide for experiencing the feature in action"/>
+      <artifact file_path="sandboxes/{feature-name}/CHECKLIST.md" purpose="Completion validation and quality assurance"/>
+    </supporting_artifacts>
+    
+    <implementation_artifacts>
+      <directory name="sandboxes/{feature-name}/src" purpose="Core implementation code organized by component"/>
+      <directory name="sandboxes/{feature-name}/demo" purpose="Self-contained example application showcasing the feature"/>
+      <directory name="sandboxes/{feature-name}/tests" purpose="Test suite validating core functionality and edge cases"/>
+    </implementation_artifacts>
+    
+    <reflection_artifact>
+      <file_path>sandboxes/{feature-name}/REFLECTION.md</file_path>
+      <purpose>Post-implementation insights and evolution pathway</purpose>
+    </reflection_artifact>
+  </output_artifacts>
+  
+  <knowledge_repository>
+    <repository_structure>
+      <file_path>sandboxes/.innovation-learnings/README.md</file_path>
+      <purpose>Central repository of insights across all innovations</purpose>
+      <sections>
+        <successful_patterns>
+          <pattern context="{Context where it worked well}">{Pattern}</pattern>
+        </successful_patterns>
+        <failed_experiments>
+          <approach reason="{Why it didn't work}">{Approach}</approach>
+        </failed_experiments>
+        <technical_discoveries>
+          <discovery implications="{Implications for future work}">{Discovery}</discovery>
+        </technical_discoveries>
+        <anti_patterns_encountered>
+          <anti_pattern avoidance="{How to avoid in future}">{Anti-pattern}</anti_pattern>
+        </anti_patterns_encountered>
+        <integration_strategies>
+          <strategy usage="{When to use this approach}">{Strategy}</strategy>
+        </integration_strategies>
+      </sections>
+    </repository_structure>
+  </knowledge_repository>
+</prompt>

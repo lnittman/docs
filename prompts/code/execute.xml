@@ -1,0 +1,802 @@
+<prompt>
+  <task>
+    <description>Execute the top recommendation from the latest repo-state analysis for meaningful gains</description>
+    <requirements>
+      <requirement>Review the latest repo-status entry to understand current state and recommendations</requirement>
+      <requirement>Select and prioritize the most impactful recommendation for immediate implementation</requirement>
+      <requirement>Dive deep into existing functionality to pinpoint modules that need adjustment</requirement>
+      <requirement>Plan and execute the implementation with detailed docs and functional validation</requirement>
+      <requirement>Update state documentation to reflect changes and measure impact</requirement>
+      <requirement>Ensure changes align with existing architecture and development patterns</requirement>
+      <requirement>Track implementation progress and document lessons learned</requirement>
+    </requirements>
+  </task>
+
+  <priority_guidelines>
+    <essential>Implementation must address a real pain point identified in state analysis</essential>
+    <essential>All changes must reflect deep understanding of app functionality with clear documentation</essential>
+    <important>Implementation should complete within one focused session (4-6 hours)</important>
+    <important>Changes should improve developer experience measurably</important>
+    <nice_to_have>Implementation enables future improvements</nice_to_have>
+    <optional>Performance optimizations beyond the core fix</optional>
+  </priority_guidelines>
+
+  <execution_workflow>
+    <phase id="assessment" time_limit="30_minutes">
+      <instructions>
+        <instruction>Read the latest repo-status entry to understand current recommendations</instruction>
+        <instruction>Review related app/package documentation to understand affected components</instruction>
+        <instruction>Analyze the complexity and impact of each recommendation</instruction>
+        <instruction>Select the recommendation with the highest value-to-effort ratio</instruction>
+        <instruction>Consider team velocity and current sprint commitments</instruction>
+      </instructions>
+      <output>Clear selection rationale and implementation scope definition</output>
+    </phase>
+
+    <phase id="planning" time_limit="45_minutes">
+      <instructions>
+        <instruction>Break down the selected recommendation into concrete, actionable steps</instruction>
+        <instruction>Identify all components that will be affected by the implementation</instruction>
+        <instruction>Analyze existing functionality to map affected modules and plan validation steps</instruction>
+        <instruction>Consider rollback approach if issues arise</instruction>
+        <instruction>Create visual diagrams for complex changes</instruction>
+      </instructions>
+      <output>Detailed implementation plan with timeline and validation approach</output>
+    </phase>
+
+    <phase id="implementation" time_limit="3-4_hours">
+      <instructions>
+        <instruction>Execute the planned changes systematically and incrementally</instruction>
+        <instruction>Evaluate each change against current functionality to catch issues early</instruction>
+        <instruction>Document any deviations from the original plan and the reasoning</instruction>
+        <instruction>Maintain consistent code quality and patterns throughout</instruction>
+        <instruction>Commit changes incrementally with clear messages</instruction>
+      </instructions>
+      <output>Completed implementation with validated functionality</output>
+    </phase>
+
+    <phase id="validation" time_limit="45_minutes">
+      <instructions>
+        <instruction>Verify that the implementation addresses the original recommendation</instruction>
+        <instruction>Check integration points to ensure no regressions</instruction>
+        <instruction>Measure impact against the expected improvements</instruction>
+        <instruction>Gather feedback from affected development workflows</instruction>
+        <instruction>Run performance benchmarks if relevant</instruction>
+      </instructions>
+      <output>Validation report with impact measurement and any identified issues</output>
+    </phase>
+
+    <phase id="documentation" time_limit="30_minutes">
+      <instructions>
+        <instruction>Update relevant app/package documentation to reflect changes</instruction>
+        <instruction>Create implementation summary documenting what was done and why</instruction>
+        <instruction>Update integration-status.md if integration patterns changed</instruction>
+        <instruction>Add entry to development-log.md documenting the improvement</instruction>
+        <instruction>Update knowledge repository with lessons learned</instruction>
+      </instructions>
+      <output>Updated state documentation reflecting the implemented changes</output>
+    </phase>
+  </execution_workflow>
+
+  <context_awareness>
+    <sprint_alignment>
+      <instruction>Consider current sprint goals and team capacity</instruction>
+      <instruction>Avoid disrupting in-progress feature work</instruction>
+      <instruction>Coordinate with team members on shared components</instruction>
+      <instruction>Schedule implementation to minimize merge conflicts</instruction>
+    </sprint_alignment>
+    
+    <technical_landscape>
+      <instruction>Review recent technology decisions and patterns</instruction>
+      <instruction>Consider upcoming framework or library updates</instruction>
+      <instruction>Align with organization's technical roadmap</instruction>
+      <instruction>Respect established architectural boundaries</instruction>
+    </technical_landscape>
+    
+    <risk_assessment>
+      <instruction>Evaluate production impact of proposed changes</instruction>
+      <instruction>Consider deployment windows and rollback procedures</instruction>
+      <instruction>Assess security implications of changes</instruction>
+      <instruction>Plan for graceful degradation if applicable</instruction>
+    </risk_assessment>
+  </context_awareness>
+
+  <anti_patterns>
+    <anti_pattern name="Big Bang Implementation">
+      <description>Trying to implement too many recommendations at once</description>
+      <signs>Multiple unrelated changes, long implementation time, difficult testing</signs>
+      <prevention>Focus on one recommendation per session, break large changes into phases</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Documentation Drift">
+      <description>Implementation diverges significantly from documented plan</description>
+      <signs>Final result doesn't match plan, unclear decision trail, confusion later</signs>
+      <prevention>Update plan as you go, document decision changes immediately</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Shallow Analysis">
+      <description>Rushing into implementation without understanding existing functionality</description>
+      <signs>Jumping to code changes or tests without reviewing module interactions</signs>
+      <prevention>Take time to explore how modules work together before implementing changes</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Scope Creep">
+      <description>Adding "nice to have" improvements beyond the recommendation</description>
+      <signs>Implementation taking too long, unrelated changes, loss of focus</signs>
+      <prevention>Stick to the plan, note future improvements separately</prevention>
+    </anti_pattern>
+  </anti_patterns>
+
+  <visual_representations>
+    <impact_analysis>
+      <ascii_structure>
+        <recommendation>Recommendation</recommendation>
+        <component_a>Component A (Modified)</component_a>
+        <component_b>Component B (Affected)</component_b>
+        <component_c>Component C (New/Updated)</component_c>
+        <connections>Flow connections between components</connections>
+      </ascii_structure>
+      <mermaid_structure>
+        <flow_elements>
+          <element name="Recommendation"/>
+          <element name="Assessment"/>
+          <element name="Planning"/>
+          <element name="Implementation"/>
+          <element name="Validation"/>
+          <element name="Documentation"/>
+          <element name="Unit Tests"/>
+          <element name="Integration Tests"/>
+          <element name="Performance Metrics"/>
+          <element name="Success Criteria"/>
+        </flow_elements>
+        <connections>
+          <connection from="Recommendation" to="Assessment"/>
+          <connection from="Assessment" to="Planning"/>
+          <connection from="Planning" to="Implementation"/>
+          <connection from="Implementation" to="Validation"/>
+          <connection from="Validation" to="Documentation"/>
+          <connection from="Implementation" to="Unit Tests"/>
+          <connection from="Implementation" to="Integration Tests"/>
+          <connection from="Validation" to="Performance Metrics"/>
+          <connection from="Validation" to="Success Criteria"/>
+        </connections>
+      </mermaid_structure>
+    </impact_analysis>
+    
+    <implementation_flow>
+      <sequence>
+        <participant name="Developer"/>
+        <participant name="Codebase"/>
+        <participant name="Test Suite"/>
+        <participant name="Documentation"/>
+      </sequence>
+      <interactions>
+        <interaction from="Developer" to="Codebase" message="Implement Change"/>
+        <interaction from="Developer" to="Test Suite" message="Add/Update Tests"/>
+        <interaction from="Test Suite" to="Developer" message="Validation Results"/>
+        <interaction from="Developer" to="Codebase" message="Refine Implementation"/>
+        <interaction from="Developer" to="Documentation" message="Update Documentation"/>
+        <interaction from="Documentation" to="Developer" message="Review Complete"/>
+      </interactions>
+    </implementation_flow>
+  </visual_representations>
+
+  <recommendation_prioritization>
+    <criteria>
+      <criterion name="Developer Impact" weight="high">
+        <description>How significantly this will improve daily development experience</description>
+        <measurement>Time saved per developer per week</measurement>
+      </criterion>
+      <criterion name="Implementation Complexity" weight="high" preference="lower_complexity_preferred">
+        <description>Time and effort required for implementation</description>
+        <measurement>Story points or hours estimate</measurement>
+      </criterion>
+      <criterion name="Architectural Benefit" weight="medium">
+        <description>Long-term positive impact on system architecture</description>
+        <measurement>Reduced coupling, improved cohesion metrics</measurement>
+      </criterion>
+      <criterion name="Risk Level" weight="medium" preference="lower_risk_preferred">
+        <description>Potential for introducing bugs or breaking changes</description>
+        <measurement>Number of affected components, test coverage</measurement>
+      </criterion>
+      <criterion name="Foundational Value" weight="medium">
+        <description>Whether this enables other improvements in the future</description>
+        <measurement>Number of blocked improvements this unblocks</measurement>
+      </criterion>
+    </criteria>
+
+    <selection_framework>
+      <impact_effort_matrix>
+        <quadrant name="Quick Win" impact="high" effort="low" action="Prioritize"/>
+        <quadrant name="Major Project" impact="high" effort="high" action="Plan Carefully"/>
+        <quadrant name="Fill-in Work" impact="low" effort="low" action="If Time"/>
+        <quadrant name="Avoid" impact="low" effort="high" action="Not Worth It"/>
+      </impact_effort_matrix>
+    </selection_framework>
+
+    <selection_guidelines>
+      <guideline>Prefer improvements that unblock multiple other recommendations</guideline>
+      <guideline>Favor changes that improve development velocity without significant risk</guideline>
+      <guideline>Choose implementations that can be completed in a single focused session</guideline>
+      <guideline>Prioritize fixes that address recurring pain points identified in the state analysis</guideline>
+      <guideline>Consider team morale impact - visible improvements boost motivation</guideline>
+    </selection_guidelines>
+  </recommendation_prioritization>
+
+  <implementation_categories>
+    <category name="Dependency Optimization">
+      <description>Resolving dependency conflicts, removing unused dependencies, updating versions</description>
+      <typical_scope>Package.json updates, dependency reorganization, version alignment</typical_scope>
+      <validation_approach>Build verification, runtime testing, bundle size analysis</validation_approach>
+      <success_metrics>
+        <metric>Reduced bundle size</metric>
+        <metric>Faster install times</metric>
+        <metric>Eliminated version conflicts</metric>
+        <metric>Improved security score</metric>
+      </success_metrics>
+    </category>
+
+    <category name="Integration Improvement">
+      <description>Enhancing communication between apps/packages, reducing coupling</description>
+      <typical_scope>API refinement, shared interface creation, communication pattern standardization</typical_scope>
+      <validation_approach>Integration testing, data flow verification, performance measurement</validation_approach>
+      <success_metrics>
+        <metric>Reduced API calls</metric>
+        <metric>Improved response times</metric>
+        <metric>Cleaner interfaces</metric>
+        <metric>Better error handling</metric>
+      </success_metrics>
+    </category>
+
+    <category name="Architecture Refactoring">
+      <description>Restructuring code for better separation of concerns, cleaner patterns</description>
+      <typical_scope>Module reorganization, pattern standardization, abstraction improvements</typical_scope>
+      <validation_approach>Unit testing, architectural compliance verification, code review</validation_approach>
+      <success_metrics>
+        <metric>Improved code coverage</metric>
+        <metric>Reduced cyclomatic complexity</metric>
+        <metric>Better module cohesion</metric>
+        <metric>Clearer boundaries</metric>
+      </success_metrics>
+    </category>
+
+    <category name="Developer Experience">
+      <description>Improving build processes, tooling, local development setup</description>
+      <typical_scope>Configuration updates, script improvements, tooling enhancements</typical_scope>
+      <validation_approach>Workflow checks, build time measurement, developer feedback</validation_approach>
+      <success_metrics>
+        <metric>Faster build times</metric>
+        <metric>Reduced setup steps</metric>
+        <metric>Better error messages</metric>
+        <metric>Improved debugging</metric>
+      </success_metrics>
+    </category>
+
+    <category name="Documentation Enhancement">
+      <description>Filling knowledge gaps, improving API documentation, architectural guides</description>
+      <typical_scope>README updates, API documentation, architectural decision records</typical_scope>
+      <validation_approach>Documentation review, clarity checks, completeness verification</validation_approach>
+      <success_metrics>
+        <metric>Reduced onboarding time</metric>
+        <metric>Fewer support questions</metric>
+        <metric>Better API adoption</metric>
+        <metric>Clearer architecture understanding</metric>
+      </success_metrics>
+    </category>
+
+    <category name="Technical Debt Resolution">
+      <description>Addressing accumulated technical debt, modernizing legacy patterns</description>
+      <typical_scope>Code cleanup, pattern migration, deprecated API replacement</typical_scope>
+      <validation_approach>Regression testing, performance comparison, maintainability assessment</validation_approach>
+      <success_metrics>
+        <metric>Reduced code smells</metric>
+        <metric>Updated dependencies</metric>
+        <metric>Eliminated deprecation warnings</metric>
+        <metric>Improved maintainability index</metric>
+      </success_metrics>
+    </category>
+  </implementation_categories>
+
+  <quality_standards>
+    <standard name="Code Quality">
+      <requirements>
+        <requirement>Follow existing code patterns and conventions consistently</requirement>
+        <requirement>Ensure affected components remain fully functional</requirement>
+        <requirement>Ensure new code passes all linting and type checking</requirement>
+        <requirement>Add appropriate error handling and edge case coverage</requirement>
+        <requirement>Use meaningful variable and function names</requirement>
+      </requirements>
+      <verification>
+        <check>Automated linting passes</check>
+        <check>Type checking succeeds</check>
+        <check>Code review approval</check>
+        <check>Functionality confirmed for updated modules</check>
+      </verification>
+    </standard>
+
+    <standard name="Documentation">
+      <requirements>
+        <requirement>Update inline code documentation for modified functions/components</requirement>
+        <requirement>Ensure README files reflect any new setup or usage patterns</requirement>
+        <requirement>Document architectural decisions that affect future development</requirement>
+        <requirement>Update API documentation if interfaces change</requirement>
+        <requirement>Include examples for complex features</requirement>
+      </requirements>
+      <verification>
+        <check>Documentation builds without warnings</check>
+        <check>Examples are tested and working</check>
+        <check>Peer review confirms clarity</check>
+        <check>No broken links</check>
+      </verification>
+    </standard>
+
+    <standard name="Integration">
+      <requirements>
+        <requirement>Verify backward compatibility unless breaking changes are explicitly planned</requirement>
+        <requirement>Verify integration points between affected components</requirement>
+        <requirement>Ensure changes don't negatively impact other apps/packages</requirement>
+        <requirement>Validate that shared interfaces remain stable</requirement>
+        <requirement>Check for unexpected side effects</requirement>
+      </requirements>
+      <verification>
+        <check>Integration checks pass</check>
+        <check>No regression in dependent components</check>
+        <check>Performance benchmarks acceptable</check>
+        <check>API contracts maintained</check>
+      </verification>
+    </standard>
+
+    <standard name="Performance">
+      <requirements>
+        <requirement>Measure impact on build times, bundle sizes, or runtime performance</requirement>
+        <requirement>Ensure changes don't introduce performance regressions</requirement>
+        <requirement>Optimize where possible without sacrificing maintainability</requirement>
+        <requirement>Document any performance trade-offs made</requirement>
+        <requirement>Consider memory usage implications</requirement>
+      </requirements>
+      <verification>
+        <check>Performance benchmarks show no regression</check>
+        <check>Bundle size within acceptable limits</check>
+        <check>Memory usage profiled</check>
+        <check>Load testing completed if applicable</check>
+      </verification>
+    </standard>
+  </quality_standards>
+
+  <template_structures>
+    <implementation_plan id="implementation-plan">
+      <header>
+        <title>Implementation Plan: {Recommendation Title}</title>
+      </header>
+      
+      <selected_recommendation>
+        <source>repo-status-{ENTRY_NUMBER}.md</source>
+        <priority>High|Medium|Low</priority>
+        <category>{Implementation Category}</category>
+        <estimated_time>{hours}</estimated_time>
+        
+        <problem_statement>{Clear description of the issue or improvement opportunity}</problem_statement>
+        
+        <success_criteria>
+          <criterion>{Specific, measurable outcome}</criterion>
+        </success_criteria>
+      </selected_recommendation>
+      
+      <selection_rationale>
+        <impact_effort_analysis>
+          <impact>High|Medium|Low</impact>
+          <effort>High|Medium|Low</effort>
+          <risk>High|Medium|Low</risk>
+          <score>{calculated priority score}</score>
+        </impact_effort_analysis>
+        
+        <stakeholder_impact>
+          <developers>{impact description}</developers>
+          <end_users>{impact description}</end_users>
+          <operations>{impact description}</operations>
+          <business>{impact description}</business>
+        </stakeholder_impact>
+      </selection_rationale>
+      
+      <implementation_approach>
+        <pre_implementation_checklist>
+          <check>Current functionality verified</check>
+          <check>Backup/rollback plan documented</check>
+          <check>Dependencies identified</check>
+          <check>Team notified of changes</check>
+        </pre_implementation_checklist>
+        
+        <phases>
+          <phase name="{Phase Name}" time_estimate="{estimate}">
+            <steps>
+              <step>{Specific action with file references}</step>
+            </steps>
+            <validation>{How to verify this phase}</validation>
+          </phase>
+        </phases>
+      </implementation_approach>
+      
+      <validation_strategy>
+        <automated_checks>
+          <unit_checks>
+            <check_file file="{file}" purpose="{What to verify}"/>
+          </unit_checks>
+          <integration_checks>
+            <check_scenario>{Scenario to verify}</check_scenario>
+          </integration_checks>
+        </automated_checks>
+
+        <manual_checks>
+          <scenario>{Scenario to review manually}</scenario>
+        </manual_checks>
+
+        <performance_checks>
+          <baseline_metrics>Baseline metrics captured</baseline_metrics>
+          <post_implementation_metrics>Post-implementation metrics planned</post_implementation_metrics>
+        </performance_checks>
+      </validation_strategy>
+      
+      <risk_mitigation>
+        <risks>
+          <risk description="{Risk description}" probability="H|M|L" impact="H|M|L" mitigation="{Mitigation strategy}"/>
+        </risks>
+        
+        <rollback_plan>
+          <step>{Step to rollback}</step>
+          <verification>{Verification of rollback}</verification>
+        </rollback_plan>
+      </risk_mitigation>
+      
+      <communication_plan>
+        <notifications>
+          <notification>Team notified of implementation start</notification>
+          <notification>PR reviewers identified</notification>
+          <notification>Documentation reviewers assigned</notification>
+          <notification>Deployment communication planned</notification>
+        </notifications>
+      </communication_plan>
+    </implementation_plan>
+
+    <implementation_summary id="implementation-summary">
+      <header>
+        <title>Implementation Summary: {Recommendation Title}</title>
+        <implementation_date>{Implementation Date}</implementation_date>
+        <duration>{Actual time taken}</duration>
+        <developer>{Who implemented}</developer>
+      </header>
+      
+      <executive_summary>{2-3 sentence summary of what was done and why}</executive_summary>
+      
+      <what_was_implemented>
+        <changes_overview>{Comprehensive description of changes made}</changes_overview>
+        
+        <files_modified>
+          <file path="{file path}" change_type="Added|Modified|Deleted" description="{description}" loc="+{n}/-{m}"/>
+        </files_modified>
+        
+        <totals files="{total files}" additions="{additions}" deletions="{deletions}"/>
+      </what_was_implemented>
+      
+      <key_decisions>
+        <decision title="{Decision Title}">
+          <context>{Why this decision was needed}</context>
+          <options_considered>
+            <option name="{Option 1}" pros_cons="{Pros/Cons}"/>
+            <option name="{Option 2}" pros_cons="{Pros/Cons}"/>
+          </options_considered>
+          <decision_made>{What was chosen}</decision_made>
+          <rationale>{Why this option was selected}</rationale>
+        </decision>
+      </key_decisions>
+      
+      <implementation_deviations>
+        <deviation planned="{Original plan}" actual="{What actually happened}" reason="{Why the change}"/>
+      </implementation_deviations>
+      
+      <checks_performed>
+        <automated_tests>
+          <unit_tests added="{count}" modified="{count}"/>
+          <integration_tests added="{count}" modified="{count}"/>
+          <coverage_change before="{before}%" after="{after}%"/>
+        </automated_tests>
+        
+        <manual_testing>
+          <test_scenario result="{Result}">{Test scenario}</test_scenario>
+        </manual_testing>
+        
+        <performance_impact>
+          <metric name="{Metric name}" before="{value}" after="{value}" change="{+/-percentage}%"/>
+        </performance_impact>
+      </checks_performed>
+      
+      <validation_results>
+        <success_criteria_achieved>
+          <criterion status="achieved|not_achieved" evidence="{Evidence}">{Criterion}</criterion>
+        </success_criteria_achieved>
+        
+        <unexpected_discoveries>
+          <discovery impact="{Impact and how addressed}">{Discovery}</discovery>
+        </unexpected_discoveries>
+      </validation_results>
+      
+      <impact_assessment>
+        <quantitative_impact>
+          <build_time before="{before}" after="{after}" improvement="{improvement}%"/>
+          <bundle_size before="{before}" after="{after}" improvement="{improvement}%"/>
+          <test_runtime before="{before}" after="{after}" improvement="{improvement}%"/>
+        </quantitative_impact>
+        
+        <qualitative_impact>
+          <developer_experience>{description of improvement}</developer_experience>
+          <code_maintainability>{description of improvement}</code_maintainability>
+          <system_reliability>{description of improvement}</system_reliability>
+        </qualitative_impact>
+      </impact_assessment>
+      
+      <stakeholder_feedback>
+        <feedback source="Developer Team">{feedback summary}</feedback>
+        <feedback source="QA Team">{feedback summary}</feedback>
+        <feedback source="Product Owner">{feedback summary}</feedback>
+      </stakeholder_feedback>
+      
+      <future_recommendations>
+        <immediate_follow_ups>
+          <task assignee="{assignee}">{Task description}</task>
+        </immediate_follow_ups>
+        
+        <future_enhancements>
+          <enhancement potential_impact="{potential impact}">{Enhancement description}</enhancement>
+        </future_enhancements>
+        
+        <technical_debt_identified>
+          <debt_item priority="{priority}">{Debt item description}</debt_item>
+        </technical_debt_identified>
+      </future_recommendations>
+      
+      <lessons_learned>
+        <what_went_well>
+          <success replication="{How to replicate}">{Success factor}</success>
+        </what_went_well>
+        
+        <what_could_be_improved>
+          <challenge avoidance="{How to avoid next time}">{Challenge}</challenge>
+        </what_could_be_improved>
+        
+        <knowledge_gained>
+          <insight application="{How it helps future work}">{Technical insight}</insight>
+          <insight application="{How it improves workflow}">{Process insight}</insight>
+        </knowledge_gained>
+      </lessons_learned>
+      
+      <metrics_summary>
+        <success_rate>{percentage of criteria met}</success_rate>
+        <time_efficiency>{planned vs actual time}</time_efficiency>
+        <quality_score>{based on tests, reviews, metrics}</quality_score>
+        <roi_estimate>{time saved per developer per week}</roi_estimate>
+      </metrics_summary>
+    </implementation_summary>
+
+    <development_log_entry id="development-log-entry">
+      <date>{Date}</date>
+      <title>{Implementation Title}</title>
+      <type>Bug Fix|Feature|Refactor|Performance|Documentation</type>
+      <priority>High|Medium|Low</priority>
+      <duration>{actual time spent}</duration>
+      <description>{Brief description of what was implemented}</description>
+      
+      <components_affected>
+        <component name="{app/package}" changes="{specific changes}"/>
+      </components_affected>
+      
+      <metrics>
+        <before>{key metric}</before>
+        <after>{key metric}</after>
+        <improvement>{percentage or absolute}</improvement>
+      </metrics>
+      
+      <architectural_impact>{How this affects the overall architecture}</architectural_impact>
+      <integration_changes>{Any changes to how components interact}</integration_changes>
+      <developer_experience>{Specific improvements to DX}</developer_experience>
+      <blockers_removed>{What this enables going forward}</blockers_removed>
+      
+      <references>
+        <original_recommendation>repo-status-{ENTRY_NUMBER}.md#{section}</original_recommendation>
+        <implementation_details>implementation-summary-{date}.md</implementation_details>
+      </references>
+      
+      <lessons_learned>{Key takeaway for future implementations}</lessons_learned>
+    </development_log_entry>
+  </template_structures>
+
+  <sustainability_framework>
+    <continuous_improvement>
+      <principle>Each implementation should leave the codebase better than before</principle>
+      <practices>
+        <practice>Refactor adjacent code when touching it</practice>
+        <practice>Update outdated patterns encountered</practice>
+        <practice>Improve test coverage of modified areas</practice>
+        <practice>Enhance documentation while context is fresh</practice>
+      </practices>
+    </continuous_improvement>
+    
+    <knowledge_transfer>
+      <principle>Implementation knowledge should be captured and shared</principle>
+      <practices>
+        <practice>Document decision rationale clearly</practice>
+        <practice>Create reusable patterns from solutions</practice>
+        <practice>Share learnings in team retrospectives</practice>
+        <practice>Update team playbooks with new insights</practice>
+      </practices>
+    </knowledge_transfer>
+    
+    <measurement_culture>
+      <principle>Track metrics to validate improvement hypotheses</principle>
+      <metrics>
+        <metric>Developer productivity indicators</metric>
+        <metric>Code quality metrics</metric>
+        <metric>System performance benchmarks</metric>
+        <metric>Team satisfaction scores</metric>
+      </metrics>
+    </measurement_culture>
+  </sustainability_framework>
+
+  <workflow_instructions>
+    <step name="State Analysis Review">
+      <actions>
+        <action>Read the latest repo-status-{N}.md file to understand current recommendations</action>
+        <action>Review integration-status.md and development-log.md for additional context</action>
+        <action>Examine relevant app/package documentation for components that would be affected</action>
+        <action>Identify the top 3 recommendations that could be implemented</action>
+        <action>Check team calendar for implementation timing</action>
+      </actions>
+      <outputs>
+        <output>Shortlist of viable recommendations</output>
+        <output>Initial effort estimates</output>
+        <output>Risk assessment</output>
+      </outputs>
+    </step>
+
+    <step name="Recommendation Selection">
+      <actions>
+        <action>Score each candidate recommendation using the prioritization matrix</action>
+        <action>Consider dependencies between recommendations and broader impact</action>
+        <action>Validate selection with team lead if high risk</action>
+        <action>Create implementation plan using the provided template</action>
+        <action>Get plan reviewed by a peer</action>
+      </actions>
+      <outputs>
+        <output>Selected recommendation with justification</output>
+        <output>Detailed implementation plan</output>
+        <output>Peer review feedback incorporated</output>
+      </outputs>
+    </step>
+
+    <step name="Implementation Execution">
+      <actions>
+        <action>Create feature branch following naming conventions</action>
+        <action>Set up monitoring for the implementation session</action>
+        <action>Follow the implementation plan systematically</action>
+        <action>Commit changes incrementally with meaningful messages</action>
+        <action>Continuously review module behavior during development</action>
+        <action>Document any deviations or unexpected discoveries</action>
+      </actions>
+      <outputs>
+        <output>Clean commit history</output>
+        <output>Module checks passing</output>
+        <output>Code meeting quality standards</output>
+      </outputs>
+    </step>
+
+    <step name="Validation and Testing">
+      <actions>
+        <action>Execute comprehensive testing strategy from plan</action>
+        <action>Measure success metrics defined in the plan</action>
+        <action>Run performance benchmarks if applicable</action>
+        <action>Verify integration points still function correctly</action>
+        <action>Conduct exploratory testing for edge cases</action>
+        <action>Get peer review of implementation</action>
+      </actions>
+      <outputs>
+        <output>Test results documentation</output>
+        <output>Performance measurements</output>
+        <output>Peer review approval</output>
+      </outputs>
+    </step>
+
+    <step name="Documentation and Knowledge Capture">
+      <actions>
+        <action>Update all affected app/package documentation files</action>
+        <action>Create implementation summary using template</action>
+        <action>Add entry to development-log.md with metrics</action>
+        <action>Update integration-status.md if patterns changed</action>
+        <action>Add learnings to knowledge repository</action>
+        <action>Schedule team share-out if significant learnings</action>
+      </actions>
+      <outputs>
+        <output>Complete documentation package</output>
+        <output>Knowledge repository updated</output>
+        <output>Team learning session scheduled</output>
+      </outputs>
+    </step>
+  </workflow_instructions>
+
+  <output_artifacts>
+    <primary_deliverable>
+      <file_path>docs/implementation/implementation-summary-{date}.md</file_path>
+      <content>Comprehensive summary of what was implemented and its impact</content>
+    </primary_deliverable>
+
+    <planning_deliverable>
+      <file_path>docs/implementation/implementation-plan-{date}.md</file_path>
+      <content>Detailed plan created before implementation begins</content>
+    </planning_deliverable>
+
+    <updated_documentation>
+      <files>Updated app/package documentation files reflecting changes</files>
+      <files>Updated integration-status.md if integration patterns changed</files>
+      <files>New entry in development-log.md documenting the improvement</files>
+      <files>Updated CHANGELOG.md with user-facing changes</files>
+    </updated_documentation>
+
+    <implementation_artifacts>
+      <directory>docs/implementation/</directory>
+      <content>All implementation planning and summary documents</content>
+      <structure>
+        <subdirectory name="plans">Implementation plans</subdirectory>
+        <subdirectory name="summaries">Implementation summaries</subdirectory>
+        <subdirectory name="metrics">Performance and impact measurements</subdirectory>
+        <subdirectory name="decisions">Architectural decision records</subdirectory>
+      </structure>
+    </implementation_artifacts>
+  </output_artifacts>
+
+  <knowledge_repository>
+    <repository_structure>
+      <file_path>docs/implementation/.execution-patterns/README.md</file_path>
+      <purpose>Capture successful implementation patterns and learnings</purpose>
+      <sections>
+        <successful_patterns>
+          <pattern metrics="{Where it worked well and metrics}">{Pattern}</pattern>
+        </successful_patterns>
+        <time_estimation_accuracy>
+          <task_type analysis="{Planned vs Actual analysis}">{Task Type}</task_type>
+        </time_estimation_accuracy>
+        <common_pitfalls_avoided>
+          <pitfall avoidance="{How we avoided it}">{Pitfall}</pitfall>
+        </common_pitfalls_avoided>
+        <validation_strategies>
+          <strategy application="{When to apply and results}">{Strategy}</strategy>
+        </validation_strategies>
+        <rollback_experiences>
+          <scenario lessons="{What happened and lessons learned}">{Scenario}</scenario>
+        </rollback_experiences>
+      </sections>
+    </repository_structure>
+  </knowledge_repository>
+
+  <meta_guidelines>
+    <guideline name="Incremental Progress">
+      <guidance>Focus on one high-impact improvement rather than trying to address multiple recommendations</guidance>
+    </guideline>
+
+    <guideline name="Measurable Impact">
+      <guidance>Ensure the implementation produces tangible, measurable improvements</guidance>
+    </guideline>
+
+    <guideline name="Documentation Continuity">
+      <guidance>Maintain the same level of documentation rigor established by the state analysis</guidance>
+    </guideline>
+
+    <guideline name="Architecture Respect">
+      <guidance>Work within existing architectural patterns unless explicitly changing them</guidance>
+    </guideline>
+
+    <guideline name="Future-Focused">
+      <guidance>Consider how this implementation enables or constrains future improvements</guidance>
+    </guideline>
+
+    <guideline name="Team Learning">
+      <guidance>Every implementation should contribute to team knowledge and capabilities</guidance>
+    </guideline>
+  </meta_guidelines>
+</prompt> 

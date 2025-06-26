@@ -1,0 +1,964 @@
+<prompt>
+  <task>
+    <description>Explore the Mastra AI system, discover opportunities for new agents or workflows, and implement the most promising ones with comprehensive documentation</description>
+    <context>
+      <documentation_path>apps/ai/docs/mastra</documentation_path>
+      <system_purpose>Mastra is an AI agent platform that enables creation and orchestration of specialized agents for various tasks across the application ecosystem</system_purpose>
+    </context>
+    <requirements>
+      <requirement>Thoroughly analyze the existing Mastra AI architecture, capabilities, and integration patterns</requirement>
+      <requirement>Identify gaps in the current agent ecosystem that could be filled with new purpose-built agents</requirement>
+      <requirement>Discover workflows or agent combinations that could solve valuable user problems</requirement>
+      <requirement>Implement 1-3 high-value agents or workflows with complete code and documentation</requirement>
+      <requirement>Provide integration guidance showing how to leverage these agents in the broader application</requirement>
+    </requirements>
+  </task>
+  
+  <priority_guidelines>
+    <essential>Agents must solve real user problems identified through analysis</essential>
+    <essential>Implementation must follow established Mastra architecture patterns</essential>
+    <important>Agents should be composable and reusable across contexts</important>
+    <important>Complete documentation package for each agent/workflow</important>
+    <nice_to_have>Integration with existing application features</nice_to_have>
+    <optional>Advanced AI capabilities beyond core requirements</optional>
+  </priority_guidelines>
+  
+  <discovery_lifecycle>
+    <phase id="system_analysis" time_limit="1_hour">
+      <instructions>
+        <instruction>Study the Mastra documentation to understand the agent platform architecture</instruction>
+        <instruction>Analyze existing agents, their purposes, capabilities and limitations</instruction>
+        <instruction>Map integration patterns between Mastra and the broader application</instruction>
+        <instruction>Identify the extension points and agent creation patterns</instruction>
+        <instruction>Document current system capabilities and gaps</instruction>
+      </instructions>
+      <output>Comprehensive understanding of the AI system and how to extend it properly</output>
+    </phase>
+    
+    <phase id="opportunity_mapping" time_limit="45_minutes">
+      <instructions>
+        <instruction>Identify user journeys or tasks that could benefit from AI assistance</instruction>
+        <instruction>Discover repetitive workflows that could be automated</instruction>
+        <instruction>Find complex decision points that could be enhanced with AI reasoning</instruction>
+        <instruction>Look for knowledge gaps that specialized agents could fill</instruction>
+        <instruction>Consider cross-cutting concerns that agents could address (e.g., accessibility, security)</instruction>
+      </instructions>
+      <output>A prioritized list of potential agent opportunities with value propositions</output>
+    </phase>
+    
+    <phase id="agent_design" time_limit="30_minutes">
+      <instructions>
+        <instruction>Define clear, focused purposes for each proposed agent</instruction>
+        <instruction>Specify the inputs, outputs, and capabilities needed</instruction>
+        <instruction>Design the interaction patterns with users and other agents</instruction>
+        <instruction>Determine the optimal implementation approach based on Mastra patterns</instruction>
+        <instruction>Create detailed specifications with architectural decisions</instruction>
+      </instructions>
+      <output>Detailed specifications for the most promising agents/workflows</output>
+    </phase>
+    
+    <phase id="implementation" time_limit="3-4_hours">
+      <instructions>
+        <instruction>Create the agent code following Mastra's architecture patterns</instruction>
+        <instruction>Implement any necessary prompt engineering or specialized behaviors</instruction>
+        <instruction>Build the integration points with the broader application</instruction>
+        <instruction>Add appropriate error handling and fallback mechanisms</instruction>
+        <instruction>Include comprehensive tests showing agent behavior</instruction>
+      </instructions>
+      <output>Working implementation of the new agents/workflows</output>
+    </phase>
+    
+    <phase id="documentation" time_limit="45_minutes">
+      <instructions>
+        <instruction>Create clear, comprehensive documentation explaining the agent's purpose and capabilities</instruction>
+        <instruction>Provide usage examples demonstrating common scenarios</instruction>
+        <instruction>Document integration patterns for different application contexts</instruction>
+        <instruction>Include troubleshooting guidance and limitations</instruction>
+        <instruction>Update system-level documentation to reflect new capabilities</instruction>
+      </instructions>
+      <output>Complete documentation package for each implemented agent</output>
+    </phase>
+  </discovery_lifecycle>
+  
+  <context_awareness>
+    <mastra_ecosystem>
+      <instruction>Study existing agent patterns and capabilities thoroughly</instruction>
+      <instruction>Understand the orchestration and workflow management features</instruction>
+      <instruction>Identify integration points with Vercel AI SDK patterns</instruction>
+      <instruction>Respect established conventions for agent naming and structure</instruction>
+    </mastra_ecosystem>
+    
+    <application_landscape>
+      <instruction>Consider how agents can enhance existing user flows</instruction>
+      <instruction>Identify opportunities for cross-component intelligence</instruction>
+      <instruction>Understand data availability and access patterns</instruction>
+      <instruction>Consider performance implications of AI integration</instruction>
+    </application_landscape>
+    
+    <user_experience>
+      <instruction>Prioritize agent capabilities that solve real user pain points</instruction>
+      <instruction>Design for transparency and explainability in AI decisions</instruction>
+      <instruction>Consider graceful degradation when AI capabilities fail</instruction>
+      <instruction>Plan for user feedback and iterative improvement</instruction>
+    </user_experience>
+  </context_awareness>
+  
+  <anti_patterns>
+    <anti_pattern name="AI for AI's Sake">
+      <description>Creating agents that don't solve real problems or add genuine value</description>
+      <signs>Complex AI solutions for simple problems, agents without clear use cases</signs>
+      <prevention>Start with user problems, validate need before implementation</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Overly Broad Agents">
+      <description>Creating agents that try to do too many different things</description>
+      <signs>Agents with multiple unrelated capabilities, complex interfaces</signs>
+      <prevention>Design focused, single-purpose agents that can be composed</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Black Box Implementation">
+      <description>Agents that provide no insight into their reasoning or decision process</description>
+      <signs>Users can't understand why agents made certain choices</signs>
+      <prevention>Include explanation capabilities and reasoning transparency</prevention>
+    </anti_pattern>
+    
+    <anti_pattern name="Brittle Integration">
+      <description>Agents that break when underlying systems change</description>
+      <signs>Hard-coded assumptions, no error handling, tight coupling</signs>
+      <prevention>Design for resilience, use abstractions, implement fallbacks</prevention>
+    </anti_pattern>
+  </anti_patterns>
+  
+  <visual_representations>
+    <agent_architecture>
+      <ascii_structure>
+        <mastra_platform>Mastra Platform</mastra_platform>
+        <agent_registry>Agent Registry</agent_registry>
+        <workflow_engine>Workflow Engine</workflow_engine>
+        <integration_layer>Application Integration</integration_layer>
+      </ascii_structure>
+      <mermaid_structure>
+        <components>
+          <component name="User Interface"/>
+          <component name="Workflow Orchestrator"/>
+          <component name="Agent Registry"/>
+          <component name="Agent A"/>
+          <component name="Agent B"/>
+          <component name="Agent C"/>
+          <component name="Data Sources"/>
+          <component name="External APIs"/>
+        </components>
+        <relationships>
+          <connection from="User Interface" to="Workflow Orchestrator"/>
+          <connection from="Workflow Orchestrator" to="Agent Registry"/>
+          <connection from="Agent Registry" to="Agent A"/>
+          <connection from="Agent Registry" to="Agent B"/>
+          <connection from="Agent Registry" to="Agent C"/>
+          <connection from="Agent A" to="Data Sources"/>
+          <connection from="Agent B" to="External APIs"/>
+          <connection from="Agent C" to="Data Sources"/>
+        </relationships>
+      </mermaid_structure>
+    </agent_architecture>
+    
+    <workflow_design>
+      <sequence>
+        <participant name="User"/>
+        <participant name="Application"/>
+        <participant name="Mastra"/>
+        <participant name="Agent"/>
+        <participant name="Data Source"/>
+      </sequence>
+      <interactions>
+        <interaction from="User" to="Application" message="Initiate Request"/>
+        <interaction from="Application" to="Mastra" message="Invoke Workflow"/>
+        <interaction from="Mastra" to="Agent" message="Execute Task"/>
+        <interaction from="Agent" to="Data Source" message="Fetch Data"/>
+        <interaction from="Data Source" to="Agent" message="Return Data"/>
+        <interaction from="Agent" to="Mastra" message="Task Result"/>
+        <interaction from="Mastra" to="Application" message="Workflow Complete"/>
+        <interaction from="Application" to="User" message="Present Results"/>
+      </interactions>
+    </workflow_design>
+  </visual_representations>
+  
+  <agent_opportunity_dimensions>
+    <dimension name="User Experience Enhancement">
+      <description>Agents that directly improve how users interact with the application</description>
+      <examples>
+        <example>Natural language interface for complex system functions</example>
+        <example>Context-aware suggestions based on user behavior patterns</example>
+        <example>Personalized content or interface adaptations</example>
+        <example>Intelligent onboarding and user guidance</example>
+      </examples>
+      <value_indicators>
+        <indicator>Reduced time to complete tasks</indicator>
+        <indicator>Improved user satisfaction scores</indicator>
+        <indicator>Decreased support ticket volume</indicator>
+      </value_indicators>
+    </dimension>
+    
+    <dimension name="Workflow Optimization">
+      <description>Agents that streamline multi-step processes or repetitive tasks</description>
+      <examples>
+        <example>Automated data transformation and preparation for analysis</example>
+        <example>Intelligent form pre-filling based on available context</example>
+        <example>Process orchestration across multiple application features</example>
+        <example>Automated quality assurance and validation</example>
+      </examples>
+      <value_indicators>
+        <indicator>Reduced manual effort in common workflows</indicator>
+        <indicator>Faster completion of routine tasks</indicator>
+        <indicator>Improved consistency in process execution</indicator>
+      </value_indicators>
+    </dimension>
+    
+    <dimension name="Knowledge Augmentation">
+      <description>Agents that provide specialized knowledge or insights</description>
+      <examples>
+        <example>Domain-specific advisors for complex decision making</example>
+        <example>Documentation generation from codebase analysis</example>
+        <example>Real-time data interpretation and insight generation</example>
+        <example>Contextual help and knowledge discovery</example>
+      </examples>
+      <value_indicators>
+        <indicator>Improved decision quality</indicator>
+        <indicator>Faster access to relevant information</indicator>
+        <indicator>Enhanced learning and capability development</indicator>
+      </value_indicators>
+    </dimension>
+    
+    <dimension name="System Intelligence">
+      <description>Agents that enhance the application's core capabilities</description>
+      <examples>
+        <example>Anomaly detection and proactive issue resolution</example>
+        <example>Intelligent data categorization and organization</example>
+        <example>Dynamic resource allocation based on usage patterns</example>
+        <example>Predictive maintenance and optimization</example>
+      </examples>
+      <value_indicators>
+        <indicator>Reduced system downtime</indicator>
+        <indicator>Improved resource utilization</indicator>
+        <indicator>Enhanced system reliability</indicator>
+      </value_indicators>
+    </dimension>
+    
+    <dimension name="Inter-agent Collaboration">
+      <description>Workflows combining multiple agents for complex tasks</description>
+      <examples>
+        <example>Research pipeline with specialized agents for different phases</example>
+        <example>Content creation workflow with ideation, drafting, and editing agents</example>
+        <example>Decision support system with domain-specific expert agents</example>
+        <example>Multi-stage data processing and analysis pipelines</example>
+      </examples>
+      <value_indicators>
+        <indicator>Ability to handle complex, multi-faceted problems</indicator>
+        <indicator>Improved quality through specialized expertise</indicator>
+        <indicator>Scalable solutions for varying complexity levels</indicator>
+      </value_indicators>
+    </dimension>
+  </agent_opportunity_dimensions>
+  
+  <implementation_guidelines>
+    <guideline name="Mastra Pattern Adherence">
+      <principle>Follow the established Mastra agent architecture patterns</principle>
+      <rationale>Ensure compatibility with the existing ecosystem and management tools</rationale>
+      <implementation>Study and adopt the agent creation patterns documented in apps/ai/docs/mastra</implementation>
+      <verification>
+        <check>Agent follows Mastra interface contracts</check>
+        <check>Integration works with existing workflow engine</check>
+        <check>Agent can be managed through Mastra tooling</check>
+      </verification>
+    </guideline>
+    
+    <guideline name="Composability Design">
+      <principle>Design for composability and reusability</principle>
+      <rationale>Enable agents to be used in multiple contexts and combined effectively</rationale>
+      <implementation>Create focused, single-purpose agents with clean interfaces</implementation>
+      <verification>
+        <check>Agent has well-defined input/output contracts</check>
+        <check>Agent can be combined with others in workflows</check>
+        <check>Agent functionality is testable in isolation</check>
+      </verification>
+    </guideline>
+    
+    <guideline name="Graceful Degradation">
+      <principle>Implement graceful degradation for AI shortcomings</principle>
+      <rationale>Maintain user trust and system reliability when AI capabilities fall short</rationale>
+      <implementation>Add fallback mechanisms, confidence scoring, and error handling</implementation>
+      <verification>
+        <check>Agent handles edge cases appropriately</check>
+        <check>Fallback mechanisms are tested</check>
+        <check>Error messages are user-friendly</check>
+      </verification>
+    </guideline>
+    
+    <guideline name="Behavioral Transparency">
+      <principle>Prioritize transparency in agent behavior</principle>
+      <rationale>Users should understand what the agent is doing and why</rationale>
+      <implementation>Include explanations of reasoning and clear indicators of AI-generated content</implementation>
+      <verification>
+        <check>Agent provides reasoning explanations</check>
+        <check>AI-generated content is clearly marked</check>
+        <check>Users can understand agent decisions</check>
+      </verification>
+    </guideline>
+    
+    <guideline name="Continuous Improvement">
+      <principle>Design for iterative improvement</principle>
+      <rationale>Agents should get better over time through feedback and data</rationale>
+      <implementation>Include mechanisms for capturing performance data and user feedback</implementation>
+      <verification>
+        <check>Performance metrics are captured</check>
+        <check>Feedback mechanisms are implemented</check>
+        <check>Improvement pathways are documented</check>
+      </verification>
+    </guideline>
+  </implementation_guidelines>
+  
+  <template_structures>
+    <agent_documentation id="agent-documentation">
+      <header>
+        <title>{Agent Name}</title>
+        <version>{Version Number}</version>
+        <last_updated>{Date}</last_updated>
+        <maintainer>{Maintainer}</maintainer>
+      </header>
+      
+      <purpose>
+        <description>{Clear statement of what this agent does and the problem it solves}</description>
+        <problem_solved>{Specific problem or need addressed}</problem_solved>
+        <target_users>{Who benefits from this agent}</target_users>
+        <value_proposition>{Why this agent provides value}</value_proposition>
+      </purpose>
+      
+      <capabilities>
+        <capability name="{Capability 1}" description="{What it does}"/>
+        <capability name="{Capability 2}" description="{What it does}"/>
+        <capability name="{Capability 3}" description="{What it does}"/>
+      </capabilities>
+      
+      <implementation_details>
+        <architecture>
+          <framework>Mastra Agent Framework</framework>
+          <dependencies>
+            <dependency name="{Library}" version="{Version}" purpose="{Why needed}"/>
+          </dependencies>
+          <integration_patterns>{How agent integrates with Mastra}</integration_patterns>
+        </architecture>
+        
+        <key_components>
+          <component name="{Component 1}" purpose="{Functionality}" location="{File path}"/>
+          <component name="{Component 2}" purpose="{Functionality}" location="{File path}"/>
+        </key_components>
+        
+        <prompt_engineering>
+          <approach>{Description of prompt strategy}</approach>
+          <templates>
+            <template name="{Template Name}" purpose="{When used}" location="{File}"/>
+          </templates>
+          <optimization_notes>{Notes on prompt tuning and optimization}</optimization_notes>
+        </prompt_engineering>
+        
+        <performance_considerations>
+          <response_time>{Expected response time}</response_time>
+          <resource_usage>{Memory/CPU considerations}</resource_usage>
+          <rate_limits>{Any rate limiting considerations}</rate_limits>
+          <scalability_notes>{Notes on scaling behavior}</scalability_notes>
+        </performance_considerations>
+      </implementation_details>
+      
+      <usage_guide>
+        <basic_usage>
+          <code_example>
+            <language>typescript</language>
+            <code>
+              // Example code showing how to use the agent
+              import { {AgentName} } from 'path/to/agent';
+              
+              // Basic usage example
+              const result = await {AgentName}.process({
+                input: "example input",
+                options: { /* configuration options */ }
+              });
+            </code>
+          </code_example>
+        </basic_usage>
+        
+        <configuration_options>
+          <option name="{option}" type="{type}" default="{default}" required="{true|false}" description="{description}"/>
+        </configuration_options>
+        
+        <advanced_patterns>
+          <pattern name="{Pattern Name}">
+            <description>{When to use this pattern}</description>
+            <code_example>
+              <language>typescript</language>
+              <code>{Example code for advanced usage}</code>
+            </code_example>
+          </pattern>
+        </advanced_patterns>
+      </usage_guide>
+      
+      <integration_examples>
+        <integration name="Component Integration">
+          <description>Integration with {Component/Feature}</description>
+          <code_example>
+            <language>typescript</language>
+            <code>{Example showing integration with another application component}</code>
+          </code_example>
+        </integration>
+        
+        <workflow_combination>
+          <description>Workflow combination with other agents</description>
+          <agents_involved>
+            <agent name="{Agent Name}" role="{Role in workflow}"/>
+          </agents_involved>
+          <code_example>
+            <language>typescript</language>
+            <code>{Example showing how to combine with other agents in a workflow}</code>
+          </code_example>
+        </workflow_combination>
+      </integration_examples>
+      
+      <limitations_considerations>
+        <limitation>{Limitation 1}</limitation>
+        <limitation>{Limitation 2}</limitation>
+        <consideration>{Important consideration}</consideration>
+      </limitations_considerations>
+      
+      <testing>
+        <approach>{Description of testing strategy}</approach>
+        <test_categories>
+          <category name="Unit Tests" coverage="{percentage}" location="{test directory}"/>
+          <category name="Integration Tests" coverage="{percentage}" location="{test directory}"/>
+          <category name="Performance Tests" coverage="{percentage}" location="{test directory}"/>
+        </test_categories>
+        <verification_steps>
+          <step>{Step to verify correct behavior}</step>
+        </verification_steps>
+      </testing>
+      
+      <monitoring_observability>
+        <metrics>
+          <metric name="{Metric Name}" type="{gauge|counter|histogram}" purpose="{What it measures}"/>
+        </metrics>
+        <logging>
+          <level>{Log level used}</level>
+          <events>{What events are logged}</events>
+        </logging>
+        <alerts>
+          <alert condition="{Alert condition}" action="{Response action}"/>
+        </alerts>
+      </monitoring_observability>
+      
+      <future_enhancements>
+        <enhancement priority="{High|Medium|Low}" effort="{Low|Medium|High}">{Potential enhancement 1}</enhancement>
+        <enhancement priority="{High|Medium|Low}" effort="{Low|Medium|High}">{Potential enhancement 2}</enhancement>
+      </future_enhancements>
+    </agent_documentation>
+
+    <workflow_documentation id="workflow-documentation">
+      <header>
+        <title>{Workflow Name}</title>
+        <version>{Version Number}</version>
+        <last_updated>{Date}</last_updated>
+        <maintainer>{Maintainer}</maintainer>
+      </header>
+      
+      <purpose>
+        <description>{Clear statement of what this workflow accomplishes}</description>
+        <problem_solved>{Specific problem addressed by the workflow}</problem_solved>
+        <use_cases>
+          <use_case>{Primary use case}</use_case>
+          <use_case>{Secondary use case}</use_case>
+        </use_cases>
+      </purpose>
+      
+      <components>
+        <agents_involved>
+          <agent name="{Agent 1}" role="{Role in the workflow}" capabilities="{Key capabilities used}"/>
+          <agent name="{Agent 2}" role="{Role in the workflow}" capabilities="{Key capabilities used}"/>
+        </agents_involved>
+        
+        <external_services>
+          <service name="{Service Name}" purpose="{Why used}" integration="{How integrated}"/>
+        </external_services>
+        
+        <data_sources>
+          <data_source name="{Data Source}" type="{Type}" access_pattern="{How accessed}"/>
+        </data_sources>
+      </components>
+      
+      <workflow_visualization>
+        <sequence_diagram>
+          <participants>
+            <participant name="User"/>
+            <participant name="Agent1"/>
+            <participant name="Agent2"/>
+          </participants>
+          <interactions>
+            <interaction from="User" to="Agent1" message="Input data"/>
+            <interaction from="Agent1" to="Agent2" message="Intermediate result"/>
+            <interaction from="Agent2" to="User" message="Final output"/>
+          </interactions>
+        </sequence_diagram>
+        
+        <state_diagram>
+          <states>
+            <state name="Initial" type="start"/>
+            <state name="Processing" type="intermediate"/>
+            <state name="Complete" type="end"/>
+            <state name="Error" type="error"/>
+          </states>
+          <transitions>
+            <transition from="Initial" to="Processing" trigger="Start workflow"/>
+            <transition from="Processing" to="Complete" trigger="Success"/>
+            <transition from="Processing" to="Error" trigger="Failure"/>
+          </transitions>
+        </state_diagram>
+      </workflow_visualization>
+      
+      <implementation>
+        <orchestration_method>{Description of how the workflow is orchestrated}</orchestration_method>
+        
+        <key_decision_points>
+          <decision_point name="{Decision Point 1}" logic="{How decisions are made}" criteria="{Decision criteria}"/>
+          <decision_point name="{Decision Point 2}" logic="{How decisions are made}" criteria="{Decision criteria}"/>
+        </key_decision_points>
+        
+        <data_flow>
+          <flow_description>{Description of how data moves through the workflow}</flow_description>
+          <data_transformations>
+            <transformation step="{Step number}" input="{Input format}" output="{Output format}" purpose="{Why needed}"/>
+          </data_transformations>
+        </data_flow>
+        
+        <parallelization>
+          <parallel_sections>
+            <section description="{What runs in parallel}" reason="{Why parallel execution is beneficial}"/>
+          </parallel_sections>
+          <synchronization_points>
+            <sync_point description="{Where synchronization occurs}" reason="{Why synchronization is needed}"/>
+          </synchronization_points>
+        </parallelization>
+      </implementation>
+      
+      <usage_guide>
+        <basic_usage>
+          <code_example>
+            <language>typescript</language>
+            <code>{Example code showing how to initiate the workflow}</code>
+          </code_example>
+        </basic_usage>
+        
+        <configuration_options>
+          <option name="{option}" type="{type}" default="{default}" required="{true|false}" description="{description}"/>
+        </configuration_options>
+        
+        <integration_examples>
+          <example name="{Integration Name}">
+            <description>{Example showing integration with application components}</description>
+            <code_example>
+              <language>typescript</language>
+              <code>{Code example}</code>
+            </code_example>
+          </example>
+        </integration_examples>
+      </usage_guide>
+      
+      <error_handling>
+        <strategy>{Description of how errors are managed in the workflow}</strategy>
+        <error_types>
+          <error_type name="{Error Type}" handling="{How it's handled}" recovery="{Recovery approach}"/>
+        </error_types>
+        <fallback_mechanisms>
+          <fallback trigger="{When activated}" behavior="{What happens}"/>
+        </fallback_mechanisms>
+      </error_handling>
+      
+      <performance_characteristics>
+        <timing>
+          <typical_duration>{Expected duration for typical use}</typical_duration>
+          <max_duration>{Maximum expected duration}</max_duration>
+          <factors_affecting_timing>{What affects performance}</factors_affecting_timing>
+        </timing>
+        <resource_usage>
+          <memory>{Memory requirements}</memory>
+          <cpu>{CPU requirements}</cpu>
+          <network>{Network usage patterns}</network>
+        </resource_usage>
+        <scalability>
+          <concurrent_executions>{How many can run simultaneously}</concurrent_executions>
+          <bottlenecks>{Known performance bottlenecks}</bottlenecks>
+        </scalability>
+      </performance_characteristics>
+      
+      <monitoring>
+        <key_metrics>
+          <metric name="{Metric Name}" purpose="{What it tracks}" alert_threshold="{When to alert}"/>
+        </key_metrics>
+        <success_criteria>
+          <criterion>{What defines successful execution}</criterion>
+        </success_criteria>
+        <failure_detection>
+          <indicator>{How failures are detected}</indicator>
+        </failure_detection>
+      </monitoring>
+      
+      <limitations_considerations>
+        <limitation impact="{High|Medium|Low}">{Limitation 1}</limitation>
+        <limitation impact="{High|Medium|Low}">{Limitation 2}</limitation>
+        <consideration>{Important consideration}</consideration>
+      </limitations_considerations>
+      
+      <future_enhancements>
+        <enhancement priority="{High|Medium|Low}" effort="{Low|Medium|High}" impact="{Expected impact}">{Potential enhancement 1}</enhancement>
+        <enhancement priority="{High|Medium|Low}" effort="{Low|Medium|High}" impact="{Expected impact}">{Potential enhancement 2}</enhancement>
+      </future_enhancements>
+    </workflow_documentation>
+
+    <discovery_report id="discovery-report">
+      <header>
+        <title>Mastra Agent Discovery Report</title>
+        <date>{Discovery Date}</date>
+        <analyst>{Who performed the analysis}</analyst>
+        <scope>{What was analyzed}</scope>
+      </header>
+      
+      <executive_summary>
+        <key_findings>{2-3 most important discoveries}</key_findings>
+        <opportunities_identified>{Number and types of opportunities}</opportunities_identified>
+        <implementations_completed>{What was actually built}</implementations_completed>
+        <estimated_impact>{Expected impact of new agents}</estimated_impact>
+      </executive_summary>
+      
+      <system_analysis>
+        <current_capabilities>
+          <agent name="{Existing Agent}" purpose="{What it does}" strengths="{Key strengths}" limitations="{Limitations}"/>
+        </current_capabilities>
+        
+        <architecture_assessment>
+          <strengths>{What works well in current architecture}</strengths>
+          <gaps>{What's missing or could be improved}</gaps>
+          <extension_points>{Where new agents can be added}</extension_points>
+        </architecture_assessment>
+        
+        <integration_patterns>
+          <pattern name="{Pattern Name}" description="{How it works}" usage="{Where it's used}"/>
+        </integration_patterns>
+      </system_analysis>
+      
+      <opportunity_assessment>
+        <identified_opportunities>
+          <opportunity name="{Opportunity Name}" category="{Category}" value="{High|Medium|Low}" effort="{High|Medium|Low}" priority="{High|Medium|Low}">
+            <description>{What the opportunity is}</description>
+            <impact>{Expected impact}</impact>
+            <implementation_notes>{Key implementation considerations}</implementation_notes>
+          </opportunity>
+        </identified_opportunities>
+        
+        <prioritization_criteria>
+          <criterion name="{Criterion}" weight="{weight}" rationale="{Why this criterion matters}"/>
+        </prioritization_criteria>
+        
+        <selection_rationale>
+          <selected_opportunities>
+            <opportunity name="{Selected Opportunity}" reason="{Why chosen for implementation}"/>
+          </selected_opportunities>
+          <deferred_opportunities>
+            <opportunity name="{Deferred Opportunity}" reason="{Why deferred}"/>
+          </deferred_opportunities>
+        </selection_rationale>
+      </opportunity_assessment>
+      
+      <implemented_solutions>
+        <agents>
+          <agent name="{Agent Name}" category="{Category}" complexity="{Simple|Moderate|Complex}">
+            <purpose>{What it does}</purpose>
+            <key_features>
+              <feature>{Feature description}</feature>
+            </key_features>
+            <implementation_highlights>{Notable aspects of implementation}</implementation_highlights>
+            <testing_approach>{How it was tested}</testing_approach>
+            <integration_points>{How it integrates with the system}</integration_points>
+          </agent>
+        </agents>
+        
+        <workflows>
+          <workflow name="{Workflow Name}" complexity="{Simple|Moderate|Complex}">
+            <purpose>{What it accomplishes}</purpose>
+            <agents_involved>
+              <agent name="{Agent Name}" role="{Role}"/>
+            </agents_involved>
+            <implementation_highlights>{Notable aspects of implementation}</implementation_highlights>
+            <performance_characteristics>{Key performance notes}</performance_characteristics>
+          </workflow>
+        </workflows>
+      </implemented_solutions>
+      
+      <integration_guidance>
+        <application_integration>
+          <patterns>
+            <pattern name="{Pattern Name}" use_case="{When to use}" implementation="{How to implement}"/>
+          </patterns>
+          <best_practices>
+            <practice>{Best practice description}</practice>
+          </best_practices>
+          <common_pitfalls>
+            <pitfall description="{What to avoid}" prevention="{How to avoid}"/>
+          </common_pitfalls>
+        </application_integration>
+        
+        <deployment_considerations>
+          <infrastructure>{Infrastructure requirements}</infrastructure>
+          <monitoring>{Monitoring requirements}</monitoring>
+          <maintenance>{Ongoing maintenance needs}</maintenance>
+        </deployment_considerations>
+      </integration_guidance>
+      
+      <future_opportunities>
+        <short_term timeline="Next 1-3 months">
+          <opportunity effort="{effort estimate}" impact="{expected impact}">{Opportunity description}</opportunity>
+        </short_term>
+        
+        <medium_term timeline="Next 3-6 months">
+          <opportunity effort="{effort estimate}" impact="{expected impact}">{Opportunity description}</opportunity>
+        </medium_term>
+        
+        <long_term timeline="6+ months">
+          <opportunity effort="{effort estimate}" impact="{expected impact}">{Opportunity description}</opportunity>
+        </long_term>
+        
+        <enabling_technologies>
+          <technology name="{Technology}" impact="{How it could enable new capabilities}"/>
+        </enabling_technologies>
+      </future_opportunities>
+      
+      <lessons_learned>
+        <technical_insights>
+          <insight category="{Category}">{Technical insight gained}</insight>
+        </technical_insights>
+        
+        <process_insights>
+          <insight category="{Category}">{Process insight gained}</insight>
+        </process_insights>
+        
+        <improvement_recommendations>
+          <recommendation area="{Area}" priority="{High|Medium|Low}">{Recommendation for future work}</recommendation>
+        </improvement_recommendations>
+      </lessons_learned>
+      
+      <metrics_and_success>
+        <success_metrics>
+          <metric name="{Metric Name}" target="{Target value}" current="{Current value if measurable}"/>
+        </success_metrics>
+        
+        <roi_estimation>
+          <time_savings>{Estimated time saved per user per week}</time_savings>
+          <quality_improvements>{Expected quality improvements}</quality_improvements>
+          <user_satisfaction>{Expected user satisfaction impact}</user_satisfaction>
+        </roi_estimation>
+        
+        <measurement_plan>
+          <approach>{How success will be measured}</approach>
+          <timeline>{When measurements will be taken}</timeline>
+          <review_schedule>{When to review and iterate}</review_schedule>
+        </measurement_plan>
+      </metrics_and_success>
+    </discovery_report>
+  </template_structures>
+  
+  <directory_structure>
+    <agents_directory path="agents/">
+      <agent_subdirectory path="{agent-name}/">
+        <file name="README.md" purpose="Agent documentation"/>
+        <file name="index.ts" purpose="Main entry point"/>
+        <file name="types.ts" purpose="Type definitions"/>
+        <file name="prompts.ts" purpose="Prompt templates"/>
+        <subdirectory name="utils/" purpose="Utility functions"/>
+        <subdirectory name="tests/" purpose="Test suite"/>
+        <subdirectory name="examples/" purpose="Usage examples"/>
+      </agent_subdirectory>
+    </agents_directory>
+    
+    <workflows_directory path="workflows/">
+      <workflow_subdirectory path="{workflow-name}/">
+        <file name="README.md" purpose="Workflow documentation"/>
+        <file name="index.ts" purpose="Main orchestrator"/>
+        <file name="config.ts" purpose="Configuration"/>
+        <subdirectory name="steps/" purpose="Individual workflow steps"/>
+        <subdirectory name="tests/" purpose="Test suite"/>
+        <subdirectory name="examples/" purpose="Usage examples"/>
+      </workflow_subdirectory>
+    </workflows_directory>
+    
+    <documentation_directory path="docs/">
+      <file name="AGENT_DISCOVERY_REPORT.md" purpose="Comprehensive discovery findings"/>
+      <file name="INTEGRATION_GUIDE.md" purpose="How to integrate new agents"/>
+      <file name="BEST_PRACTICES.md" purpose="Agent development best practices"/>
+      <subdirectory name="architecture/" purpose="Architecture diagrams and docs"/>
+      <subdirectory name="examples/" purpose="Complete integration examples"/>
+    </documentation_directory>
+  </directory_structure>
+  
+  <sustainability_framework>
+    <agent_lifecycle>
+      <principle>Agents should be designed for long-term maintainability</principle>
+      <practices>
+        <practice>Version all agents with semantic versioning</practice>
+        <practice>Implement comprehensive test coverage</practice>
+        <practice>Document API contracts and behavior</practice>
+        <practice>Monitor performance and usage metrics</practice>
+      </practices>
+    </agent_lifecycle>
+    
+    <knowledge_transfer>
+      <principle>Agent knowledge should be captured and shared</principle>
+      <practices>
+        <practice>Document design decisions and trade-offs</practice>
+        <practice>Create reusable patterns from successful implementations</practice>
+        <practice>Share learnings through team documentation</practice>
+        <practice>Establish agent review and approval processes</practice>
+      </practices>
+    </knowledge_transfer>
+    
+    <performance_monitoring>
+      <principle>Agent performance should be continuously monitored</principle>
+      <metrics>
+        <metric>Response time and throughput</metric>
+        <metric>Success rate and error frequency</metric>
+        <metric>Resource utilization</metric>
+        <metric>User satisfaction scores</metric>
+      </metrics>
+    </performance_monitoring>
+  </sustainability_framework>
+  
+  <workflow_instructions>
+    <step name="Mastra System Analysis">
+      <actions>
+        <action>Read all documentation in apps/ai/docs/mastra thoroughly</action>
+        <action>Analyze existing agent implementations to understand patterns</action>
+        <action>Map integration points between Mastra and the application</action>
+        <action>Document current capabilities and identify extension points</action>
+        <action>Create system architecture overview</action>
+      </actions>
+      <outputs>
+        <output>System analysis document</output>
+        <output>Current capability inventory</output>
+        <output>Architecture documentation</output>
+      </outputs>
+    </step>
+    
+    <step name="Opportunity Discovery">
+      <actions>
+        <action>Identify user pain points that could be addressed with AI</action>
+        <action>Look for repetitive workflows suitable for automation</action>
+        <action>Consider cross-cutting concerns that agents could handle</action>
+        <action>Evaluate opportunities using prioritization criteria</action>
+        <action>Select 1-3 highest value opportunities for implementation</action>
+      </actions>
+      <outputs>
+        <output>Opportunity assessment document</output>
+        <output>Prioritized opportunity list</output>
+        <output>Implementation selection rationale</output>
+      </outputs>
+    </step>
+    
+    <step name="Agent/Workflow Design">
+      <actions>
+        <action>Define clear purposes and boundaries for selected agents</action>
+        <action>Design input/output interfaces and interaction patterns</action>
+        <action>Plan integration with existing Mastra infrastructure</action>
+        <action>Create detailed implementation specifications</action>
+        <action>Design testing strategy and success criteria</action>
+      </actions>
+      <outputs>
+        <output>Agent/workflow specifications</output>
+        <output>Integration design documents</output>
+        <output>Testing plans</output>
+      </outputs>
+    </step>
+    
+    <step name="Implementation">
+      <actions>
+        <action>Implement agents following Mastra architectural patterns</action>
+        <action>Create comprehensive test suites for all implementations</action>
+        <action>Build integration points with application systems</action>
+        <action>Implement monitoring and observability features</action>
+        <action>Create working examples and demonstrations</action>
+      </actions>
+      <outputs>
+        <output>Complete agent/workflow implementations</output>
+        <output>Comprehensive test coverage</output>
+        <output>Integration examples</output>
+      </outputs>
+    </step>
+    
+    <step name="Documentation and Knowledge Capture">
+      <actions>
+        <action>Create comprehensive documentation for each agent/workflow</action>
+        <action>Write integration guides and best practices</action>
+        <action>Document lessons learned and design decisions</action>
+        <action>Create discovery report summarizing findings and recommendations</action>
+        <action>Update system-level documentation to reflect new capabilities</action>
+      </actions>
+      <outputs>
+        <output>Complete documentation package</output>
+        <output>Integration guides</output>
+        <output>Discovery report</output>
+      </outputs>
+    </step>
+  </workflow_instructions>
+  
+  <knowledge_repository>
+    <repository_structure>
+      <file_path>docs/ai/.agent-patterns/README.md</file_path>
+      <purpose>Capture successful agent development patterns and learnings</purpose>
+      <sections>
+        <successful_implementations>
+          <implementation pattern="{Pattern used}" outcome="{Results achieved}">{Implementation}</implementation>
+        </successful_implementations>
+        <integration_patterns>
+          <pattern context="{When to use}" implementation="{How to implement}">{Pattern}</pattern>
+        </integration_patterns>
+        <prompt_engineering_insights>
+          <insight application="{Where applicable}" result="{Improvement achieved}">{Insight}</insight>
+        </prompt_engineering_insights>
+        <performance_optimizations>
+          <optimization technique="{Technique used}" impact="{Performance improvement}">{Optimization}</optimization>
+        </performance_optimizations>
+        <common_challenges>
+          <challenge solution="{How solved}" prevention="{How to prevent}">{Challenge}</challenge>
+        </common_challenges>
+      </sections>
+    </repository_structure>
+  </knowledge_repository>
+  
+  <meta_guidelines>
+    <guideline name="User-Centered Design">
+      <guidance>Always start with real user needs and problems rather than available technology</guidance>
+    </guideline>
+    
+    <guideline name="Architectural Harmony">
+      <guidance>Ensure new agents integrate seamlessly with existing Mastra patterns and conventions</guidance>
+    </guideline>
+    
+    <guideline name="Iterative Development">
+      <guidance>Build agents incrementally with feedback loops and continuous improvement</guidance>
+    </guideline>
+    
+    <guideline name="Transparency First">
+      <guidance>Make agent behavior understandable and debuggable for developers and users</guidance>
+    </guideline>
+    
+    <guideline name="Future Adaptability">
+      <guidance>Design agents to be extensible and adaptable to changing requirements</guidance>
+    </guideline>
+    
+    <guideline name="Performance Consciousness">
+      <guidance>Consider performance implications and resource usage from the beginning</guidance>
+    </guideline>
+  </meta_guidelines>
+</prompt>
+

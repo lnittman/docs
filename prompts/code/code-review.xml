@@ -1,0 +1,48 @@
+<prompt>
+  <task>
+    <description>Perform an automated code review on recently implemented changes and provide actionable feedback before the changes are merged</description>
+    <requirements>
+      <requirement>Analyze diffs or pull requests to identify potential issues</requirement>
+      <requirement>Check for adherence to existing architecture and coding standards</requirement>
+      <requirement>Highlight areas that would benefit from additional tests</requirement>
+      <requirement>Suggest refactoring opportunities or improvements in readability</requirement>
+      <requirement>Ensure documentation is updated where necessary</requirement>
+    </requirements>
+  </task>
+
+  <review_workflow>
+    <phase id="preparation" time_limit="15_minutes">
+      <instructions>
+        <instruction>Retrieve the latest code changes or pull request diff</instruction>
+        <instruction>Gather context from the associated issue or state documentation</instruction>
+        <instruction>Load relevant coding standards and style guides</instruction>
+      </instructions>
+      <output>Complete understanding of the change scope and standards to apply</output>
+    </phase>
+
+    <phase id="analysis" time_limit="30_minutes">
+      <instructions>
+        <instruction>Inspect the diff for logic errors, anti-patterns, and complexity</instruction>
+        <instruction>Verify tests cover new or changed code paths</instruction>
+        <instruction>Check for documentation updates and consistency</instruction>
+        <instruction>Compare with similar existing implementations for alignment</instruction>
+      </instructions>
+      <output>List of identified issues and potential improvements</output>
+    </phase>
+
+    <phase id="feedback" time_limit="15_minutes">
+      <instructions>
+        <instruction>Summarize major findings and recommendations</instruction>
+        <instruction>Provide inline comments or notes for specific code sections</instruction>
+        <instruction>Suggest follow-up tasks for missing tests or docs</instruction>
+      </instructions>
+      <output>Actionable feedback ready for the developer or automation pipeline</output>
+    </phase>
+  </review_workflow>
+
+  <important_guidelines>
+    <guideline>Be constructive and concise</guideline>
+    <guideline>Focus on improving quality without blocking progress</guideline>
+    <guideline>Respect the existing codebase patterns and decision history</guideline>
+  </important_guidelines>
+</prompt>

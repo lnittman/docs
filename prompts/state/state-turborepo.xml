@@ -1,0 +1,1715 @@
+<prompt>
+  <task>
+    <description>Perform a comprehensive repo state analysis and maintain a sequential repository status log</description>
+    <requirements>
+      <requirement>Analyze every module in apps/ and packages/ directories</requirement>
+      <requirement>Review existing repo-status entries for context before creating new entries</requirement>
+      <requirement>Assign monotonically increasing entry numbers to each new repo-status document</requirement> 
+      <requirement>Create detailed documentation for each individual app/package in the repository</requirement>
+      <requirement>Document the project's goals and key features to ground state analysis in the app domain</requirement>
+      <requirement>Focus on architecture, dependencies, and how components work together</requirement>
+      <requirement>Track important developments, changes, and current state of integration</requirement>
+    </requirements>
+  </task>
+  
+  <priority_guidelines>
+    <essential>Repository status must have accurate sequential numbering</essential>
+    <essential>All apps and packages must be analyzed and documented</essential>
+    <important>Integration patterns must be clearly mapped</important>
+    <important>Recommendations must be actionable and prioritized</important>
+    <nice_to_have>Visual representations of architecture and data flows</nice_to_have>
+    <optional>Historical trend analysis across multiple status entries</optional>
+  </priority_guidelines>
+  
+  <analysis_phases>
+    <phase id="discovery" time_limit="1_hour">
+      <instructions>
+        <instruction>Check for existing repo-status entries to determine the next entry number</instruction>
+        <instruction>Review previous 3 entries to understand context and progress</instruction>
+        <instruction>Map the entire repo structure systematically</instruction>
+        <instruction>Identify which apps and packages need documentation updates</instruction>
+        <instruction>Run dependency analysis tools if available</instruction>
+      </instructions>
+      <output>Repository map with entry number and documentation gaps identified</output>
+    </phase>
+    
+    <phase id="deep_analysis" time_limit="2-3_hours">
+      <instructions>
+        <instruction>For each app, create comprehensive documentation using the template</instruction>
+        <instruction>For each package, create API and implementation documentation</instruction>
+        <instruction>Analyze integration patterns between components</instruction>
+        <instruction>Map data flows and state management approaches</instruction>
+        <instruction>Identify architectural patterns and anti-patterns</instruction>
+      </instructions>
+      <output>Complete documentation for all apps and packages</output>
+    </phase>
+    
+    <phase id="synthesis" time_limit="1_hour">
+      <instructions>
+        <instruction>Synthesize findings into cohesive status report</instruction>
+        <instruction>Prioritize recommendations based on impact and effort</instruction>
+        <instruction>Create visual representations where helpful</instruction>
+        <instruction>Update integration status and development log</instruction>
+        <instruction>Ensure continuity with previous status entries</instruction>
+      </instructions>
+      <output>Complete repository status entry with all supporting documents</output>
+    </phase>
+  </analysis_phases>
+  
+  <context_awareness>
+    <historical_context>
+      <instruction>Review patterns across last 5 status entries</instruction>
+      <instruction>Track recommendation completion rates</instruction>
+      <instruction>Identify recurring issues or concerns</instruction>
+      <instruction>Note architectural evolution over time</instruction>
+    </historical_context>
+    
+    <team_context>
+      <instruction>Consider current development priorities</instruction>
+      <instruction>Align recommendations with team capacity</instruction>
+      <instruction>Note any team structure or ownership changes</instruction>
+      <instruction>Account for ongoing initiatives</instruction>
+    </team_context>
+    
+    <technical_context>
+      <instruction>Check for framework or library updates</instruction>
+      <instruction>Consider industry best practices evolution</instruction>
+      <instruction>Note security or compliance requirements</instruction>
+      <instruction>Track performance metrics if available</instruction>
+    </technical_context>
+  </context_awareness>
+  
+  <anti_patterns>
+    <anti_pattern>
+      <name>Analysis Paralysis</name>
+      <description>Over-analyzing without actionable recommendations</description>
+      <signs>Very long reports, no clear next steps, theoretical discussions</signs>
+      <prevention>Focus on practical, implementable recommendations</prevention>
+    </anti_pattern>
+    
+    <anti_pattern>
+      <name>Documentation Drift</name>
+      <description>Documentation becoming disconnected from actual code</description>
+      <signs>Outdated examples, incorrect API descriptions, missing features</signs>
+      <prevention>Verify all documentation against current codebase</prevention>
+    </anti_pattern>
+    
+    <anti_pattern>
+      <name>Recommendation Amnesia</name>
+      <description>Repeating same recommendations without tracking progress</description>
+      <signs>Same issues in multiple reports, no progress tracking</signs>
+      <prevention>Always reference previous recommendations and their status</prevention>
+    </anti_pattern>
+    
+    <anti_pattern>
+      <name>Surface-Level Analysis</name>
+      <description>Missing deep architectural issues by focusing on symptoms</description>
+      <signs>Only noting obvious issues, missing root causes</signs>
+      <prevention>Dig deeper into patterns and systemic issues</prevention>
+    </anti_pattern>
+  </anti_patterns>
+  
+  <visual_templates>
+    <template type="architecture_overview">
+      <ascii_art_template>
+        ```
+        ┌─────────────────────────────────────────────┐
+        │              Repo Overview              │
+        ├─────────────────┬───────────────────────────┤
+        │      Apps       │         Packages          │
+        ├─────────────────┼───────────────────────────┤
+        │ ┌─────────────┐ │ ┌───────────────────────┐ │
+        │ │   App A     │ │ │   @repo/ui            │ │
+        │ │ ┌─────────┐ │ │ │ ┌─────────────────┐   │ │
+        │ │ │Feature 1│ │ │ │ │ Components      │   │ │
+        │ │ └─────────┘ │ │ │ └─────────────────┘   │ │
+        │ └──────┬──────┘ │ └───────────┬───────────┘ │
+        │        │        │             │             │
+        │        └────────┼─────────────┘             │
+        │                 │                           │
+        └─────────────────┴───────────────────────────┘
+        ```
+      </ascii_art_template>
+      <mermaid_template>
+        ```mermaid
+        graph TB
+          subgraph "Apps Layer"
+            A1[App 1<br/>Status: Active]
+            A2[App 2<br/>Status: Maintenance]
+            A3[App 3<br/>Status: Development]
+          end
+          
+          subgraph "Packages Layer"
+            P1[@repo/ui<br/>v2.1.0]
+            P2[@repo/utils<br/>v1.5.0]
+            P3[@repo/core<br/>v3.0.0]
+          end
+          
+          subgraph "External Dependencies"
+            E1[React 18]
+            E2[Node 20]
+            E3[TypeScript 5]
+          end
+          
+          A1 --> P1
+          A1 --> P2
+          A2 --> P2
+          A2 --> P3
+          A3 --> P1
+          A3 --> P3
+          
+          P1 --> E1
+          P2 --> E3
+          P3 --> E2
+        ```
+      </mermaid_template>
+    </template>
+    
+    <template type="data_flow">
+      <mermaid_template>
+        ```mermaid
+        sequenceDiagram
+          participant U as User
+          participant A as App Layer
+          participant P as Package Layer
+          participant D as Data Layer
+          participant E as External API
+          
+          U->>A: User Action
+          A->>P: Process Request
+          P->>D: Query Data
+          D-->>P: Return Data
+          P->>E: Fetch External
+          E-->>P: API Response
+          P-->>A: Processed Result
+          A-->>U: Update UI
+        ```
+      </mermaid_template>
+    </template>
+    
+    <template type="dependency_graph">
+      <mermaid_template>
+        ```mermaid
+        graph LR
+          subgraph "Circular Dependencies"
+            C1[Package A] --> C2[Package B]
+            C2 --> C3[Package C]
+            C3 --> C1
+          end
+          
+          subgraph "Healthy Dependencies"
+            H1[App] --> H2[Feature Package]
+            H2 --> H3[Core Package]
+            H2 --> H4[Utils Package]
+          end
+          
+          style C1 fill:#f96
+          style C2 fill:#f96
+          style C3 fill:#f96
+        ```
+      </mermaid_template>
+    </template>
+  </visual_templates>
+  
+  <work_logs>
+    <directory_structure>
+      <directory path="/docs/state/">
+        <file path="repo-status-{ENTRY_NUMBER}.md">Sequential repository status assessment</file>
+        <directory path="/apps/">
+          <file path="{app_name}-documentation.md">Detailed documentation for each app</file>
+        </directory>
+        <directory path="/packages/">
+          <file path="{package_name}-documentation.md">Detailed documentation for each package</file>
+        </directory>
+        <file path="integration-status.md">Current state of integration between components</file>
+        <file path="development-log.md">Key developments and changes log</file>
+        <file path="metrics-dashboard.md">Repository health metrics over time</file>
+      </directory>
+    </directory_structure>
+    
+    <templates>
+      <template id="repo-status">
+        ```markdown
+        # Repository Status: Entry #{ENTRY_NUMBER} - {DATE}
+        
+        ## Quick Health Check
+        - **Overall Health Score**: {score}/100
+        - **Critical Issues**: {count}
+        - **Apps Analyzed**: {count}
+        - **Packages Analyzed**: {count}
+        - **Time Since Last Analysis**: {days} days
+        
+        ## Context From Previous Status Entries
+        
+        ### Progress Since Entry #{PREVIOUS_ENTRY_NUMBER}
+        - **Completed Recommendations**: {list with outcomes}
+        - **Deferred Recommendations**: {list with reasons}
+        - **New Issues Discovered**: {list}
+        - **Architectural Improvements**: {list}
+        
+        ### Trending Patterns (Last 5 Entries)
+        ```mermaid
+        graph LR
+          E1[Entry #X] --> E2[Entry #Y]
+          E2 --> E3[Entry #Z]
+          E3 --> Current[Current]
+          
+          E1 -.->|"Tech Debt: High"| Current
+          E2 -.->|"Integration: Improving"| Current
+          E3 -.->|"DX: Stable"| Current
+        ```
+        
+        ## Executive Summary
+        
+        ### Repository State Snapshot
+        - **Architecture Maturity**: {Low|Medium|High}
+        - **Integration Quality**: {Poor|Fair|Good|Excellent}
+        - **Technical Debt Level**: {Critical|High|Medium|Low}
+        - **Developer Experience**: {rating}/5
+        
+        ### Key Achievements Since Last Analysis
+        1. {Achievement with measurable impact}
+        2. {Achievement with measurable impact}
+        3. {Achievement with measurable impact}
+        
+        ### Top Concerns Requiring Attention
+        1. {Concern with risk assessment}
+        2. {Concern with risk assessment}
+        3. {Concern with risk assessment}
+        
+        ## Module Integration Analysis
+        
+        ### Integration Health Matrix
+        | Component | Integration Score | Issues | Recommendations |
+        |-----------|------------------|--------|-----------------|
+        | {name}    | {score}/10       | {count}| {priority}      |
+        
+        ### Apps Integration
+        ```mermaid
+        graph TD
+          subgraph "Current State"
+            A1[App 1] <--> A2[App 2]
+            A2 <--> A3[App 3]
+            A1 -.-> A3
+          end
+          
+          subgraph "Target State"
+            T1[App 1] <--> T2[App 2]
+            T2 <--> T3[App 3]
+            T1 <--> T3
+          end
+        ```
+        
+        ### Package Utilization Analysis
+        | Package | Apps Using | Consistency | Health |
+        |---------|------------|-------------|--------|
+        | {name}  | {count}    | {percent}%  | {score}|
+        
+        ## Dependency Management
+        
+        ### Dependency Health Metrics
+        - **Total Dependencies**: {count}
+        - **Outdated Dependencies**: {count} ({percent}%)
+        - **Security Vulnerabilities**: {count}
+        - **Duplicate Dependencies**: {count}
+        - **Version Mismatches**: {count}
+        
+        ### Critical Dependency Issues
+        1. {Issue}: {Impact and recommendation}
+        2. {Issue}: {Impact and recommendation}
+        
+        ## Architecture Assessment
+        
+        ### Architecture Scorecard
+        | Aspect | Score | Trend | Notes |
+        |--------|-------|-------|-------|
+        | Modularity | {score}/10 | {↑↓→} | {notes} |
+        | Consistency | {score}/10 | {↑↓→} | {notes} |
+        | Scalability | {score}/10 | {↑↓→} | {notes} |
+        | Maintainability | {score}/10 | {↑↓→} | {notes} |
+        
+        ### Architectural Patterns
+        - **Dominant Patterns**: {list}
+        - **Emerging Patterns**: {list}
+        - **Anti-patterns Detected**: {list}
+        
+        ## Development Experience
+        
+        ### DX Metrics
+        - **Setup Time**: {time}
+        - **Build Time**: {time}
+        - **Test Execution**: {time}
+        - **Hot Reload**: {working|issues}
+        - **Documentation Coverage**: {percent}%
+        
+        ### Developer Pain Points
+        1. {Pain point}: {Severity and impact}
+        2. {Pain point}: {Severity and impact}
+        
+        ## Knowledge Gaps & Documentation
+        
+        ### Documentation Coverage
+        | Area | Coverage | Quality | Priority |
+        |------|----------|---------|----------|
+        | {area} | {percent}% | {score}/5 | {H/M/L} |
+        
+        ### Critical Documentation Gaps
+        1. {Gap}: {Impact on development}
+        2. {Gap}: {Impact on development}
+        
+        ## Recent Developments
+        
+        ### Significant Changes (Since Entry #{PREVIOUS})
+        | Change | Type | Impact | Risk |
+        |--------|------|--------|------|
+        | {change} | {type} | {impact} | {risk} |
+        
+        ### Architecture Evolution
+        {Visual or description of how architecture has evolved}
+        
+        ## Prioritized Recommendations
+        
+        ### Critical (Do Now)
+        1. **{Recommendation}**
+           - Impact: {description}
+           - Effort: {estimate}
+           - Risk: {assessment}
+           - Success Metrics: {measurable outcomes}
+        
+        ### High Priority (Next Sprint)
+        2. **{Recommendation}**
+           - Impact: {description}
+           - Effort: {estimate}
+           - Risk: {assessment}
+           - Success Metrics: {measurable outcomes}
+        
+        ### Medium Priority (Next Month)
+        3. **{Recommendation}**
+           - Impact: {description}
+           - Effort: {estimate}
+           - Dependencies: {what needs to happen first}
+        
+        ### Future Considerations
+        4. **{Recommendation}**
+           - Rationale: {why consider this}
+           - Prerequisites: {what needs to be in place}
+        
+        ## Success Metrics & Tracking
+        
+        ### Metrics to Track
+        | Metric | Current | Target | Timeline |
+        |--------|---------|--------|----------|
+        | {metric} | {value} | {value} | {timeline} |
+        
+        ### Progress Tracking
+        - Next review scheduled: {date}
+        - Key milestones: {list}
+        - Success criteria: {list}
+        
+        ## Meta: Assessment Quality
+        
+        ### Confidence Levels
+        - **High Confidence**: {areas well understood}
+        - **Medium Confidence**: {areas with some uncertainty}
+        - **Low Confidence**: {areas needing deeper investigation}
+        
+        ### Improvements for Next Analysis
+        - {Suggestion for better analysis}
+        - {Tool or process improvement}
+        - {Additional data to collect}
+        ```
+      </template>
+      
+      <template id="app-documentation">
+        ```markdown
+        # App Documentation: {app_name}
+        
+        ## Overview
+        - **Purpose**: Detailed description of app's purpose and function
+        - **Business Value**: How this app provides value to users/business
+        - **Development Status**: Current development stage (active, maintenance, planned)
+        - **Responsible Team/Owner**: Who is primarily responsible for this app
+        - **Health Score**: {score}/100
+        
+        ## Quick Reference
+        ```yaml
+        name: {app_name}
+        version: {version}
+        status: {active|maintenance|deprecated}
+        primary_stack:
+          - {technology}
+          - {technology}
+        key_dependencies:
+          - {dependency}
+          - {dependency}
+        ```
+        
+        ## Core Architecture
+        
+        ### Architecture Diagram
+        ```mermaid
+        graph TD
+          subgraph "{App Name} Architecture"
+            UI[UI Layer]
+            BL[Business Logic]
+            DA[Data Access]
+            
+            UI --> BL
+            BL --> DA
+            DA --> DB[(Database)]
+            DA --> API[External APIs]
+          end
+        ```
+        
+        ### Architectural Pattern
+        - **Pattern**: {e.g., MVC, MVVM, Clean Architecture}
+        - **Rationale**: {Why this pattern was chosen}
+        - **Implementation Details**: {How it's implemented}
+        - **Deviations**: {Any deviations from pure pattern}
+        
+        ### Core Modules
+        
+        #### Module: {Module Name}
+        - **Purpose**: {Clear description}
+        - **Responsibilities**: 
+          - {Responsibility 1}
+          - {Responsibility 2}
+        - **Key Files**:
+          - `{file}`: {purpose}
+          - `{file}`: {purpose}
+        - **Dependencies**: {internal and external}
+        - **Coupling Assessment**: {tight|moderate|loose}
+        
+        ### State Management
+        - **Approach**: {e.g., Redux, Context, Zustand}
+        - **State Structure**:
+          ```typescript
+          interface AppState {
+            // State shape
+          }
+          ```
+        - **Persistence**: {How state is persisted}
+        - **Performance Considerations**: {Any optimizations}
+        
+        ## Dependencies Analysis
+        
+        ### Dependency Tree
+        ```mermaid
+        graph TD
+          App[{app_name}]
+          App --> P1[@repo/package1]
+          App --> P2[@repo/package2]
+          App --> E1[react]
+          App --> E2[axios]
+          P1 --> E3[lodash]
+        ```
+        
+        ### External Dependencies
+        | Dependency | Version | Purpose | Health | Last Updated |
+        |------------|---------|---------|--------|--------------|
+        | {name}     | {ver}   | {use}   | {status}| {date}      |
+        
+        ### Internal Package Usage
+        | Package | Import Count | Usage Pattern | Coupling |
+        |---------|--------------|---------------|----------|
+        | {name}  | {count}      | {pattern}     | {level}  |
+        
+        ## Features & Capabilities
+        
+        ### Feature Map
+        ```mermaid
+        mindmap
+          root(({app_name}))
+            Feature Group 1
+              Feature 1.1
+              Feature 1.2
+            Feature Group 2
+              Feature 2.1
+              Feature 2.2
+        ```
+        
+        ### Feature: {Feature Name}
+        - **Description**: {What it does}
+        - **User Value**: {Why it matters}
+        - **Technical Implementation**:
+          - Entry Point: `{file}`
+          - Key Components: {list}
+          - Data Flow: {description}
+        - **Test Coverage**: {percent}%
+        - **Known Issues**: {list if any}
+        - **Enhancement Opportunities**: {list}
+        
+        ## Data Layer
+        
+        ### Data Sources
+        ```mermaid
+        graph LR
+          App[Application]
+          App --> DS1[REST API]
+          App --> DS2[GraphQL]
+          App --> DS3[WebSocket]
+          App --> DS4[Local Storage]
+        ```
+        
+        ### Data Models
+        - **Primary Entities**: {list with descriptions}
+        - **Data Flow Patterns**: {description}
+        - **Caching Strategy**: {description}
+        - **Data Validation**: {approach}
+        
+        ## Quality Metrics
+        
+        ### Code Quality
+        - **Test Coverage**: {percent}%
+        - **Type Coverage**: {percent}%
+        - **Linting Issues**: {count}
+        - **Complexity Score**: {score}
+        - **Technical Debt Ratio**: {ratio}
+        
+        ### Performance Metrics
+        - **Bundle Size**: {size}
+        - **Initial Load Time**: {time}
+        - **Runtime Performance**: {assessment}
+        - **Memory Usage**: {assessment}
+        
+        ## Development Workflow
+        
+        ### Local Development
+        ```bash
+        # Setup commands
+        pnpm install
+        pnpm dev
+        
+        # Common tasks
+        pnpm test
+        pnpm lint
+        pnpm build
+        ```
+        
+        ### Environment Configuration
+        - **Required ENV vars**: {list}
+        - **Optional ENV vars**: {list}
+        - **Configuration files**: {list}
+        
+        ## Technical Debt & Issues
+        
+        ### Technical Debt Register
+        | Item | Severity | Impact | Effort | Priority |
+        |------|----------|--------|--------|----------|
+        | {item} | {H/M/L} | {description} | {estimate} | {priority} |
+        
+        ### Known Limitations
+        1. {Limitation}: {Impact and workaround}
+        2. {Limitation}: {Impact and workaround}
+        
+        ## Improvement Roadmap
+        
+        ### Short Term (Next Sprint)
+        - [ ] {Improvement}
+        - [ ] {Improvement}
+        
+        ### Medium Term (Next Quarter)
+        - [ ] {Improvement}
+        - [ ] {Improvement}
+        
+        ### Long Term Vision
+        - {Vision item}
+        - {Vision item}
+        
+        ## Recent Activity
+        
+        ### Last 30 Days
+        - **Commits**: {count}
+        - **PRs Merged**: {count}
+        - **Issues Closed**: {count}
+        - **Contributors**: {count}
+        
+        ### Recent Changes
+        | Date | Change | Impact | Author |
+        |------|--------|--------|--------|
+        | {date} | {change} | {impact} | {author} |
+        ```
+      </template>
+      
+      <template id="package-documentation">
+        ```markdown
+        # Package Documentation: {package_name}
+        
+        ## Overview
+        - **Purpose**: {Clear, concise purpose}
+        - **Type**: {UI library|Utility|Data|Config|Types}
+        - **Status**: {Stable|Beta|Alpha|Deprecated}
+        - **Version**: {current version}
+        - **Owner**: {team or person}
+        
+        ## Quick Start
+        ```typescript
+        // Installation
+        pnpm add {package_name}
+        
+        // Basic usage
+        import { primaryExport } from '{package_name}'
+        
+        // Example
+        const result = primaryExport({
+          // config
+        })
+        ```
+        
+        ## API Reference
+        
+        ### Exports Overview
+        ```typescript
+        // All exports
+        export {
+          // Primary
+          primaryExport,
+          SecondaryExport,
+          
+          // Types
+          type ExportedType,
+          interface ExportedInterface,
+          
+          // Constants
+          CONSTANT_VALUE,
+          
+          // Utilities
+          utilityFunction,
+        }
+        ```
+        
+        ### Primary API: `{exportName}`
+        
+        #### Signature
+        ```typescript
+        function exportName(
+          param1: Type1,
+          param2?: Type2
+        ): ReturnType
+        ```
+        
+        #### Parameters
+        | Parameter | Type | Required | Description |
+        |-----------|------|----------|-------------|
+        | param1 | Type1 | Yes | {description} |
+        | param2 | Type2 | No | {description} |
+        
+        #### Returns
+        - **Type**: `ReturnType`
+        - **Description**: {what it returns}
+        
+        #### Examples
+        ```typescript
+        // Example 1: Basic usage
+        const result = exportName(value1)
+        
+        // Example 2: With options
+        const result = exportName(value1, {
+          option1: true,
+          option2: 'value'
+        })
+        
+        // Example 3: Error handling
+        try {
+          const result = exportName(value1)
+        } catch (error) {
+          // Handle error
+        }
+        ```
+        
+        #### Edge Cases
+        - {Edge case 1}: {behavior}
+        - {Edge case 2}: {behavior}
+        
+        ## Architecture
+        
+        ### Package Structure
+        ```
+        {package_name}/
+        ├── src/
+        │   ├── index.ts         # Main exports
+        │   ├── core/            # Core functionality
+        │   ├── utils/           # Utilities
+        │   └── types/           # Type definitions
+        ├── tests/
+        │   ├── unit/
+        │   └── integration/
+        └── docs/
+            └── examples/
+        ```
+        
+        ### Design Patterns
+        - **Pattern Used**: {pattern name}
+        - **Rationale**: {why this pattern}
+        - **Implementation Details**: {how it's implemented}
+        
+        ### Internal Architecture
+        ```mermaid
+        graph TD
+          API[Public API] --> Core[Core Logic]
+          Core --> Utils[Utilities]
+          Core --> Types[Type System]
+          Utils --> Helpers[Helper Functions]
+        ```
+        
+        ## Usage Patterns
+        
+        ### Common Use Cases
+        
+        #### Use Case 1: {Name}
+        ```typescript
+        // Description of use case
+        import { feature } from '{package_name}'
+        
+        // Implementation
+        const result = feature({
+          // configuration
+        })
+        ```
+        
+        #### Use Case 2: {Name}
+        ```typescript
+        // Description of use case
+        // Implementation example
+        ```
+        
+        ### Integration Examples
+        
+        #### With React
+        ```typescript
+        // React integration example
+        ```
+        
+        #### With Node.js
+        ```typescript
+        // Node.js integration example
+        ```
+        
+        ### Anti-Patterns to Avoid
+        1. **{Anti-pattern}**: {Why it's bad and what to do instead}
+        2. **{Anti-pattern}**: {Why it's bad and what to do instead}
+        
+        ## Dependencies
+        
+        ### Dependency Graph
+        ```mermaid
+        graph TD
+          Package[{package_name}]
+          Package --> D1[dependency1]
+          Package --> D2[dependency2]
+          D1 --> D3[transitive-dep]
+        ```
+        
+        ### Direct Dependencies
+        | Dependency | Version | Purpose | Can be tree-shaken |
+        |------------|---------|---------|-------------------|
+        | {name} | {version} | {purpose} | {yes/no} |
+        
+        ### Peer Dependencies
+        | Dependency | Version Range | Required For |
+        |------------|---------------|--------------|
+        | {name} | {range} | {feature} |
+        
+        ## Performance
+        
+        ### Benchmarks
+        | Operation | Time | Memory | Notes |
+        |-----------|------|--------|-------|
+        | {operation} | {time} | {memory} | {notes} |
+        
+        ### Bundle Size Impact
+        - **Full Import**: {size}
+        - **Tree-shaken**: {size}
+        - **Gzipped**: {size}
+        
+        ### Optimization Tips
+        1. {Tip}: {Details}
+        2. {Tip}: {Details}
+        
+        ## Testing
+        
+        ### Test Coverage
+        - **Statements**: {percent}%
+        - **Branches**: {percent}%
+        - **Functions**: {percent}%
+        - **Lines**: {percent}%
+        
+        ### Testing Approach
+        - **Unit Tests**: {approach}
+        - **Integration Tests**: {approach}
+        - **Performance Tests**: {approach}
+        
+        ### Running Tests
+        ```bash
+        # All tests
+        pnpm test
+        
+        # Watch mode
+        pnpm test:watch
+        
+        # Coverage
+        pnpm test:coverage
+        ```
+        
+        ## Migration Guide
+        
+        ### From v1.x to v2.x
+        ```typescript
+        // Old way (v1.x)
+        import { oldApi } from '{package_name}'
+        oldApi.method()
+        
+        // New way (v2.x)
+        import { newApi } from '{package_name}'
+        newApi.improvedMethod()
+        ```
+        
+        ### Breaking Changes
+        1. {Change}: {Migration path}
+        2. {Change}: {Migration path}
+        
+        ## Troubleshooting
+        
+        ### Common Issues
+        
+        #### Issue: {Issue description}
+        - **Symptoms**: {what users see}
+        - **Cause**: {root cause}
+        - **Solution**: {how to fix}
+        ```typescript
+        // Code example of solution
+        ```
+        
+        ### FAQ
+        
+        **Q: {Question}**
+        A: {Answer}
+        
+        **Q: {Question}**
+        A: {Answer}
+        
+        ## Roadmap
+        
+        ### Next Minor Version ({version})
+        - [ ] {Feature/improvement}
+        - [ ] {Feature/improvement}
+        
+        ### Future Considerations
+        - {Long-term improvement}
+        - {Long-term improvement}
+        
+        ### Deprecation Notices
+        - `{API}`: Deprecated in {version}, will be removed in {version}
+          - Migration: {how to migrate}
+        
+        ## Contributing
+        
+        ### Development Setup
+        ```bash
+        # Clone and install
+        git clone ...
+        pnpm install
+        
+        # Development
+        pnpm dev
+        pnpm test:watch
+        ```
+        
+        ### Contribution Guidelines
+        - {Guideline 1}
+        - {Guideline 2}
+        
+        ## Recent Changes
+        
+        ### Latest Release ({version})
+        - {Change 1}
+        - {Change 2}
+        - {Bug fix}
+        
+        ### Changelog Highlights
+        See [CHANGELOG.md](./CHANGELOG.md) for full history
+        ```
+      </template>
+      
+      <template id="integration-status">
+        ```markdown
+        # Integration Status Assessment
+        
+        ## Integration Health Dashboard
+        
+        ### Overall Metrics
+        - **Integration Score**: {score}/100
+        - **Coupling Index**: {low|medium|high}
+        - **Circular Dependencies**: {count}
+        - **Integration Test Coverage**: {percent}%
+        
+        ### Integration Matrix
+        ```mermaid
+        graph TD
+          subgraph "Apps"
+            A1[App 1]
+            A2[App 2]
+            A3[App 3]
+          end
+          
+          subgraph "Packages"
+            P1[Package 1]
+            P2[Package 2]
+            P3[Package 3]
+          end
+          
+          A1 ==> P1
+          A1 --> P2
+          A2 ==> P2
+          A2 -.-> P3
+          A3 --> P1
+          A3 ==> P3
+          
+          classDef strong stroke-width:4px
+          classDef weak stroke-dasharray: 5 5
+        ```
+        
+        ## App-to-App Integration
+        
+        ### Integration: {App A} ↔ {App B}
+        - **Type**: {Direct|Message-based|Event-driven|None}
+        - **Health**: {Healthy|Warning|Critical}
+        - **Coupling**: {Loose|Moderate|Tight}
+        
+        #### Integration Points
+        | Point | Method | Data Flow | Health |
+        |-------|--------|-----------|--------|
+        | {point} | {method} | {flow} | {status} |
+        
+        #### Data Contracts
+        ```typescript
+        // Shared interfaces
+        interface SharedDataModel {
+          // ...
+        }
+        ```
+        
+        #### Issues & Risks
+        1. {Issue}: {Impact and recommendation}
+        2. {Risk}: {Mitigation strategy}
+        
+        ## App-to-Package Integration
+        
+        ### Matrix View
+        | App \ Package | @repo/ui | @repo/core | @repo/utils |
+        |---------------|----------|------------|-------------|
+        | App 1 | ✅ Heavy | ✅ Moderate | ⚠️ Light |
+        | App 2 | ❌ None | ✅ Heavy | ✅ Heavy |
+        | App 3 | ✅ Light | ⚠️ Circular | ✅ Moderate |
+        
+        ### Integration Quality Metrics
+        - **API Stability**: {percent}% of APIs unchanged in last 6 months
+        - **Version Alignment**: {percent}% using same package versions
+        - **Type Safety**: {percent}% of integrations fully typed
+        
+        ## Package-to-Package Integration
+        
+        ### Dependency Graph Analysis
+        ```mermaid
+        graph LR
+          subgraph "Healthy Pattern"
+            H1[@repo/ui] --> H2[@repo/core]
+            H2 --> H3[@repo/utils]
+          end
+          
+          subgraph "Problematic Pattern"
+            P1[@repo/feature] --> P2[@repo/data]
+            P2 --> P3[@repo/api]
+            P3 --> P1
+          end
+          
+          style P1 fill:#f96
+          style P2 fill:#f96
+          style P3 fill:#f96
+        ```
+        
+        ### Coupling Analysis
+        | Package A | Package B | Coupling Type | Risk Level | Action Required |
+        |-----------|-----------|---------------|------------|-----------------|
+        | {pkg} | {pkg} | {type} | {level} | {action} |
+        
+        ## Integration Patterns
+        
+        ### Identified Patterns
+        
+        #### Pattern: {Pattern Name}
+        - **Usage Frequency**: {high|medium|low}
+        - **Effectiveness**: {rating}/5
+        - **Where Used**: {list of places}
+        - **Pros**: {list}
+        - **Cons**: {list}
+        - **Recommendation**: {keep|refactor|replace}
+        
+        ### Anti-Patterns Detected
+        
+        #### Anti-Pattern: {Name}
+        - **Occurrences**: {count}
+        - **Locations**: {where found}
+        - **Impact**: {description}
+        - **Remediation**: {how to fix}
+        ```mermaid
+        graph TD
+          Problem[Anti-Pattern] --> Solution[Recommended Pattern]
+        ```
+        
+        ## Data Flow Analysis
+        
+        ### End-to-End Data Flows
+        
+        #### Flow: {User Action to Result}
+        ```mermaid
+        sequenceDiagram
+          participant U as User
+          participant A1 as App 1
+          participant P1 as Package 1
+          participant P2 as Package 2
+          participant API as External API
+          
+          U->>A1: Action
+          A1->>P1: Process
+          P1->>P2: Transform
+          P2->>API: Request
+          API-->>P2: Response
+          P2-->>P1: Data
+          P1-->>A1: Result
+          A1-->>U: Update
+        ```
+        
+        #### Flow Health Assessment
+        - **Latency**: {assessment}
+        - **Error Rate**: {percent}%
+        - **Data Integrity**: {assessment}
+        - **Bottlenecks**: {identified bottlenecks}
+        
+        ## State Management Integration
+        
+        ### State Sharing Patterns
+        | Pattern | Usage | Apps | Effectiveness | Issues |
+        |---------|-------|------|---------------|--------|
+        | {pattern} | {count} | {list} | {rating} | {issues} |
+        
+        ### State Synchronization
+        - **Sync Methods**: {list methods used}
+        - **Conflict Resolution**: {approach}
+        - **Performance Impact**: {assessment}
+        
+        ## Integration Recommendations
+        
+        ### Critical (Immediate Action)
+        1. **{Issue}**
+           - Current: {current state}
+           - Target: {desired state}
+           - Impact: {what happens if not fixed}
+           - Solution: {specific steps}
+           - Effort: {estimate}
+        
+        ### High Priority (Next Sprint)
+        2. **{Improvement}**
+           - Current: {current state}
+           - Target: {desired state}
+           - Benefits: {expected benefits}
+           - Approach: {implementation approach}
+        
+        ### Medium Priority (Next Quarter)
+        3. **{Enhancement}**
+           - Opportunity: {description}
+           - Value: {business/technical value}
+           - Dependencies: {what needs to happen first}
+        
+        ## Integration Testing Strategy
+        
+        ### Current Coverage
+        ```mermaid
+        pie title Integration Test Coverage
+          "Fully Tested" : 40
+          "Partially Tested" : 35
+          "Not Tested" : 25
+        ```
+        
+        ### Testing Gaps
+        1. {Integration point}: {why not tested}
+        2. {Integration point}: {why not tested}
+        
+        ### Recommended Test Improvements
+        - {Test type}: {what to test and how}
+        - {Test type}: {what to test and how}
+        ```
+      </template>
+      
+      <template id="development-log">
+        ```markdown
+        # Development Log
+        
+        ## Recent Activity Summary
+        - **Period**: {start date} to {end date}
+        - **Active Contributors**: {count}
+        - **Commits**: {count}
+        - **PRs Merged**: {count}
+        - **Issues Resolved**: {count}
+        
+        ## Significant Changes
+        
+        ### {Date}: {Change Title}
+        - **Type**: {Feature|Fix|Refactor|Performance|Security}
+        - **Scope**: {Apps|Packages|Infrastructure|All}
+        - **Author(s)**: {names}
+        - **PR/Commit**: [{reference}](link)
+        
+        #### Description
+        {Detailed description of what changed and why}
+        
+        #### Technical Details
+        - **Files Changed**: {count}
+        - **Lines Added/Removed**: +{add}/-{remove}
+        - **Components Affected**:
+          - `{component}`: {what changed}
+          - `{component}`: {what changed}
+        
+        #### Architectural Impact
+        - **Pattern Changes**: {any pattern changes}
+        - **New Dependencies**: {list if any}
+        - **API Changes**: {list if any}
+        - **Breaking Changes**: {yes/no, details if yes}
+        
+        #### Integration Impact
+        - **Affected Integrations**: {list}
+        - **Migration Required**: {yes/no}
+        - **Backward Compatible**: {yes/no}
+        
+        #### Performance Impact
+        - **Build Time**: {before} → {after}
+        - **Bundle Size**: {before} → {after}
+        - **Runtime**: {impact if measured}
+        
+        #### Developer Experience Impact
+        - **Setup Changes**: {any changes to setup}
+        - **New Tools/Scripts**: {list if any}
+        - **Documentation Updates**: {what was updated}
+        
+        ### Change Timeline
+        ```mermaid
+        gantt
+          title Development Timeline
+          dateFormat  YYYY-MM-DD
+          section Features
+          Feature A :done, 2024-01-01, 2024-01-15
+          Feature B :active, 2024-01-10, 20d
+          Feature C :planned, 2024-02-01, 15d
+          
+          section Refactoring
+          Refactor X :done, 2024-01-05, 10d
+          Refactor Y :active, 2024-01-20, 15d
+          
+          section Bug Fixes
+          Critical Fix :crit, done, 2024-01-08, 2d
+          Minor Fixes :done, 2024-01-15, 5d
+        ```
+        
+        ## Development Trends
+        
+        ### Emerging Patterns
+        
+        #### Pattern: {Pattern Name}
+        - **First Observed**: {date}
+        - **Adoption Rate**: {increasing|stable|decreasing}
+        - **Where Used**: {components/apps using it}
+        - **Benefits Observed**:
+          - {benefit 1}
+          - {benefit 2}
+        - **Challenges**:
+          - {challenge 1}
+          - {challenge 2}
+        - **Recommendation**: {continue|evaluate|phase out}
+        
+        ### Technology Adoption
+        
+        #### Technology: {Tech/Library Name}
+        - **Version**: {version}
+        - **Introduced**: {date}
+        - **Purpose**: {why it was adopted}
+        - **Usage Locations**:
+          - {location 1}: {how it's used}
+          - {location 2}: {how it's used}
+        - **Integration Success**: {rating}/5
+        - **Team Feedback**: {summary}
+        - **Future Plans**: {expand|maintain|replace}
+        
+        ## Architectural Evolution
+        
+        ### Architecture Shifts
+        
+        #### From {Old Pattern} to {New Pattern}
+        - **Motivation**: {why the change}
+        - **Started**: {date}
+        - **Progress**: {percent}% complete
+        - **Components Migrated**: {count}/{total}
+        
+        ```mermaid
+        graph LR
+          subgraph "Before"
+            O1[Old Component 1]
+            O2[Old Component 2]
+            O1 --> O2
+          end
+          
+          subgraph "After"
+            N1[New Component 1]
+            N2[New Component 2]
+            N3[New Component 3]
+            N1 --> N3
+            N2 --> N3
+          end
+          
+          O1 -.->|"Migration"| N1
+          O2 -.->|"Split"| N2
+        ```
+        
+        #### Benefits Realized
+        - {benefit}: {measurement}
+        - {benefit}: {measurement}
+        
+        #### Challenges Encountered
+        - {challenge}: {how it was addressed}
+        - {challenge}: {how it was addressed}
+        
+        ## Technical Debt Tracking
+        
+        ### Debt Reduction Initiatives
+        
+        #### Initiative: {Name}
+        - **Target**: {what debt is being addressed}
+        - **Approach**: {how it's being addressed}
+        - **Progress**:
+          ```
+          [████████░░░░░░░] 60% Complete
+          ```
+        - **Components Completed**: {list}
+        - **Components Remaining**: {list}
+        - **Blockers**: {any blockers}
+        - **Expected Completion**: {date}
+        
+        ### New Debt Incurred
+        - **{Debt Item}**: {why it was incurred, plan to address}
+        - **{Debt Item}**: {why it was incurred, plan to address}
+        
+        ## Feature Development
+        
+        ### Active Features
+        
+        #### Feature: {Feature Name}
+        - **Status**: {Planning|Development|Testing|Deployed}
+        - **Progress**: {percent}%
+        - **Team**: {team/people working on it}
+        - **Target Release**: {version/date}
+        
+        ##### Implementation Details
+        - **Approach**: {technical approach}
+        - **Key Components**:
+          - [ ] {component 1}
+          - [x] {component 2}
+          - [ ] {component 3}
+        - **Integration Points**: {list}
+        - **Risk Assessment**: {low|medium|high}
+        
+        ### Feature Pipeline
+        ```mermaid
+        graph LR
+          Backlog[Backlog] --> Planning[Planning]
+          Planning --> Development[Development]
+          Development --> Testing[Testing]
+          Testing --> Staging[Staging]
+          Staging --> Production[Production]
+          
+          F1[Feature 1] -.-> Testing
+          F2[Feature 2] -.-> Development
+          F3[Feature 3] -.-> Planning
+        ```
+        
+        ## Metrics & Insights
+        
+        ### Development Velocity
+        ```mermaid
+        graph TD
+          subgraph "Last 4 Sprints"
+            S1[Sprint -3<br/>20 points]
+            S2[Sprint -2<br/>25 points]
+            S3[Sprint -1<br/>22 points]
+            S4[Current<br/>24 points]
+          end
+        ```
+        
+        ### Code Quality Trends
+        | Metric | 30 Days Ago | Current | Trend | Target |
+        |--------|-------------|---------|--------|---------|
+        | Test Coverage | 75% | 78% | ↑ | 80% |
+        | Type Coverage | 82% | 85% | ↑ | 90% |
+        | Tech Debt Ratio | 15% | 12% | ↓ | 10% |
+        | Build Time | 5m | 4.5m | ↓ | 4m |
+        
+        ## Lessons Learned
+        
+        ### What Worked Well
+        1. **{Success}**: {why it worked, how to replicate}
+        2. **{Success}**: {why it worked, how to replicate}
+        
+        ### What Didn't Work
+        1. **{Failure}**: {why it failed, lessons learned}
+        2. **{Challenge}**: {what made it difficult, how to improve}
+        
+        ### Process Improvements
+        - **{Improvement}**: {impact on workflow}
+        - **{Improvement}**: {impact on workflow}
+        
+        ## Upcoming Milestones
+        
+        ### Next 30 Days
+        - [ ] {Milestone 1}: {date}
+        - [ ] {Milestone 2}: {date}
+        - [ ] {Milestone 3}: {date}
+        
+        ### Next Quarter
+        - {Major milestone 1}
+        - {Major milestone 2}
+        
+        ## Action Items
+        
+        ### From Recent Retrospectives
+        - [ ] {Action}: {owner} - Due: {date}
+        - [ ] {Action}: {owner} - Due: {date}
+        - [x] {Completed action}: {outcome}
+        ```
+      </template>
+      
+      <template id="metrics-dashboard">
+        ```markdown
+        # Repository Metrics Dashboard
+        
+        ## Health Score Trend
+        ```mermaid
+        graph TD
+          subgraph "Repository Health Score (Last 6 Entries)"
+            E1[Entry -5<br/>Score: 72]
+            E2[Entry -4<br/>Score: 75]
+            E3[Entry -3<br/>Score: 74]
+            E4[Entry -2<br/>Score: 78]
+            E5[Entry -1<br/>Score: 81]
+            E6[Current<br/>Score: 83]
+            
+            E1 --> E2
+            E2 --> E3
+            E3 --> E4
+            E4 --> E5
+            E5 --> E6
+          end
+        ```
+        
+        ## Key Metrics Over Time
+        
+        | Metric | Entry -3 | Entry -2 | Entry -1 | Current | Trend |
+        |--------|----------|----------|----------|---------|--------|
+        | Architecture Score | 7.2 | 7.5 | 7.8 | 8.1 | ↑ |
+        | Integration Health | 68% | 72% | 75% | 78% | ↑ |
+        | Tech Debt Ratio | 18% | 16% | 14% | 12% | ↓ |
+        | Test Coverage | 72% | 74% | 76% | 78% | ↑ |
+        | Doc Coverage | 65% | 70% | 73% | 75% | ↑ |
+        | DX Score | 3.8/5 | 4.0/5 | 4.1/5 | 4.2/5 | ↑ |
+        
+        ## Recommendation Tracking
+        
+        ### Recommendation Success Rate
+        ```mermaid
+        pie title Recommendation Outcomes (Last 20)
+          "Implemented Successfully" : 12
+          "Partially Implemented" : 5
+          "Deferred" : 2
+          "Not Implemented" : 1
+        ```
+        
+        ### Impact of Implemented Recommendations
+        | Recommendation | Implemented | Expected Impact | Actual Impact |
+        |----------------|-------------|-----------------|---------------|
+        | {rec 1} | {date} | {expected} | {actual} |
+        | {rec 2} | {date} | {expected} | {actual} |
+        
+        ## Development Activity Metrics
+        
+        ### Contribution Patterns
+        ```mermaid
+        graph LR
+          subgraph "Monthly Commits"
+            M1[Month -3<br/>245]
+            M2[Month -2<br/>312]
+            M3[Month -1<br/>289]
+            M4[Current<br/>178]
+          end
+        ```
+        
+        ### Component Activity Heat Map
+        | Component | Commits | PRs | Issues | Activity Level |
+        |-----------|---------|-----|--------|----------------|
+        | App 1 | 45 | 12 | 8 | 🔥 High |
+        | App 2 | 23 | 6 | 3 | 🟢 Normal |
+        | Package 1 | 67 | 15 | 12 | 🔥 High |
+        | Package 2 | 12 | 3 | 1 | 🟢 Normal |
+        
+        ## Quality Metrics
+        
+        ### Bug Discovery vs Resolution
+        ```mermaid
+        graph TD
+          subgraph "Last 4 Weeks"
+            W1[Week 1<br/>Found: 12<br/>Fixed: 10]
+            W2[Week 2<br/>Found: 8<br/>Fixed: 11]
+            W3[Week 3<br/>Found: 15<br/>Fixed: 14]
+            W4[Week 4<br/>Found: 9<br/>Fixed: 12]
+          end
+        ```
+        
+        ### Code Quality Indicators
+        - **Cyclomatic Complexity**: Average {value} (Target: <10)
+        - **Duplication**: {percent}% (Target: <3%)
+        - **Code Smells**: {count} (Down from {previous})
+        
+        ## Performance Metrics
+        
+        ### Build Performance
+        | Metric | 30 Days Ago | Current | Change | Target |
+        |--------|-------------|---------|--------|---------|
+        | Cold Build | 5m 23s | 4m 45s | -11.8% | 4m |
+        | Hot Reload | 1.2s | 0.9s | -25% | <1s |
+        | Test Suite | 3m 10s | 2m 50s | -10.5% | 2m 30s |
+        
+        ### Runtime Performance
+        - **Initial Load**: {time} (Target: {target})
+        - **Memory Usage**: {amount} (Baseline: {baseline})
+        - **API Response**: p95 {time}ms
+        
+        ## Prediction & Trends
+        
+        ### Projected Improvements
+        Based on current velocity:
+        - **Tech Debt Zero**: ~{months} months
+        - **Full Test Coverage**: ~{weeks} weeks
+        - **Architecture Score 9+**: ~{months} months
+        
+        ### Risk Indicators
+        - 🔴 **{Risk}**: {description and mitigation}
+        - 🟡 **{Risk}**: {description and mitigation}
+        - 🟢 **{Area}**: {why it's healthy}
+        ```
+      </template>
+    </templates>
+  </work_logs>
+  
+  <analysis_instructions>
+    <step>
+      <name>Initial Repository Review</name>
+      <actions>
+        <action>Check for existing repo-status entries to determine the next entry number</action>
+        <action>Review previous 3-5 entries to understand context and trends</action>
+        <action>Map the entire repo structure systematically</action>
+        <action>Identify which apps and packages need new or updated documentation</action>
+        <action>Run automated analysis tools if available</action>
+      </actions>
+      <outputs>
+        <output>Next entry number determined</output>
+        <output>Context from previous entries summarized</output>
+        <output>Complete component inventory</output>
+        <output>Documentation gap analysis</output>
+      </outputs>
+    </step>
+    
+    <step>
+      <name>Deep Component Analysis</name>
+      <actions>
+        <action>For each app, create comprehensive documentation using enhanced template</action>
+        <action>For each package, create detailed API and usage documentation</action>
+        <action>Analyze code quality metrics for each component</action>
+        <action>Map all dependencies and integration points</action>
+        <action>Identify patterns, anti-patterns, and technical debt</action>
+      </actions>
+      <outputs>
+        <output>Complete documentation for all apps</output>
+        <output>Complete documentation for all packages</output>
+        <output>Quality metrics collected</output>
+        <output>Dependency maps created</output>
+      </outputs>
+    </step>
+    
+    <step>
+      <name>Integration Analysis</name>
+      <actions>
+        <action>Map all integration points between components</action>
+        <action>Analyze data flow patterns across the system</action>
+        <action>Identify coupling issues and circular dependencies</action>
+        <action>Assess integration test coverage</action>
+        <action>Document integration patterns and anti-patterns</action>
+      </actions>
+      <outputs>
+        <output>Integration status document</output>
+        <output>Data flow diagrams</output>
+        <output>Integration health metrics</output>
+        <output>Recommendations for improvements</output>
+      </outputs>
+    </step>
+    
+    <step>
+      <name>Trend Analysis</name>
+      <actions>
+        <action>Compare current state with previous status entries</action>
+        <action>Track progress on previous recommendations</action>
+        <action>Identify emerging patterns and technologies</action>
+        <action>Analyze development velocity and quality trends</action>
+        <action>Update metrics dashboard</action>
+      </actions>
+      <outputs>
+        <output>Trend analysis with visualizations</output>
+        <output>Recommendation tracking report</output>
+        <output>Updated metrics dashboard</output>
+        <output>Velocity and quality insights</output>
+      </outputs>
+    </step>
+    
+    <step>
+      <name>Synthesis and Recommendations</name>
+      <actions>
+        <action>Create comprehensive repository status entry</action>
+        <action>Prioritize recommendations by impact and effort</action>
+        <action>Include specific, actionable next steps</action>
+        <action>Set measurable success criteria</action>
+        <action>Update development log with recent changes</action>
+      </actions>
+      <outputs>
+        <output>Repository status entry #{N}</output>
+        <output>Prioritized recommendations</output>
+        <output>Success metrics defined</output>
+        <output>Updated development log</output>
+      </outputs>
+    </step>
+  </analysis_instructions>
+  
+  <architectural_assessment_framework>
+    <dimension name="Modularity">
+      <criteria>
+        <criterion weight="high">Clear and logical separation of concerns</criterion>
+        <criterion weight="high">Well-defined module boundaries</criterion>
+        <criterion weight="medium">Appropriate granularity</criterion>
+        <criterion weight="medium">Minimal cross-module dependencies</criterion>
+      </criteria>
+      <scoring>
+        <score_range min="0" max="3">Poor modularity, significant refactoring needed</score_range>
+        <score_range min="4" max="6">Adequate modularity with room for improvement</score_range>
+        <score_range min="7" max="8">Good modularity, minor improvements possible</score_range>
+        <score_range min="9" max="10">Excellent modularity, best practices followed</score_range>
+      </scoring>
+    </dimension>
+    
+    <dimension name="Consistency">
+      <criteria>
+        <criterion weight="high">Consistent patterns across codebase</criterion>
+        <criterion weight="high">Uniform code style and conventions</criterion>
+        <criterion weight="medium">Consistent error handling</criterion>
+        <criterion weight="medium">Standardized testing approaches</criterion>
+      </criteria>
+    </dimension>
+    
+    <dimension name="Scalability">
+      <criteria>
+        <criterion weight="high">Architecture supports growth</criterion>
+        <criterion weight="high">Performance scales with load</criterion>
+        <criterion weight="medium">Easy to add new features</criterion>
+        <criterion weight="medium">Deployment scales horizontally</criterion>
+      </criteria>
+    </dimension>
+    
+    <dimension name="Maintainability">
+      <criteria>
+        <criterion weight="high">Code readability and clarity</criterion>
+        <criterion weight="high">Comprehensive test coverage</criterion>
+        <criterion weight="medium">Good documentation</criterion>
+        <criterion weight="medium">Low technical debt</criterion>
+      </criteria>
+    </dimension>
+  </architectural_assessment_framework>
+  
+  <recommendation_framework>
+    <prioritization_matrix>
+      ```
+      Impact vs Effort Matrix:
+      
+      High    │ Quick Wins      │ Strategic       │
+      Impact  │ (Do Now)        │ (Plan Well)     │
+              │                 │                 │
+      ────────┼─────────────────┼─────────────────┤
+              │                 │                 │
+      Low     │ Fill-ins        │ Avoid           │
+      Impact  │ (If Time)       │ (Not Worth It)  │
+              │                 │                 │
+              └─────────────────┴─────────────────┘
+                Low Effort        High Effort
+      ```
+    </prioritization_matrix>
+    
+    <recommendation_template>
+      - **Title**: Clear, action-oriented title
+      - **Category**: Architecture|Integration|Performance|Quality|DX
+      - **Priority**: Critical|High|Medium|Low
+      - **Impact**: Description of positive outcomes
+      - **Effort**: Time/resource estimate
+      - **Dependencies**: What needs to happen first
+      - **Success Metrics**: How to measure success
+      - **Implementation Path**: High-level steps
+    </recommendation_template>
+  </recommendation_framework>
+  
+  <sustainability_guidelines>
+    <continuous_improvement>
+      <practice>Regular status reviews (monthly recommended)</practice>
+      <practice>Track recommendation success rates</practice>
+      <practice>Update analysis patterns based on learnings</practice>
+      <practice>Maintain historical data for trend analysis</practice>
+    </continuous_improvement>
+    
+    <knowledge_capture>
+      <practice>Document architectural decisions as they happen</practice>
+      <practice>Maintain pattern library of successful solutions</practice>
+      <practice>Share analysis insights with team</practice>
+      <practice>Build institutional knowledge through documentation</practice>
+    </knowledge_capture>
+  </sustainability_guidelines>
+  
+  <output_format>
+    <primary_deliverable>
+      <file>docs/state/repo-status-{ENTRY_NUMBER}.md</file>
+      <content>Comprehensive repository status with sequential numbering</content>
+    </primary_deliverable>
+    
+    <secondary_deliverables>
+      <directory>docs/state/apps/</directory>
+      <content>
+        <file>{app_name}-documentation.md</file>
+        <description>Detailed documentation for each app</description>
+      </content>
+      <directory>docs/state/packages/</directory>
+      <content>
+        <file>{package_name}-documentation.md</file>
+        <description>Detailed documentation for each package</description>
+      </content>
+      <files>
+        <file>docs/state/integration-status.md</file>
+        <file>docs/state/development-log.md</file>
+        <file>docs/state/metrics-dashboard.md</file>
+      </files>
+    </secondary_deliverables>
+    
+    <knowledge_repository>
+      <file>docs/state/.analysis-patterns/README.md</file>
+      <content>Successful analysis patterns and learnings</content>
+    </knowledge_repository>
+  </output_format>
+</prompt>

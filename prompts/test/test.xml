@@ -1,0 +1,466 @@
+<prompt>
+  <task>
+    <description>Identify untested code paths across the codebase and implement comprehensive test coverage following industry best practices</description>
+    <requirements>
+      <requirement>Analyze existing test coverage to identify gaps in unit, integration, and end-to-end testing</requirement>
+      <requirement>Prioritize critical business logic and high-risk code paths for immediate coverage</requirement>
+      <requirement>Implement tests that follow the testing pyramid principle and industry best practices</requirement>
+      <requirement>Ensure tests are maintainable, readable, and provide meaningful assertions</requirement>
+      <requirement>Track coverage improvements and document testing patterns for future reference</requirement>
+      <requirement>Focus on both happy paths and edge cases, including error scenarios</requirement>
+    </requirements>
+  </task>
+
+  <priority_guidelines>
+    <essential>Critical business logic must have comprehensive test coverage</essential>
+    <essential>All public APIs and interfaces must be thoroughly tested</essential>
+    <important>Error handling and edge cases should be covered</important>
+    <important>Integration points between components need testing</important>
+    <nice_to_have>UI component testing for critical user flows</nice_to_have>
+    <optional>Performance and load testing for high-traffic endpoints</optional>
+  </priority_guidelines>
+
+  <coverage_analysis_phases>
+    <phase id="discovery">
+      <instructions>
+        <instruction>Generate or analyze existing coverage reports across all apps and packages</instruction>
+        <instruction>Identify files and functions with zero or minimal test coverage</instruction>
+        <instruction>Map critical code paths that handle core business logic</instruction>
+        <instruction>Analyze code complexity metrics to prioritize testing efforts</instruction>
+        <instruction>Review existing tests to understand current testing patterns and gaps</instruction>
+      </instructions>
+      <output>Comprehensive coverage gap analysis with prioritized testing targets</output>
+    </phase>
+
+    <phase id="risk_assessment">
+      <instructions>
+        <instruction>Evaluate the business impact of untested code paths</instruction>
+        <instruction>Identify code that handles sensitive data or critical operations</instruction>
+        <instruction>Assess technical risk based on code complexity and change frequency</instruction>
+        <instruction>Consider integration points and external dependencies</instruction>
+        <instruction>Prioritize based on risk score and implementation effort</instruction>
+      </instructions>
+      <output>Risk-based prioritization matrix for test implementation</output>
+    </phase>
+
+    <phase id="test_planning">
+      <instructions>
+        <instruction>Design test strategies for each identified gap following the testing pyramid</instruction>
+        <instruction>Plan unit tests for isolated business logic</instruction>
+        <instruction>Design integration tests for component interactions</instruction>
+        <instruction>Identify scenarios requiring end-to-end testing</instruction>
+        <instruction>Document test data requirements and setup procedures</instruction>
+      </instructions>
+      <output>Detailed test implementation plan with strategies for each component</output>
+    </phase>
+
+    <phase id="implementation">
+      <instructions>
+        <instruction>Implement tests starting with highest priority gaps</instruction>
+        <instruction>Follow AAA pattern (Arrange, Act, Assert) for test structure</instruction>
+        <instruction>Include both positive and negative test cases</instruction>
+        <instruction>Ensure proper test isolation and cleanup</instruction>
+        <instruction>Add meaningful test descriptions and documentation</instruction>
+      </instructions>
+      <output>Comprehensive test suites with improved coverage metrics</output>
+    </phase>
+
+    <phase id="validation">
+      <instructions>
+        <instruction>Verify all tests pass consistently and are not flaky</instruction>
+        <instruction>Confirm coverage improvements meet target thresholds</instruction>
+        <instruction>Review tests for maintainability and clarity</instruction>
+        <instruction>Document testing patterns and best practices discovered</instruction>
+        <instruction>Update CI/CD pipelines to include new tests</instruction>
+      </instructions>
+      <output>Validated test suite with coverage reports and documentation</output>
+    </phase>
+  </coverage_analysis_phases>
+
+  <testing_best_practices>
+    <practice name="Test Pyramid">
+      <principle>Follow the testing pyramid with many unit tests, fewer integration tests, and minimal E2E tests</principle>
+      <rationale>Provides fast feedback while maintaining confidence in system behavior</rationale>
+      <implementation>
+        <unit_tests percentage="70">Fast, isolated tests for individual functions and classes</unit_tests>
+        <integration_tests percentage="20">Tests for component interactions and API contracts</integration_tests>
+        <e2e_tests percentage="10">Critical user journey tests only</e2e_tests>
+      </implementation>
+    </practice>
+
+    <practice name="Test Naming">
+      <principle>Use descriptive test names that explain what is being tested and expected behavior</principle>
+      <pattern>test('[unit under test] should [expected behavior] when [scenario]')</pattern>
+      <examples>
+        <example>test('UserService.createUser should throw ValidationError when email is invalid')</example>
+        <example>test('OrderCalculator should apply 10% discount when order total exceeds $100')</example>
+      </examples>
+    </practice>
+
+    <practice name="Test Structure">
+      <principle>Follow AAA (Arrange-Act-Assert) pattern consistently</principle>
+      <structure>
+        <arrange>Set up test data and dependencies</arrange>
+        <act>Execute the function or behavior being tested</act>
+        <assert>Verify the expected outcome</assert>
+      </structure>
+    </practice>
+
+    <practice name="Test Isolation">
+      <principle>Each test should be independent and not rely on other tests</principle>
+      <implementation>
+        <setup>Use beforeEach/afterEach for test setup and cleanup</setup>
+        <mocking>Mock external dependencies to ensure isolation</mocking>
+        <state>Reset shared state between tests</state>
+      </implementation>
+    </practice>
+
+    <practice name="Edge Case Testing">
+      <principle>Test boundary conditions and edge cases thoroughly</principle>
+      <scenarios>
+        <scenario>Null/undefined inputs</scenario>
+        <scenario>Empty collections or strings</scenario>
+        <scenario>Maximum/minimum values</scenario>
+        <scenario>Concurrent operations</scenario>
+        <scenario>Network failures and timeouts</scenario>
+      </scenarios>
+    </practice>
+  </testing_best_practices>
+
+  <coverage_targets>
+    <target category="Critical Business Logic" minimum="95">
+      <description>Core business rules and calculations</description>
+      <examples>Payment processing, order calculations, user authentication</examples>
+    </target>
+
+    <target category="Public APIs" minimum="90">
+      <description>All exposed interfaces and endpoints</description>
+      <examples>REST endpoints, GraphQL resolvers, SDK methods</examples>
+    </target>
+
+    <target category="Data Access Layer" minimum="85">
+      <description>Database operations and data transformations</description>
+      <examples>Repository methods, data mappers, query builders</examples>
+    </target>
+
+    <target category="Utility Functions" minimum="90">
+      <description>Shared utilities and helper functions</description>
+      <examples>Date formatting, validation helpers, data parsers</examples>
+    </target>
+
+    <target category="UI Components" minimum="75">
+      <description>Critical UI components and interactions</description>
+      <examples>Forms, data tables, navigation components</examples>
+    </target>
+  </coverage_targets>
+
+  <anti_patterns>
+    <anti_pattern name="Test Coupling">
+      <description>Tests that depend on execution order or share state</description>
+      <signs>Tests fail when run in isolation or different order</signs>
+      <prevention>Use proper setup/teardown, avoid shared variables</prevention>
+    </anti_pattern>
+
+    <anti_pattern name="Testing Implementation Details">
+      <description>Tests that verify internal implementation rather than behavior</description>
+      <signs>Tests break when refactoring without changing behavior</signs>
+      <prevention>Test public interfaces and observable behavior</prevention>
+    </anti_pattern>
+
+    <anti_pattern name="Excessive Mocking">
+      <description>Over-mocking that reduces test value and confidence</description>
+      <signs>Tests pass but real integrations fail</signs>
+      <prevention>Use real implementations where possible, mock only external dependencies</prevention>
+    </anti_pattern>
+
+    <anti_pattern name="Flaky Tests">
+      <description>Tests that pass/fail intermittently</description>
+      <signs>Random test failures in CI, timing-dependent tests</signs>
+      <prevention>Avoid time dependencies, use proper async handling, mock system time</prevention>
+    </anti_pattern>
+
+    <anti_pattern name="Test Duplication">
+      <description>Multiple tests covering the same scenarios</description>
+      <signs>Similar test code repeated across files</signs>
+      <prevention>Use test utilities and factories, parameterized tests</prevention>
+    </anti_pattern>
+  </anti_patterns>
+
+  <test_implementation_patterns>
+    <pattern name="Test Data Builders">
+      <description>Factory functions for creating test data</description>
+      <example>
+        ```typescript
+        const createTestUser = (overrides?: Partial<User>): User => ({
+          id: 'test-id',
+          email: 'test@example.com',
+          name: 'Test User',
+          ...overrides
+        });
+        ```
+      </example>
+    </pattern>
+
+    <pattern name="Custom Matchers">
+      <description>Domain-specific assertions for clearer tests</description>
+      <example>
+        ```typescript
+        expect(result).toHaveSuccessStatus();
+        expect(user).toHaveRequiredPermissions(['read', 'write']);
+        ```
+      </example>
+    </pattern>
+
+    <pattern name="Test Utilities">
+      <description>Shared helper functions for common test scenarios</description>
+      <example>
+        ```typescript
+        const withMockedAPI = (mockResponse: any) => {
+          // Setup and teardown mocked API
+        };
+        ```
+      </example>
+    </pattern>
+
+    <pattern name="Parameterized Tests">
+      <description>Data-driven tests for multiple scenarios</description>
+      <example>
+        ```typescript
+        test.each([
+          { input: null, expected: 'default' },
+          { input: '', expected: 'default' },
+          { input: 'value', expected: 'value' }
+        ])('should return $expected when input is $input', ({ input, expected }) => {
+          expect(transform(input)).toBe(expected);
+        });
+        ```
+      </example>
+    </pattern>
+  </test_implementation_patterns>
+
+  <visual_representations>
+    <coverage_heatmap>
+      <ascii_structure>
+        ```
+        Coverage Heatmap
+        ┌─────────────┬─────────────┬─────────────┐
+        │   App A     │   App B     │   App C     │
+        │   ██░░░     │   ████░     │   █████     │
+        │   45%       │   78%       │   92%       │
+        ├─────────────┼─────────────┼─────────────┤
+        │  Package 1  │  Package 2  │  Package 3  │
+        │   ███░░     │   █░░░░     │   ████░     │
+        │   62%       │   23%       │   81%       │
+        └─────────────┴─────────────┴─────────────┘
+        
+        Legend: █ Covered  ░ Uncovered
+        ```
+      </ascii_structure>
+    </coverage_heatmap>
+
+    <testing_pyramid>
+      <mermaid_structure>
+        ```mermaid
+        graph TD
+          subgraph "Testing Pyramid"
+            E2E[E2E Tests<br/>10%]
+            Integration[Integration Tests<br/>20%]
+            Unit[Unit Tests<br/>70%]
+            
+            Unit --> Integration
+            Integration --> E2E
+            
+            style Unit fill:#90EE90
+            style Integration fill:#FFD700
+            style E2E fill:#FFA500
+          end
+        ```
+      </mermaid_structure>
+    </testing_pyramid>
+  </visual_representations>
+
+  <deliverable_templates>
+    <coverage_analysis_report id="coverage-analysis">
+      <header>
+        <title>Test Coverage Analysis Report</title>
+        <date>{Date}</date>
+        <overall_coverage>{percentage}%</overall_coverage>
+      </header>
+
+      <executive_summary>
+        <current_state>Overall test coverage is at {percentage}% with {count} untested files</current_state>
+        <critical_gaps>{List of high-risk untested areas}</critical_gaps>
+        <recommendations>{Top 3 areas requiring immediate attention}</recommendations>
+      </executive_summary>
+
+      <detailed_analysis>
+        <by_component>
+          <component name="{name}" coverage="{percentage}" priority="{high|medium|low}">
+            <untested_files count="{count}">
+              <file path="{path}" complexity="{score}" risk="{level}"/>
+            </untested_files>
+            <partially_tested_files count="{count}">
+              <file path="{path}" coverage="{percentage}" missing="{description}"/>
+            </partially_tested_files>
+          </component>
+        </by_component>
+
+        <by_type>
+          <coverage_type name="Statement" current="{percentage}" target="{percentage}"/>
+          <coverage_type name="Branch" current="{percentage}" target="{percentage}"/>
+          <coverage_type name="Function" current="{percentage}" target="{percentage}"/>
+          <coverage_type name="Line" current="{percentage}" target="{percentage}"/>
+        </by_type>
+      </detailed_analysis>
+
+      <risk_assessment>
+        <high_risk_areas>
+          <area path="{path}" reason="{why high risk}" impact="{business impact}"/>
+        </high_risk_areas>
+      </risk_assessment>
+
+      <implementation_plan>
+        <phase name="Critical Coverage" timeline="Sprint 1">
+          <tasks>
+            <task component="{component}" estimated_hours="{hours}" coverage_gain="{percentage}"/>
+          </tasks>
+        </phase>
+      </implementation_plan>
+    </coverage_analysis_report>
+
+    <test_implementation_log id="test-log">
+      <header>
+        <title>Test Implementation Progress</title>
+        <sprint>{Sprint Number}</sprint>
+      </header>
+
+      <progress_summary>
+        <coverage_before>{percentage}%</coverage_before>
+        <coverage_after>{percentage}%</coverage_after>
+        <files_tested>{count}</files_tested>
+        <tests_added>{count}</tests_added>
+      </progress_summary>
+
+      <implemented_tests>
+        <test_suite component="{component}" type="{unit|integration|e2e}">
+          <description>{What was tested}</description>
+          <test_count>{number}</test_count>
+          <coverage_improvement>{percentage}%</coverage_improvement>
+          <patterns_used>{List of patterns}</patterns_used>
+        </test_suite>
+      </implemented_tests>
+
+      <lessons_learned>
+        <lesson category="{category}">{Learning and how to apply it}</lesson>
+      </lessons_learned>
+    </test_implementation_log>
+  </deliverable_templates>
+
+  <execution_workflow>
+    <step name="Coverage Analysis">
+      <actions>
+        <action>Run coverage tools across all apps and packages</action>
+        <action>Generate detailed coverage reports with uncovered lines</action>
+        <action>Analyze code complexity in uncovered areas</action>
+        <action>Map untested code to business features</action>
+        <action>Create prioritized list of testing targets</action>
+      </actions>
+    </step>
+
+    <step name="Risk Prioritization">
+      <actions>
+        <action>Evaluate business criticality of untested code</action>
+        <action>Assess technical risk based on complexity and dependencies</action>
+        <action>Consider code change frequency and bug history</action>
+        <action>Create risk-weighted priority matrix</action>
+        <action>Get stakeholder input on critical areas</action>
+      </actions>
+    </step>
+
+    <step name="Test Strategy Design">
+      <actions>
+        <action>Choose appropriate test types for each component</action>
+        <action>Design test scenarios covering happy paths and edge cases</action>
+        <action>Plan test data and fixture requirements</action>
+        <action>Identify required mocks and test utilities</action>
+        <action>Document testing approach for each area</action>
+      </actions>
+    </step>
+
+    <step name="Test Implementation">
+      <actions>
+        <action>Set up test infrastructure and utilities</action>
+        <action>Implement unit tests for isolated logic</action>
+        <action>Create integration tests for component interactions</action>
+        <action>Add E2E tests for critical user journeys</action>
+        <action>Ensure all tests follow established patterns</action>
+      </actions>
+    </step>
+
+    <step name="Quality Assurance">
+      <actions>
+        <action>Run all tests multiple times to ensure stability</action>
+        <action>Verify coverage improvements meet targets</action>
+        <action>Review tests for clarity and maintainability</action>
+        <action>Update CI/CD to include new tests</action>
+        <action>Document patterns and learnings</action>
+      </actions>
+    </step>
+  </execution_workflow>
+
+  <measurement_framework>
+    <metrics>
+      <metric name="Coverage Percentage" target="85%" measurement="Per component and overall"/>
+      <metric name="Test Execution Time" target="<5min" measurement="Full test suite runtime"/>
+      <metric name="Test Stability" target="100%" measurement="Percentage of non-flaky tests"/>
+      <metric name="Defect Detection Rate" target=">90%" measurement="Bugs caught by tests vs production"/>
+    </metrics>
+
+    <success_criteria>
+      <criterion>All critical business logic has >95% coverage</criterion>
+      <criterion>No high-risk areas remain untested</criterion>
+      <criterion>Test suite runs reliably in CI/CD</criterion>
+      <criterion>Team adopts testing patterns consistently</criterion>
+    </success_criteria>
+  </measurement_framework>
+
+  <knowledge_repository>
+    <repository_structure>
+      <file_path>docs/testing/.coverage-patterns/README.md</file_path>
+      <purpose>Document successful testing patterns and learnings</purpose>
+      <sections>
+        <effective_patterns>
+          <pattern context="{Where it worked well}">{Pattern description}</pattern>
+        </effective_patterns>
+        <testing_utilities>
+          <utility purpose="{What it helps with}">{Utility description}</utility>
+        </testing_utilities>
+        <coverage_strategies>
+          <strategy scenario="{When to use}">{Strategy description}</strategy>
+        </coverage_strategies>
+      </sections>
+    </repository_structure>
+  </knowledge_repository>
+
+  <meta_guidelines>
+    <guideline name="Risk-Based Testing">
+      <guidance>Always prioritize testing based on business risk and technical complexity</guidance>
+    </guideline>
+
+    <guideline name="Maintainable Tests">
+      <guidance>Write tests that are easy to understand, modify, and debug</guidance>
+    </guideline>
+
+    <guideline name="Behavior-Focused">
+      <guidance>Test observable behavior rather than implementation details</guidance>
+    </guideline>
+
+    <guideline name="Continuous Improvement">
+      <guidance>Regularly review and refactor tests to maintain quality</guidance>
+    </guideline>
+
+    <guideline name="Team Enablement">
+      <guidance>Create patterns and utilities that make testing easier for the whole team</guidance>
+    </guideline>
+  </meta_guidelines>
+</prompt>
