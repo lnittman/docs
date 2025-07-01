@@ -42,7 +42,6 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 - Frontend: Next.js 14 with App Router
 - State Management: Zustand
 - Styling: Tailwind CSS with CSS Modules
-- Testing: Vitest and React Testing Library
 
 ## Key Conventions
 - Functional components only (no class components)
@@ -68,7 +67,6 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 
 ## File Organization
 - One component per file
-- Colocate tests with components
 - Group by feature, not by file type
 ```
 
@@ -78,11 +76,9 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 ```markdown
 ✅ Use async/await instead of promises
 ✅ Implement error boundaries for all page components
-✅ Write tests for all exported functions
 
 ❌ You should use async/await
 ❌ Error boundaries should be implemented
-❌ Tests should be written
 ```
 
 **Be Specific and Measurable:**
@@ -108,41 +104,15 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 ## Common Commands
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
-- `pnpm test` - Run test suite
 - `pnpm lint` - Run linter
 - `pnpm format` - Format code
 
 ## Git Workflow
 1. Create feature branch from main
 2. Make changes with atomic commits
-3. Run `pnpm test` before pushing
 4. Create PR with description template
 5. Ensure CI passes before merging
 ```
-
-### 5. Testing Requirements
-```markdown
-# Testing Requirements
-
-## Unit Tests
-- Test all exported functions
-- Aim for 80% code coverage
-- Use descriptive test names
-- Follow AAA pattern (Arrange, Act, Assert)
-
-## Integration Tests
-- Test API endpoints with real database
-- Verify error handling paths
-- Test authentication flows
-- Check performance requirements
-
-## E2E Tests
-- Cover critical user journeys
-- Test on multiple browsers
-- Verify responsive design
-- Check accessibility compliance
-```
-
 ## Advanced Patterns
 
 ### 1. Glob Pattern Usage
@@ -151,7 +121,6 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 globs:
   - "src/components/**/*.tsx"  # React components
   - "src/api/**/*.ts"          # API routes
-  - "!**/*.test.{ts,tsx}"      # Exclude test files
   - "!**/node_modules/**"      # Exclude dependencies
 ---
 ```
@@ -213,11 +182,6 @@ export async function GET(request: Request) {
 - Clear `.next` directory and rebuild
 - Check for circular dependencies
 - Verify environment variables are set
-
-## Test Failures
-- Reset test database: `pnpm test:db:reset`
-- Clear test cache: `pnpm test -- --clearCache`
-- Check for timing issues in async tests
 ```
 
 ## Integration Tips
@@ -241,12 +205,11 @@ Week 4: Add troubleshooting guides
 5. Monitor AI compliance
 ```
 
-### 3. Validation and Testing
+### 3. Validation
 ```markdown
 # Validating Rules
 - Use linters to enforce rules programmatically
 - Regular code reviews to check compliance
-- Automated tests for critical patterns
 - Metrics tracking for rule effectiveness
 ```
 

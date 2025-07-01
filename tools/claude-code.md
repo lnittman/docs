@@ -29,7 +29,6 @@ See @README.md for detailed project information
 # Development Workflow
 - Build commands: @package.json
 - Git workflow: @docs/git-instructions.md
-- Testing guide: @docs/testing.md
 ```
 
 **Import Guidelines:**
@@ -60,7 +59,6 @@ See @README.md for detailed project information
   <code_generation>
     <style>Follow existing patterns in codebase</style>
     <documentation>Include JSDoc for public APIs</documentation>
-    <testing>Write tests alongside implementation</testing>
   </code_generation>
 </claude_instructions>
 ```
@@ -85,7 +83,6 @@ See @README.md for detailed project information
   <validation_phase>
     - Verify correctness
     - Check style compliance
-    - Ensure test coverage
     - Validate performance
   </validation_phase>
 </thinking_requirements>
@@ -134,7 +131,6 @@ echo "Refactoring $COMPONENT..."
 ```markdown
 # Custom Commands
 - `/refactor <name>` - Refactor component to new pattern
-- `/test-coverage` - Check test coverage for current changes
 - `/pr-ready` - Validate changes are ready for PR
 ```
 
@@ -180,36 +176,16 @@ echo "Refactoring $COMPONENT..."
 <workflow>
   <feature_development>
     1. Create feature branch
-    2. Implement with tests
     3. Run linter and formatter
-    4. Verify all tests pass
     5. Create descriptive PR
   </feature_development>
   
   <code_review>
     - Self-review first
     - Check for patterns consistency
-    - Verify test coverage
     - Validate documentation
   </code_review>
 </workflow>
-```
-
-### Testing Requirements
-```xml
-<testing>
-  <unit_tests>
-    - Minimum 80% coverage
-    - Test edge cases
-    - Mock external dependencies
-  </unit_tests>
-  
-  <integration_tests>
-    - Test API endpoints
-    - Verify database operations
-    - Check error scenarios
-  </integration_tests>
-</testing>
 ```
 
 ## Key Takeaways
