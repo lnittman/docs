@@ -1,0 +1,94 @@
+# Workflow Diagrams
+
+Process flows, user journeys, and operational procedures visualized for clarity and understanding.
+
+## Categories
+
+### development/
+Software development workflows:
+- Feature development flow
+- CI/CD pipelines
+- Code review process
+- Release procedures
+- Testing workflows
+
+### operations/
+Operational and business workflows:
+- Deployment procedures
+- Incident response
+- Monitoring workflows
+- Backup procedures
+- User onboarding
+
+## Common Workflow Types
+
+### 1. Sequential Process Flow
+```mermaid
+graph LR
+    A[Start] --> B[Step 1]
+    B --> C[Step 2]
+    C --> D{Decision}
+    D -->|Yes| E[Action A]
+    D -->|No| F[Action B]
+    E --> G[End]
+    F --> G
+```
+
+### 2. Swimlane Diagram
+```mermaid
+graph TD
+    subgraph Developer
+        D1[Write Code]
+        D2[Create PR]
+    end
+    
+    subgraph CI/CD
+        C1[Run Tests]
+        C2[Build]
+        C3[Deploy]
+    end
+    
+    subgraph Reviewer
+        R1[Review Code]
+        R2[Approve]
+    end
+    
+    D1 --> D2
+    D2 --> R1
+    R1 --> R2
+    R2 --> C1
+    C1 --> C2
+    C2 --> C3
+```
+
+### 3. State Machine
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> InReview : Submit
+    InReview --> Approved : Approve
+    InReview --> Draft : Request Changes
+    Approved --> Published : Publish
+    Published --> [*]
+```
+
+## Creating Workflow Diagrams
+
+```bash
+# Development workflow
+/user:diagram development workflow for feature releases
+
+# User journey
+/user:diagram user journey for onboarding process
+
+# Operational procedure
+/user:diagram deployment procedure for production
+```
+
+## Best Practices
+
+1. **Clear Start/End**: Mark beginning and end points
+2. **Decision Points**: Clearly show branches
+3. **Actor Identification**: Show who performs each step
+4. **Time Indicators**: Add duration where relevant
+5. **Error Paths**: Include failure scenarios

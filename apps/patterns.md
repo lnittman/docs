@@ -14,6 +14,24 @@
 7. [Documentation](#documentation)
 8. [Deployment](#deployment)
 
+## Design Philosophy & Principles
+
+These patterns are informed by timeless design principles and modern development philosophies:
+
+### Core Influences
+- **[Dieter Rams](../inspo/dieter-rams/)** - "Less, but better" applied to code
+- **[John Maeda](../inspo/design-and-aesthetics/john-maeda/)** - Laws of Simplicity in software design
+- **[Martin Fowler](../inspo/software-architecture/martin-fowler/)** - Evolutionary architecture and refactoring
+- **[Kent Beck](../inspo/software-architecture/kent-beck/)** - Simple design and test-driven development
+- **[Andrej Karpathy](../inspo/ai-and-modern-development/andrej-karpathy/)** - Software 2.0 paradigm
+
+### Applied Principles
+1. **Simplicity First** (Rams, Maeda): Start with the simplest solution that works
+2. **Progressive Enhancement** (Beck): Add complexity only when proven necessary
+3. **Human-Centered** (Norman): Design for developer experience and end-user needs
+4. **Transparent Architecture** (Mastra Team): Make system behavior observable and debuggable
+5. **Incremental & Iterative** (Vercel AI SDK): Build small, test, then scale
+
 ## State Management
 
 ### React Server Components + Client State

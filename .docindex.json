@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-03",
+  "description": "Machine-readable index for Developer Documentation Hub",
+  "categories": {
+    "getting-started": {
+      "description": "Quick start guides and overviews",
+      "files": [
+        { "path": "README.md", "title": "Documentation Hub Overview", "tags": ["overview", "navigation"] }
+      ]
+    },
+    "standards": {
+      "description": "Documentation and development standards",
+      "files": [
+        { "path": "apps/docs.md", "title": "Documentation Repository Specification", "tags": ["standards", "structure"] },
+        { "path": "apps/patterns.md", "title": "Application Development Patterns", "tags": ["patterns", "code"] }
+      ]
+    },
+    "prompts": {
+      "description": "Reusable AI prompt templates",
+      "subcategories": {
+        "ai": {
+          "files": [
+            { "path": "prompts/ai/mastra.xml", "title": "Mastra AI Framework Prompts", "tags": ["ai", "agents"] }
+          ]
+        },
+        "code": {
+          "files": [
+            { "path": "prompts/code/code-review.xml", "title": "Code Review Template", "tags": ["review", "quality"] },
+            { "path": "prompts/code/execute.xml", "title": "Code Execution Patterns", "tags": ["execution", "testing"] },
+            { "path": "prompts/code/sandbox.xml", "title": "Sandbox Testing", "tags": ["testing", "isolation"] }
+          ]
+        },
+        "docs": {
+          "files": [
+            { "path": "prompts/docs/document.xml", "title": "General Documentation", "tags": ["documentation"] },
+            { "path": "prompts/docs/document-turborepo.xml", "title": "Turborepo Documentation", "tags": ["turborepo", "monorepo"] },
+            { "path": "prompts/docs/vision.xml", "title": "Vision Documents", "tags": ["vision", "planning"] }
+          ]
+        },
+        "state": {
+          "files": [
+            { "path": "prompts/state/state.xml", "title": "State Analysis", "tags": ["state", "debugging"] },
+            { "path": "prompts/state/state-turborepo.xml", "title": "Turborepo State", "tags": ["turborepo", "state"] }
+          ]
+        }
+      }
+    },
+    "tools": {
+      "description": "Tool-specific guides and documentation",
+      "files": [
+        { "path": "tools/claude-code.md", "title": "Claude Code Guide", "tags": ["claude", "ai"] },
+        { "path": "tools/claude-code-power-user.md", "title": "Claude Code Power User Guide", "tags": ["claude", "advanced"] },
+        { "path": "tools/claude-command-center.md", "title": "Claude Command Center", "tags": ["claude", "commands"] },
+        { "path": "tools/codex.md", "title": "OpenAI Codex Guide", "tags": ["openai", "codex"] }
+      ],
+      "subcategories": {
+        "anthropic": {
+          "files": [
+            { "path": "tools/anthropic/claude-code.md", "title": "Official Claude Code Docs", "tags": ["official", "claude"] },
+            { "path": "tools/anthropic/prompt-engineering.md", "title": "Prompt Engineering", "tags": ["prompts", "engineering"] }
+          ]
+        }
+      }
+    },
+    "reference": {
+      "description": "Quick reference materials",
+      "files": [
+        { "path": "reference/commands.md", "title": "Command Reference", "tags": ["commands", "cli"] },
+        { "path": "reference/shortcuts.md", "title": "Keyboard Shortcuts", "tags": ["shortcuts", "productivity"] }
+      ]
+    },
+    "inspiration": {
+      "description": "Design philosophy and thought leadership",
+      "files": [
+        { "path": "inspo/README.md", "title": "Inspiration Overview", "tags": ["philosophy", "overview"] },
+        { "path": "inspo/dieter-rams/color.md", "title": "Dieter Rams on Color", "tags": ["design", "minimalism"] },
+        { "path": "inspo/te/te.md", "title": "Teenage Engineering Philosophy", "tags": ["design", "playful"] }
+      ],
+      "subcategories": {
+        "design-aesthetics": {
+          "files": [
+            { "path": "inspo/design-and-aesthetics/john-maeda/README.md", "title": "John Maeda: Laws of Simplicity", "tags": ["simplicity", "design"] },
+            { "path": "inspo/design-and-aesthetics/susan-kare/README.md", "title": "Susan Kare: Pixel Perfection", "tags": ["icons", "ui"] },
+            { "path": "inspo/design-and-aesthetics/jony-ive/README.md", "title": "Jony Ive: Material Honesty", "tags": ["apple", "design"] },
+            { "path": "inspo/design-and-aesthetics/don-norman/README.md", "title": "Don Norman: Human-Centered Design", "tags": ["ux", "usability"] },
+            { "path": "inspo/design-and-aesthetics/buckminster-fuller/README.md", "title": "Buckminster Fuller: Systems Thinking", "tags": ["systems", "holistic"] }
+          ]
+        },
+        "systems-strategy": {
+          "files": [
+            { "path": "inspo/systems-and-strategy/simon-wardley/README.md", "title": "Simon Wardley: Strategic Mapping", "tags": ["strategy", "evolution"] }
+          ]
+        },
+        "software-architecture": {
+          "files": [
+            { "path": "inspo/software-architecture/martin-fowler/README.md", "title": "Martin Fowler: Evolutionary Architecture", "tags": ["architecture", "patterns"] },
+            { "path": "inspo/software-architecture/kent-beck/README.md", "title": "Kent Beck: Extreme Programming", "tags": ["xp", "tdd"] },
+            { "path": "inspo/software-architecture/daniele-procida/README.md", "title": "Daniele Procida: Diátaxis Framework", "tags": ["documentation", "structure"] }
+          ]
+        },
+        "ai-development": {
+          "files": [
+            { "path": "inspo/ai-and-modern-development/andrej-karpathy/README.md", "title": "Andrej Karpathy: Software 2.0", "tags": ["ai", "neural-networks"] },
+            { "path": "inspo/ai-and-modern-development/mastra-team/README.md", "title": "Mastra: Straightforward AI Agents", "tags": ["agents", "typescript"] },
+            { "path": "inspo/ai-and-modern-development/vercel-ai/README.md", "title": "Vercel AI SDK: Start Small, Scale", "tags": ["ai-sdk", "streaming"] }
+          ]
+        }
+      }
+    },
+    "design": {
+      "description": "Design assets and patterns",
+      "files": [
+        { "path": "design/README.md", "title": "Design Assets Overview", "tags": ["design", "assets"] },
+        { "path": "design/DESIGN_PATTERNS.md", "title": "Design Patterns & Philosophy", "tags": ["patterns", "philosophy"] },
+        { "path": "design/FONTS_REFERENCE.md", "title": "Font Assets Reference", "tags": ["fonts", "typography"] },
+        { "path": "design/prompts/retro-pixel.xml", "title": "Retro Pixel Design Prompt", "tags": ["prompt", "retro", "pixel"] }
+      ]
+    },
+    "fonts": {
+      "description": "Typography collection tracked with Git LFS",
+      "note": "Font files are binary assets tracked with Git LFS",
+      "families": [
+        "alcala", "bertin", "brett", "cx80", "exposure", 
+        "jgs-main", "kmr", "louize", "milling", "stuart"
+      ]
+    }
+  },
+  "searchIndex": {
+    "keywords": [
+      "claude", "ai", "documentation", "patterns", "prompts", "turborepo",
+      "development", "standards", "code review", "state management",
+      "design", "simplicity", "architecture", "maeda", "rams", "fowler",
+      "beck", "karpathy", "wardley", "mastra", "vercel", "philosophy",
+      "fonts", "typography", "design-assets"
+    ],
+    "frequently_accessed": [
+      "apps/patterns.md",
+      "tools/claude-code-power-user.md",
+      "apps/docs.md",
+      "inspo/README.md"
+    ]
+  },
+  "metadata": {
+    "generator": "manual",
+    "schema_version": "1.0",
+    "total_files": 45,
+    "total_categories": 8,
+    "uses_git_lfs": true
+  }
+}

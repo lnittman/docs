@@ -14,6 +14,13 @@ This repository serves as your personal development knowledge base, optimized fo
 ├── apps/                    # Application documentation standards
 │   ├── docs.md             # Documentation repository specification
 │   └── patterns.md         # Common application patterns
+├── design/                 # Design assets and patterns
+│   ├── images/             # Logos and UI components
+│   └── prompts/            # Design-specific prompts
+├── fonts/                  # Typography collection (Git LFS)
+│   ├── alcala/             # Alcala trial family
+│   ├── stuart/             # Stuart family
+│   └── ...                 # Other font families
 ├── prompts/                # Reusable prompt templates
 │   ├── ai/                 # AI integration prompts
 │   │   └── mastra.xml      # Mastra framework prompts
@@ -296,6 +303,12 @@ cat ~/Developer/docs/apps/docs.md | \
 ### References
 - [Command Cheatsheet](./reference/commands.md)
 - [Keyboard Shortcuts](./reference/shortcuts.md)
+
+### Inspiration & Philosophy
+- [Design & Development Philosophy](./inspo/)
+- [Design Thinking Prompts](./prompts/philosophy/design-thinking.md)
+- [John Maeda's Simplicity](./inspo/design-and-aesthetics/john-maeda/)
+- [Software 2.0 Paradigm](./inspo/ai-and-modern-development/andrej-karpathy/)
 
 ---
 
