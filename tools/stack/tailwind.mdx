@@ -421,30 +421,59 @@ function Button({ variant, size, className, ...props }) {
 
 ## Resources & Links
 
-### Official Documentation
-- [Tailwind CSS v4 Alpha Docs](https://tailwindcss.com/docs/installation)
-- [Upgrade Guide from v3](https://tailwindcss.com/docs/upgrade-guide)
-- [CSS Functions & Directives](https://tailwindcss.com/docs/functions-and-directives)
-- [Theme Configuration](https://tailwindcss.com/docs/theme)
-- [Adding Custom Styles](https://tailwindcss.com/docs/adding-custom-styles)
-
-### Key Concepts
-- [@theme Directive](https://tailwindcss.com/docs/functions-and-directives#theme)
-- [@utility API](https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities)
-- [CSS Variables](https://tailwindcss.com/docs/theme#using-css-variables)
-- [--alpha() Function](https://tailwindcss.com/docs/functions-and-directives#alpha)
-- [--value() Function](https://tailwindcss.com/docs/adding-custom-styles#matching-theme-values)
-
-### Integration Guides
-- [Vite Plugin Setup](https://tailwindcss.com/docs/installation#installing-with-vite)
-- [PostCSS Plugin](https://tailwindcss.com/docs/installation#installing-with-postcss)
-- [Next.js Integration](https://tailwindcss.com/docs/installation/framework-guides/nextjs)
-- [Dark Mode Setup](https://tailwindcss.com/docs/dark-mode)
-
-### Migration Resources
-- [v3 to v4 Migration Tool](https://github.com/tailwindlabs/tailwindcss/tree/next/packages/@tailwindcss/upgrade)
-- [Breaking Changes](https://tailwindcss.com/docs/upgrade-guide#breaking-changes)
-- [New Features in v4](https://tailwindcss.com/blog/tailwindcss-v4-alpha)
+<Card>
+  <CardHeader>
+    <CardTitle>Official Tailwind CSS Documentation</CardTitle>
+    <CardDescription>Complete documentation for Tailwind CSS v4 with the new CSS-first engine</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-4">
+      <div>
+        <h4 className="font-semibold mb-2">Core Documentation</h4>
+        <ul className="space-y-1">
+          <li><a href="https://tailwindcss.com" className="text-primary hover:underline">Tailwind CSS Homepage</a></li>
+          <li><a href="https://tailwindcss.com/docs/installation" className="text-primary hover:underline">Installation Guide</a></li>
+          <li><a href="https://tailwindcss.com/docs/upgrade-guide" className="text-primary hover:underline">v3 to v4 Upgrade Guide</a></li>
+          <li><a href="https://tailwindcss.com/docs/theme" className="text-primary hover:underline">Theme Configuration</a></li>
+          <li><a href="https://tailwindcss.com/blog/tailwindcss-v4-alpha" className="text-primary hover:underline">v4 Alpha Announcement</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold mb-2">v4 Features</h4>
+        <ul className="space-y-1">
+          <li><a href="https://tailwindcss.com/docs/functions-and-directives#theme" className="text-primary hover:underline">@theme Directive</a></li>
+          <li><a href="https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities" className="text-primary hover:underline">@utility API</a></li>
+          <li><a href="https://tailwindcss.com/docs/theme#using-css-variables" className="text-primary hover:underline">CSS Variables</a></li>
+          <li><a href="https://tailwindcss.com/docs/functions-and-directives#alpha" className="text-primary hover:underline">--alpha() Function</a></li>
+          <li><a href="https://tailwindcss.com/docs/adding-custom-styles" className="text-primary hover:underline">Custom Styles</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold mb-2">Framework Integration</h4>
+        <ul className="space-y-1">
+          <li><a href="https://tailwindcss.com/docs/installation#installing-with-vite" className="text-primary hover:underline">Vite Setup</a></li>
+          <li><a href="https://tailwindcss.com/docs/installation/framework-guides/nextjs" className="text-primary hover:underline">Next.js Integration</a></li>
+          <li><a href="https://tailwindcss.com/docs/installation#installing-with-postcss" className="text-primary hover:underline">PostCSS Setup</a></li>
+          <li><a href="https://tailwindcss.com/docs/dark-mode" className="text-primary hover:underline">Dark Mode</a></li>
+          <li><a href="https://tailwindcss.com/docs/responsive-design" className="text-primary hover:underline">Responsive Design</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 className="font-semibold mb-2">Resources & Tools</h4>
+        <ul className="space-y-1">
+          <li><a href="https://github.com/tailwindlabs/tailwindcss" className="text-primary hover:underline">GitHub Repository</a></li>
+          <li><a href="https://play.tailwindcss.com" className="text-primary hover:underline">Tailwind Play</a></li>
+          <li><a href="https://tailwindui.com" className="text-primary hover:underline">Tailwind UI Components</a></li>
+          <li><a href="https://heroicons.com" className="text-primary hover:underline">Heroicons</a></li>
+          <li><a href="https://headlessui.com" className="text-primary hover:underline">Headless UI</a></li>
+        </ul>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
 ### Community Resources
 - [Tailwind CSS GitHub](https://github.com/tailwindlabs/tailwindcss)

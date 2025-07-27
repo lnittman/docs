@@ -3,93 +3,223 @@
   font-family: 'Louize';
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Regular.otf') format('opentype');
   font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Louize';
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Medium.otf') format('opentype');
   font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Louize';
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Bold.otf') format('opentype');
   font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'IosevkaTerm-Regular';
+  font-family: 'IosevkaTerm';
   src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/6397be61-3ea4-459d-8a3e-fd95168cb214.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: 'TX02Mono-Regular';
+  font-family: 'TX02Mono';
   src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/e049dfb6-9c5d-4ac4-97c2-eb6e95c61d09.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
-/* Override Mintlify's pink hover states */
+/* Override Mintlify's default colors */
 :root {
-  --primary: #0066CC !important;
-  --primary-light: #3B82F6 !important;
-  --primary-dark: #1E40AF !important;
+  --primary: #000000 !important;
+  --primary-light: #333333 !important;
+  --primary-dark: #000000 !important;
+  --background: #ffffff !important;
+  --foreground: #000000 !important;
+  --muted-foreground: #666666 !important;
 }
 
-/* Remove pink hover backgrounds */
-.hover\:bg-primary\/10:hover,
-.hover\:bg-primary\/5:hover,
+.dark {
+  --primary: #ffffff !important;
+  --primary-light: #cccccc !important;
+  --primary-dark: #ffffff !important;
+  --background: #000000 !important;
+  --foreground: #ffffff !important;
+  --muted-foreground: #999999 !important;
+}
+
+/* Remove all pink/purple hover states */
+[class*="bg-pink"],
+[class*="bg-purple"],
+[class*="bg-fuchsia"],
 [class*="hover:bg-pink"],
 [class*="hover:bg-purple"],
-[class*="hover:bg-fuchsia"] {
+[class*="hover:bg-fuchsia"],
+.bg-primary\/5,
+.bg-primary\/10,
+.hover\:bg-primary\/5:hover,
+.hover\:bg-primary\/10:hover {
   background-color: transparent !important;
 }
 
-/* Fix hover states with blue */
-a:hover,
-.link:hover,
-[class*="hover:text-"] {
-  color: var(--primary) !important;
+/* Fix navigation item hover states */
+.nav-item:hover,
+[role="tab"]:hover,
+.sidebar-item:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Navigation hover states */
-.nav-tabs-item:hover {
-  color: var(--primary) !important;
+.dark .nav-item:hover,
+.dark [role="tab"]:hover,
+.dark .sidebar-item:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Button hover states */
-button:hover {
-  background-color: var(--primary-light) !important;
-  border-color: var(--primary-light) !important;
+/* Fix text colors - ensure black in light mode, white in dark mode */
+body,
+.prose,
+p,
+span,
+div,
+li,
+a:not(:hover),
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground) !important;
 }
 
-/* Card hover states */
-.card:hover {
-  border-color: var(--primary) !important;
+/* Links should be slightly different */
+a {
+  color: var(--foreground) !important;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark a {
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+a:hover {
+  opacity: 0.7;
 }
 
 /* Apply custom fonts */
-body,
-.prose {
-  font-family: 'Louize', system-ui, -apple-system, sans-serif !important;
+* {
+  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
 h1, h2, h3, h4, h5, h6,
 .font-semibold,
-.font-bold {
-  font-family: 'Louize', system-ui, -apple-system, sans-serif !important;
+.font-bold,
+strong {
+  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 700 !important;
 }
 
 code,
 pre,
 .font-mono,
-[class*="language-"] {
-  font-family: 'TX02Mono-Regular', 'IosevkaTerm-Regular', monospace !important;
+[class*="language-"],
+.code-block,
+.inline-code {
+  font-family: 'TX02Mono', 'IosevkaTerm', 'Courier New', monospace !important;
 }
 
 /* Fix code block backgrounds */
-pre {
-  background-color: #1a1a1a !important;
+pre,
+.code-block {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #e5e5e5 !important;
 }
 
-.dark pre {
-  background-color: #0a0a0a !important;
+.dark pre,
+.dark .code-block {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333333 !important;
+}
+
+/* Hide Ask AI button in header */
+[aria-label*="Ask AI"],
+[aria-label*="ask ai"],
+button:has(svg[class*="sparkles"]) {
+  display: none !important;
+}
+
+/* Add floating Ask AI button */
+body::after {
+  content: "Ask AI";
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--foreground);
+  color: var(--background);
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+}
+
+body::after:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Remove icon from GitHub button */
+.navbar a[href*="github"] svg {
+  display: none !important;
+}
+
+/* Style navbar links as text only */
+.navbar a {
+  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+/* Fix sidebar hover states */
+.sidebar-link:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: var(--foreground) !important;
+}
+
+.dark .sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Ensure all Mintlify UI text uses proper colors */
+.text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+/* Fix any remaining blue text */
+.text-blue-600,
+.text-blue-500,
+.text-primary,
+[class*="text-blue"] {
+  color: var(--foreground) !important;
+}
+
+/* Fix card styles */
+.card {
+  background-color: var(--background) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .card {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Override any inline styles with !important */
+[style*="color: rgb(59, 130, 246)"],
+[style*="color: #3B82F6"],
+[style*="color: blue"] {
+  color: var(--foreground) !important;
 }

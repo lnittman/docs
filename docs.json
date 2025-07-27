@@ -8,18 +8,22 @@
     "light": "#3B82F6",
     "dark": "#1E40AF"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/favicon-32x32.png",
+    "dark": "/favicon-32x32.png",
+    "href": "/"
   },
   "css": "/custom.css",
   "navbar": {
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/lnittman",
-        "icon": "github"
+        "href": "https://github.com/lnittman"
+      },
+      {
+        "label": "Portfolio",
+        "href": "https://luke-nittmann.vercel.app"
       }
     ]
   },
