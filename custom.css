@@ -1,0 +1,95 @@
+/* Custom fonts */
+@font-face {
+  font-family: 'Louize';
+  src: url('/fonts/louize/LouizeDisplayTrialCnd-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Louize';
+  src: url('/fonts/louize/LouizeDisplayTrialCnd-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Louize';
+  src: url('/fonts/louize/LouizeDisplayTrialCnd-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'IosevkaTerm-Regular';
+  src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/6397be61-3ea4-459d-8a3e-fd95168cb214.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'TX02Mono-Regular';
+  src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/e049dfb6-9c5d-4ac4-97c2-eb6e95c61d09.woff2') format('woff2');
+}
+
+/* Override Mintlify's pink hover states */
+:root {
+  --primary: #0066CC !important;
+  --primary-light: #3B82F6 !important;
+  --primary-dark: #1E40AF !important;
+}
+
+/* Remove pink hover backgrounds */
+.hover\:bg-primary\/10:hover,
+.hover\:bg-primary\/5:hover,
+[class*="hover:bg-pink"],
+[class*="hover:bg-purple"],
+[class*="hover:bg-fuchsia"] {
+  background-color: transparent !important;
+}
+
+/* Fix hover states with blue */
+a:hover,
+.link:hover,
+[class*="hover:text-"] {
+  color: var(--primary) !important;
+}
+
+/* Navigation hover states */
+.nav-tabs-item:hover {
+  color: var(--primary) !important;
+}
+
+/* Button hover states */
+button:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary-light) !important;
+}
+
+/* Card hover states */
+.card:hover {
+  border-color: var(--primary) !important;
+}
+
+/* Apply custom fonts */
+body,
+.prose {
+  font-family: 'Louize', system-ui, -apple-system, sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-semibold,
+.font-bold {
+  font-family: 'Louize', system-ui, -apple-system, sans-serif !important;
+}
+
+code,
+pre,
+.font-mono,
+[class*="language-"] {
+  font-family: 'TX02Mono-Regular', 'IosevkaTerm-Regular', monospace !important;
+}
+
+/* Fix code block backgrounds */
+pre {
+  background-color: #1a1a1a !important;
+}
+
+.dark pre {
+  background-color: #0a0a0a !important;
+}

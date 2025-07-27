@@ -13,19 +13,15 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
+  "css": "/custom.css",
   "navbar": {
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/nit",
+        "href": "https://github.com/lnittman",
         "icon": "github"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Open in Claude",
-      "href": "https://claude.ai"
-    }
+    ]
   },
   "navigation": {
     "tabs": [
