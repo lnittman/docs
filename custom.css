@@ -149,27 +149,15 @@ button:has(svg[class*="sparkles"]) {
   display: none !important;
 }
 
-/* Add floating Ask AI button */
-body::after {
-  content: "Ask AI";
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background-color: var(--foreground);
-  color: var(--background);
-  padding: 12px 20px;
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s;
+/* Hide Mintlify's logo text */
+.logo-text {
+  display: none !important;
 }
 
-body::after:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+/* Ensure logo is properly sized */
+.logo img {
+  height: 24px !important;
+  width: 24px !important;
 }
 
 /* Remove icon from GitHub button */
@@ -222,4 +210,98 @@ body::after:hover {
 [style*="color: #3B82F6"],
 [style*="color: blue"] {
   color: var(--foreground) !important;
+}
+
+/* Additional overrides for pink/purple backgrounds */
+[style*="background-color: rgb(251, 207, 232)"],
+[style*="background-color: rgb(244, 114, 182)"],
+[style*="background-color: rgb(236, 72, 153)"],
+[style*="background-color: rgb(219, 39, 119)"],
+[style*="background: rgb(251, 207, 232)"],
+[style*="background: rgb(244, 114, 182)"],
+[style*="background: rgb(236, 72, 153)"],
+[style*="background: rgb(219, 39, 119)"],
+[class*="bg-gradient"],
+[class*="from-pink"],
+[class*="to-pink"],
+[class*="from-purple"],
+[class*="to-purple"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Override gradient backgrounds */
+.bg-gradient-to-r,
+.bg-gradient-to-l,
+.bg-gradient-to-t,
+.bg-gradient-to-b,
+.bg-gradient-to-br,
+.bg-gradient-to-bl,
+.bg-gradient-to-tr,
+.bg-gradient-to-tl {
+  background: transparent !important;
+}
+
+/* Fix tab hover states specifically */
+[role="tablist"] button:hover,
+[role="tab"]:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark [role="tablist"] button:hover,
+.dark [role="tab"]:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Active tab styling */
+[role="tab"][aria-selected="true"] {
+  background-color: transparent !important;
+  border-bottom: 2px solid var(--foreground) !important;
+}
+
+/* Remove any box shadows that might have pink tints */
+[class*="shadow"] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark [class*="shadow"] {
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fix search bar */
+input[type="search"],
+.search-bar,
+[class*="search"] input {
+  background-color: var(--background) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: var(--foreground) !important;
+}
+
+.dark input[type="search"],
+.dark .search-bar,
+.dark [class*="search"] input {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Ensure Ask AI button functionality */
+.ask-ai-trigger {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  background-color: var(--foreground) !important;
+  color: var(--background) !important;
+  padding: 12px 20px !important;
+  border-radius: 24px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.2s !important;
+  border: none !important;
+}
+
+.ask-ai-trigger:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
 }

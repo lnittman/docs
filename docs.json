@@ -1,12 +1,16 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Developer Documentation Hub",
+  "name": "Luke's Docs",
   "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
   "colors": {
-    "primary": "#0066CC",
-    "light": "#3B82F6",
-    "dark": "#1E40AF"
+    "primary": "#000000",
+    "light": "#000000",
+    "dark": "#ffffff",
+    "background": {
+      "light": "#ffffff",
+      "dark": "#000000"
+    }
   },
   "favicon": "/favicon.ico",
   "logo": {
