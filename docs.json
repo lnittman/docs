@@ -6,17 +6,12 @@
   "colors": {
     "primary": "#000000",
     "light": "#000000",
-    "dark": "#ffffff",
-    "background": {
-      "light": "#ffffff",
-      "dark": "#000000"
-    }
+    "dark": "#ffffff"
   },
   "favicon": "/favicon.ico",
   "logo": {
     "light": "/favicon-32x32.png",
-    "dark": "/favicon-32x32.png",
-    "href": "/"
+    "dark": "/favicon-32x32.png"
   },
   "css": "/custom.css",
   "navbar": {
