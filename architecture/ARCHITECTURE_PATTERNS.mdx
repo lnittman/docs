@@ -1,0 +1,357 @@
+# Architecture Patterns & Standards
+
+This document serves as a comprehensive guide and template for building and auditing applications in the portfolio. It documents established patterns across all turborepo projects and can be used as a prompt for AI tools to validate codebases.
+
+## Table of Contents
+1. [Project Structure](#project-structure)
+2. [Turborepo Configuration](#turborepo-configuration)
+3. [Mastra AI Integration](#mastra-ai-integration)
+4. [Package Architecture](#package-architecture)
+5. [Authentication & Authorization](#authentication--authorization)
+6. [UI/UX Patterns](#uiux-patterns)
+7. [Apple Platform Integration](#apple-platform-integration)
+8. [Common Dependencies](#common-dependencies)
+9. [Migration Checklist](#migration-checklist)
+
+## Project Structure
+
+### Standard Directory Layout
+```
+[projectName]/
+├── [projectName]-xyz/        # Main turborepo (or -web for sine)
+│   ├── apps/
+│   │   ├── app/             # Main Next.js application
+│   │   ├── api/             # API routes (if separate)
+│   │   └── docs/            # Documentation site
+│   ├── packages/
+│   │   ├── api/             # Business logic & services
+│   │   ├── mastra/          # Mastra client wrapper
+│   │   ├── auth/            # Authentication logic
+│   │   ├── database/        # Database client & schemas
+│   │   ├── ui/              # Shared UI components
+│   │   └── typescript-config/ # Shared TS configs
+│   ├── turbo.json
+│   ├── package.json
+│   └── pnpm-workspace.yaml
+├── [projectName]-ai/         # Standalone Mastra service
+│   ├── src/
+│   │   └── mastra/
+│   │       ├── agents/
+│   │       ├── tools/
+│   │       ├── workflows/
+│   │       └── index.ts
+│   ├── package.json
+│   └── .env
+└── [projectName]-apple/      # iOS/macOS/watchOS clients
+    ├── Packages/
+    │   ├── Auth/
+    │   ├── Design/
+    │   ├── Core/
+    │   └── Networking/
+    └── Apps/
+```
+
+### Key Principles
+- **NO apps/ai** in turborepo - AI functionality lives in standalone `[projectName]-ai`
+- Each package has a clear, focused responsibility
+- Workspace dependencies use `workspace:*` protocol
+- TypeScript for everything
+
+## Turborepo Configuration
+
+### Standard turbo.json
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    }
+  }
+}
+```
+
+## Mastra AI Integration
+
+### 1. Standalone AI Service (`[projectName]-ai/`)
+```typescript
+// src/mastra/index.ts
+import { Mastra } from '@mastra/core'
+
+export const mastra = new Mastra({
+  agents: {
+    // Agent definitions
+  },
+  workflows: {
+    // Workflow definitions
+  },
+  tools: {
+    // Tool definitions
+  }
+})
+```
+
+### 2. Mastra Package (`packages/mastra/`)
+```typescript
+// packages/mastra/src/index.ts
+import { MastraClient } from '@mastra/client-js'
+
+export const mastra = new MastraClient({
+  baseUrl: process.env.NEXT_PUBLIC_AI_URL!,
+  headers: { 'x-mastra-key': process.env.MASTRA_KEY! }
+})
+
+export const agents = mastra.agents
+export const workflows = mastra.workflows
+export const tools = mastra.tools
+export const memory = mastra.memory
+export const vectors = mastra.vectors
+```
+
+### 3. API Package Integration
+```typescript
+// packages/api/src/services/[domain]Service.ts
+import { agents } from '@repo/mastra'
+import { database } from '@repo/database'
+
+export async function performDomainAction(input: string) {
+  // Business logic wrapping Mastra calls
+  const result = await agents.myAgent.generate({
+    messages: [{ role: 'user', content: input }]
+  })
+  
+  // Additional processing, caching, persistence
+  return result
+}
+```
+
+## Package Architecture
+
+### packages/api
+**Purpose**: Domain services, business logic, API utilities
+
+**Structure**:
+```
+packages/api/
+├── src/
+│   ├── services/
+│   │   ├── [domain]Service.ts    # Domain-specific logic
+│   │   └── mastra/               # Mastra-specific services
+│   ├── schemas/                  # Zod schemas
+│   ├── utils/                    # Shared utilities
+│   └── index.ts                  # Public exports
+├── package.json
+└── tsconfig.json
+```
+
+**Key patterns**:
+- Services are domain-focused, not technology-focused
+- Import from `@repo/mastra`, not `@mastra/client-js`
+- Export schemas alongside services
+- Use Zod for runtime validation
+
+### packages/database
+**Purpose**: Database client, Prisma schemas, migrations
+
+**Structure**:
+```
+packages/database/
+├── prisma/
+│   └── schema.prisma
+├── src/
+│   ├── client.ts
+│   └── index.ts
+└── package.json
+```
+
+### packages/ui
+**Purpose**: Shared UI components, design system
+
+**Key components**:
+- Glass morphism effects
+- Command palette (cmdk)
+- Mobile-responsive sheets
+- Toast notifications
+
+## Authentication & Authorization
+
+### Standard: Clerk
+All projects use Clerk for authentication with these patterns:
+
+**Environment variables**:
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+```
+
+**Middleware configuration**:
+```typescript
+import { clerkMiddleware } from '@clerk/nextjs/server'
+
+export default clerkMiddleware()
+```
+
+**Client usage**:
+```typescript
+import { useUser } from '@clerk/nextjs'
+```
+
+## UI/UX Patterns
+
+### State Management
+- **Jotai** for client state (menus, modals, UI state)
+- **Zustand** for user/auth state (squish pattern)
+- **Redux Toolkit** (legacy, being phased out)
+
+### Mobile Responsiveness
+```typescript
+// Common Jotai atoms for responsive UI
+export const mobileMenuAtom = atom(false)
+export const sheetOpenAtom = atom(false)
+export const modalOpenAtom = atom<ModalType | null>(null)
+```
+
+### Design System Principles
+- Glass morphism (blur + transparency)
+- Subtle animations (opacity/position, not scale)
+- Command palette for power users
+- Mobile-first with desktop enhancements
+
+### Common UI Components
+- `GlassButton` - Primary interactive element
+- `CommandMenu` - ⌘K interface
+- `Sheet` - Mobile-friendly drawer
+- `Toast` - Non-intrusive notifications
+
+## Apple Platform Integration
+
+### Structure
+```
+[projectName]-apple/
+├── Packages/
+│   ├── Auth/          # Clerk integration
+│   ├── Design/        # SwiftUI components
+│   ├── Core/          # Business logic
+│   └── Networking/    # API client
+└── Apps/
+    ├── iOS/
+    ├── macOS/
+    └── watchOS/
+```
+
+### Key Patterns
+1. **Clerk Auth**: Token-based with Keychain storage
+2. **Networking**: Actor-based with request coalescing
+3. **Design**: Glass morphism, blur effects, haptic feedback
+4. **Navigation**: Edge swipe with spring animations
+
+### Swipe Navigation Example
+```swift
+// Blur/opacity/x-offset based transitions
+.offset(x: dragAmount.width)
+.opacity(1 - abs(dragAmount.width) / 200)
+.blur(radius: abs(dragAmount.width) / 50)
+```
+
+## Common Dependencies
+
+### Core Stack
+- **Next.js 15+**: App router, server components
+- **TypeScript 5+**: Strict mode enabled
+- **pnpm**: Workspace management
+- **Turbo**: Monorepo build system
+
+### Essential Packages
+```json
+{
+  "dependencies": {
+    "@clerk/nextjs": "latest",
+    "@mastra/client-js": "^0.10.2",
+    "jotai": "^2.6.0",
+    "zod": "^3.24.2",
+    "framer-motion": "^11.0.0"
+  }
+}
+```
+
+### UI Libraries
+- Radix UI primitives
+- Tailwind CSS
+- CVA (class-variance-authority)
+- CMDK
+
+## Migration Checklist
+
+### Phase 1: Structure
+- [ ] Remove `apps/ai` from turborepo
+- [ ] Create `[projectName]-ai/` with Mastra
+- [ ] Create `packages/mastra/`
+- [ ] Create/update `packages/api/`
+
+### Phase 2: Dependencies
+- [ ] Remove direct `@mastra/client-js` from packages
+- [ ] Add `@repo/mastra` workspace dependency
+- [ ] Update all imports
+- [ ] Remove Supabase dependencies (if migrating)
+
+### Phase 3: Authentication
+- [ ] Set up Clerk
+- [ ] Remove legacy auth (Supabase, custom)
+- [ ] Update middleware
+- [ ] Update user components
+
+### Phase 4: API Layer
+- [ ] Create domain services in `packages/api`
+- [ ] Wrap Mastra calls with business logic
+- [ ] Set up proper error handling
+- [ ] Add caching where appropriate
+
+### Phase 5: UI/UX
+- [ ] Implement Jotai for UI state
+- [ ] Add command palette
+- [ ] Ensure mobile responsiveness
+- [ ] Apply glass morphism design
+
+### Phase 6: Testing
+- [ ] Build all packages
+- [ ] Test AI integration
+- [ ] Verify auth flow
+- [ ] Check mobile experience
+
+## Validation Commands
+
+Run these to ensure compliance:
+
+```bash
+# Check for legacy apps/ai
+ls apps/ | grep -v "ai" || echo "✓ No apps/ai found"
+
+# Verify packages structure
+ls packages/ | grep -E "(api|mastra|database|ui)" || echo "✗ Missing core packages"
+
+# Check Mastra imports
+grep -r "@mastra/client-js" packages/api && echo "✗ Direct imports found" || echo "✓ No direct imports"
+
+# Verify workspace deps
+grep -r "@repo/mastra" packages/api/package.json && echo "✓ Using workspace dep" || echo "✗ Missing workspace dep"
+```
+
+## Notes
+
+This architecture prioritizes:
+1. **Separation of concerns** - AI, business logic, and UI are clearly separated
+2. **Consistency** - Same patterns across all projects
+3. **Developer experience** - Clear structure, good tooling
+4. **Performance** - Optimized builds, proper caching
+5. **Maintainability** - Easy to update dependencies, clear ownership
+
+When in doubt, follow the patterns established in arbor, radar, and webs projects as they represent the most mature implementations.

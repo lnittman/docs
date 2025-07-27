@@ -1,0 +1,80 @@
+{
+  "name": "Developer Ecosystem Documentation",
+  "description": "Meta-level intelligence and tracking for the entire ~/Developer ecosystem",
+  "version": "1.0.0",
+  "updated": "2025-07-05",
+  "navigation": [
+    {
+      "title": "Overview",
+      "path": "/overview",
+      "description": "High-level ecosystem analysis and health metrics",
+      "children": [
+        { "title": "Ecosystem Health", "path": "/overview/README.md" },
+        { "title": "Quick Stats", "path": "/overview/stats.md" },
+        { "title": "Activity Timeline", "path": "/overview/timeline.md" }
+      ]
+    },
+    {
+      "title": "Project Registry",
+      "path": "/projects",
+      "description": "Comprehensive registry of all projects with compliance scores",
+      "children": [
+        { "title": "Active Projects", "path": "/projects/active.md" },
+        { "title": "Archived Projects", "path": "/projects/archived.md" },
+        { "title": "Portfolio Projects", "path": "/projects/portfolio.md" },
+        { "title": "Reference Projects", "path": "/projects/reference.md" }
+      ]
+    },
+    {
+      "title": "Standards Compliance",
+      "path": "/compliance",
+      "description": "Track adherence to STANDARDS.md and architectural rules",
+      "children": [
+        { "title": "Compliance Dashboard", "path": "/compliance/README.md" },
+        { "title": "Rule Violations", "path": "/compliance/violations.md" },
+        { "title": "Fix Scripts", "path": "/compliance/fixes.md" }
+      ]
+    },
+    {
+      "title": "Technology Stack",
+      "path": "/technology",
+      "description": "Technology patterns, versions, and dependency health",
+      "children": [
+        { "title": "Stack Overview", "path": "/technology/README.md" },
+        { "title": "Dependency Matrix", "path": "/technology/dependencies.md" },
+        { "title": "Version Alignment", "path": "/technology/versions.md" },
+        { "title": "Security Audit", "path": "/technology/security.md" }
+      ]
+    },
+    {
+      "title": "Evolution Roadmap",
+      "path": "/evolution",
+      "description": "Strategic improvements and cross-project propagation",
+      "children": [
+        { "title": "Roadmap", "path": "/evolution/README.md" },
+        { "title": "Migration Plans", "path": "/evolution/migrations.md" },
+        { "title": "Propagation Scripts", "path": "/evolution/propagate.md" }
+      ]
+    },
+    {
+      "title": "Wisdom & Patterns",
+      "path": "/wisdom",
+      "description": "Extracted patterns and collective learnings",
+      "children": [
+        { "title": "Pattern Library", "path": "/wisdom/README.md" },
+        { "title": "Success Patterns", "path": "/wisdom/success.md" },
+        { "title": "Anti-Patterns", "path": "/wisdom/antipatterns.md" },
+        { "title": "Best Practices", "path": "/wisdom/best-practices.md" }
+      ]
+    },
+    {
+      "title": "Reports",
+      "path": "/reports",
+      "description": "Generated analysis reports and audits",
+      "children": [
+        { "title": "Latest Report", "path": "/reports/latest.md" },
+        { "title": "Historical Reports", "path": "/reports/archive/" }
+      ]
+    }
+  ]
+}

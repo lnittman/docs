@@ -1,0 +1,550 @@
+# How I Use PostHog
+
+My standard PostHog setup for product analytics, session recordings, and feature flags. Self-hosted or cloud, with consistent patterns across web and mobile.
+
+## Installation & Setup
+
+### Next.js App Router
+```bash
+pnpm add posthog-js
+```
+
+### Environment Variables
+```bash
+# .env.local
+NEXT_PUBLIC_POSTHOG_KEY=phc_...
+NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com # or eu.i.posthog.com
+```
+
+## Provider Setup
+
+### Client Provider Component
+```typescript
+// packages/analytics/src/posthog/client.tsx
+'use client';
+
+import { PostHogProvider as Provider } from 'posthog-js/react';
+import posthog from 'posthog-js';
+import { type ReactNode, useEffect, useState } from 'react';
+
+type PostHogProviderProps = {
+  children: ReactNode;
+};
+
+export const PostHogProvider = ({ children }: PostHogProviderProps) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!isInitialized && typeof window !== 'undefined') {
+      const isDev = process.env.NODE_ENV === 'development';
+
+      // Generate or retrieve anonymous ID
+      const distinctId = localStorage.getItem('ph_anonymous_id') || 
+        `anon_${Math.random().toString(36).substr(2, 9)}`;
+      
+      if (!localStorage.getItem('ph_anonymous_id')) {
+        localStorage.setItem('ph_anonymous_id', distinctId);
+      }
+
+      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+        loaded: (posthog) => {
+          if (isDev) posthog.debug();
+          posthog.identify(distinctId);
+          setIsInitialized(true);
+        },
+        bootstrap: {
+          distinctID: distinctId,
+          isIdentifiedID: false,
+          featureFlags: {},
+        },
+        persistence: 'localStorage+cookie',
+        autocapture: {
+          dom_event_allowlist: ['click', 'submit'], // Limit events
+        },
+        capture_pageview: true,
+        capture_pageleave: true,
+        disable_session_recording: isDev, // No recordings in dev
+      });
+    }
+  }, [isInitialized]);
+
+  if (!isInitialized) return children;
+  return <Provider client={posthog}>{children}</Provider>;
+};
+```
+
+### Analytics Provider Wrapper
+```typescript
+// packages/analytics/src/index.tsx
+import type { ReactNode } from 'react';
+import { PostHogProvider } from './posthog/client';
+
+export const AnalyticsProvider = ({ children }: { children: ReactNode }) => (
+  <PostHogProvider>
+    {children}
+    {/* Other analytics providers */}
+  </PostHogProvider>
+);
+```
+
+## Event Tracking
+
+### Structured Event System
+```typescript
+// packages/analytics/src/events.ts
+import posthog from 'posthog-js';
+
+// Page view events
+export const trackPageView = (path: string, props?: Record<string, any>) => {
+  posthog.capture('$pageview', {
+    path,
+    ...props,
+  });
+};
+
+// Authentication events
+export const trackAuthEvent = (
+  event: 'sign_in' | 'sign_up' | 'sign_out' | 'password_reset',
+  props?: Record<string, any>
+) => {
+  posthog.capture(`auth_${event}`, props);
+};
+
+// User interactions
+export const trackInteraction = (
+  element: string,
+  action: 'click' | 'hover' | 'submit',
+  props?: Record<string, any>
+) => {
+  posthog.capture('user_interaction', {
+    element,
+    action,
+    ...props,
+  });
+};
+
+// Feature usage
+export const trackFeatureUsage = (
+  feature: string,
+  action: 'view' | 'start' | 'complete' | 'error',
+  props?: Record<string, any>
+) => {
+  posthog.capture('feature_usage', {
+    feature,
+    action,
+    ...props,
+  });
+};
+
+// Error tracking
+export const trackError = (
+  error: Error,
+  context: string,
+  props?: Record<string, any>
+) => {
+  posthog.capture('error_occurred', {
+    error_name: error.name,
+    error_message: error.message,
+    error_stack: error.stack,
+    context,
+    ...props,
+  });
+};
+```
+
+## React Hooks
+
+### Automatic Page View Tracking
+```typescript
+// packages/analytics/src/hooks.ts
+'use client';
+
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { trackPageView } from './events';
+
+export const usePageView = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (pathname) {
+      const url = searchParams?.size
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
+
+      trackPageView(url, {
+        referrer: document.referrer,
+        title: document.title,
+      });
+    }
+  }, [pathname, searchParams]);
+};
+```
+
+### Component Mounting Tracker
+```typescript
+export const useTrackMounted = (
+  componentName: string,
+  props?: Record<string, any>
+) => {
+  useEffect(() => {
+    posthog.capture('component_mounted', {
+      component: componentName,
+      ...props,
+    });
+  }, [componentName, props]);
+};
+```
+
+## User Identification
+
+### After Authentication
+```typescript
+// In auth callback or sign-in handler
+import posthog from 'posthog-js';
+import { auth } from '@clerk/nextjs/server';
+
+export async function identifyUser() {
+  const { userId } = await auth();
+  const user = await getUserFromDB(userId);
+  
+  posthog.identify(userId, {
+    email: user.email,
+    name: user.name,
+    created_at: user.createdAt,
+    // Custom properties
+    plan: user.plan,
+    organization_id: user.organizationId,
+  });
+}
+```
+
+### Reset on Sign Out
+```typescript
+export async function handleSignOut() {
+  posthog.reset(); // Clear user data
+  await signOut();
+}
+```
+
+## Feature Flags
+
+### Check Flag Status
+```typescript
+// Using hooks
+import { useFeatureFlagEnabled } from 'posthog-js/react';
+
+export function FeatureComponent() {
+  const isEnabled = useFeatureFlagEnabled('new-feature');
+  
+  if (!isEnabled) return null;
+  return <NewFeature />;
+}
+```
+
+### With Variants
+```typescript
+import { useFeatureFlagVariantKey } from 'posthog-js/react';
+
+export function ExperimentComponent() {
+  const variant = useFeatureFlagVariantKey('experiment-flag');
+  
+  switch (variant) {
+    case 'control':
+      return <ControlVersion />;
+    case 'variant-a':
+      return <VariantA />;
+    case 'variant-b':
+      return <VariantB />;
+    default:
+      return <ControlVersion />;
+  }
+}
+```
+
+### Server-Side Flags (Next.js)
+```typescript
+// app/api/feature-flags/route.ts
+import { PostHog } from 'posthog-node';
+import { auth } from '@clerk/nextjs/server';
+
+const posthog = new PostHog(
+  process.env.POSTHOG_KEY!,
+  { host: process.env.POSTHOG_HOST }
+);
+
+export async function GET() {
+  const { userId } = await auth();
+  if (!userId) return Response.json({});
+  
+  const flags = await posthog.getAllFlags(userId);
+  await posthog.shutdown();
+  
+  return Response.json(flags);
+}
+```
+
+## Session Recording
+
+### Conditional Recording
+```typescript
+// Only record for specific users or conditions
+posthog.init(key, {
+  session_recording: {
+    recordCrossOriginIframes: true,
+    maskAllInputs: false,
+    maskInputOptions: {
+      password: true,
+      email: true,
+      credit_card: true,
+    },
+  },
+  // Start recording based on feature flag
+  loaded: (posthog) => {
+    if (posthog.isFeatureEnabled('record-sessions')) {
+      posthog.startSessionRecording();
+    }
+  },
+});
+```
+
+### Privacy Controls
+```typescript
+// Mask sensitive content
+<div data-ph-capture-attribute-masked>
+  Sensitive content here
+</div>
+
+// Exclude from recording
+<div data-ph-no-capture>
+  Private information
+</div>
+```
+
+## Custom Properties
+
+### Person Properties
+```typescript
+// Set persistent user properties
+posthog.people.set({
+  plan: 'pro',
+  company_size: 50,
+  industry: 'tech',
+});
+
+// Increment numeric properties
+posthog.people.increment('projects_created', 1);
+```
+
+### Super Properties
+```typescript
+// Set properties on all events
+posthog.register({
+  app_version: '1.2.3',
+  environment: process.env.NODE_ENV,
+  deployment: 'vercel',
+});
+
+// One-time properties
+posthog.register_once({
+  initial_referrer: document.referrer,
+  initial_utm_source: getUTMSource(),
+});
+```
+
+## Groups (Organizations/Teams)
+
+### Group Analytics
+```typescript
+// Identify organization
+posthog.group('organization', organizationId, {
+  name: org.name,
+  plan: org.plan,
+  created_at: org.createdAt,
+  employee_count: org.employeeCount,
+});
+
+// Multiple group types
+posthog.group('team', teamId, {
+  name: team.name,
+  department: team.department,
+});
+```
+
+## Performance Monitoring
+
+### Web Vitals Integration
+```typescript
+// app/web-vitals.tsx
+'use client';
+import { useReportWebVitals } from 'next/web-vitals';
+import posthog from 'posthog-js';
+
+export function WebVitals() {
+  useReportWebVitals((metric) => {
+    posthog.capture('web_vital', {
+      metric_name: metric.name,
+      value: metric.value,
+      rating: metric.rating,
+      delta: metric.delta,
+      entries: metric.entries.length,
+    });
+  });
+
+  return null;
+}
+```
+
+## Error Tracking Integration
+
+### With Sentry
+```typescript
+// Capture Sentry errors in PostHog
+Sentry.init({
+  beforeSend(event) {
+    posthog.capture('sentry_error', {
+      error_id: event.event_id,
+      level: event.level,
+      environment: event.environment,
+      release: event.release,
+    });
+    return event;
+  },
+});
+```
+
+## Self-Hosting Configuration
+
+### Docker Compose
+```yaml
+# docker-compose.yml
+services:
+  posthog:
+    image: posthog/posthog:latest
+    environment:
+      DATABASE_URL: postgres://...
+      REDIS_URL: redis://redis:6379
+      SECRET_KEY: your-secret-key
+      SITE_URL: https://analytics.yourdomain.com
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - clickhouse
+```
+
+## My Conventions
+
+1. **Structured event names** - Consistent naming: `noun_verb`
+2. **Anonymous tracking first** - Generate IDs, identify later
+3. **Minimal autocapture** - Only clicks and submits
+4. **Feature flags for everything** - Progressive rollouts
+5. **Privacy by default** - Mask sensitive data
+6. **Server-side for critical paths** - Use PostHog Node
+7. **Group analytics** - Track org-level metrics
+8. **Development mode** - Debug logging, no recordings
+
+## Common Patterns
+
+### A/B Test Implementation
+```typescript
+// Hook for experiments
+export function useExperiment(key: string) {
+  const variant = useFeatureFlagVariantKey(key);
+  
+  useEffect(() => {
+    posthog.capture('$feature_view', {
+      feature_flag: key,
+      variant,
+    });
+  }, [key, variant]);
+  
+  return variant;
+}
+```
+
+### Conversion Tracking
+```typescript
+// Track funnel events
+export function trackConversion(
+  step: string,
+  value?: number,
+  props?: Record<string, any>
+) {
+  posthog.capture('conversion', {
+    step,
+    value,
+    funnel: 'main_conversion',
+    ...props,
+  });
+}
+```
+
+### User Surveys
+```typescript
+// Custom survey implementation
+import { usePostHog } from 'posthog-js/react';
+
+export function useSurvey() {
+  const posthog = usePostHog();
+  
+  const submitSurvey = (surveyId: string, responses: any) => {
+    posthog.capture('survey_sent', {
+      $survey_id: surveyId,
+      ...responses,
+    });
+  };
+  
+  return { submitSurvey };
+}
+```
+
+## Debugging
+
+1. **Enable debug mode**
+   ```typescript
+   posthog.debug(); // Logs all events to console
+   ```
+
+2. **Check initialization**
+   ```typescript
+   console.log(posthog.get_distinct_id());
+   console.log(posthog.get_property('$feature_flags'));
+   ```
+
+3. **Validate events**
+   ```typescript
+   // Before sending
+   posthog.capture('test_event', {}, {
+     send_instantly: true, // Skip batching
+   });
+   ```
+
+## Resources & Links
+
+### Official Documentation
+- [PostHog Docs](https://posthog.com/docs)
+- [JavaScript SDK Reference](https://posthog.com/docs/libraries/js)
+- [React SDK Guide](https://posthog.com/docs/libraries/react)
+- [Next.js Integration](https://posthog.com/docs/libraries/next-js)
+
+### Key Features
+- [Event Tracking](https://posthog.com/docs/product-analytics/capture-events)
+- [Feature Flags](https://posthog.com/docs/feature-flags)
+- [Session Recording](https://posthog.com/docs/session-replay)
+- [A/B Testing](https://posthog.com/docs/experiments)
+- [User Identification](https://posthog.com/docs/product-analytics/identify)
+
+### Advanced Topics
+- [Group Analytics](https://posthog.com/docs/product-analytics/group-analytics)
+- [Self-Hosting Guide](https://posthog.com/docs/self-host)
+- [Data Management](https://posthog.com/docs/data)
+- [Privacy & Compliance](https://posthog.com/docs/privacy)
+
+### API & SDKs
+- [PostHog Node SDK](https://github.com/PostHog/posthog-node)
+- [API Reference](https://posthog.com/docs/api)
+- [Webhooks](https://posthog.com/docs/webhooks)

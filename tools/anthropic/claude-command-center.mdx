@@ -1,0 +1,382 @@
+# Claude Command Center Enhancement Guide
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-02  
+**Purpose**: Transform individual commands into a cohesive, interoperable command center
+
+## 🎯 Overview
+
+Your `~/.claude/commands/` directory is evolving into a powerful command center where each command:
+- Accepts any input type (URLs, pasted content, screenshots)
+- Passes context to other commands
+- Builds on previous work
+- Executes in parallel when possible
+
+## 🔧 Universal Enhancements for All Commands
+
+### 1. Input Handler Pattern
+
+Add this to the beginning of each command's processing phase:
+
+```markdown
+<universal_input_handler>
+Process $ARGUMENTS to detect and handle:
+
+**URLs Detected:**
+- Use WebFetch to get content
+- Extract relevant patterns/documentation
+- Parse for implementation examples
+
+**Code Blocks Detected:**
+- Parse language and purpose
+- Adapt to current project style
+- Extract patterns
+
+**File Paths Detected:**
+- Read files directly
+- Understand context
+- Extract relevant sections
+
+**Screenshots/Images Detected:**
+- Analyze UI patterns
+- Extract design elements
+- Understand user intent
+
+**Mixed Content:**
+- Separate into categories
+- Process each appropriately
+- Combine insights
+</universal_input_handler>
+```
+
+### 2. Context Output Pattern
+
+Add this to each command's output:
+
+```markdown
+<context_output>
+## 🔗 Command Context
+**Command**: /user:[command]
+**Timestamp**: [ISO timestamp]
+**Key Findings**: 
+- [Finding 1]
+- [Finding 2]
+
+**For Next Commands**:
+```json
+{
+  "command": "[command-name]",
+  "findings": {
+    "key": "value"
+  },
+  "suggestions": [
+    "/user:build implement [feature]",
+    "/user:design enhance [component]"
+  ]
+}
+```
+</context_output>
+
+### 3. Session Memory Pattern
+
+Each command should check for and update session memory:
+
+```markdown
+<session_memory>
+# Check for existing session
+if exists .claude/session/current/:
+  - Load previous_commands.json
+  - Load accumulated_context.json
+  - Build on existing knowledge
+
+# Update session
+- Add command results to session
+- Update accumulated context
+- Save for next command
+</session_memory>
+```
+
+## 📋 Command-Specific Enhancements
+
+### `/user:prime` Enhancements
+
+```markdown
+# Add URL support
+If $ARGUMENTS contains URLs:
+- Fetch documentation sites
+- Analyze example repos  
+- Extract setup patterns
+
+# Add session continuity
+- Check what commands ran before
+- Skip redundant analysis
+- Focus on what's new
+
+# Add context passing
+Output includes:
+- project_state.json
+- suggested_next_commands
+- key_findings.md
+```
+
+### `/user:create` Enhancements
+
+```markdown
+# Enhanced input processing
+- GitHub repo URL → Clone and analyze
+- Documentation URL → Extract patterns
+- Blog post URL → Understand approach
+- Multiple URLs → Combine insights
+
+# Context awareness
+- Check if prime was run
+- Use existing project analysis
+- Build on session knowledge
+
+# Rich output
+- Structured plan.json
+- Next command suggestions
+- Context for /user:build
+```
+
+### `/user:vision` Enhancements
+
+```markdown
+# Creative input sources
+- Dribbble URLs → UI inspiration
+- Product Hunt → Feature ideas
+- Research papers → AI techniques
+- Demo videos → Interaction patterns
+
+# Build on /create output
+- Enhance existing features
+- Add AI-native twists
+- Maintain project context
+
+# Feed into /build
+- Prioritized feature list
+- Implementation approaches
+- Technical specifications
+```
+
+### `/user:design` Enhancements
+
+```markdown
+# Design input handling
+- Figma URLs → Extract design tokens
+- Component libraries → Analyze patterns
+- Screenshots → Extract styles
+- Style guides → Apply principles
+
+# Integration with /build
+- Component specifications
+- Design token exports
+- Implementation priorities
+- Style system setup
+```
+
+### `/user:brand` Enhancements
+
+```markdown
+# Brand input sources
+- Competitor sites → Analysis
+- Brand guides → Apply principles  
+- Marketing copy → Voice extraction
+- Visual inspiration → Mood boards
+
+# Production readiness for /build
+- Launch checklist
+- Security hardening tasks
+- Performance optimization
+- Monitoring setup
+```
+
+### `/user:docaudit` Enhancements
+
+```markdown
+# Documentation sources
+- Existing docs URLs → Gap analysis
+- Best practice guides → Standards
+- Team wikis → Context understanding
+- API docs → Integration patterns
+
+# Continuous documentation
+- Update after each /build
+- Track what's documented
+- Suggest improvements
+- Maintain accuracy
+```
+
+## 🔄 Command Interoperability Matrix
+
+```mermaid
+graph TB
+    subgraph "Session Start"
+        A[/user:prime] --> S{Session Context}
+    end
+    
+    subgraph "Planning Phase"
+        S --> B[/user:create]
+        B --> C[/user:vision]
+        B --> D[/user:design]
+        C --> D
+    end
+    
+    subgraph "Building Phase"
+        C --> E[/user:build]
+        D --> E
+        B --> E
+        E --> E2[/user:build next]
+    end
+    
+    subgraph "Production Phase"
+        E --> F[/user:brand]
+        E --> G[/user:docaudit]
+        F --> H[/user:build deploy]
+    end
+    
+    S -.->|Context| B
+    S -.->|Context| C
+    S -.->|Context| D
+    S -.->|Context| E
+    S -.->|Context| F
+    S -.->|Context| G
+```
+
+## 🚀 Usage Patterns
+
+### Pattern 1: Full Project Flow
+```bash
+# 1. Start with an idea + reference
+/user:create social app like BeReal but for developers [paste BeReal article URL]
+
+# 2. Explore creative possibilities
+/user:vision [paste AI UI examples URLs]
+
+# 3. Design the system
+/user:design [paste component library URL]
+
+# 4. Build iteratively
+/user:build implement auth [paste Clerk docs URL]
+/user:build add main feature
+/user:build integrate AI [paste Mastra examples]
+
+# 5. Prepare for launch
+/user:brand [paste competitor analysis]
+
+# 6. Document everything
+/user:docaudit
+```
+
+### Pattern 2: Quick Feature Addition
+```bash
+# 1. Get context
+/user:prime focus on payments
+
+# 2. Build with reference
+/user:build add Stripe [paste Stripe docs URL]
+```
+
+### Pattern 3: Design-Driven Development
+```bash
+# 1. Design first
+/user:design [paste Figma URL]
+
+# 2. Build components
+/user:build implement design system
+
+# 3. Document patterns
+/user:docaudit focus on components
+```
+
+## 💾 Session Continuity
+
+### Session Structure
+```
+.claude/session/current/
+├── metadata.json           # Session start time, commands run
+├── project_context.json    # Accumulated understanding
+├── command_history.md      # What each command did
+├── findings/              # Key discoveries
+│   ├── prime.json
+│   ├── create.json
+│   └── ...
+└── deliverables/          # Generated artifacts
+    ├── plans/
+    ├── designs/
+    └── docs/
+```
+
+### Context Passing Example
+```json
+{
+  "from_command": "create",
+  "to_command": "build",
+  "context": {
+    "project_name": "social-dev-app",
+    "tech_stack": {
+      "frontend": "Next.js 15",
+      "backend": "Supabase",
+      "ai": "Mastra"
+    },
+    "phase": "implementation",
+    "next_task": "Setup authentication"
+  }
+}
+```
+
+## 🎯 Best Practices
+
+### 1. Start with Prime
+Always begin sessions with `/user:prime` to establish context
+
+### 2. Use URLs Liberally
+```bash
+# Good
+/user:build add charts [paste D3.js examples URL]
+
+# Better  
+/user:build add charts [paste D3 docs] [paste example] [paste our design]
+```
+
+### 3. Chain Commands Naturally
+Let each command suggest the next logical step
+
+### 4. Iterate with Build
+```bash
+/user:build → test → /user:build fix → test → /user:build enhance
+```
+
+### 5. Document as You Go
+Run `/user:docaudit` periodically, not just at the end
+
+## 🔮 Future Enhancements
+
+### Planned Features
+1. **Auto-chaining**: Commands automatically trigger next steps
+2. **Parallel execution**: Multiple commands run simultaneously  
+3. **Smart caching**: Reuse expensive operations
+4. **Visual feedback**: Progress indicators for long operations
+5. **Command macros**: Bundle common sequences
+
+### Integration Ideas
+1. **Git hooks**: Auto-run commands on commits
+2. **CI/CD**: Commands in deployment pipeline
+3. **IDE integration**: Commands from VS Code
+4. **Team sharing**: Shared command patterns
+5. **Analytics**: Track command usage patterns
+
+## 📚 Command Reference Card
+
+| Command | Primary Purpose | Best For | Accepts |
+|---------|----------------|----------|---------|
+| `/user:prime` | Load context | Session start | Focus areas, URLs |
+| `/user:create` | Project inception | New ideas | Any description, URLs |
+| `/user:vision` | Creative exploration | Feature ideation | Inspiration URLs |
+| `/user:design` | Technical design | UI/UX planning | Design resources |
+| `/user:brand` | Production prep | Launch readiness | Brand references |
+| `/user:build` | Implementation | Actually building | Anything |
+| `/user:docaudit` | Documentation | Maintaining docs | Standards URLs |
+
+---
+
+*Your command center is now a cohesive system where every command enhances the others. Build faster, better, together.*

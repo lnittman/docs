@@ -1,0 +1,284 @@
+# Migration Plans
+
+> Detailed migration strategies for bringing projects into compliance
+
+## 🚨 Priority 1: Alden Migration
+
+### Current State → Target State
+
+```yaml
+Current:
+  Structure: Single repository (alden-web)
+  Stack: Next.js 14, Supabase, Redux Toolkit
+  Package Manager: npm
+  Documentation: MIGRATION_PLAN.md only
+
+Target:
+  Structure: Full ecosystem (xyz, ai, apple, docs)
+  Stack: Next.js 15.3.4, Clerk, Prisma, Jotai/SWR
+  Package Manager: pnpm with Turborepo
+  Documentation: Comprehensive CLAUDE.md files
+```
+
+### Migration Steps
+
+#### Week 1: Foundation
+```bash
+# Day 1-2: Create new structure
+mkdir -p apps/alden-{xyz,ai,apple,docs}
+cd apps/alden-xyz
+pnpm init
+pnpm add turbo -D -w
+
+# Day 3-4: Set up monorepo
+cp ../kumori-xyz/turbo.json .
+cp ../kumori-xyz/package.json . # as template
+mkdir -p apps/web packages/{ui,db,auth,shared}
+
+# Day 5-7: Move core features
+# Analyze existing code
+/user:prime alden-web
+# Create migration map
+# Start moving components
+```
+
+#### Week 2: Stack Migration
+```bash
+# Replace Supabase with Clerk + Prisma
+pnpm add @clerk/nextjs @prisma/client prisma
+
+# Replace Redux with Jotai/SWR
+pnpm remove @reduxjs/toolkit react-redux
+pnpm add jotai swr
+
+# Update to Next.js 15
+pnpm add next@15.3.4 react@19.0.0 react-dom@19.0.0
+```
+
+#### Week 3: Feature Parity
+- Port all existing features
+- Update API routes to Server Actions
+- Migrate database schema
+- Add test coverage
+
+#### Week 4: Documentation & Polish
+- Generate CLAUDE.md files
+- Add comprehensive tests
+- Performance optimization
+- Final validation
+
+### Migration Script
+```bash
+#!/bin/bash
+# /compliance/fixes/migrate-alden.sh
+
+echo "Starting Alden migration..."
+
+# Create new structure
+/user:create alden --template standard
+
+# Analyze old code
+/user:prime ../alden-web
+
+# Generate migration plan
+/user:ecosystem analyze alden-web --output migration-tasks.md
+
+# Execute migration
+/user:build --migrate alden-web alden-xyz
+```
+
+## 🔧 Priority 2: Add Missing Apple Components
+
+### Saya Apple Component
+
+```yaml
+Requirements:
+  - SwiftUI interface
+  - MVVM architecture  
+  - API integration with saya-ai
+  - iOS 17.0+ target
+
+Template: Use webs-apple as reference
+Timeline: 3-5 days
+```
+
+### Creation Steps
+```bash
+# Generate Apple project
+cd apps/saya-apple
+/user:create saya-apple --platform ios
+
+# Copy standard structure
+cp -r ../webs-apple/{Package.swift,.swiftlint.yml} .
+mkdir -p Sources/Saya/{Models,Views,ViewModels,Services,Utils}
+
+# Set up CI/CD
+cp ../webs-apple/.github/workflows/ios.yml ../../.github/workflows/saya-ios.yml
+```
+
+## 🏗️ Priority 3: Standardize Non-Standard Projects
+
+### Sine Consolidation Plan
+
+```yaml
+Current Components:
+  - sine-ai
+  - sine-docs  
+  - sine-filters
+  - sine-loops
+  - sine-studio
+  - sine-web
+
+Proposed Structure:
+  - sine-xyz (consolidate web, studio, filters, loops)
+  - sine-ai (keep as-is)
+  - sine-apple (create new)
+  - sine-docs (enhance)
+```
+
+### Consolidation Steps
+1. **Analyze component relationships**
+   ```bash
+   /user:prime sine-* 
+   /user:ecosystem analyze sine --deep
+   ```
+
+2. **Create consolidated structure**
+   ```bash
+   # Create new monorepo
+   mkdir sine-xyz
+   cd sine-xyz
+   
+   # Move components to packages
+   mv ../sine-filters packages/filters
+   mv ../sine-loops packages/loops
+   mv ../sine-web/src apps/web/src
+   mv ../sine-studio apps/studio
+   ```
+
+3. **Update imports and dependencies**
+4. **Test thoroughly**
+5. **Archive old structure**
+
+### Squish Architecture Documentation
+
+```yaml
+Decision: Keep Python service architecture
+Reason: Specific requirements for ML processing
+
+Documentation Plan:
+  1. Create ARCHITECTURE.md explaining decisions
+  2. Document integration patterns
+  3. Create development guide
+  4. Add API documentation
+```
+
+## 📦 Priority 4: Shared Package Extraction
+
+### Identified Patterns for Extraction
+
+#### 1. UI Components Package
+```typescript
+// packages/ui/index.ts
+export * from './components/Button'
+export * from './components/Card'
+export * from './components/Dialog'
+export * from './components/Toast'
+// ... common components from all projects
+```
+
+#### 2. Authentication Package
+```typescript
+// packages/auth/index.ts
+export * from './providers/clerk'
+export * from './hooks/useAuth'
+export * from './middleware/auth'
+export * from './utils/permissions'
+```
+
+#### 3. API Utilities Package
+```typescript
+// packages/api/index.ts
+export * from './server-actions'
+export * from './error-handling'
+export * from './validation'
+export * from './rate-limiting'
+```
+
+### Extraction Process
+1. **Identify common code** (Week 1)
+2. **Create package structure** (Week 1)
+3. **Extract and generalize** (Week 2)
+4. **Update imports** (Week 2)
+5. **Test in all projects** (Week 3)
+6. **Document usage** (Week 3)
+
+## 🔄 Version Alignment Migrations
+
+### Next.js 15.3.4 Alignment
+
+```bash
+# Projects needing updates:
+# - webs (15.0.x → 15.3.4)
+# - radar (15.3.0 → 15.3.4)
+# - alden (14.x → 15.3.4)
+
+# Automated update script
+for project in webs radar; do
+  cd apps/$project-xyz
+  pnpm up next@15.3.4 react@19.0.0 react-dom@19.0.0
+  pnpm test
+  git commit -am "chore: update to Next.js 15.3.4"
+done
+```
+
+### Mastra 0.10.10 Update
+
+```bash
+# Update all AI services
+for project in apps/*-ai; do
+  cd $project
+  pnpm up @mastra/core@0.10.10 @mastra/engine@0.10.10
+  pnpm test
+done
+```
+
+## 📊 Migration Success Criteria
+
+### Per-Project Criteria
+- [ ] Standard directory structure
+- [ ] Latest framework versions
+- [ ] CLAUDE.md documentation
+- [ ] 80%+ test coverage
+- [ ] No security vulnerabilities
+- [ ] Biome configuration
+- [ ] TypeScript strict mode
+- [ ] CI/CD pipelines
+
+### Validation Checklist
+```bash
+# Run validation
+/user:ecosystem audit [project] --strict
+
+# Expected output:
+# ✅ Structure compliance: 100%
+# ✅ Dependencies current: 100%
+# ✅ Documentation complete: 100%
+# ✅ Tests passing: 100%
+# ✅ Security clean: 100%
+```
+
+## 🚦 Migration Status Tracker
+
+| Project | Planning | In Progress | Testing | Complete |
+|---------|----------|-------------|---------|----------|
+| Alden | ✅ | 🔄 | ⏳ | ⏳ |
+| Saya Apple | ✅ | ⏳ | ⏳ | ⏳ |
+| Sine Consolidation | ✅ | ⏳ | ⏳ | ⏳ |
+| Squish Docs | ✅ | ⏳ | ⏳ | ⏳ |
+| Next.js Updates | ✅ | ⏳ | ⏳ | ⏳ |
+| Mastra Updates | ✅ | ⏳ | ⏳ | ⏳ |
+
+---
+
+*Migration plans created: 2025-07-05 | Updates: Daily during active migrations*

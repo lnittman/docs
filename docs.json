@@ -1,0 +1,247 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Developer Documentation Hub",
+  "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
+  "colors": {
+    "primary": "#0066CC",
+    "light": "#3B82F6",
+    "dark": "#1E40AF"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/nit",
+        "icon": "github"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Open in Claude",
+      "href": "https://claude.ai"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "index",
+              "README"
+            ]
+          },
+          {
+            "group": "Architecture",
+            "pages": [
+              "architecture/ARCHITECTURE_PATTERNS",
+              "architecture/STANDARDS",
+              "architecture/APPLE_PROJECT_PATTERNS",
+              "architecture/ACTUAL_PATTERNS_AUDIT",
+              "architecture/claude-code-rules",
+              "architecture/development-standards-overview"
+            ]
+          },
+          {
+            "group": "Tools & Frameworks",
+            "pages": [
+              "tools/README",
+              "tools/anthropic/claude-code",
+              "tools/anthropic/claude-code-command-system",
+              "tools/anthropic/claude-code-power-user",
+              "tools/anthropic/claude-command-center",
+              "tools/anthropic/claude-developer-hub",
+              "tools/anthropic/claude-4-system-card",
+              "tools/anthropic/claude-api-primer",
+              "tools/anthropic/codex",
+              "tools/anthropic/how-anthropic-teams-use-claude-code",
+              "tools/anthropic/prompt-engineering"
+            ]
+          },
+          {
+            "group": "Stack Components",
+            "pages": [
+              "tools/stack/nextjs",
+              "tools/stack/tailwind",
+              "tools/stack/typescript",
+              "tools/stack/turborepo",
+              "tools/stack/clerk",
+              "tools/stack/cloudflare",
+              "tools/stack/drizzle",
+              "tools/stack/hono",
+              "tools/stack/jotai",
+              "tools/stack/mastra",
+              "tools/stack/posthog",
+              "tools/stack/sentry",
+              "tools/stack/swr",
+              "tools/stack/ios"
+            ]
+          },
+          {
+            "group": "Design System",
+            "pages": [
+              "design/README",
+              "design/DESIGN_PATTERNS",
+              "design/FONTS_REFERENCE"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Prompts & Patterns",
+        "groups": [
+          {
+            "group": "Available Prompts",
+            "pages": [
+              "prompts-showcase",
+              "prompts/philosophy/design-thinking",
+              "prompts/audit/turbo"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Inspiration",
+        "groups": [
+          {
+            "group": "Design & Aesthetics",
+            "pages": [
+              "inspiration/README",
+              "inspiration/dieter-rams/color",
+              "inspiration/design-and-aesthetics/john-maeda/README",
+              "inspiration/design-and-aesthetics/jony-ive/README",
+              "inspiration/design-and-aesthetics/susan-kare/README",
+              "inspiration/design-and-aesthetics/don-norman/README",
+              "inspiration/design-and-aesthetics/buckminster-fuller/README"
+            ]
+          },
+          {
+            "group": "AI & Modern Development",
+            "pages": [
+              "inspiration/ai-and-modern-development/andrej-karpathy/README",
+              "inspiration/ai-and-modern-development/mastra-team/README",
+              "inspiration/ai-and-modern-development/vercel-ai/README"
+            ]
+          },
+          {
+            "group": "Software Architecture",
+            "pages": [
+              "inspiration/software-architecture/kent-beck/README",
+              "inspiration/software-architecture/martin-fowler/README",
+              "inspiration/software-architecture/daniele-procida/README"
+            ]
+          },
+          {
+            "group": "Systems & Strategy",
+            "pages": [
+              "inspiration/systems-and-strategy/simon-wardley/README",
+              "inspiration/te/te"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Ecosystem",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "ecosystem/README",
+              "ecosystem/overview/README",
+              "ecosystem/overview/stats"
+            ]
+          },
+          {
+            "group": "Standards & Evolution",
+            "pages": [
+              "ecosystem/compliance/README",
+              "ecosystem/compliance/violations",
+              "ecosystem/evolution/README",
+              "ecosystem/evolution/migrations",
+              "ecosystem/technology/README",
+              "ecosystem/technology/dependencies"
+            ]
+          },
+          {
+            "group": "Projects & Reports",
+            "pages": [
+              "ecosystem/projects/active",
+              "ecosystem/reports/latest",
+              "ecosystem/wisdom/README",
+              "ecosystem/wisdom/best-practices",
+              "ecosystem/wisdom/success"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Workflows",
+        "groups": [
+          {
+            "group": "Development Workflows",
+            "pages": [
+              "workflows/high-yield-command-workflows"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Vision",
+        "groups": [
+          {
+            "group": "Quest Analysis",
+            "pages": [
+              "vision/quest/README",
+              "vision/quest/arbor-analysis",
+              "vision/quest/docs-directory-analysis",
+              "vision/quest/global-analysis",
+              "vision/quest/kumori-analysis",
+              "vision/quest/next-claude-commands",
+              "vision/quest/radar-analysis",
+              "vision/quest/sine-analysis",
+              "vision/quest/squish-analysis",
+              "vision/quest/webs-analysis",
+              "vision/quest/yuba-analysis"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/nit",
+          "icon": "github"
+        },
+        {
+          "anchor": "Mintlify Docs",
+          "href": "https://mintlify.com/docs",
+          "icon": "book"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/nit",
+      "x": "https://x.com/nit"
+    }
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
+  },
+  "api": {
+    "playground": {
+      "display": "simple"
+    }
+  }
+}

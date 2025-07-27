@@ -1,0 +1,430 @@
+# How I Use Cloudflare Workers
+
+My standard Cloudflare Worker setup for API services. Always paired with Hono for the framework.
+
+## Standard Configuration
+
+### wrangler.toml
+```toml
+name = "project-api"
+main = "src/index.ts"
+compatibility_date = "2025-07-15"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+
+# R2 Storage Bucket
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "project-storage"
+
+# Hyperdrive for PostgreSQL
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "your-hyperdrive-id"
+
+# KV Namespace for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "your-kv-namespace-id"
+```
+
+## Worker Structure
+
+### Type-safe Bindings
+```typescript
+// src/types.ts
+export type Bindings = {
+  // Cloudflare services
+  HYPERDRIVE: Hyperdrive;
+  R2_BUCKET: R2Bucket;
+  CACHE: KVNamespace;
+  
+  // Environment variables
+  CLERK_SECRET_KEY: string;
+  CLERK_WEBHOOK_SECRET: string;
+  SENTRY_DSN?: string;
+  ENVIRONMENT: 'development' | 'staging' | 'production';
+  
+  // Service URLs
+  AUDIO_SERVICE_URL?: string;
+  AI_SERVICE_URL?: string;
+};
+```
+
+### Main Worker Entry
+```typescript
+// src/index.ts
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import type { Bindings } from './types';
+
+const app = new Hono<{ Bindings: Bindings }>();
+
+// Middleware
+app.use('*', logger());
+app.use('/api/*', cors({
+  origin: ['http://localhost:3000', 'https://project.com'],
+  credentials: true,
+}));
+
+// Routes
+app.route('/api/v1', v1Routes);
+app.route('/webhooks', webhookRoutes);
+
+export default app;
+```
+
+## Hyperdrive Database Pattern
+
+### Database Connection
+```typescript
+// src/db.ts
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from '@project/database/schema';
+
+export function createDb(hyperdrive: Hyperdrive) {
+  const sql = postgres(hyperdrive.connectionString);
+  return drizzle(sql, { schema });
+}
+```
+
+### Using in Routes
+```typescript
+// src/routes/users.ts
+app.get('/users/:id', async (c) => {
+  const db = createDb(c.env.HYPERDRIVE);
+  const userId = c.req.param('id');
+  
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+    
+  if (!user[0]) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+  
+  return c.json(user[0]);
+});
+```
+
+## R2 Storage Pattern
+
+### File Upload
+```typescript
+app.post('/upload', async (c) => {
+  const formData = await c.req.formData();
+  const file = formData.get('file') as File;
+  
+  if (!file) {
+    return c.json({ error: 'No file provided' }, 400);
+  }
+  
+  const key = `uploads/${crypto.randomUUID()}-${file.name}`;
+  const buffer = await file.arrayBuffer();
+  
+  await c.env.R2_BUCKET.put(key, buffer, {
+    httpMetadata: {
+      contentType: file.type,
+    },
+    customMetadata: {
+      uploadedAt: new Date().toISOString(),
+      originalName: file.name,
+    },
+  });
+  
+  return c.json({ key, url: `/files/${key}` });
+});
+```
+
+### File Retrieval
+```typescript
+app.get('/files/:key', async (c) => {
+  const key = c.req.param('key');
+  const object = await c.env.R2_BUCKET.get(key);
+  
+  if (!object) {
+    return c.notFound();
+  }
+  
+  const headers = new Headers();
+  object.writeHttpMetadata(headers);
+  headers.set('etag', object.httpEtag);
+  
+  return c.body(object.body, 200, headers);
+});
+```
+
+## KV Caching Pattern
+
+### Cache Wrapper
+```typescript
+async function withCache<T>(
+  c: Context,
+  key: string,
+  ttl: number,
+  fn: () => Promise<T>
+): Promise<T> {
+  // Try cache first
+  const cached = await c.env.CACHE.get(key, 'json');
+  if (cached) {
+    return cached as T;
+  }
+  
+  // Fetch fresh data
+  const data = await fn();
+  
+  // Store in cache
+  await c.env.CACHE.put(
+    key,
+    JSON.stringify(data),
+    { expirationTtl: ttl }
+  );
+  
+  return data;
+}
+
+// Usage
+app.get('/api/stats', async (c) => {
+  const stats = await withCache(
+    c,
+    'stats:global',
+    3600, // 1 hour TTL
+    async () => {
+      const db = createDb(c.env.HYPERDRIVE);
+      return calculateStats(db);
+    }
+  );
+  
+  return c.json(stats);
+});
+```
+
+## Authentication Pattern
+
+### Clerk Webhook Validation
+```typescript
+import { Webhook } from 'svix';
+
+app.post('/webhooks/clerk', async (c) => {
+  const payload = await c.req.text();
+  const headers = {
+    'svix-id': c.req.header('svix-id')!,
+    'svix-timestamp': c.req.header('svix-timestamp')!,
+    'svix-signature': c.req.header('svix-signature')!,
+  };
+  
+  const wh = new Webhook(c.env.CLERK_WEBHOOK_SECRET);
+  
+  try {
+    const event = wh.verify(payload, headers);
+    await handleClerkEvent(event, c.env);
+    return c.json({ received: true });
+  } catch (err) {
+    return c.json({ error: 'Invalid signature' }, 400);
+  }
+});
+```
+
+### JWT Verification Middleware
+```typescript
+import { verifyToken } from '@clerk/backend';
+
+export async function authMiddleware(c: Context, next: Next) {
+  const token = c.req.header('Authorization')?.replace('Bearer ', '');
+  
+  if (!token) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+  
+  try {
+    const payload = await verifyToken(token, {
+      secretKey: c.env.CLERK_SECRET_KEY,
+    });
+    
+    c.set('userId', payload.sub);
+    c.set('session', payload);
+    
+    await next();
+  } catch (err) {
+    return c.json({ error: 'Invalid token' }, 401);
+  }
+}
+
+// Usage
+app.use('/api/*', authMiddleware);
+```
+
+## Error Handling
+
+### Global Error Handler
+```typescript
+app.onError((err, c) => {
+  console.error(`${err}`);
+  
+  // Report to Sentry if configured
+  if (c.env.SENTRY_DSN) {
+    // Sentry reporting logic
+  }
+  
+  // Return appropriate error response
+  if (err instanceof HTTPException) {
+    return err.getResponse();
+  }
+  
+  return c.json(
+    {
+      error: 'Internal Server Error',
+      message: c.env.ENVIRONMENT === 'development' ? err.message : undefined,
+    },
+    500
+  );
+});
+```
+
+## Development Workflow
+
+### Local Development
+```bash
+# Start dev server
+pnpm dev
+
+# This runs: wrangler dev --local --persist
+# - --local: Run on local machine
+# - --persist: Keep KV/R2 data between restarts
+```
+
+### Environment Setup
+```bash
+# .dev.vars (gitignored)
+CLERK_SECRET_KEY=sk_test_...
+CLERK_WEBHOOK_SECRET=whsec_...
+DATABASE_URL=postgresql://...
+```
+
+### Deployment
+```bash
+# Deploy to production
+pnpm deploy
+
+# Deploy to staging
+pnpm deploy:staging
+
+# This runs: wrangler deploy --env [environment]
+```
+
+## Testing Pattern
+
+### Vitest Configuration
+```typescript
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    environment: 'miniflare',
+    environmentOptions: {
+      bindings: {
+        CLERK_SECRET_KEY: 'test-key',
+      },
+      kvNamespaces: ['CACHE'],
+      r2Buckets: ['R2_BUCKET'],
+    },
+  },
+});
+```
+
+### Test Example
+```typescript
+// src/index.test.ts
+import { describe, it, expect } from 'vitest';
+import app from './index';
+
+describe('API', () => {
+  it('returns health check', async () => {
+    const res = await app.request('/health');
+    expect(res.status).toBe(200);
+    
+    const data = await res.json();
+    expect(data).toEqual({ status: 'ok' });
+  });
+});
+```
+
+## Performance Tips
+
+1. **Use Hyperdrive** for database connections (automatic pooling)
+2. **Cache aggressively** with KV for read-heavy data
+3. **Stream large files** from R2 instead of buffering
+4. **Minimize cold starts** by keeping worker code small
+5. **Use Service Bindings** for worker-to-worker communication
+
+## My Conventions
+
+1. **Always TypeScript** - Full type safety with bindings
+2. **Hono for routing** - Lightweight and fast
+3. **Structured logging** - JSON logs for observability
+4. **Error boundaries** - Catch and handle all errors
+5. **Environment configs** - Separate dev/staging/prod
+6. **Minimal dependencies** - Keep bundle size small
+
+## Common Issues & Solutions
+
+1. **Local dev database** → Use local PostgreSQL, not Hyperdrive
+2. **CORS errors** → Check origin whitelist in middleware
+3. **Large uploads failing** → Stream to R2, don't buffer
+4. **Auth issues** → Verify Clerk keys match environment
+5. **Deploy failures** → Check wrangler.toml syntax
+
+## Container Services Pattern
+
+When you need non-JS services (like Python for audio):
+```toml
+# wrangler.toml
+[env.production]
+vars = { 
+  AUDIO_SERVICE_URL = "https://audio.project.com"
+}
+```
+
+Then call from Worker:
+```typescript
+const audioResponse = await fetch(c.env.AUDIO_SERVICE_URL + '/process', {
+  method: 'POST',
+  body: formData,
+});
+```
+
+## Resources & Links
+
+### Official Documentation
+- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
+- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/)
+- [Workers Runtime APIs](https://developers.cloudflare.com/workers/runtime-apis/)
+- [Workers Examples](https://developers.cloudflare.com/workers/examples/)
+
+### Storage & State
+- [Workers KV](https://developers.cloudflare.com/workers/learning/how-kv-works/)
+- [R2 Storage](https://developers.cloudflare.com/r2/)
+- [Durable Objects](https://developers.cloudflare.com/workers/learning/using-durable-objects/)
+- [D1 Database](https://developers.cloudflare.com/d1/)
+
+### Performance & Security
+- [Hyperdrive](https://developers.cloudflare.com/hyperdrive/)
+- [Cache API](https://developers.cloudflare.com/workers/runtime-apis/cache/)
+- [Security Headers](https://developers.cloudflare.com/workers/examples/security-headers/)
+- [Rate Limiting](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
+
+### Development & Testing
+- [Miniflare (Testing)](https://miniflare.dev/)
+- [Vitest Integration](https://developers.cloudflare.com/workers/testing/vitest-integration/)
+- [Local Development](https://developers.cloudflare.com/workers/learning/local-development/)
+- [Debugging](https://developers.cloudflare.com/workers/learning/debugging-workers/)

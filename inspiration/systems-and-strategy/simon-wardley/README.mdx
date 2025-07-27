@@ -1,0 +1,467 @@
+# Simon Wardley: Strategic Thinking and Wardley Mapping
+
+## Overview of Wardley Mapping and Strategic Thinking
+
+Wardley Mapping is a strategic planning technique developed by Simon Wardley that helps organizations visualize their value chains and understand the evolution of their components. It combines situational awareness with movement patterns to enable better strategic decision-making.
+
+### Core Principles
+
+1. **Purpose**: Understanding user needs and defining clear organizational purpose
+2. **Landscape**: Mapping the competitive environment and value chains
+3. **Climate**: Recognizing patterns of change and evolution
+4. **Doctrine**: Universal principles of good operations
+5. **Leadership**: Context-specific strategic choices
+
+### Why Wardley Mapping Matters
+
+- **Visual Communication**: Makes strategy visible and debatable
+- **Situational Awareness**: Understand where you are before deciding where to go
+- **Evolution Understanding**: Recognize how components naturally evolve
+- **Strategic Gameplay**: Anticipate competitor moves and market changes
+- **Technology Decisions**: Make informed choices about build vs. buy vs. outsource
+
+## The Evolution Axis: Genesis → Custom → Product → Commodity
+
+The evolution axis is fundamental to Wardley Mapping. All components evolve through predictable stages:
+
+### 1. Genesis (Novel/Experimental)
+- **Characteristics**: Rare, poorly understood, experimental
+- **Properties**: Expensive, unreliable, requires specialists
+- **Examples**: Early AI research, quantum computing experiments
+- **Strategy**: Exploration, R&D, accepting failure
+
+### 2. Custom-Built (Emerging)
+- **Characteristics**: Uncommon, requires expertise, bespoke solutions
+- **Properties**: Very expensive, somewhat reliable, crafted by experts
+- **Examples**: Custom ML models, specialized enterprise software
+- **Strategy**: Differentiation, competitive advantage, learning
+
+### 3. Product (Good Enough)
+- **Characteristics**: Increasingly common, feature competition, versions
+- **Properties**: Moderately expensive, reliable, documented
+- **Examples**: SaaS platforms, databases, frameworks
+- **Strategy**: Feature optimization, market competition, scaling
+
+### 4. Commodity/Utility (Standardized)
+- **Characteristics**: Ubiquitous, standardized, expected
+- **Properties**: Cheap, highly reliable, invisible
+- **Examples**: Cloud computing (AWS/Azure), electricity, internet
+- **Strategy**: Operational efficiency, cost optimization, volume
+
+### Evolution Characteristics Table
+
+| Stage | Genesis | Custom | Product | Commodity |
+|-------|---------|---------|----------|-----------|
+| **Ubiquity** | Rare | Uncommon | Common | Ubiquitous |
+| **Certainty** | Poorly understood | Emerging understanding | Well understood | Standardized |
+| **Market** | Undefined | Forming | Competitive | Utility |
+| **Focus** | Innovation | Building | Features | Operations |
+| **Failure** | High tolerance | Moderate tolerance | Low tolerance | No tolerance |
+| **Characteristics** | Chaotic | Divergent | Convergent | Stable |
+
+## How to Create and Use Wardley Maps for Technical Decisions
+
+### Step-by-Step Guide to Creating a Wardley Map
+
+#### 1. Identify the User Need
+- Start with a clear user need (top of the map)
+- Be specific: "Stream video content" not "entertainment"
+
+#### 2. Identify Components in the Value Chain
+- List all components needed to meet the user need
+- Work backwards from user need to underlying components
+- Include both visible and invisible components
+
+#### 3. Position on Evolution Axis (X-axis)
+- Place each component based on its evolution stage
+- Consider: ubiquity, certainty, and standardization
+- Be honest about current state, not desired state
+
+#### 4. Position on Value Chain (Y-axis)
+- Components closer to user at top
+- Infrastructure and dependencies at bottom
+- Show connections between components
+
+#### 5. Add Movement
+- Show how components are evolving (arrows)
+- Identify areas of rapid change
+- Consider competitive movements
+
+### Example: Mapping a Modern Web Application
+
+```
+User Need: Online Shopping Experience
+│
+├─ Web Interface (Product → Commodity)
+│   ├─ React Framework (Product)
+│   └─ Design System (Custom → Product)
+│
+├─ API Gateway (Product)
+│   ├─ Authentication (Product → Commodity)
+│   └─ Rate Limiting (Commodity)
+│
+├─ Business Logic (Custom)
+│   ├─ Recommendation Engine (Custom → Product)
+│   └─ Inventory Management (Product)
+│
+├─ Data Layer
+│   ├─ PostgreSQL (Commodity)
+│   ├─ Redis Cache (Commodity)
+│   └─ Analytics Pipeline (Custom → Product)
+│
+└─ Infrastructure
+    ├─ Cloud Hosting (Commodity)
+    ├─ CDN (Commodity)
+    └─ Monitoring (Product → Commodity)
+```
+
+### Using Maps for Technical Decisions
+
+#### Build vs Buy Analysis
+- **Genesis/Custom**: Usually build (no alternatives exist)
+- **Product**: Evaluate build vs buy based on differentiation
+- **Commodity**: Always buy/rent unless strategic reason
+
+#### Technology Selection Framework
+1. Map current technology landscape
+2. Identify evolution trajectories
+3. Avoid investing in soon-to-be commodities
+4. Focus innovation on genesis/custom areas
+5. Standardize on commodities
+
+#### Risk Assessment
+- **Evolution Risk**: Components moving to commodity
+- **Dependency Risk**: Relying on genesis-stage components
+- **Competitive Risk**: Competitors using more evolved components
+- **Technical Debt**: Custom-built commodities
+
+## Strategic Patterns and Gameplay
+
+### Common Strategic Patterns
+
+#### 1. Commoditization Play
+- Accelerate evolution of competitor's differentiator
+- Example: Open-sourcing similar technology
+- Counter: Move up the value chain
+
+#### 2. Tower and Moat
+- Build on commodity base (tower)
+- Create custom differentiation (moat)
+- Example: Netflix on AWS with custom recommendation engine
+
+#### 3. Ecosystem Play
+- Create platform others build upon
+- Accelerate ecosystem evolution
+- Example: AWS, Salesforce platform
+
+#### 4. Pioneer-Settler-Town Planner
+- **Pioneers**: Explore genesis innovations
+- **Settlers**: Turn innovations into products
+- **Town Planners**: Industrialize into commodities
+- Requires different skills and metrics
+
+### Weak Signal Detection
+
+| Signal Type | Indicators | Action |
+|------------|------------|---------|
+| **Commoditization** | Multiple vendors, standards emerging | Prepare to migrate |
+| **Disruption** | New practice replacing product | Evaluate early adoption |
+| **Inertia** | Resistance to commodity adoption | Opportunity for advantage |
+| **Co-evolution** | Multiple components evolving together | System-level thinking |
+
+### Doctrine: Universal Principles
+
+1. **Phase-appropriate methods**: Agile for genesis, Lean for product, Six Sigma for commodity
+2. **Remove bias and duplication**: One source of truth
+3. **Use appropriate tools**: Match methods to evolution stage
+4. **Think small teams**: Two-pizza rule for innovation
+5. **Design for constant evolution**: Everything changes
+
+## Applications for Technology Choices and Roadmapping
+
+### Technology Stack Evaluation
+
+#### Modern Data Stack Example
+```
+Analytics Dashboard (User Need)
+│
+├─ Visualization Layer
+│   ├─ Tableau (Product → Commodity)
+│   ├─ Custom D3.js (Custom)
+│   └─ PowerBI (Product)
+│
+├─ Analytics Engine
+│   ├─ Spark (Product → Commodity)
+│   ├─ Custom ML Pipeline (Custom)
+│   └─ BigQuery (Commodity)
+│
+├─ Data Pipeline
+│   ├─ Airflow (Product)
+│   ├─ dbt (Product)
+│   └─ Fivetran (Product → Commodity)
+│
+└─ Storage
+    ├─ S3/GCS (Commodity)
+    └─ Snowflake (Product → Commodity)
+```
+
+### Roadmapping with Evolution
+
+#### Quarter-by-Quarter Evolution Plan
+**Q1**: Identify current position
+- Map existing technology stack
+- Identify evolution gaps
+- Assess competitive positioning
+
+**Q2**: Plan transitions
+- Components approaching commodity: plan migration
+- Genesis opportunities: allocate R&D
+- Custom differentiators: protect and enhance
+
+**Q3**: Execute migrations
+- Move commodity workloads to utilities
+- Standardize product-stage components
+- Invest in genesis explorations
+
+**Q4**: Measure and adjust
+- Track evolution movements
+- Reassess competitive landscape
+- Update strategic plays
+
+### Technology Lifecycle Management
+
+| Evolution Stage | Investment Strategy | Team Structure | Metrics |
+|----------------|-------------------|----------------|----------|
+| **Genesis** | High risk, high reward | Small, autonomous | Learning velocity |
+| **Custom** | Focused investment | Cross-functional | Time to market |
+| **Product** | Feature competition | Product teams | Market share |
+| **Commodity** | Cost optimization | Operations | Efficiency, uptime |
+
+## Prompt Patterns for Strategic Analysis
+
+### Wardley Mapping Analysis Prompts
+
+#### 1. Component Evolution Assessment
+```
+Analyze [technology/component] using Wardley evolution characteristics:
+- Current ubiquity and certainty level
+- Market characteristics and competition
+- Evolution trajectory and timeline
+- Strategic implications for adoption
+```
+
+#### 2. Value Chain Mapping
+```
+Map the value chain for [user need/service]:
+1. Identify all required components
+2. Position on evolution axis (Genesis→Custom→Product→Commodity)
+3. Show dependencies and connections
+4. Highlight evolution movements
+5. Identify strategic opportunities
+```
+
+#### 3. Build vs Buy Decision
+```
+Evaluate [component/technology] for build vs buy:
+- Current evolution stage
+- Competitive differentiation potential
+- Market availability and maturity
+- Total cost of ownership
+- Strategic importance
+Recommend: Build/Buy/Partner with rationale
+```
+
+#### 4. Technology Stack Assessment
+```
+Assess our [domain] technology stack:
+- Map all components by evolution stage
+- Identify over-investment in commodities
+- Find under-investment in differentiators
+- Spot evolution risks (components moving to commodity)
+- Recommend rebalancing strategy
+```
+
+#### 5. Competitive Analysis
+```
+Compare our technology position vs [competitor]:
+- Map both organizations' key components
+- Identify evolution gaps
+- Spot strategic gameplay opportunities
+- Assess relative advantages/disadvantages
+- Recommend strategic moves
+```
+
+#### 6. Innovation Opportunity Identification
+```
+Identify innovation opportunities in [domain]:
+- Map current landscape components
+- Find genesis-stage emerging technologies
+- Identify custom-stage differentiation opportunities
+- Spot commoditizing components to abandon
+- Prioritize by strategic value
+```
+
+#### 7. Technical Debt Through Evolution Lens
+```
+Analyze technical debt in [system/component]:
+- Identify custom-built commodities
+- Find genesis-stage dependencies in production
+- Spot evolution mismatches
+- Calculate migration costs vs competitive risk
+- Prioritize debt reduction by strategic impact
+```
+
+### Advanced Strategic Prompts
+
+#### Ecosystem Strategy
+```
+Design ecosystem strategy for [platform/service]:
+- Map current ecosystem components
+- Identify evolution accelerators
+- Find platform opportunity spaces
+- Design partner incentives
+- Project ecosystem evolution path
+```
+
+#### Disruption Analysis
+```
+Assess disruption risk for [industry/technology]:
+- Map incumbent value chains
+- Identify constraint points
+- Find emerging practice substitutions
+- Evaluate inertia factors
+- Predict disruption timeline and impact
+```
+
+#### Future State Mapping
+```
+Create future state map for [domain] in [timeframe]:
+- Project component evolution
+- Anticipate new genesis innovations
+- Identify disappearing components
+- Map new value chain configurations
+- Derive strategic imperatives
+```
+
+## Practical Examples: Mapping Different Technology Stacks
+
+### Example 1: AI/ML Platform Mapping
+
+```
+AI-Powered Customer Service (User Need)
+│
+├─ Conversation Interface
+│   ├─ Chat UI (Commodity)
+│   ├─ Voice Interface (Product)
+│   └─ Multimodal Interface (Genesis → Custom)
+│
+├─ AI Models
+│   ├─ GPT API (Product → Commodity)
+│   ├─ Custom Fine-tuned Model (Custom)
+│   └─ Proprietary Training Data (Custom)
+│
+├─ ML Infrastructure
+│   ├─ Model Serving (Product)
+│   ├─ Training Pipeline (Product)
+│   └─ GPU Clusters (Commodity)
+│
+└─ Data Foundation
+    ├─ Vector Database (Custom → Product)
+    ├─ Data Warehouse (Commodity)
+    └─ Real-time Streaming (Product)
+```
+
+**Strategic Insights**:
+- GPT APIs commoditizing rapidly - avoid over-investment
+- Proprietary data remains key differentiator
+- Multimodal interfaces present innovation opportunity
+- Vector databases evolving quickly - prepare for commoditization
+
+### Example 2: DevOps Toolchain Mapping
+
+```
+Continuous Delivery (User Need)
+│
+├─ Developer Experience
+│   ├─ IDE (Commodity)
+│   ├─ AI Coding Assistant (Custom → Product)
+│   └─ Local Dev Environment (Product → Commodity)
+│
+├─ CI/CD Pipeline
+│   ├─ GitHub Actions (Product → Commodity)
+│   ├─ Security Scanning (Product)
+│   └─ Custom Deployment Logic (Custom)
+│
+├─ Infrastructure as Code
+│   ├─ Terraform (Product → Commodity)
+│   ├─ Policy as Code (Custom → Product)
+│   └─ GitOps (Product)
+│
+└─ Runtime Platform
+    ├─ Kubernetes (Commodity)
+    ├─ Service Mesh (Product)
+    └─ Serverless (Product → Commodity)
+```
+
+**Strategic Insights**:
+- Most DevOps tools commoditizing - focus on workflow optimization
+- AI coding assistants still differentiating - invest here
+- Policy as Code emerging as new control point
+- Platform engineering practices more important than tools
+
+### Example 3: Modern E-commerce Stack
+
+```
+Online Shopping Experience (User Need)
+│
+├─ Frontend Experience
+│   ├─ Next.js Framework (Product)
+│   ├─ Headless CMS (Product)
+│   └─ Personalization Engine (Custom)
+│
+├─ Commerce Platform
+│   ├─ Payment Processing (Commodity)
+│   ├─ Inventory Management (Product)
+│   └─ Dynamic Pricing (Custom)
+│
+├─ Customer Intelligence
+│   ├─ Analytics (Commodity)
+│   ├─ CDP (Product)
+│   └─ Predictive Models (Custom)
+│
+└─ Infrastructure
+    ├─ Edge Computing (Product → Commodity)
+    ├─ Global CDN (Commodity)
+    └─ Auto-scaling (Commodity)
+```
+
+**Strategic Insights**:
+- Frontend frameworks rapidly evolving - maintain flexibility
+- Personalization and dynamic pricing remain differentiators
+- Edge computing commoditizing - prepare architecture
+- Customer intelligence drives competitive advantage
+
+## Key Takeaways
+
+1. **Evolution is inevitable**: All components move from genesis to commodity
+2. **Position matters**: Know where components are on the evolution axis
+3. **Movement creates opportunity**: Anticipate and exploit evolution
+4. **Context is king**: No one-size-fits-all solutions
+5. **Maps enable discussion**: Make strategy visual and debatable
+6. **Doctrine guides tactics**: Universal principles apply regardless of context
+7. **Gameplay requires awareness**: Understand the landscape before moving
+
+### Getting Started with Wardley Mapping
+
+1. Start small - map one service or user need
+2. Focus on evolution positioning accuracy
+3. Look for mismatches (custom-built commodities)
+4. Identify one strategic play
+5. Iterate and refine based on learning
+
+### Resources for Deeper Learning
+
+- Simon Wardley's book: "Wardley Maps" (available free online)
+- Community: MapCamp conferences and online community
+- Practice: Map your own technology stack
+- Share: Discuss maps with your team for insights

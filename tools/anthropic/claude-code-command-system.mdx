@@ -1,0 +1,226 @@
+# Claude Code Command System Documentation
+
+## Overview
+
+The Claude Code command system is a sophisticated AI-driven development framework that enforces architectural standards and automates complex development tasks across an entire ecosystem of projects.
+
+## Architecture
+
+### Component-Based Design
+
+Commands are constructed from reusable components that ensure consistency:
+
+```xml
+<components>
+  <use>@thinking-blocks</use>
+  <use>@session-state</use>
+  <use>@xml-transformer</use>
+  <use>@verification-patterns</use>
+  <use>@output-standards</use>
+</components>
+```
+
+### Execution Lifecycle
+
+Every command follows a predictable lifecycle:
+
+1. **Input Analysis** - Transform natural language to structured intent
+2. **Semantic Extraction** - Extract requirements, constraints, and context  
+3. **Thinking Process** - Transparent reasoning with critical evaluation
+4. **Verification** - Safety checks before execution
+5. **Execution** - Perform the requested operations
+6. **Output** - Structured results with next steps
+
+## Core Commands
+
+### /user:create
+Initializes complete project ecosystems with four repositories:
+- `[project]-xyz` - Turborepo web platform
+- `[project]-ai` - Mastra AI service
+- `[project]-apple` - Native iOS/macOS app
+- `[project]-docs` - AI-optimized documentation
+
+### /user:ecosystem
+Meta-level operations across all projects:
+- `audit` - Analyze compliance and patterns
+- `standards` - Enforce architectural rules
+- `evolve` - Propagate changes across projects
+- `wisdom` - Extract learnings and patterns
+
+### /user:prime
+Deep analysis of specific areas with strategic recommendations.
+
+### /user:build
+Feature implementation with proper architecture and testing.
+
+### /user:design
+UI/UX development following design system patterns.
+
+### /user:fix
+Intelligent debugging and issue resolution.
+
+### /user:vision
+Creative exploration and feature ideation.
+
+### /user:ship
+Production deployment and release management.
+
+### /user:test
+Comprehensive testing strategy and implementation.
+
+## Session Management
+
+### State Persistence
+```
+.claude/session/
+├── current/          # Active session state
+├── archive/          # Historical sessions
+└── global/           # Cross-session learnings
+```
+
+### Context Flow
+Commands build on each other's outputs:
+- `/create` → `/build` → `/test` → `/ship`
+- Each command consumes previous context
+- Intelligent next-step suggestions
+
+## Rule Integration
+
+Commands enforce rules from `~/.claude/rules/`:
+
+### Enforcement Hierarchy
+1. **Required** (100% adoption) - Strictly enforced
+2. **Recommended** (80-99%) - Suggested with alternatives
+3. **Optional** (<80%) - Available when appropriate
+
+### Rule Categories
+- Project structure and naming
+- Technology stack and versions
+- Architectural patterns
+- State management
+- API design
+- Documentation standards
+
+## Best Practices
+
+### Command Usage
+1. Use `/user:ecosystem audit` before major changes
+2. Start new projects with `/user:create`
+3. Follow suggested command sequences
+4. Review verification steps before confirmation
+
+### Custom Commands
+When creating custom commands:
+1. Use standard components
+2. Follow the execution lifecycle
+3. Define interoperability
+4. Document in components/
+
+### Rule Updates
+1. Base on actual patterns (80%+ adoption)
+2. Focus on technical consistency
+3. Allow design flexibility
+4. Document rationale
+
+## Extension Points
+
+### Adding Components
+Create reusable patterns in `components/`:
+```xml
+<!-- components/new-pattern.md -->
+<new_pattern>
+  <purpose>Describe the pattern's purpose</purpose>
+  <usage>How to integrate this pattern</usage>
+  <implementation>Pattern details</implementation>
+</new_pattern>
+```
+
+### Custom Rules
+Add domain-specific rules in `~/.claude/rules/`:
+1. Document actual patterns, not ideals
+2. Use clear, verifiable language
+3. Specify adoption percentage
+4. Include examples
+
+## Integration Examples
+
+### With IDEs
+```bash
+# VS Code task
+"tasks": [
+  {
+    "label": "Create Project",
+    "type": "shell",
+    "command": "code --execute-command 'claude-code.create ${input:projectName}'"
+  }
+]
+```
+
+### With CI/CD
+```yaml
+# GitHub Action
+- name: Audit Standards
+  run: |
+    claude-code ecosystem audit all
+    claude-code ecosystem standards check
+```
+
+### With Documentation
+The system integrates with AI-optimized docs:
+- `.docindex.json` for navigation
+- `CLAUDE.md` for project context
+- XML instructions for agents
+
+## Performance Optimization
+
+### Parallel Execution
+Commands use parallel tasks where possible:
+```xml
+<parallel_tasks>
+  <task>Structure Analysis</task>
+  <task>Dependency Audit</task>
+  <task>Pattern Detection</task>
+</parallel_tasks>
+```
+
+### Caching
+- Session state reduces redundant analysis
+- Component outputs are reused
+- File reads are minimized
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: Command not recognizing project structure
+**Solution**: Ensure you're in the correct directory (~/Developer)
+
+**Issue**: Rules seem too restrictive
+**Solution**: Rules can be adjusted based on your patterns
+
+**Issue**: Session state conflicts
+**Solution**: Clear session with `rm -rf .claude/session/current/`
+
+### Debug Mode
+Enable verbose output for troubleshooting:
+```bash
+CLAUDE_DEBUG=true claude-code [command]
+```
+
+## Future Enhancements
+
+### Planned Features
+- Visual rule editor
+- Automated rule discovery
+- Multi-language support
+- Remote team sync
+
+### Community Extensions
+The system is designed for extension:
+- Share custom commands
+- Contribute components
+- Propose rule updates
+
+## Conclusion
+
+The Claude Code command system transforms AI assistance from simple code generation to intelligent, context-aware development that enforces your exact standards across an entire ecosystem. By combining structured commands, reusable components, and living rules, it enables consistent, high-quality development at scale.

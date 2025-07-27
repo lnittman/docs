@@ -1,0 +1,647 @@
+# How I Use Next.js 15
+
+My standard Next.js setup with App Router, React 19, Server Components, and Tailwind CSS v4.
+
+## Project Structure
+
+```
+apps/app/
+├── app/
+│   ├── (auth)/           # Auth group routes
+│   │   ├── sign-in/
+│   │   └── sign-up/
+│   ├── (dashboard)/      # Dashboard group
+│   │   ├── layout.tsx    # Dashboard layout
+│   │   ├── page.tsx      # Dashboard home
+│   │   └── settings/
+│   ├── api/              # API routes
+│   │   └── webhooks/
+│   ├── layout.tsx        # Root layout
+│   ├── page.tsx          # Landing page
+│   └── globals.css       # Tailwind imports
+├── components/
+│   ├── ui/              # Shared UI components
+│   ├── dashboard/       # Dashboard components
+│   └── marketing/       # Marketing components
+├── lib/
+│   ├── api.ts          # API client
+│   ├── utils.ts        # Utilities
+│   └── constants.ts    # App constants
+├── public/
+├── next.config.js
+├── tailwind.config.ts
+└── tsconfig.json
+```
+
+## Configuration
+
+### next.config.js
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  
+  // Standalone output for Docker
+  output: 'standalone',
+  
+  // Environment variables
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  },
+  
+  // Image optimization
+  images: {
+    domains: ['images.clerk.dev', 'img.clerk.com'],
+    formats: ['image/avif', 'image/webp'],
+  },
+  
+  // Experimental features
+  experimental: {
+    ppr: true, // Partial Prerendering
+    reactCompiler: true,
+  },
+  
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+export default nextConfig;
+```
+
+### tailwind.config.ts
+```typescript
+import type { Config } from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
+
+const config = {
+  darkMode: ['class'],
+  content: [
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
+        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
+      },
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        // ... more colors
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'slide-up': {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.5s ease-out',
+        'slide-up': 'slide-up 0.3s ease-out',
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config;
+
+export default config;
+```
+
+## Layout Patterns
+
+### Root Layout with Clerk
+```typescript
+// app/layout.tsx
+import { ClerkProvider } from '@clerk/nextjs';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+import './globals.css';
+
+export const metadata = {
+  title: 'Project Name',
+  description: 'Project description',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+### Dashboard Layout
+```typescript
+// app/(dashboard)/layout.tsx
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { DashboardNav } from '@/components/dashboard/nav';
+import { UserButton } from '@clerk/nextjs';
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    redirect('/sign-in');
+  }
+  
+  return (
+    <div className="flex h-screen">
+      <DashboardNav />
+      <div className="flex-1 flex flex-col">
+        <header className="border-b px-6 py-4 flex justify-between">
+          <h1 className="text-2xl font-semibold">Dashboard</h1>
+          <UserButton />
+        </header>
+        <main className="flex-1 p-6 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+## Server Components & Data Fetching
+
+### Direct Database Access
+```typescript
+// app/(dashboard)/items/page.tsx
+import { Suspense } from 'react';
+import { auth } from '@clerk/nextjs/server';
+import { db } from '@project/database';
+import { ItemList } from '@/components/items/list';
+import { ItemSkeleton } from '@/components/items/skeleton';
+
+async function ItemsData() {
+  const { userId } = await auth();
+  
+  const items = await db
+    .select()
+    .from(items)
+    .where(eq(items.userId, userId))
+    .orderBy(desc(items.createdAt));
+    
+  return <ItemList items={items} />;
+}
+
+export default function ItemsPage() {
+  return (
+    <div>
+      <h2 className="text-xl font-semibold mb-4">My Items</h2>
+      <Suspense fallback={<ItemSkeleton />}>
+        <ItemsData />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+### API Route Pattern
+```typescript
+// app/api/items/route.ts
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
+import { db } from '@project/database';
+import { items, insertItemSchema } from '@project/database/schema';
+
+export async function GET(request: Request) {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get('page') || '1');
+  const limit = parseInt(url.searchParams.get('limit') || '20');
+  
+  const data = await db
+    .select()
+    .from(items)
+    .where(eq(items.userId, userId))
+    .limit(limit)
+    .offset((page - 1) * limit);
+    
+  return NextResponse.json({ data, page, limit });
+}
+
+export async function POST(request: Request) {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  
+  const body = await request.json();
+  const result = insertItemSchema.safeParse(body);
+  
+  if (!result.success) {
+    return NextResponse.json(
+      { error: 'Validation failed', issues: result.error.flatten() },
+      { status: 400 }
+    );
+  }
+  
+  const [item] = await db
+    .insert(items)
+    .values({ ...result.data, userId })
+    .returning();
+    
+  return NextResponse.json(item, { status: 201 });
+}
+```
+
+## Client Components & State
+
+### Form with Server Actions
+```typescript
+// app/(dashboard)/items/new/page.tsx
+import { createItem } from './actions';
+
+export default function NewItemPage() {
+  return (
+    <form action={createItem} className="space-y-4">
+      <div>
+        <label htmlFor="title" className="block text-sm font-medium mb-1">
+          Title
+        </label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          required
+          className="w-full px-3 py-2 border rounded-lg"
+        />
+      </div>
+      
+      <div>
+        <label htmlFor="description" className="block text-sm font-medium mb-1">
+          Description
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          rows={3}
+          className="w-full px-3 py-2 border rounded-lg"
+        />
+      </div>
+      
+      <button
+        type="submit"
+        className="bg-primary text-primary-foreground px-4 py-2 rounded-lg"
+      >
+        Create Item
+      </button>
+    </form>
+  );
+}
+
+// actions.ts
+'use server';
+
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { db } from '@project/database';
+import { items, insertItemSchema } from '@project/database/schema';
+
+export async function createItem(formData: FormData) {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    redirect('/sign-in');
+  }
+  
+  const result = insertItemSchema.safeParse({
+    title: formData.get('title'),
+    description: formData.get('description'),
+  });
+  
+  if (!result.success) {
+    throw new Error('Validation failed');
+  }
+  
+  await db.insert(items).values({
+    ...result.data,
+    userId,
+  });
+  
+  redirect('/dashboard/items');
+}
+```
+
+### Client State with Jotai
+```typescript
+// components/items/list.tsx
+'use client';
+
+import { atom, useAtom } from 'jotai';
+import { useState, useTransition } from 'react';
+
+// Atoms
+const selectedItemsAtom = atom<string[]>([]);
+const searchAtom = atom('');
+
+export function ItemList({ items }: { items: Item[] }) {
+  const [selectedItems, setSelectedItems] = useAtom(selectedItemsAtom);
+  const [search, setSearch] = useAtom(searchAtom);
+  const [isPending, startTransition] = useTransition();
+  
+  const filteredItems = items.filter(item =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+  );
+  
+  const handleDelete = async () => {
+    startTransition(async () => {
+      await deleteItems(selectedItems);
+      setSelectedItems([]);
+    });
+  };
+  
+  return (
+    <div>
+      <input
+        type="search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search items..."
+        className="w-full px-3 py-2 border rounded-lg mb-4"
+      />
+      
+      <div className="space-y-2">
+        {filteredItems.map((item) => (
+          <ItemCard
+            key={item.id}
+            item={item}
+            selected={selectedItems.includes(item.id)}
+            onToggle={() => {
+              setSelectedItems(prev =>
+                prev.includes(item.id)
+                  ? prev.filter(id => id !== item.id)
+                  : [...prev, item.id]
+              );
+            }}
+          />
+        ))}
+      </div>
+      
+      {selectedItems.length > 0 && (
+        <button
+          onClick={handleDelete}
+          disabled={isPending}
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg disabled:opacity-50"
+        >
+          Delete {selectedItems.length} items
+        </button>
+      )}
+    </div>
+  );
+}
+```
+
+## Data Fetching with SWR
+
+### API Client Setup
+```typescript
+// lib/api.ts
+import useSWR from 'swr';
+import { useAuth } from '@clerk/nextjs';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+
+async function fetcher(url: string, token?: string) {
+  const res = await fetch(url, {
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+  
+  if (!res.ok) {
+    throw new Error('API request failed');
+  }
+  
+  return res.json();
+}
+
+export function useAPI<T = any>(path: string | null) {
+  const { getToken } = useAuth();
+  
+  return useSWR<T>(
+    path ? `${API_URL}${path}` : null,
+    async (url) => {
+      const token = await getToken();
+      return fetcher(url, token || undefined);
+    }
+  );
+}
+```
+
+### Using in Components
+```typescript
+// components/stats/overview.tsx
+'use client';
+
+import { useAPI } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
+
+export function StatsOverview() {
+  const { data, error, isLoading } = useAPI<{
+    total: number;
+    thisMonth: number;
+    growth: number;
+  }>('/stats/overview');
+  
+  if (isLoading) {
+    return <Skeleton className="h-32 w-full" />;
+  }
+  
+  if (error) {
+    return <div>Failed to load stats</div>;
+  }
+  
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      <StatCard title="Total" value={data.total} />
+      <StatCard title="This Month" value={data.thisMonth} />
+      <StatCard title="Growth" value={`${data.growth}%`} />
+    </div>
+  );
+}
+```
+
+## Image Optimization
+
+```typescript
+// components/ui/avatar.tsx
+import Image from 'next/image';
+
+export function Avatar({ src, alt, size = 40 }: AvatarProps) {
+  return (
+    <div
+      className="relative rounded-full overflow-hidden bg-gray-100"
+      style={{ width: size, height: size }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        sizes={`${size}px`}
+      />
+    </div>
+  );
+}
+```
+
+## Error Handling
+
+### Error Boundary
+```typescript
+// app/(dashboard)/error.tsx
+'use client';
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  return (
+    <div className="flex min-h-[400px] flex-col items-center justify-center">
+      <h2 className="text-xl font-semibold mb-2">Something went wrong!</h2>
+      <p className="text-muted-foreground mb-4">{error.message}</p>
+      <button
+        onClick={reset}
+        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg"
+      >
+        Try again
+      </button>
+    </div>
+  );
+}
+```
+
+### Not Found
+```typescript
+// app/(dashboard)/items/[id]/not-found.tsx
+import Link from 'next/link';
+
+export default function NotFound() {
+  return (
+    <div className="flex min-h-[400px] flex-col items-center justify-center">
+      <h2 className="text-xl font-semibold mb-2">Item Not Found</h2>
+      <p className="text-muted-foreground mb-4">
+        The item you're looking for doesn't exist.
+      </p>
+      <Link
+        href="/dashboard/items"
+        className="px-4 py-2 bg-primary text-primary-foreground rounded-lg"
+      >
+        Back to Items
+      </Link>
+    </div>
+  );
+}
+```
+
+## Environment Variables
+
+```bash
+# .env.local
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:8787
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+DATABASE_URL=postgresql://...
+```
+
+## My Conventions
+
+1. **App Router only** - No pages directory
+2. **Server Components default** - Client only when needed
+3. **Tailwind for styling** - No CSS-in-JS
+4. **TypeScript strict** - Full type safety
+5. **Clerk for auth** - Consistent with iOS
+6. **Direct DB access** - In server components
+7. **SWR for client** - When API needed
+8. **Server Actions** - For mutations
+9. **Suspense everywhere** - Better UX
+
+## Performance Patterns
+
+1. **Static where possible** - Use generateStaticParams
+2. **Dynamic imports** - For heavy components
+3. **Image optimization** - Always use next/image
+4. **Font optimization** - Local fonts with variable
+5. **Parallel data fetching** - Multiple Suspense boundaries
+
+## Common Issues
+
+1. **Hydration errors** → Check server/client mismatch
+2. **Auth in server components** → Use auth() from @clerk/nextjs/server
+3. **Database in client** → Move to server component or API
+4. **Build errors** → Check all dynamic imports
+5. **Type errors** → Ensure packages built first
+
+## Resources & Links
+
+### Official Documentation
+- [Next.js 15 Docs](https://nextjs.org/docs)
+- [App Router](https://nextjs.org/docs/app)
+- [API Reference](https://nextjs.org/docs/api-reference)
+- [Next.js Learn](https://nextjs.org/learn)
+
+### Core Features
+- [React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components)
+- [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
+- [Routing & Navigation](https://nextjs.org/docs/app/building-your-application/routing)
+- [Data Fetching](https://nextjs.org/docs/app/building-your-application/data-fetching)
+
+### Performance & Optimization
+- [Image Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/images)
+- [Font Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+- [Static Generation](https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic)
+- [Caching](https://nextjs.org/docs/app/building-your-application/caching)
+
+### Related Technologies
+- [React 19 Features](https://react.dev/blog/2024/04/25/react-19)
+- [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript)
+- [Tailwind CSS v4](https://tailwindcss.com/docs)
+- [Vercel Deployment](https://vercel.com/docs/frameworks/nextjs)

@@ -1,0 +1,63 @@
+# Design Assets Repository
+
+This repository contains design assets including fonts, logos, and UI components organized for easy access and reuse across projects.
+
+## Repository Structure
+
+### Fonts
+The `fonts/` directory contains various typeface collections:
+
+- **alcala/** - Alcala Trial family (BlackDisplay, Bold, Italic, Roman)
+- **bertin/** - Bertin Dot and Square families with multiple trial variations
+- **brett/** - Brett Trial Regular
+- **cx80/** - CX80 family with variable and static fonts, including PDF documentation
+- **exposure/** - Exposure family with extensive italic and regular variations
+- **kmr/** - KMR Apparat family in multiple formats (Desktop OTF/TTF, Web EOT/WOFF/WOFF2)
+- **louize/** - Louize Display Trial Condensed family
+- **milling/** - Milling family with Simplex, Duplex, and Triplex variations
+- **stuart/** - Stuart family with Caption, Text, and Titling variants
+
+### Logos
+The `logos/` directory contains reference branding assets and logo files.
+
+### UI Components
+The `ui/` directory contains design references and UI components organized by:
+- **betterstack/** - BetterStack UI elements
+- **cursor/** - Cursor app design elements
+- **next-forge/** - Next Forge tool components
+- **raycast/** - Raycast application UI elements
+- **vercel/** - Vercel platform UI elements
+
+
+## Usage
+
+1. Clone this repository to access design assets
+2. Font files can be installed locally or referenced in projects
+3. UI components and logos can be used as design references
+4. All assets are organized by category for easy navigation
+
+## File Formats
+
+- **Fonts**: OTF, TTF, WOFF, WOFF2, EOT (web fonts)
+- **Images**: PNG format for logos and UI components
+- **Documentation**: TXT and PDF files where applicable
+
+## Contributing
+
+When adding new design assets:
+1. Organize files in appropriate subdirectories
+2. Maintain consistent naming conventions
+3. Avoid committing large binary files (use Git LFS if necessary)
+4. Update this README when adding new categories or significant assets
+
+## Git LFS Recommendation
+
+For future large assets, consider using Git LFS (Large File Storage) to manage binary files efficiently:
+
+```bash
+git lfs track "*.pdf"
+git lfs track "*.psd"
+git lfs track "*.ai"
+```
+
+This helps keep the repository performant while still tracking large design files.

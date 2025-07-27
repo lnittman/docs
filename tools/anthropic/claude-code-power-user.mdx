@@ -1,0 +1,548 @@
+# Claude Code Power User Guide
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-02  
+**Purpose**: Maximize productivity with Claude Code through advanced features and workflows
+
+## Table of Contents
+
+1. [Quick Reference](#quick-reference)
+2. [Memory Management](#memory-management)
+3. [Extended Thinking](#extended-thinking)
+4. [Custom Commands](#custom-commands)
+5. [Workflow Optimization](#workflow-optimization)
+6. [Developer Docs Integration](#developer-docs-integration)
+7. [Advanced Patterns](#advanced-patterns)
+8. [Team Collaboration](#team-collaboration)
+
+## Quick Reference
+
+### Essential Keyboard Shortcuts
+- **Shift + Tab**: Auto-accept Claude's suggestions (rapid prototyping mode)
+- **Tab**: Accept current suggestion
+- **Esc**: Cancel current operation
+- **Ctrl/Cmd + C**: Interrupt Claude mid-response
+
+### Power User Commands
+```bash
+# Resume last conversation
+claude --continue
+
+# Select from recent conversations
+claude --resume
+
+# Set custom model
+claude --model claude-opus-4-20250514
+
+# Extended thinking prompts
+"think about this problem"
+"think harder about the architecture"
+"think longer about the implementation"
+"think more about edge cases"
+```
+
+### File Management Patterns
+```bash
+# Reference documentation
+@~/Developer/docs/apps/docs.md
+
+# Import modular instructions
+@path/to/component-guide.md
+
+# Quick file navigation
+/open src/components/Button.tsx
+/close
+```
+
+## Memory Management
+
+### Three-Layer Memory System
+
+#### 1. Project Memory (./CLAUDE.md)
+**Purpose**: Team-shared context for the current project
+**Location**: `./CLAUDE.md` in project root
+**Best Practices**:
+```markdown
+# Project Name
+
+## Architecture
+- Key architectural decisions
+- Technology stack with versions
+- Important patterns to follow
+
+## Conventions
+- Code style specifics
+- Naming conventions
+- File organization rules
+
+## Common Commands
+- `pnpm dev` - Start development
+- `pnpm test` - Run tests
+- `pnpm build` - Build for production
+
+## Current Focus
+- Active feature development
+- Known issues to avoid
+- Performance considerations
+```
+
+#### 2. User Memory (~/.claude/CLAUDE.md)
+**Purpose**: Personal preferences and cross-project patterns
+**Location**: `~/.claude/CLAUDE.md`
+**Optimize for Your Workflow**:
+```markdown
+# Personal Development Preferences
+
+## Code Style
+- Prefer explicit types over inference
+- Use early returns for clarity
+- Destructure props at function declaration
+
+## Common Aliases
+- @docs → ~/Developer/docs/
+- @apps → ~/Developer/apps/
+
+## Frequently Used Patterns
+- Always use pnpm over npm
+- Prefer Turborepo for monorepos
+- Use Tailwind CSS v4 patterns
+
+## Project Templates
+- Next.js 15 with App Router
+- React Native with Expo
+- Node.js with TypeScript
+```
+
+#### 3. Documentation Repository (~/Developer/docs/)
+**Purpose**: Comprehensive reference and patterns library
+**Recommended Structure**:
+```
+~/Developer/docs/
+├── apps/                    # Application-specific docs
+│   ├── docs.md             # Documentation standards
+│   └── patterns.md         # Common patterns
+├── prompts/                # Reusable prompts
+│   ├── ai/                # AI integration prompts
+│   ├── code/              # Code generation prompts
+│   └── docs/              # Documentation prompts
+├── tools/                  # Tool-specific guides
+│   ├── claude-code-power-user.md
+│   └── anthropic/         # Official docs
+└── reference/             # Quick references
+    ├── commands.md        # Common commands
+    └── shortcuts.md       # Keyboard shortcuts
+```
+
+### Memory Import Patterns
+
+```markdown
+# In CLAUDE.md, import modular instructions
+@~/Developer/docs/apps/patterns.md
+@~/Developer/docs/tools/claude-code-power-user.md#workflow-optimization
+
+# Maximum recursion depth: 5 levels
+# Keep imports focused and relevant
+```
+
+## Extended Thinking
+
+### When to Use Extended Thinking
+
+#### Ideal Use Cases
+1. **Architecture Design**: "think about the best architecture for this feature"
+2. **Complex Debugging**: "think through why this error might be occurring"
+3. **Performance Optimization**: "think harder about optimizing this algorithm"
+4. **Security Analysis**: "think deeply about potential security vulnerabilities"
+5. **API Design**: "think more about the API contract and edge cases"
+
+#### Prompting Strategies
+```markdown
+# Basic thinking (5-10 seconds)
+"think about this problem"
+
+# Medium thinking (10-30 seconds)
+"think harder about this"
+"think more carefully"
+
+# Deep thinking (30+ seconds)
+"think longer about this implementation"
+"think deeply about all edge cases"
+"think extensively about the architecture"
+```
+
+### Extended Thinking Best Practices
+
+1. **Be Specific**: "think about database schema design" > "think about this"
+2. **Chain Thinking**: Let Claude think, then refine based on output
+3. **Combine with Planning**: "think about this, then create a step-by-step plan"
+4. **Preserve Context**: Don't interrupt during thinking blocks
+
+## Custom Commands
+
+### Command Structure
+
+#### Project Commands (.claude/commands/)
+```markdown
+# .claude/commands/test.md
+Run comprehensive test suite with coverage
+
+<test_command>
+Run all tests with coverage reporting and open results:
+
+```bash
+pnpm test:coverage && open coverage/index.html
+```
+&lt;/test_command&gt;
+
+$ARGUMENTS
+```
+
+#### User Commands (~/.claude/commands/)
+```markdown
+# ~/.claude/commands/setup.md
+Initialize new project with standard configuration
+
+<setup_command>
+Create a new project with my preferred stack:
+
+1. Initialize with my template
+2. Set up standard dependencies
+3. Configure development environment
+4. Create initial documentation
+
+Project type: $ARGUMENTS
+</setup_command>
+```
+
+### Power User Commands
+
+#### 1. Documentation Audit (/user:docaudit)
+```bash
+# Comprehensive documentation analysis
+/user:docaudit
+
+# With specific focus
+/user:docaudit focus on API documentation
+```
+
+#### 2. Multi-Task Planning (/user:multitask)
+```bash
+# Create parallelized implementation plan
+/user:multitask implement real-time collaboration
+
+# With specific constraints
+/user:multitask add authentication using Clerk
+```
+
+#### 3. Performance Analysis (/project:perf)
+```bash
+# Analyze and optimize performance
+/project:perf analyze bundle size
+
+# With specific metrics
+/project:perf optimize Core Web Vitals
+```
+
+## Workflow Optimization
+
+### Parallel Development Pattern
+
+Use multiple Claude Code instances with git worktrees:
+```bash
+# Set up parallel workspaces
+git worktree add ../feature-auth feature/authentication
+git worktree add ../feature-api feature/api-integration
+
+# Run separate Claude instances
+cd ../feature-auth && claude  # Terminal 1
+cd ../feature-api && claude   # Terminal 2
+```
+
+### Checkpoint-Heavy Workflow
+
+```bash
+# 1. Start with clear intention
+claude "implement user dashboard"
+
+# 2. Checkpoint after each component
+git add -A && git commit -m "feat: add dashboard layout"
+
+# 3. Test incrementally
+pnpm test:watch
+
+# 4. Easy rollback if needed
+git reset --hard HEAD~1
+```
+
+### Documentation-First Development
+
+```markdown
+# 1. Start with docs
+/user:docaudit
+
+# 2. Create implementation plan from docs
+"Based on the documentation, create implementation plan"
+
+# 3. Generate code matching docs
+"Implement according to the API specification"
+
+# 4. Update docs with implementation details
+"Update documentation with implementation notes"
+```
+
+## Developer Docs Integration
+
+### Structuring ~/Developer/docs/ for Claude Code
+
+#### 1. Create Influence Templates
+```markdown
+# ~/Developer/docs/prompts/code/react-component.xml
+<component_template>
+Create a React component following these patterns:
+- Use TypeScript with explicit types
+- Include comprehensive JSDoc
+- Implement error boundaries
+- Add unit tests with React Testing Library
+- Follow accessibility best practices
+</component_template>
+```
+
+#### 2. Reference Patterns Library
+```markdown
+# ~/Developer/docs/apps/patterns.md
+## State Management Pattern
+- Use Jotai for UI state
+- Use SWR for server state
+- Keep state minimal and derived
+
+## API Pattern
+- Always use error boundaries
+- Implement retry logic
+- Cache aggressively
+```
+
+#### 3. Quick Command References
+```markdown
+# ~/Developer/docs/reference/commands.md
+## Development Commands
+- `pnpm dev` - Start all apps
+- `pnpm build` - Build all packages
+- `pnpm test` - Run all tests
+
+## Database Commands
+- `pnpm db:push` - Push schema changes
+- `pnpm db:studio` - Open Prisma Studio
+```
+
+### Using Docs as Context
+
+```bash
+# Reference specific sections
+@~/Developer/docs/apps/patterns.md#state-management
+
+# Import entire guides
+@~/Developer/docs/tools/claude-code-power-user.md
+
+# Chain multiple contexts
+@~/Developer/docs/apps/docs.md
+@~/Developer/docs/prompts/code/react-component.xml
+"Create dashboard following our patterns"
+```
+
+## Advanced Patterns
+
+### Self-Improving Documentation
+
+```markdown
+# In CLAUDE.md
+## Documentation Update Protocol
+- After each session, update relevant docs
+- Document new patterns discovered
+- Add common error solutions
+- Update command shortcuts
+```
+
+### Intelligent Task Distribution
+
+```python
+# Determine sync vs async tasks
+if task.requires_creativity or task.is_exploratory:
+    use_claude_code()  # Async with extended thinking
+elif task.is_well_defined and task.has_clear_specs:
+    implement_directly()  # Sync implementation
+else:
+    create_plan_first()  # Plan then implement
+```
+
+### Context Window Optimization
+
+```markdown
+# Prioritize context loading
+1. Current task requirements
+2. Project-specific CLAUDE.md
+3. Relevant documentation sections
+4. Code examples and patterns
+5. Historical context (if needed)
+
+# Avoid context bloat
+- Don't import entire repositories
+- Reference specific sections
+- Use grep/search for targeted context
+```
+
+### Verification Loops
+
+```bash
+# Self-verifying implementation
+"Implement feature X with tests"
+"Run the tests and fix any failures"
+"Verify edge cases are handled"
+"Update documentation with examples"
+```
+
+## Team Collaboration
+
+### Shared Standards
+
+#### 1. Project CLAUDE.md Template
+```markdown
+# [Project Name]
+
+## Team Conventions
+- PR review requirements
+- Commit message format
+- Documentation standards
+
+## Architecture Decisions
+- [Date] - Decision and reasoning
+- [Date] - Another decision
+
+## Current Sprint Focus
+- Active features
+- Known blockers
+- Performance targets
+```
+
+#### 2. Knowledge Sharing
+```bash
+# Export learnings
+claude "Document the patterns we discovered"
+
+# Share custom commands
+cp .claude/commands/useful-command.md ~/.claude/commands/
+
+# Update team documentation
+"Update team docs with new patterns"
+```
+
+### Pair Programming with Claude
+
+```markdown
+# Driver Pattern
+Driver: "Implement the user service"
+Claude: [Implementation]
+Driver: "Add error handling"
+Claude: [Updates]
+
+# Navigator Pattern
+Navigator: "Review this implementation for security"
+Claude: [Security analysis]
+Navigator: "Fix the identified issues"
+Claude: [Security fixes]
+```
+
+## Performance Tips
+
+### 1. Response Speed Optimization
+- Use specific, focused prompts
+- Break complex tasks into steps
+- Leverage extended thinking for planning
+- Use auto-accept (Shift+Tab) for known patterns
+
+### 2. Context Efficiency
+- Keep CLAUDE.md under 1000 lines
+- Use imports for modular instructions
+- Clear context between unrelated tasks
+- Archive outdated instructions
+
+### 3. Workflow Automation
+- Create custom commands for repetitive tasks
+- Use git hooks for documentation updates
+- Automate testing in development flow
+- Set up continuous documentation generation
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### 1. Claude Not Following Patterns
+```markdown
+# Solution: Be more explicit in CLAUDE.md
+## IMPORTANT: Always follow these patterns
+- Specific pattern with example
+- Another pattern with rationale
+```
+
+#### 2. Slow Response Times
+```bash
+# Clear conversation and restart
+/clear
+# Use more specific prompts
+# Break into smaller tasks
+```
+
+#### 3. Inconsistent Behavior
+```markdown
+# Add to CLAUDE.md
+## Consistency Rules
+- Always use these imports: [list]
+- Never modify these files: [list]
+- Follow this exact structure: [example]
+```
+
+## Best Practices Summary
+
+### Do's ✅
+1. **Invest in CLAUDE.md** - Detailed context pays dividends
+2. **Use extended thinking** - For complex problems
+3. **Create custom commands** - For repetitive workflows
+4. **Checkpoint frequently** - Easy rollback strategy
+5. **Document as you go** - Keep docs current
+6. **Leverage parallelism** - Multiple instances for speed
+7. **Think visually** - Use screenshots for UI work
+8. **Plan before coding** - Especially for architecture
+
+### Don'ts ❌
+1. **Don't skip planning** - Rush to implementation
+2. **Don't ignore errors** - Address them immediately
+3. **Don't bloat context** - Keep it focused
+4. **Don't repeat yourself** - Create commands/templates
+5. **Don't work in isolation** - Share learnings
+6. **Don't accept blindly** - Review generated code
+7. **Don't forget tests** - Include in requirements
+8. **Don't neglect docs** - Update continuously
+
+## Appendix: Quick Start Checklist
+
+### New Project Setup
+- [ ] Create project CLAUDE.md with conventions
+- [ ] Set up custom commands in .claude/commands/
+- [ ] Import relevant patterns from ~/Developer/docs/
+- [ ] Configure auto-formatting and linting
+- [ ] Create initial documentation structure
+- [ ] Set up verification loops
+- [ ] Plan checkpoint strategy
+- [ ] Configure CI/CD with doc validation
+
+### Daily Workflow
+- [ ] Review and update CLAUDE.md if needed
+- [ ] Check for new patterns to document
+- [ ] Use extended thinking for complex tasks
+- [ ] Checkpoint after significant changes
+- [ ] Update documentation with learnings
+- [ ] Share useful commands with team
+- [ ] Clean up conversation context
+- [ ] Commit and push changes
+
+---
+
+*Remember: Claude Code is most powerful when you invest in setting up good context and workflows. The time spent on CLAUDE.md and custom commands pays back exponentially in productivity.*

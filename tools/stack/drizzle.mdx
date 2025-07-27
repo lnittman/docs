@@ -1,0 +1,548 @@
+# How I Use Drizzle ORM
+
+My standard Drizzle setup for PostgreSQL with type safety, migrations, and schema validation.
+
+## Package Structure
+
+```
+packages/database/
+├── src/
+│   ├── index.ts       # Main exports
+│   ├── client.ts      # Database client
+│   ├── schema.ts      # Table definitions
+│   └── migrate.ts     # Migration script
+├── drizzle/
+│   └── migrations/    # Generated migrations
+├── drizzle.config.ts  # Drizzle configuration
+├── package.json
+└── tsconfig.json
+```
+
+## Configuration
+
+### drizzle.config.ts
+```typescript
+import { defineConfig } from 'drizzle-kit';
+import { config } from 'dotenv';
+
+// Load environment variables
+config({ path: '../../.env.local' });
+
+export default defineConfig({
+  schema: './src/schema.ts',
+  out: './drizzle/migrations',
+  dialect: 'postgresql',
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+  verbose: true,
+  strict: true,
+});
+```
+
+### package.json Scripts
+```json
+{
+  "name": "@project/database",
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "tsx src/migrate.ts",
+    "push": "drizzle-kit push",
+    "studio": "drizzle-kit studio",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.0",
+    "postgres": "^3.4.7",
+    "drizzle-zod": "^0.5.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0"
+  }
+}
+```
+
+## Schema Patterns
+
+### Table Definitions
+```typescript
+// src/schema.ts
+import { pgTable, text, timestamp, integer, boolean, jsonb, index, uniqueIndex } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { z } from 'zod';
+
+// Users table
+export const users = pgTable('users', {
+  id: text('id').primaryKey(), // Clerk user ID
+  email: text('email').notNull(),
+  name: text('name'),
+  avatarUrl: text('avatar_url'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  emailIdx: uniqueIndex('users_email_idx').on(table.email),
+}));
+
+// Projects table
+export const projects = pgTable('projects', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  settings: jsonb('settings').$type<ProjectSettings>().default({}).notNull(),
+  isPublic: boolean('is_public').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index('projects_user_idx').on(table.userId),
+  nameIdx: index('projects_name_idx').on(table.name),
+}));
+
+// Items table with enum
+export const itemStatus = ['draft', 'published', 'archived'] as const;
+export type ItemStatus = typeof itemStatus[number];
+
+export const items = pgTable('items', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  projectId: text('project_id').notNull().references(() => projects.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  content: text('content'),
+  status: text('status', { enum: itemStatus }).default('draft').notNull(),
+  order: integer('order').default(0).notNull(),
+  metadata: jsonb('metadata').$type<Record<string, any>>().default({}).notNull(),
+  publishedAt: timestamp('published_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (table) => ({
+  projectIdx: index('items_project_idx').on(table.projectId),
+  statusIdx: index('items_status_idx').on(table.status),
+  orderIdx: index('items_order_idx').on(table.order),
+}));
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  projects: many(projects),
+}));
+
+export const projectsRelations = relations(projects, ({ one, many }) => ({
+  user: one(users, {
+    fields: [projects.userId],
+    references: [users.id],
+  }),
+  items: many(items),
+}));
+
+export const itemsRelations = relations(items, ({ one }) => ({
+  project: one(projects, {
+    fields: [items.projectId],
+    references: [projects.id],
+  }),
+}));
+
+// Type exports
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+export type Project = typeof projects.$inferSelect;
+export type NewProject = typeof projects.$inferInsert;
+export type Item = typeof items.$inferSelect;
+export type NewItem = typeof items.$inferInsert;
+
+// Zod schemas
+export const insertUserSchema = createInsertSchema(users);
+export const selectUserSchema = createSelectSchema(users);
+
+export const insertProjectSchema = createInsertSchema(projects, {
+  name: z.string().min(1).max(255),
+  description: z.string().optional(),
+});
+export const selectProjectSchema = createSelectSchema(projects);
+
+export const insertItemSchema = createInsertSchema(items, {
+  title: z.string().min(1).max(255),
+  content: z.string().optional(),
+  status: z.enum(itemStatus),
+});
+export const selectItemSchema = createSelectSchema(items);
+
+// Custom types
+interface ProjectSettings {
+  theme?: 'light' | 'dark';
+  features?: string[];
+  customDomain?: string;
+}
+```
+
+## Database Client
+
+### Basic Client Setup
+```typescript
+// src/client.ts
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from './schema';
+
+const connectionString = process.env.DATABASE_URL!;
+
+// For query purposes
+const queryClient = postgres(connectionString);
+export const db = drizzle(queryClient, { schema });
+
+// For migrations
+export const migrationClient = postgres(connectionString, { max: 1 });
+```
+
+### Migration Script
+```typescript
+// src/migrate.ts
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import { config } from 'dotenv';
+import path from 'path';
+
+config({ path: path.resolve(__dirname, '../../../.env.local') });
+
+const runMigrate = async () => {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not defined');
+  }
+
+  const connection = postgres(process.env.DATABASE_URL, { max: 1 });
+  const db = drizzle(connection);
+
+  console.log('⏳ Running migrations...');
+
+  const start = Date.now();
+  
+  await migrate(db, { 
+    migrationsFolder: path.resolve(__dirname, '../drizzle/migrations') 
+  });
+  
+  const end = Date.now();
+
+  console.log(`✅ Migrations completed in ${end - start}ms`);
+
+  await connection.end();
+};
+
+runMigrate().catch((err) => {
+  console.error('❌ Migration failed');
+  console.error(err);
+  process.exit(1);
+});
+```
+
+## Query Patterns
+
+### Basic Queries
+```typescript
+// Select with conditions
+const activeProjects = await db
+  .select()
+  .from(projects)
+  .where(and(
+    eq(projects.userId, userId),
+    eq(projects.isPublic, true)
+  ))
+  .orderBy(desc(projects.createdAt));
+
+// Insert with returning
+const [newProject] = await db
+  .insert(projects)
+  .values({
+    userId,
+    name: 'New Project',
+    settings: { theme: 'dark' },
+  })
+  .returning();
+
+// Update with dynamic values
+const [updated] = await db
+  .update(projects)
+  .set({
+    name: newName,
+    updatedAt: new Date(),
+  })
+  .where(eq(projects.id, projectId))
+  .returning();
+
+// Delete
+await db
+  .delete(items)
+  .where(eq(items.projectId, projectId));
+```
+
+### Joins and Relations
+```typescript
+// Simple join
+const projectsWithUsers = await db
+  .select({
+    project: projects,
+    user: users,
+  })
+  .from(projects)
+  .leftJoin(users, eq(projects.userId, users.id))
+  .where(eq(projects.isPublic, true));
+
+// With relations (using query builder)
+const projectWithItems = await db.query.projects.findFirst({
+  where: eq(projects.id, projectId),
+  with: {
+    items: {
+      where: eq(items.status, 'published'),
+      orderBy: [asc(items.order)],
+    },
+    user: true,
+  },
+});
+```
+
+### Transactions
+```typescript
+// Multiple operations in transaction
+const result = await db.transaction(async (tx) => {
+  // Create project
+  const [project] = await tx
+    .insert(projects)
+    .values(projectData)
+    .returning();
+  
+  // Create default items
+  const items = await tx
+    .insert(items)
+    .values([
+      { projectId: project.id, title: 'Getting Started', order: 0 },
+      { projectId: project.id, title: 'Welcome', order: 1 },
+    ])
+    .returning();
+  
+  return { project, items };
+});
+```
+
+### Aggregations
+```typescript
+// Count
+const [{ count }] = await db
+  .select({ count: count() })
+  .from(items)
+  .where(eq(items.projectId, projectId));
+
+// Group by with aggregations
+const stats = await db
+  .select({
+    status: items.status,
+    count: count(),
+    latestUpdate: max(items.updatedAt),
+  })
+  .from(items)
+  .where(eq(items.projectId, projectId))
+  .groupBy(items.status);
+```
+
+### Prepared Statements
+```typescript
+// For frequently used queries
+const getProjectById = db
+  .select()
+  .from(projects)
+  .where(eq(projects.id, sql.placeholder('id')))
+  .prepare('getProjectById');
+
+// Usage
+const project = await getProjectById.execute({ id: projectId });
+```
+
+## Service Layer Pattern
+
+```typescript
+// packages/services/src/projects.ts
+import { db } from '@project/database';
+import { projects, items, NewProject, insertProjectSchema } from '@project/database/schema';
+import { and, eq, desc } from 'drizzle-orm';
+
+export class ProjectService {
+  static async create(userId: string, data: NewProject) {
+    const validated = insertProjectSchema.parse(data);
+    
+    return db.transaction(async (tx) => {
+      const [project] = await tx
+        .insert(projects)
+        .values({ ...validated, userId })
+        .returning();
+      
+      // Create default structure
+      await tx.insert(items).values({
+        projectId: project.id,
+        title: 'Welcome to your new project',
+        content: 'Start building something amazing!',
+        status: 'published',
+      });
+      
+      return project;
+    });
+  }
+  
+  static async findByUser(userId: string) {
+    return db.query.projects.findMany({
+      where: eq(projects.userId, userId),
+      with: {
+        items: {
+          where: eq(items.status, 'published'),
+          limit: 5,
+        },
+      },
+      orderBy: [desc(projects.createdAt)],
+    });
+  }
+  
+  static async delete(userId: string, projectId: string) {
+    const [deleted] = await db
+      .delete(projects)
+      .where(and(
+        eq(projects.id, projectId),
+        eq(projects.userId, userId)
+      ))
+      .returning();
+      
+    return deleted;
+  }
+}
+```
+
+## Cloudflare Workers Integration
+
+```typescript
+// In Cloudflare Worker with Hyperdrive
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from '@project/database/schema';
+
+export function createDb(hyperdrive: Hyperdrive) {
+  const sql = postgres(hyperdrive.connectionString);
+  return drizzle(sql, { schema });
+}
+
+// Usage in route
+app.get('/api/projects', async (c) => {
+  const db = createDb(c.env.HYPERDRIVE);
+  const projects = await db.select().from(schema.projects);
+  return c.json(projects);
+});
+```
+
+## My Conventions
+
+1. **UUID for IDs** - Using crypto.randomUUID()
+2. **Timestamps everywhere** - createdAt/updatedAt on all tables
+3. **Soft deletes rarely** - Prefer hard deletes with proper cascades
+4. **JSONB for flexibility** - Settings, metadata fields
+5. **Indexes on foreign keys** - Always index FK columns
+6. **Prepared statements** - For hot queries
+7. **Transactions for consistency** - Multi-table operations
+8. **Service layer** - Business logic separate from schema
+
+## Common Patterns
+
+### Pagination Helper
+```typescript
+export async function paginate<T>(
+  query: any,
+  page: number = 1,
+  pageSize: number = 20
+) {
+  const offset = (page - 1) * pageSize;
+  
+  const [data, [{ total }]] = await Promise.all([
+    query.limit(pageSize).offset(offset),
+    db.select({ total: count() }).from(query._.table),
+  ]);
+  
+  return {
+    data,
+    pagination: {
+      page,
+      pageSize,
+      total,
+      totalPages: Math.ceil(total / pageSize),
+    },
+  };
+}
+```
+
+### Soft Delete Pattern (when needed)
+```typescript
+// Add to schema
+deletedAt: timestamp('deleted_at'),
+
+// Query helper
+function notDeleted() {
+  return isNull(table.deletedAt);
+}
+
+// Usage
+const activeItems = await db
+  .select()
+  .from(items)
+  .where(and(
+    eq(items.projectId, projectId),
+    notDeleted()
+  ));
+```
+
+## Migration Workflow
+
+```bash
+# 1. Make schema changes
+# Edit src/schema.ts
+
+# 2. Generate migration
+pnpm generate
+
+# 3. Review migration
+# Check drizzle/migrations/0001_*.sql
+
+# 4. Run migration
+pnpm migrate
+
+# 5. Push to dev (skips migration files)
+pnpm push
+```
+
+## Gotchas & Solutions
+
+1. **Migration order** → Name files with timestamps
+2. **JSON types** → Use jsonb with proper TypeScript types
+3. **Enum changes** → Recreate column, migrations can be tricky
+4. **Connection pooling** → Use Hyperdrive in production
+5. **Type inference** → Let Drizzle infer, don't manually type
+
+## Resources & Links
+
+### Official Documentation
+- [Drizzle ORM Docs](https://orm.drizzle.team)
+- [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview)
+- [PostgreSQL Driver](https://orm.drizzle.team/docs/get-started-postgresql)
+- [API Reference](https://orm.drizzle.team/docs/api-reference)
+
+### Schema & Queries
+- [Schema Declaration](https://orm.drizzle.team/docs/sql-schema-declaration)
+- [Query Builder](https://orm.drizzle.team/docs/select)
+- [Relations](https://orm.drizzle.team/docs/relations)
+- [Migrations](https://orm.drizzle.team/docs/migrations)
+
+### Advanced Topics
+- [Transactions](https://orm.drizzle.team/docs/transactions)
+- [Prepared Statements](https://orm.drizzle.team/docs/performance)
+- [Connection Pooling](https://orm.drizzle.team/docs/connect-pooling)
+- [Zod Integration](https://orm.drizzle.team/docs/zod)
+
+### PostgreSQL Resources
+- [PostgreSQL Docs](https://www.postgresql.org/docs/)
+- [Data Types](https://www.postgresql.org/docs/current/datatype.html)
+- [JSON Functions](https://www.postgresql.org/docs/current/functions-json.html)
+- [Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)

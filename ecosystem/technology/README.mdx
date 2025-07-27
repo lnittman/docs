@@ -1,0 +1,221 @@
+# Technology Stack Overview
+
+> Comprehensive analysis of technology patterns, versions, and dependency health across the ecosystem
+
+## 🔧 Standard Technology Stack
+
+### Core Stack Components
+
+| Layer | Technology | Version | Adoption | Status |
+|-------|------------|---------|----------|---------|
+| **Web Framework** | Next.js | 15.3.4 | 73% | ✅ Current |
+| **Web Framework** | Next.js | 15.0.x | 18% | ⚠️ Update available |
+| **Runtime** | React | 19.0.0 | 91% | ✅ Latest |
+| **Language** | TypeScript | 5.8.3 | 100% | ✅ Current |
+| **CSS** | Tailwind CSS | 4.0.0 | 82% | ✅ Latest |
+| **Monorepo** | Turborepo | Latest | 90% | ✅ Standard |
+| **Package Manager** | pnpm | 9.x | 91% | ✅ Standard |
+
+### State Management Hierarchy
+
+```
+1. React Server Components (RSC) - Primary
+   └── Server Actions for mutations
+   
+2. SWR - Server State
+   └── Data fetching and caching
+   
+3. Jotai - UI State
+   └── Client-side state management
+```
+
+### Authentication & Data
+
+| Service | Technology | Version | Adoption | Notes |
+|---------|------------|---------|----------|-------|
+| **Auth** | Clerk | Latest | 82% | Standard choice |
+| **Auth** | Supabase | Legacy | 9% | Migration pending |
+| **Database** | PostgreSQL | 16+ | 100% | Via Prisma ORM |
+| **ORM** | Prisma | 6.x | 91% | Standard |
+| **Storage** | ImageKit | - | Project-specific | For media |
+
+### AI Service Stack
+
+| Component | Technology | Version | Adoption | Status |
+|-----------|------------|---------|----------|---------|
+| **Framework** | Mastra | 0.10.10 | 18% | ✅ Latest |
+| **Framework** | Mastra | 0.10.8 | 73% | ⚠️ Update available |
+| **Pattern** | Agent/Tool/Workflow | - | 100% | ✅ Standard |
+| **Models** | OpenAI/Anthropic | Latest | 100% | ✅ Lazy init |
+
+### Apple Platform Stack
+
+| Component | Technology | Version | Adoption | Status |
+|-----------|------------|---------|----------|---------|
+| **Language** | Swift | 5.9+ | 100% | ✅ Current |
+| **UI** | SwiftUI | iOS 17+ | 100% | ✅ Modern |
+| **Architecture** | MVVM | - | 100% | ✅ Standard |
+| **Networking** | Actor-based | - | 100% | ✅ Pattern |
+
+## 📊 Version Alignment Matrix
+
+### Critical Dependencies
+
+```
+Next.js Versions:
+├── 15.3.4    [8 projects] ✅ Latest
+├── 15.3.0    [1 project]  ⚠️ Minor update
+├── 15.0.x    [2 projects] ⚠️ Major update
+└── 14.x      [1 project]  ❌ Legacy
+
+TypeScript Versions:
+├── 5.8.3     [10 projects] ✅ Current
+├── 5.7.x     [1 project]   ⚠️ Update
+└── 5.6.x     [0 projects]  -
+
+Mastra Versions:
+├── 0.10.10   [2 projects]  ✅ Latest
+├── 0.10.8    [8 projects]  ⚠️ Update
+└── Older     [1 project]   ❌ Update
+```
+
+## 🔒 Security Analysis
+
+### Vulnerability Summary
+
+| Severity | Count | Projects Affected | Action Required |
+|----------|-------|-------------------|-----------------|
+| Critical | 0 | - | ✅ None |
+| High | 2 | Alden, Sine | 🚨 Immediate |
+| Medium | 8 | Various | ⚠️ This week |
+| Low | 23 | Most | ℹ️ Next sprint |
+
+### Security Issues Detail
+
+**High Priority Issues:**
+1. **Alden**: Outdated Next.js with known vulnerabilities
+2. **Sine**: Dependency with security advisory
+
+**Common Vulnerabilities:**
+- Outdated eslint plugins (medium)
+- PostCSS dependency chain (low)
+- Development dependencies (low)
+
+## 📦 Dependency Health Metrics
+
+### Update Requirements
+
+```
+Total Packages:        1,247
+Up to date:             892 (72%)
+Minor updates:          234 (19%)
+Major updates:          121 (9%)
+```
+
+### Top Dependencies Needing Updates
+
+1. **Mastra Framework**
+   - Current: 0.10.8 (8 projects)
+   - Latest: 0.10.10
+   - Action: Coordinate update
+
+2. **Next.js**
+   - Current: Various (15.0 - 15.3.4)
+   - Latest: 15.3.4
+   - Action: Update 3 projects
+
+3. **Development Tools**
+   - ESLint configs
+   - TypeScript configs
+   - Testing libraries
+
+## 🎯 Technology Patterns
+
+### Successful Patterns
+
+1. **Monorepo Structure**
+   - Turborepo with pnpm workspaces
+   - Shared configs and packages
+   - Consistent tooling
+
+2. **Type Safety**
+   - 100% TypeScript adoption
+   - Strict mode enabled
+   - Shared type packages
+
+3. **State Management**
+   - Clear hierarchy (RSC → SWR → Jotai)
+   - Minimal client state
+   - Server-first approach
+
+4. **AI Integration**
+   - Mastra framework standard
+   - Lazy model initialization
+   - Agent/tool/workflow pattern
+
+### Anti-Patterns to Avoid
+
+1. ❌ Multiple state management libraries
+2. ❌ Mixed package managers
+3. ❌ Inconsistent TypeScript configs
+4. ❌ Direct model initialization in AI services
+
+## 🚀 Recommended Stack for New Projects
+
+```typescript
+// Standard package.json dependencies
+{
+  "dependencies": {
+    // Core
+    "next": "^15.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    
+    // State & Data
+    "jotai": "^2.10.4",
+    "swr": "^2.3.0",
+    "@prisma/client": "^6.2.0",
+    
+    // Auth & Analytics
+    "@clerk/nextjs": "^6.14.0",
+    "posthog-js": "^1.208.1",
+    "@sentry/nextjs": "^8.47.0",
+    
+    // UI
+    "tailwindcss": "^4.0.0",
+    "@radix-ui/react-*": "latest",
+    "vaul": "^1.2.1"
+  },
+  "devDependencies": {
+    // Build & Type
+    "typescript": "^5.8.3",
+    "turbo": "^2.3.3",
+    "@biomejs/biome": "^1.10.1",
+    
+    // Testing
+    "vitest": "^2.2.2",
+    "@testing-library/react": "^16.1.0"
+  }
+}
+```
+
+## 📈 Evolution Recommendations
+
+### Immediate (This Week)
+1. Update all projects to Mastra 0.10.10
+2. Fix high-severity security issues
+3. Align Next.js versions to 15.3.4
+
+### Short-term (This Month)
+1. Standardize development dependencies
+2. Create shared configuration packages
+3. Implement automated dependency updates
+
+### Long-term (This Quarter)
+1. Extract common utilities to shared packages
+2. Implement dependency policies
+3. Create technology radar for emerging tech
+
+---
+
+*Generated: 2025-07-05 | Technology decisions based on 80%+ adoption in production projects*

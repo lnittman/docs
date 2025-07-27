@@ -1,0 +1,454 @@
+# How I Use Tailwind CSS v4
+
+My standard Tailwind CSS v4 setup with the new Oxide engine, CSS-first configuration, and native cascade layers.
+
+## Installation & Setup
+
+### Vite Projects (Preferred)
+```bash
+# Install dependencies
+pnpm add -D tailwindcss@next @tailwindcss/vite
+
+# No config files needed!
+```
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+    // other plugins...
+  ],
+});
+```
+
+### PostCSS Projects
+```bash
+# Install dependencies
+pnpm add -D tailwindcss@next @tailwindcss/postcss
+
+# Create postcss config
+```
+
+```javascript
+// postcss.config.mjs
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+## CSS Configuration
+
+### Main CSS File
+```css
+/* app/globals.css */
+@import "tailwindcss";
+
+/* Custom theme configuration */
+@theme {
+  /* Font stacks */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Custom colors using oklch */
+  --color-brand-50: oklch(0.98 0.02 250);
+  --color-brand-100: oklch(0.96 0.04 250);
+  --color-brand-500: oklch(0.65 0.15 250);
+  --color-brand-900: oklch(0.25 0.10 250);
+  
+  /* Spacing scale extension */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  
+  /* Custom animations */
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-fade-in: fade-in 0.5s ease-out;
+  
+  @keyframes slide-up {
+    from { 
+      transform: translateY(10px); 
+      opacity: 0; 
+    }
+    to { 
+      transform: translateY(0); 
+      opacity: 1; 
+    }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Custom utilities */
+@utility smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+```
+
+## Theme Variables
+
+### Using CSS Variables Directly
+```css
+/* Component styles */
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dark mode with native CSS */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: var(--color-gray-900);
+  }
+}
+```
+
+### JavaScript Integration
+```typescript
+// Access theme values in JS
+const styles = getComputedStyle(document.documentElement);
+const primaryColor = styles.getPropertyValue('--color-brand-500');
+
+// Using with Motion/Framer
+<motion.div 
+  animate={{ 
+    backgroundColor: 'var(--color-brand-500)',
+    scale: 1.05 
+  }} 
+/>
+```
+
+## Component Patterns
+
+### With shadcn/ui Components
+```css
+/* Extend shadcn with v4 theme vars */
+@theme {
+  /* Map to shadcn conventions */
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  
+  /* shadcn color mappings */
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-gray-900);
+  --color-primary: var(--color-brand-500);
+  --color-primary-foreground: var(--color-white);
+}
+```
+
+### Container Utility Override
+```css
+/* Customize the container utility */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-4);
+  max-width: 80rem;
+}
+
+@media (width >= 640px) {
+  @utility container {
+    padding-inline: var(--spacing-6);
+  }
+}
+```
+
+## Custom Utilities
+
+### Functional Utilities
+```css
+/* Tab size utility with theme support */
+@theme {
+  --tab-size-2: 2;
+  --tab-size-4: 4;
+  --tab-size-8: 8;
+}
+
+@utility tab-* {
+  tab-size: --value(--tab-size-*);
+}
+
+/* Opacity with percentage support */
+@utility opacity-* {
+  opacity: --value([percentage]);
+  opacity: calc(--value(integer) * 1%);
+  opacity: --value(--opacity-*);
+}
+```
+
+### Complex Utilities
+```css
+/* Gradient text utility */
+@utility text-gradient {
+  background: linear-gradient(
+    to right,
+    var(--color-brand-400),
+    var(--color-brand-600)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass morphism */
+@utility glass {
+  background: --alpha(var(--color-white) / 80%);
+  backdrop-filter: blur(10px);
+  border: 1px solid --alpha(var(--color-white) / 20%);
+}
+```
+
+## Dark Mode Setup
+
+### Class-based Dark Mode
+```css
+/* Configure dark mode variant */
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+### Data Attribute Dark Mode
+```css
+/* Using data attributes */
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+```
+
+### Usage in Components
+```jsx
+// Next.js with next-themes
+import { ThemeProvider } from 'next-themes';
+
+<ThemeProvider attribute="class" defaultTheme="system">
+  <div className="bg-white dark:bg-gray-900">
+    <h1 className="text-gray-900 dark:text-white">
+      Dark mode ready
+    </h1>
+  </div>
+</ThemeProvider>
+```
+
+## Migration from v3
+
+### Key Changes
+1. **No config file** - Everything in CSS
+2. **Native cascade layers** - No more `@layer`
+3. **CSS variables everywhere** - Direct access
+4. **New `@theme` directive** - Define tokens
+5. **`@utility` API** - Custom utilities
+6. **Oxide engine** - 10x faster builds
+
+### Common Migrations
+```css
+/* v3: JavaScript config */
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: '#3b82f6'
+      }
+    }
+  }
+}
+
+/* v4: CSS config */
+@theme {
+  --color-brand: #3b82f6;
+}
+```
+
+## Performance Optimizations
+
+### Static Theme Generation
+```css
+/* Generate all theme vars regardless of usage */
+@import "tailwindcss" theme(static);
+
+@theme static {
+  --color-primary: var(--color-blue-500);
+  --color-secondary: var(--color-green-500);
+}
+```
+
+### Inline Theme for Critical CSS
+```css
+/* Inline theme vars for faster initial paint */
+@import "tailwindcss" theme(inline);
+```
+
+## Integration Patterns
+
+### With Clerk Auth States
+```css
+/* User state utilities */
+@custom-variant signed-in (&:where([data-clerk-signed-in="true"] *));
+@custom-variant signed-out (&:where([data-clerk-signed-in="false"] *));
+
+/* Usage */
+.nav-item {
+  @apply signed-out:hidden;
+}
+
+.user-menu {
+  @apply signed-in:flex;
+}
+```
+
+### With React Components
+```tsx
+// Conditional classes with clsx
+import clsx from 'clsx';
+
+function Button({ variant, size, className, ...props }) {
+  return (
+    <button
+      className={clsx(
+        // Base styles
+        'inline-flex items-center justify-center rounded-md font-medium',
+        // Variant styles
+        variant === 'primary' && 'bg-brand-500 text-white hover:bg-brand-600',
+        variant === 'ghost' && 'hover:bg-gray-100 dark:hover:bg-gray-800',
+        // Size styles
+        size === 'sm' && 'h-8 px-3 text-sm',
+        size === 'lg' && 'h-12 px-8',
+        // Custom classes
+        className
+      )}
+      {...props}
+    />
+  );
+}
+```
+
+## My Conventions
+
+1. **CSS-first configuration** - All theme in CSS files
+2. **oklch for colors** - Better color manipulation
+3. **CSS variables in JS** - Direct access, no parsing
+4. **Custom utilities for patterns** - Reusable components
+5. **Semantic naming** - `--color-brand` not `--color-blue`
+6. **Mobile-first** - Same as v3
+7. **Dark mode via class** - Better control than media
+8. **Vite over PostCSS** - Better DX and performance
+
+## Common Patterns
+
+### Responsive Typography
+```css
+/* Fluid typography with clamp */
+@utility text-fluid-base {
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+}
+
+@utility text-fluid-lg {
+  font-size: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
+}
+
+@utility text-fluid-xl {
+  font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2.5rem);
+}
+```
+
+### Animation Utilities
+```css
+@theme {
+  /* Entrance animations */
+  --animate-enter: enter 0.2s ease-out;
+  --animate-enter-bottom: enter-bottom 0.3s ease-out;
+  --animate-enter-scale: enter-scale 0.2s ease-out;
+  
+  @keyframes enter {
+    from { opacity: 0; }
+  }
+  
+  @keyframes enter-bottom {
+    from { 
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  
+  @keyframes enter-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+}
+```
+
+## Debugging Tips
+
+1. **View all CSS variables**
+   ```javascript
+   // In browser console
+   Array.from(document.styleSheets)
+     .flatMap(sheet => Array.from(sheet.cssRules))
+     .filter(rule => rule.style)
+     .flatMap(rule => Array.from(rule.style))
+     .filter(prop => prop.startsWith('--'))
+     .sort()
+   ```
+
+2. **Check computed values**
+   ```javascript
+   getComputedStyle(element).getPropertyValue('--color-brand-500')
+   ```
+
+3. **Validate theme values**
+   ```css
+   /* Temporarily add to see all vars */
+   body::before {
+     content: var(--color-brand-500);
+   }
+   ```
+
+## Resources & Links
+
+### Official Documentation
+- [Tailwind CSS v4 Alpha Docs](https://tailwindcss.com/docs/installation)
+- [Upgrade Guide from v3](https://tailwindcss.com/docs/upgrade-guide)
+- [CSS Functions & Directives](https://tailwindcss.com/docs/functions-and-directives)
+- [Theme Configuration](https://tailwindcss.com/docs/theme)
+- [Adding Custom Styles](https://tailwindcss.com/docs/adding-custom-styles)
+
+### Key Concepts
+- [@theme Directive](https://tailwindcss.com/docs/functions-and-directives#theme)
+- [@utility API](https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities)
+- [CSS Variables](https://tailwindcss.com/docs/theme#using-css-variables)
+- [--alpha() Function](https://tailwindcss.com/docs/functions-and-directives#alpha)
+- [--value() Function](https://tailwindcss.com/docs/adding-custom-styles#matching-theme-values)
+
+### Integration Guides
+- [Vite Plugin Setup](https://tailwindcss.com/docs/installation#installing-with-vite)
+- [PostCSS Plugin](https://tailwindcss.com/docs/installation#installing-with-postcss)
+- [Next.js Integration](https://tailwindcss.com/docs/installation/framework-guides/nextjs)
+- [Dark Mode Setup](https://tailwindcss.com/docs/dark-mode)
+
+### Migration Resources
+- [v3 to v4 Migration Tool](https://github.com/tailwindlabs/tailwindcss/tree/next/packages/@tailwindcss/upgrade)
+- [Breaking Changes](https://tailwindcss.com/docs/upgrade-guide#breaking-changes)
+- [New Features in v4](https://tailwindcss.com/blog/tailwindcss-v4-alpha)
+
+### Community Resources
+- [Tailwind CSS GitHub](https://github.com/tailwindlabs/tailwindcss)
+- [Tailwind UI Components](https://tailwindui.com)
+- [Headless UI](https://headlessui.com)
+- [Heroicons](https://heroicons.com)
+- [Catalyst UI Kit](https://tailwindcss.com/docs/catalyst)

@@ -1,0 +1,592 @@
+# How I Use Hono
+
+My standard Hono setup for Cloudflare Worker APIs. Ultra-fast, TypeScript-first, with excellent DX.
+
+## Basic Setup
+
+### App Structure
+```typescript
+// src/index.ts
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { timing } from 'hono/timing';
+import type { Bindings } from './types';
+
+// Create app with typed bindings
+const app = new Hono<{ Bindings: Bindings }>();
+
+// Global middleware
+app.use('*', timing());
+app.use('*', logger());
+
+// CORS for API routes
+app.use('/api/*', cors({
+  origin: (origin) => {
+    const allowed = [
+      'http://localhost:3000',
+      'https://project.com',
+      /https:\/\/.*\.project\.com$/,
+    ];
+    return allowed.some(o => 
+      typeof o === 'string' ? o === origin : o.test(origin)
+    ) ? origin : null;
+  },
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+}));
+
+// Routes
+app.route('/api/v1', v1Routes);
+app.route('/webhooks', webhookRoutes);
+app.route('/internal', internalRoutes);
+
+// Health check
+app.get('/health', (c) => c.json({ status: 'ok' }));
+
+export default app;
+```
+
+## Routing Patterns
+
+### Modular Routes
+```typescript
+// src/routes/v1/index.ts
+import { Hono } from 'hono';
+import { authMiddleware } from '../../middleware/auth';
+import { usersRoutes } from './users';
+import { itemsRoutes } from './items';
+import { adminRoutes } from './admin';
+
+const v1 = new Hono<{ Bindings: Bindings }>();
+
+// Public routes
+v1.route('/public', publicRoutes);
+
+// Protected routes
+v1.use('/*', authMiddleware);
+v1.route('/users', usersRoutes);
+v1.route('/items', itemsRoutes);
+
+// Admin only
+v1.use('/admin/*', adminMiddleware);
+v1.route('/admin', adminRoutes);
+
+export { v1 as v1Routes };
+```
+
+### Route Handlers
+```typescript
+// src/routes/v1/items.ts
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { z } from 'zod';
+import { createDb } from '../../db';
+import { items, insertItemSchema } from '@project/database/schema';
+
+const app = new Hono<{ Bindings: Bindings }>();
+
+// List items with pagination
+app.get('/', async (c) => {
+  const { page = '1', limit = '20' } = c.req.query();
+  const offset = (parseInt(page) - 1) * parseInt(limit);
+  
+  const db = createDb(c.env.HYPERDRIVE);
+  const [data, [{ count }]] = await Promise.all([
+    db.select().from(items).limit(parseInt(limit)).offset(offset),
+    db.select({ count: count() }).from(items),
+  ]);
+  
+  return c.json({
+    data,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: count,
+      totalPages: Math.ceil(count / parseInt(limit)),
+    },
+  });
+});
+
+// Create item with validation
+app.post('/', zValidator('json', insertItemSchema), async (c) => {
+  const data = c.req.valid('json');
+  const userId = c.get('userId'); // From auth middleware
+  
+  const db = createDb(c.env.HYPERDRIVE);
+  const [item] = await db
+    .insert(items)
+    .values({ ...data, userId })
+    .returning();
+    
+  return c.json(item, 201);
+});
+
+// Get single item
+app.get('/:id', async (c) => {
+  const id = c.req.param('id');
+  const db = createDb(c.env.HYPERDRIVE);
+  
+  const [item] = await db
+    .select()
+    .from(items)
+    .where(eq(items.id, id))
+    .limit(1);
+    
+  if (!item) {
+    return c.notFound();
+  }
+  
+  return c.json(item);
+});
+
+// Update item
+app.patch('/:id', zValidator('json', updateItemSchema), async (c) => {
+  const id = c.req.param('id');
+  const updates = c.req.valid('json');
+  
+  const db = createDb(c.env.HYPERDRIVE);
+  const [updated] = await db
+    .update(items)
+    .set(updates)
+    .where(eq(items.id, id))
+    .returning();
+    
+  if (!updated) {
+    return c.notFound();
+  }
+  
+  return c.json(updated);
+});
+
+// Delete item
+app.delete('/:id', async (c) => {
+  const id = c.req.param('id');
+  
+  const db = createDb(c.env.HYPERDRIVE);
+  const [deleted] = await db
+    .delete(items)
+    .where(eq(items.id, id))
+    .returning();
+    
+  if (!deleted) {
+    return c.notFound();
+  }
+  
+  return c.json({ deleted: true });
+});
+
+export { app as itemsRoutes };
+```
+
+## Middleware Patterns
+
+### Authentication Middleware
+```typescript
+// src/middleware/auth.ts
+import { createMiddleware } from 'hono/factory';
+import { verifyToken } from '@clerk/backend';
+
+export const authMiddleware = createMiddleware(async (c, next) => {
+  const token = c.req.header('Authorization')?.replace('Bearer ', '');
+  
+  if (!token) {
+    return c.json({ error: 'No token provided' }, 401);
+  }
+  
+  try {
+    const payload = await verifyToken(token, {
+      secretKey: c.env.CLERK_SECRET_KEY,
+    });
+    
+    // Set context for route handlers
+    c.set('userId', payload.sub);
+    c.set('sessionId', payload.sid);
+    c.set('session', payload);
+    
+    await next();
+  } catch (err) {
+    return c.json({ error: 'Invalid token' }, 401);
+  }
+});
+```
+
+### Rate Limiting with KV
+```typescript
+// src/middleware/rateLimit.ts
+export const rateLimit = (options: {
+  requests: number;
+  window: number; // seconds
+}) => {
+  return createMiddleware(async (c, next) => {
+    const ip = c.req.header('CF-Connecting-IP') || 'unknown';
+    const key = `ratelimit:${ip}:${c.req.path}`;
+    
+    const current = await c.env.CACHE.get(key);
+    const count = current ? parseInt(current) : 0;
+    
+    if (count >= options.requests) {
+      return c.json(
+        { error: 'Too many requests' },
+        429,
+        { 'Retry-After': String(options.window) }
+      );
+    }
+    
+    await c.env.CACHE.put(
+      key,
+      String(count + 1),
+      { expirationTtl: options.window }
+    );
+    
+    await next();
+  });
+};
+
+// Usage
+app.use('/api/auth/*', rateLimit({ requests: 5, window: 60 }));
+```
+
+### Caching Middleware
+```typescript
+// src/middleware/cache.ts
+export const cache = (ttl: number) => {
+  return createMiddleware(async (c, next) => {
+    const key = `cache:${c.req.method}:${c.req.url}`;
+    
+    // Try cache first
+    const cached = await c.env.CACHE.get(key);
+    if (cached) {
+      const data = JSON.parse(cached);
+      return c.json(data.body, data.status, data.headers);
+    }
+    
+    // Proceed with request
+    await next();
+    
+    // Cache successful responses
+    if (c.res.status >= 200 && c.res.status < 300) {
+      const body = await c.res.json();
+      const data = {
+        body,
+        status: c.res.status,
+        headers: Object.fromEntries(c.res.headers.entries()),
+      };
+      
+      await c.env.CACHE.put(
+        key,
+        JSON.stringify(data),
+        { expirationTtl: ttl }
+      );
+      
+      // Return the original response
+      return c.json(body, c.res.status, c.res.headers);
+    }
+  });
+};
+
+// Usage
+app.get('/api/public/stats', cache(3600), statsHandler);
+```
+
+## Validation Patterns
+
+### Zod Integration
+```typescript
+// src/validators/items.ts
+import { z } from 'zod';
+
+export const createItemSchema = z.object({
+  title: z.string().min(1).max(255),
+  description: z.string().optional(),
+  price: z.number().positive(),
+  category: z.enum(['electronics', 'clothing', 'food']),
+  tags: z.array(z.string()).default([]),
+});
+
+export const updateItemSchema = createItemSchema.partial();
+
+export const querySchema = z.object({
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(100).default(20),
+  sort: z.enum(['created', 'updated', 'price']).default('created'),
+  order: z.enum(['asc', 'desc']).default('desc'),
+});
+```
+
+### Using Validators
+```typescript
+app.post(
+  '/items',
+  zValidator('json', createItemSchema, (result, c) => {
+    if (!result.success) {
+      return c.json(
+        {
+          error: 'Validation failed',
+          issues: result.error.flatten(),
+        },
+        400
+      );
+    }
+  }),
+  async (c) => {
+    const data = c.req.valid('json');
+    // data is fully typed
+  }
+);
+
+// Query validation
+app.get(
+  '/items',
+  zValidator('query', querySchema),
+  async (c) => {
+    const { page, limit, sort, order } = c.req.valid('query');
+    // All params are validated and typed
+  }
+);
+```
+
+## Response Helpers
+
+### Standard Responses
+```typescript
+// src/utils/responses.ts
+export const responses = {
+  success: (data: any, meta?: any) => ({
+    success: true,
+    data,
+    ...(meta && { meta }),
+  }),
+  
+  error: (message: string, code?: string) => ({
+    success: false,
+    error: { message, code },
+  }),
+  
+  paginated: <T>(
+    data: T[],
+    page: number,
+    limit: number,
+    total: number
+  ) => ({
+    success: true,
+    data,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      hasNext: page * limit < total,
+      hasPrev: page > 1,
+    },
+  }),
+};
+
+// Usage
+app.get('/items', async (c) => {
+  const data = await fetchItems();
+  return c.json(responses.paginated(data, 1, 20, 100));
+});
+```
+
+## Error Handling
+
+### Custom Error Classes
+```typescript
+// src/errors/index.ts
+export class APIError extends Error {
+  constructor(
+    public message: string,
+    public status: number = 500,
+    public code?: string
+  ) {
+    super(message);
+  }
+}
+
+export class ValidationError extends APIError {
+  constructor(message: string, public fields?: any) {
+    super(message, 400, 'VALIDATION_ERROR');
+  }
+}
+
+export class NotFoundError extends APIError {
+  constructor(resource: string) {
+    super(`${resource} not found`, 404, 'NOT_FOUND');
+  }
+}
+
+export class UnauthorizedError extends APIError {
+  constructor(message = 'Unauthorized') {
+    super(message, 401, 'UNAUTHORIZED');
+  }
+}
+```
+
+### Global Error Handler
+```typescript
+app.onError((err, c) => {
+  // Log error
+  console.error(err);
+  
+  // Handle known errors
+  if (err instanceof APIError) {
+    return c.json(
+      responses.error(err.message, err.code),
+      err.status
+    );
+  }
+  
+  // Handle Zod errors
+  if (err.name === 'ZodError') {
+    return c.json(
+      {
+        error: 'Validation failed',
+        issues: err.flatten(),
+      },
+      400
+    );
+  }
+  
+  // Generic error
+  const message = c.env.ENVIRONMENT === 'development' 
+    ? err.message 
+    : 'Internal server error';
+    
+  return c.json(responses.error(message), 500);
+});
+```
+
+## Testing with Hono
+
+### Test Setup
+```typescript
+// src/test/setup.ts
+import { Hono } from 'hono';
+import type { Bindings } from '../types';
+
+export function createTestApp() {
+  const app = new Hono<{ Bindings: Bindings }>();
+  
+  // Mock bindings
+  app.use('*', async (c, next) => {
+    c.env = {
+      HYPERDRIVE: mockHyperdrive,
+      CACHE: mockKV,
+      R2_BUCKET: mockR2,
+      CLERK_SECRET_KEY: 'test-key',
+      ENVIRONMENT: 'test',
+    } as any;
+    await next();
+  });
+  
+  return app;
+}
+```
+
+### Route Tests
+```typescript
+// src/routes/items.test.ts
+import { describe, it, expect } from 'vitest';
+import { itemsRoutes } from './items';
+import { createTestApp } from '../test/setup';
+
+describe('Items API', () => {
+  const app = createTestApp();
+  app.route('/items', itemsRoutes);
+  
+  it('lists items', async () => {
+    const res = await app.request('/items');
+    expect(res.status).toBe(200);
+    
+    const data = await res.json();
+    expect(data).toHaveProperty('data');
+    expect(data).toHaveProperty('pagination');
+  });
+  
+  it('creates item with valid data', async () => {
+    const res = await app.request('/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'Test Item',
+        price: 29.99,
+        category: 'electronics',
+      }),
+    });
+    
+    expect(res.status).toBe(201);
+    const item = await res.json();
+    expect(item.title).toBe('Test Item');
+  });
+});
+```
+
+## WebSocket Support
+
+```typescript
+// src/websocket.ts
+app.get('/ws', async (c) => {
+  const upgradeHeader = c.req.header('Upgrade');
+  
+  if (!upgradeHeader || upgradeHeader !== 'websocket') {
+    return c.text('Expected websocket', 426);
+  }
+  
+  const [client, server] = Object.values(new WebSocketPair());
+  
+  server.accept();
+  server.addEventListener('message', (event) => {
+    server.send(`Echo: ${event.data}`);
+  });
+  
+  return new Response(null, {
+    status: 101,
+    webSocket: client,
+  });
+});
+```
+
+## My Conventions
+
+1. **Type everything** - Full TypeScript with strict mode
+2. **Modular routes** - Organize by feature/version
+3. **Validate inputs** - Zod for all user inputs
+4. **Standard responses** - Consistent API responses
+5. **Error boundaries** - Handle all errors gracefully
+6. **Middleware composition** - Reusable middleware chains
+7. **Context passing** - Use c.set/c.get for request data
+
+## Performance Optimizations
+
+1. **Streaming responses** for large data
+2. **Parallel queries** with Promise.all
+3. **Caching** with KV for expensive operations
+4. **Minimal middleware** - Only what's needed
+5. **Lazy loading** routes in development
+
+## Resources & Links
+
+### Official Documentation
+- [Hono Documentation](https://hono.dev/)
+- [Getting Started](https://hono.dev/getting-started/cloudflare-workers)
+- [API Reference](https://hono.dev/api/hono)
+- [Hono GitHub](https://github.com/honojs/hono)
+
+### Core Concepts
+- [Routing](https://hono.dev/api/routing)
+- [Context](https://hono.dev/api/context)
+- [Middleware](https://hono.dev/concepts/middleware)
+- [Request & Response](https://hono.dev/api/request)
+
+### Middleware & Validators
+- [@hono/zod-validator](https://github.com/honojs/middleware/tree/main/packages/zod-validator)
+- [Built-in Middleware](https://hono.dev/middleware/builtin/basic-auth)
+- [CORS](https://hono.dev/middleware/builtin/cors)
+- [JWT](https://hono.dev/middleware/builtin/jwt)
+
+### Platform Guides
+- [Cloudflare Workers](https://hono.dev/getting-started/cloudflare-workers)
+- [Testing](https://hono.dev/guides/testing)
+- [WebSocket](https://hono.dev/examples/websocket)
+- [Best Practices](https://hono.dev/guides/best-practices)

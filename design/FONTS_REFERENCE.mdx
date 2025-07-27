@@ -1,0 +1,59 @@
+# Font Assets Reference
+**Last Updated**: 2025-01-03  
+**Status**: Stored locally only (not in GitHub)
+
+## Available Font Families
+
+All fonts are stored locally in `/fonts/` directory. They are not tracked in git to avoid repository size issues.
+
+### Premium Trial Fonts
+- **Alcala** - Display and text variants (BlackDisplay, Bold, Italic, Roman)
+- **Bertin** - Dot and Square experimental families
+- **Brett** - Modern sans-serif
+- **CX80** - Variable font with multiple axes
+- **Exposure** - Extensive weight variations (-100 to +100)
+- **Louize** - Condensed display family
+- **Milling** - Simplex, Duplex, and Triplex variations
+- **Stuart** - Complete family (Caption, Text, Titling)
+
+### Web Fonts (KMR)
+- Desktop formats: OTF, TTF
+- Web formats: EOT, WOFF, WOFF2
+
+## Access Methods
+
+### Local Access Only
+Fonts are stored locally and not tracked in git:
+- **Local Path**: `~/Developer/docs/fonts/[family-name]/`
+- **Example**: `~/Developer/docs/fonts/stuart/StuartTextTrial-Regular.otf`
+
+### Sharing Fonts
+If you need to share fonts with team members:
+1. Use cloud storage (Dropbox, Google Drive, etc.)
+2. Create a separate fonts-only repository with Git LFS
+3. Share via direct file transfer
+
+## Usage in Projects
+When referencing fonts in projects:
+```css
+/* Reference local development fonts */
+@font-face {
+  font-family: 'Stuart Text';
+  src: url('~/Developer/docs/fonts/stuart/StuartTextTrial-Regular.otf');
+}
+
+/* Or use relative paths in web projects */
+@font-face {
+  font-family: 'Stuart Text';
+  src: url('../fonts/stuart/StuartTextTrial-Regular.otf');
+}
+```
+
+## Git Configuration
+Fonts are excluded from git tracking via `.gitignore`:
+```bash
+# .gitignore entry
+/fonts/
+```
+
+This keeps the repository lightweight while fonts remain available locally for development.

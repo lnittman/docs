@@ -1,0 +1,170 @@
+# Webs System Architecture Overview
+
+Generated via `/user:diagram` command on [2025-07-03]
+
+## Overview
+
+This diagram illustrates the complete system architecture of the Webs platform, showing how the web application (xyz), AI service (ai), and iOS app (apple) integrate to create an AI-native web research platform.
+
+## Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "Client Applications"
+        WebApp["Web Application<br/>(Next.js 15 + React 19)"]
+        IOSApp["iOS Application<br/>(Swift 6 + SwiftUI)"]
+    end
+    
+    subgraph "API Gateway"
+        Gateway["API Routes<br/>(Next.js API)"]
+        Auth["Authentication<br/>(Clerk)"]
+    end
+    
+    subgraph "Core Services"
+        WebAPI["Web Service API"]
+        SpaceAPI["Space Service API"]
+        ThreadAPI["Thread Service API"]
+    end
+    
+    subgraph "AI Processing"
+        Mastra["AI Service<br/>(Mastra Framework)"]
+        Agents["AI Agents<br/>(GPT-4, Claude, Gemini)"]
+        Workflows["Workflow Engine"]
+        Memory["Vector Memory<br/>(RAG)"]
+    end
+    
+    subgraph "External Services"
+        Jina["Jina.ai<br/>(Web Scraping)"]
+        OpenRouter["OpenRouter<br/>(Multi-Model Gateway)"]
+    end
+    
+    subgraph "Data Layer"
+        Postgres[("PostgreSQL<br/>(Neon)")]
+        Redis[("Redis Cache<br/>(Upstash)")]
+        Prisma["Prisma ORM"]
+    end
+    
+    subgraph "Infrastructure"
+        Vercel["Vercel<br/>(Hosting)"]
+        Sentry["Sentry<br/>(Monitoring)"]
+        PostHog["PostHog<br/>(Analytics)"]
+        Knock["Knock<br/>(Notifications)"]
+    end
+    
+    %% Client connections
+    WebApp --> Gateway
+    IOSApp --> Gateway
+    
+    %% Auth flow
+    Gateway --> Auth
+    Auth --> Gateway
+    
+    %% API routing
+    Gateway --> WebAPI
+    Gateway --> SpaceAPI
+    Gateway --> ThreadAPI
+    
+    %% Service to AI
+    WebAPI --> Mastra
+    SpaceAPI --> Mastra
+    ThreadAPI --> Mastra
+    
+    %% AI components
+    Mastra --> Agents
+    Mastra --> Workflows
+    Mastra --> Memory
+    
+    %% External integrations
+    Workflows --> Jina
+    Agents --> OpenRouter
+    
+    %% Data persistence
+    WebAPI --> Prisma
+    SpaceAPI --> Prisma
+    ThreadAPI --> Prisma
+    Prisma --> Postgres
+    
+    %% Caching
+    WebAPI --> Redis
+    SpaceAPI --> Redis
+    
+    %% Infrastructure connections
+    Gateway -.-> Vercel
+    Mastra -.-> Vercel
+    WebApp -.-> Sentry
+    WebApp -.-> PostHog
+    Gateway -.-> Knock
+    
+    %% Styling
+    classDef client fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    classDef api fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    classDef ai fill:#ede9fe,stroke:#8b5cf6,stroke-width:2px
+    classDef data fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    classDef external fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+    classDef infra fill:#f3f4f6,stroke:#6b7280,stroke-width:2px
+    
+    class WebApp,IOSApp client
+    class Gateway,Auth,WebAPI,SpaceAPI,ThreadAPI api
+    class Mastra,Agents,Workflows,Memory ai
+    class Postgres,Redis,Prisma data
+    class Jina,OpenRouter external
+    class Vercel,Sentry,PostHog,Knock infra
+```
+
+## Key Components
+
+### Client Layer
+- **Web Application**: Next.js 15 with React 19, server components, and real-time updates
+- **iOS Application**: Native Swift 6 app with SwiftUI and SwiftData
+
+### API Layer
+- **API Gateway**: Next.js API routes with authentication middleware
+- **Authentication**: Clerk integration for user management
+
+### Service Layer
+- **Web Service**: Manages web submissions and analysis
+- **Space Service**: Handles workspace organization
+- **Thread Service**: Manages conversation threads
+
+### AI Processing
+- **Mastra Framework**: Orchestrates AI workflows and agents
+- **AI Agents**: Multiple model support (GPT-4, Claude, Gemini)
+- **Workflow Engine**: Parallel processing of analysis tasks
+- **Vector Memory**: RAG implementation for context
+
+### Data Layer
+- **PostgreSQL**: Primary database via Neon
+- **Redis**: Caching and rate limiting via Upstash
+- **Prisma**: Type-safe ORM
+
+### External Services
+- **Jina.ai**: Web content extraction and parsing
+- **OpenRouter**: Unified API for multiple AI models
+
+### Infrastructure
+- **Vercel**: Hosting and edge functions
+- **Sentry**: Error tracking and monitoring
+- **PostHog**: Product analytics
+- **Knock**: Notification service
+
+## Data Flow
+
+1. User submits URL via Web/iOS app
+2. Request authenticated via Clerk
+3. API creates Web record in PostgreSQL
+4. AI Service triggered for analysis
+5. Jina.ai fetches and parses content
+6. AI agents analyze in parallel
+7. Results combined and stored
+8. Client updated via SWR/polling
+
+## Related Diagrams
+
+- [Web Analysis Workflow](../data-flow/webs-analysis-workflow.md)
+- [Authentication Flow](../data-flow/auth-flow.md)
+- [AI Processing Pipeline](../component/ai-pipeline.md)
+
+---
+
+*Last Updated: 2025-07-03*
+*Generated with `/user:diagram` command*

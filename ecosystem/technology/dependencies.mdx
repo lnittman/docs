@@ -1,0 +1,190 @@
+# Dependency Matrix
+
+> Detailed dependency analysis across all active projects
+
+## 📊 Dependency Overview
+
+### Core Dependencies Comparison
+
+| Package | Kumori | Webs | Radar | Arbor | Voet | Yuba | Saya | Sine | Squish | Standard |
+|---------|--------|------|-------|-------|------|------|------|------|--------|----------|
+| **next** | 15.3.4 | 15.0.x | 15.3.0 | - | - | - | - | - | - | 15.3.4 |
+| **react** | 19.0.0 | 19.0.0 | 19.0.0 | 19.0.0 | 19.0.0 | 19.0.0 | 19.0.0 | - | - | 19.0.0 |
+| **typescript** | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 | 5.8.3 |
+| **@clerk/nextjs** | 6.14.0 | 6.x | 6.x | - | - | - | - | - | - | 6.14.0 |
+| **prisma** | 6.2.0 | 6.x | 6.x | - | - | - | - | - | - | 6.2.0 |
+| **tailwindcss** | 4.0.0 | 4.0.0 | 4.0.0 | 4.0.0 | 4.0.0 | 4.0.0 | 4.0.0 | - | - | 4.0.0 |
+| **jotai** | 2.10.4 | 2.x | 2.x | - | - | - | - | - | - | 2.10.4 |
+| **swr** | 2.3.0 | 2.x | 2.x | - | - | - | - | - | - | 2.3.0 |
+| **mastra** | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.8 | 0.10.10 | 0.10.10 |
+
+### Development Dependencies
+
+| Package | Adoption | Version Range | Notes |
+|---------|----------|---------------|-------|
+| **turbo** | 91% | 2.3.x | Monorepo orchestration |
+| **@biomejs/biome** | 82% | 1.10.x | Formatter/linter |
+| **vitest** | 73% | 2.2.x | Test runner |
+| **@testing-library/react** | 64% | 16.1.x | React testing |
+| **eslint** | 18% | 9.x | Being replaced by Biome |
+
+## 🔄 Version Mismatches
+
+### Critical Mismatches
+
+```yaml
+next:
+  standard: "15.3.4"
+  outdated:
+    - webs: "15.0.x" (major update needed)
+    - radar: "15.3.0" (patch update)
+    - alden: "14.x" (critical update)
+
+mastra:
+  standard: "0.10.10"
+  outdated:
+    - 8 projects: "0.10.8" (minor update)
+    - 1 project: older (update required)
+```
+
+### Package Manager Distribution
+
+```
+pnpm:     10 projects (91%) ✅
+npm:       1 project (9%)   ⚠️ Should migrate
+yarn:      0 projects (0%)  -
+```
+
+## 📦 Shared Dependencies
+
+### Common Across All Web Projects
+
+```json
+{
+  // UI Components
+  "@radix-ui/react-dialog": "^1.1.4",
+  "@radix-ui/react-slot": "^1.1.1",
+  "@radix-ui/react-toast": "^1.2.4",
+  
+  // Utilities
+  "clsx": "^2.1.1",
+  "tailwind-merge": "^2.7.0",
+  
+  // Icons & Fonts
+  "lucide-react": "^0.481.0",
+  "geist": "^1.4.0"
+}
+```
+
+### AI Service Dependencies
+
+```json
+{
+  // Mastra Ecosystem
+  "@mastra/core": "^0.10.x",
+  "@mastra/engine": "^0.10.x",
+  
+  // AI Providers
+  "openai": "^4.x",
+  "@anthropic-ai/sdk": "^0.x",
+  
+  // Vector Storage
+  "@pinecone-database/pinecone": "^3.x"
+}
+```
+
+## 🚨 Security Vulnerabilities by Project
+
+### High Priority
+
+| Project | Package | Severity | Fix Version | Impact |
+|---------|---------|----------|-------------|---------|
+| Alden | next@14.x | High | 15.3.4 | XSS vulnerability |
+| Sine | postcss | High | Latest | Build chain |
+
+### Medium Priority
+
+| Project | Count | Main Issues | Action |
+|---------|-------|-------------|---------|
+| Multiple | 8 | ESLint plugins | Update configs |
+| Various | 5 | Dev dependencies | Low risk |
+
+## 📈 Dependency Update Strategy
+
+### Phase 1: Security (Immediate)
+```bash
+# Update high-severity issues
+pnpm update next@latest -r --filter alden-web
+pnpm audit fix --production
+```
+
+### Phase 2: Mastra Alignment (This Week)
+```bash
+# Update all AI services to latest Mastra
+pnpm update @mastra/core@^0.10.10 -r --filter "*-ai"
+pnpm update @mastra/engine@^0.10.10 -r --filter "*-ai"
+```
+
+### Phase 3: Framework Updates (This Month)
+```bash
+# Align all Next.js versions
+pnpm update next@^15.3.4 react@^19.0.0 -r --filter "*-xyz"
+```
+
+## 🔧 Dependency Policies
+
+### Approved Packages
+
+✅ **Always Use:**
+- State: jotai, swr
+- UI: @radix-ui/*, vaul, sonner
+- Utils: clsx, tailwind-merge
+- Auth: @clerk/nextjs
+
+⚠️ **Avoid:**
+- State: redux, mobx, zustand
+- UI: material-ui, ant-design
+- Old React: class components
+
+❌ **Never Use:**
+- Deprecated packages
+- Packages with known vulnerabilities
+- Unmaintained libraries (>2 years)
+
+### Version Pinning Strategy
+
+```json
+{
+  "dependencies": {
+    // Pin majors for stability
+    "next": "^15.3.4",
+    "react": "^19.0.0",
+    
+    // Allow minors for features
+    "@clerk/nextjs": "^6.14.0",
+    "jotai": "^2.10.4",
+    
+    // Lock critical infrastructure
+    "typescript": "5.8.3"
+  }
+}
+```
+
+## 🎯 Standardization Goals
+
+### Target State (Q3 2025)
+- 100% on latest Next.js 15.3.x
+- 100% on Mastra 0.10.10+
+- 100% TypeScript 5.8.3
+- 0 high/critical vulnerabilities
+- <5% version drift tolerance
+
+### Automation Requirements
+1. Weekly dependency audit reports
+2. Automated PR creation for updates
+3. Breaking change detection
+4. Performance regression tests
+
+---
+
+*Generated: 2025-07-05 | Next update: Weekly on Mondays*

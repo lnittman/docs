@@ -1,0 +1,237 @@
+# Design Thinking Prompt Snippets
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-03  
+**Purpose**: Ready-to-use prompts incorporating design philosophy
+
+## 🎯 Overview
+
+These prompt snippets integrate wisdom from design masters and software architects. Use them in your `~/.claude/commands` or directly in conversations.
+
+## 📝 Universal Design Prompts
+
+### The Simplicity Audit
+```markdown
+Apply Maeda's Laws of Simplicity and Rams' "Less but better" principle:
+1. What can be removed without losing functionality?
+2. What can be combined or consolidated?
+3. What complexity is actually necessary?
+4. How can we make the essential parts more obvious?
+```
+
+### The Human-Centered Review
+```markdown
+Following Don Norman's principles:
+- What affordances are we providing?
+- How does the system communicate its state?
+- What errors are we preventing vs. handling?
+- Where might users form incorrect mental models?
+```
+
+### The Systems Thinking Analysis
+```markdown
+Channel Buckminster Fuller's holistic approach:
+- What are the interconnections we're not seeing?
+- How can we do more with less (ephemeralization)?
+- What patterns emerge at the system level?
+- Where are the leverage points for maximum impact?
+```
+
+## 🏗️ Architecture Prompts
+
+### The Evolutionary Architecture
+```markdown
+Using Martin Fowler's evolutionary architecture principles:
+1. Identify the dimensions of change
+2. Define fitness functions for each dimension
+3. Plan incremental steps toward the target
+4. Build in feedback loops for continuous improvement
+```
+
+### The XP Design Session
+```markdown
+Apply Kent Beck's Extreme Programming values:
+- Simplicity: What's the simplest thing that could work?
+- Communication: How does this design communicate intent?
+- Feedback: How quickly will we know if this works?
+- Courage: What refactoring are we avoiding?
+- Respect: How does this respect team and user needs?
+```
+
+### The Strategic Mapping
+```markdown
+Create a Wardley Map for this system:
+1. Identify user needs at the top
+2. Map the value chain vertically
+3. Position components on the evolution axis
+4. Identify strategic moves and gameplay
+Genesis → Custom → Product → Commodity
+```
+
+## 🤖 AI Development Prompts
+
+### The Software 2.0 Transformation
+```markdown
+Following Karpathy's Software 2.0 paradigm:
+- Which behaviors should be learned vs. programmed?
+- What training data would teach this behavior?
+- How do we maintain interpretability?
+- Where do we need human oversight?
+```
+
+### The Straightforward Agent
+```markdown
+Design with Mastra's transparency principles:
+1. Make every operation explicit and traceable
+2. Use simple, composable functions
+3. Avoid hidden state and magic
+4. Provide clear debugging visibility
+```
+
+### The Incremental AI Feature
+```markdown
+Apply Vercel AI SDK's "Start Small, Then Scale":
+- MVP: What's the minimal AI feature that provides value?
+- Enhancement: How can we add streaming for better UX?
+- Scale: What needs optimization for production?
+- Future-proof: How do we stay provider-agnostic?
+```
+
+## 🎨 Design Philosophy Mashups
+
+### Rams × Karpathy
+```markdown
+Design this AI system with Rams' clarity:
+- Every model output should have a clear purpose
+- The interface should be honest about AI limitations
+- Remove any AI features that don't improve user outcomes
+- Make the system's confidence visible and understandable
+```
+
+### Teenage Engineering × Mastra
+```markdown
+Build an AI agent that's playful yet powerful:
+- Constrain the interface to essential controls
+- Make exploration feel safe and fun
+- Use visual/audio feedback for agent states
+- Keep the technical complexity hidden but accessible
+```
+
+### Norman × Fowler
+```markdown
+Create an architecture that's both human-centered and evolvable:
+- Design APIs that match user mental models
+- Build in affordances at the code level
+- Create fitness functions for usability metrics
+- Evolve based on actual usage patterns
+```
+
+## 💻 Command Integration
+
+### For ~/.claude/commands/simplify.md
+```markdown
+# Simplify with Design Masters
+
+Apply simplification principles from multiple perspectives.
+
+@~/Developer/docs/inspo/design-and-aesthetics/john-maeda/
+@~/Developer/docs/inspo/dieter-rams/
+
+Simplify this $SELECTION using:
+1. Maeda's Laws (Reduce, Organize, Time, Learn, Differences, Context)
+2. Rams' Principle #3 (Less, but better)
+3. Focus on essential functionality
+4. Remove decorative complexity
+```
+
+### For ~/.claude/commands/architect.md
+```markdown
+# Architect with Proven Patterns
+
+Design using battle-tested architectural principles.
+
+@~/Developer/docs/inspo/software-architecture/martin-fowler/
+@~/Developer/docs/inspo/software-architecture/kent-beck/
+
+Architect this $SELECTION following:
+1. Fowler's evolutionary architecture patterns
+2. Beck's simple design rules
+3. Clear boundaries and interfaces
+4. Testability as a first-class concern
+```
+
+### For ~/.claude/commands/ai-enhance.md
+```markdown
+# Enhance with AI Thoughtfully
+
+Add AI capabilities following best practices.
+
+@~/Developer/docs/inspo/ai-and-modern-development/andrej-karpathy/
+@~/Developer/docs/inspo/ai-and-modern-development/vercel-ai/
+@~/Developer/docs/inspo/ai-and-modern-development/mastra-team/
+
+Enhance $SELECTION with AI by:
+1. Identifying Software 2.0 opportunities (Karpathy)
+2. Starting small with Vercel AI SDK patterns
+3. Keeping it straightforward (Mastra philosophy)
+4. Maintaining human oversight and interpretability
+```
+
+## 🔄 Composite Patterns
+
+### The Full Stack Philosophy Review
+```markdown
+Review this full-stack application through multiple lenses:
+
+DESIGN (Rams, Maeda, Norman):
+- Is the UI honest and unobtrusive?
+- Have we simplified to the essence?
+- Are interactions human-centered?
+
+ARCHITECTURE (Fowler, Beck, Wardley):
+- Is the architecture evolvable?
+- Have we applied simple design?
+- Where are we on the evolution curve?
+
+AI INTEGRATION (Karpathy, Mastra, Vercel):
+- Which parts benefit from Software 2.0?
+- Is our implementation transparent?
+- Can we scale incrementally?
+
+SYSTEM THINKING (Fuller, Procida):
+- How do parts create emergent properties?
+- Is our documentation complete (all 4 quadrants)?
+```
+
+## 🎯 Quick Reference
+
+### When to Use Each Philosophy
+
+**Starting a New Project**
+- Wardley: Map the landscape first
+- Beck: Start with the simplest thing
+- Vercel AI: Build incrementally
+
+**Refactoring Existing Code**
+- Fowler: Identify seams and boundaries
+- Maeda: Apply laws of simplicity
+- Rams: Remove until it breaks, then add back
+
+**Adding AI Features**
+- Karpathy: Evaluate Software 1.0 vs 2.0
+- Mastra: Keep it transparent
+- Vercel: Start small, use streaming
+
+**Improving User Experience**
+- Norman: Focus on affordances and feedback
+- Kare: Pixel-perfect clarity
+- Teenage Engineering: Playful minimalism
+
+**Documentation**
+- Procida: Use all four quadrants
+- Fuller: Show system connections
+- Ive: Document the "why" behind decisions
+
+---
+*"In the beginner's mind there are many possibilities, but in the expert's mind there are few." - Shunryu Suzuki*
+
+Use these prompts to approach problems with both beginner's curiosity and expert wisdom.

@@ -1,0 +1,597 @@
+# How I Use Sentry
+
+My standard Sentry setup for error tracking, performance monitoring, and session replay in Next.js applications. Focus on actionable insights and minimal noise.
+
+## Installation & Setup
+
+### Next.js Installation
+```bash
+pnpm add @sentry/nextjs
+```
+
+### Environment Variables
+```bash
+# .env.local
+NEXT_PUBLIC_SENTRY_DSN=https://...@sentry.io/...
+SENTRY_ORG=your-org
+SENTRY_PROJECT=your-project
+SENTRY_AUTH_TOKEN=... # For source maps
+```
+
+## Configuration
+
+### Client-Side Setup
+```typescript
+// packages/observability/client.ts
+import { init, replayIntegration } from '@sentry/nextjs';
+
+export const initializeSentry = () =>
+  init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    
+    // Sample rates - adjust for production
+    tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+    
+    // Privacy settings
+    integrations: [
+      replayIntegration({
+        maskAllText: true,
+        blockAllMedia: true,
+      }),
+    ],
+    
+    // Environment & release
+    environment: process.env.NODE_ENV,
+    release: process.env.NEXT_PUBLIC_APP_VERSION,
+    
+    // Development settings
+    debug: process.env.NODE_ENV === 'development',
+    enabled: process.env.NODE_ENV === 'production',
+  });
+```
+
+### Server-Side Setup
+```typescript
+// packages/observability/instrumentation.ts
+import { init } from '@sentry/nextjs';
+
+export const initializeSentry = () => {
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    init({
+      dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+      tracesSampleRate: 0.1,
+      profilesSampleRate: 0.1, // Profiling
+    });
+  }
+
+  if (process.env.NEXT_RUNTIME === 'edge') {
+    init({
+      dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+      tracesSampleRate: 0.1,
+    });
+  }
+};
+```
+
+### Next.js Configuration
+```typescript
+// packages/observability/next-config.ts
+import { withSentryConfig } from '@sentry/nextjs';
+
+export const sentryConfig = {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  
+  // Only print logs for uploading source maps in CI
+  silent: !process.env.CI,
+  
+  // Upload more source maps for better stack traces
+  widenClientFileUpload: true,
+  
+  // Route through Next.js to bypass ad-blockers
+  tunnelRoute: '/monitoring',
+  
+  // Remove Sentry logger statements in production
+  disableLogger: true,
+  
+  // Vercel Cron monitoring
+  automaticVercelMonitors: true,
+};
+
+export const withSentry = (config: NextConfig) => {
+  return withSentryConfig(config, sentryConfig);
+};
+```
+
+### App Integration
+```typescript
+// next.config.ts
+import { withSentry } from '@repo/observability/next-config';
+
+const nextConfig = {
+  // Your config
+};
+
+export default withSentry(nextConfig);
+```
+
+## Error Handling
+
+### Global Error Boundary
+```typescript
+// app/global-error.tsx
+'use client';
+
+import * as Sentry from '@sentry/nextjs';
+import { useEffect } from 'react';
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
+  return (
+    <html>
+      <body>
+        <h1>Something went wrong</h1>
+        <button onClick={reset}>Try again</button>
+      </body>
+    </html>
+  );
+}
+```
+
+### Error Page
+```typescript
+// app/error.tsx
+'use client';
+
+import * as Sentry from '@sentry/nextjs';
+import { useEffect } from 'react';
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button onClick={reset}>Try again</button>
+    </div>
+  );
+}
+```
+
+### Error Utility
+```typescript
+// packages/observability/error.ts
+import { captureException } from '@sentry/nextjs';
+
+export const parseError = (error: unknown): string => {
+  let message = 'An error occurred';
+
+  if (error instanceof Error) {
+    message = error.message;
+  } else if (error && typeof error === 'object' && 'message' in error) {
+    message = error.message as string;
+  } else {
+    message = String(error);
+  }
+
+  // Capture to Sentry
+  captureException(error);
+  
+  return message;
+};
+```
+
+## Manual Error Capture
+
+### Try-Catch Pattern
+```typescript
+import * as Sentry from '@sentry/nextjs';
+
+export async function riskyOperation() {
+  try {
+    await doSomethingRisky();
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: {
+        section: 'payment',
+        action: 'process',
+      },
+      extra: {
+        userId: user.id,
+        amount: payment.amount,
+      },
+    });
+    
+    throw error; // Re-throw if needed
+  }
+}
+```
+
+### API Route Errors
+```typescript
+// app/api/example/route.ts
+import * as Sentry from '@sentry/nextjs';
+
+export async function POST(request: Request) {
+  try {
+    const data = await request.json();
+    return await processData(data);
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { endpoint: 'api/example' },
+      extra: { body: await request.text() },
+    });
+    
+    return Response.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## Performance Monitoring
+
+### Custom Transactions
+```typescript
+import * as Sentry from '@sentry/nextjs';
+
+export async function complexOperation() {
+  const transaction = Sentry.startTransaction({
+    op: 'task',
+    name: 'process.payment',
+  });
+
+  Sentry.getCurrentHub().configureScope(scope => {
+    scope.setSpan(transaction);
+  });
+
+  try {
+    const span = transaction.startChild({
+      op: 'db.query',
+      description: 'fetch user data',
+    });
+    
+    const user = await fetchUser();
+    span.finish();
+
+    const paymentSpan = transaction.startChild({
+      op: 'http.request',
+      description: 'process payment',
+    });
+    
+    const result = await processPayment(user);
+    paymentSpan.finish();
+
+    transaction.setStatus('ok');
+    return result;
+  } catch (error) {
+    transaction.setStatus('internal_error');
+    throw error;
+  } finally {
+    transaction.finish();
+  }
+}
+```
+
+### Automatic Instrumentation
+```typescript
+// Automatically captured:
+// - Page load times
+// - Route changes
+// - API request durations
+// - Database queries (with Prisma integration)
+// - External HTTP requests
+```
+
+## User Context
+
+### Identify Users
+```typescript
+import * as Sentry from '@sentry/nextjs';
+import { auth } from '@clerk/nextjs/server';
+
+export async function setUserContext() {
+  const { userId } = await auth();
+  
+  if (userId) {
+    const user = await getUserById(userId);
+    
+    Sentry.setUser({
+      id: userId,
+      email: user.email,
+      username: user.username,
+      // Don't include sensitive data
+    });
+  }
+}
+```
+
+### Add Context
+```typescript
+// Add breadcrumbs
+Sentry.addBreadcrumb({
+  message: 'User clicked checkout',
+  level: 'info',
+  category: 'ui',
+  data: {
+    cartSize: 3,
+    total: 99.99,
+  },
+});
+
+// Set tags
+Sentry.setTag('feature', 'checkout');
+Sentry.setTag('plan', user.plan);
+
+// Set context
+Sentry.setContext('purchase', {
+  items: cart.items.length,
+  coupon: cart.coupon,
+  shipping: cart.shippingMethod,
+});
+```
+
+## Session Replay
+
+### Privacy Configuration
+```typescript
+// Mask sensitive content
+<div data-sentry-mask>
+  <CreditCardForm />
+</div>
+
+// Block from replay
+<div data-sentry-block>
+  <PersonalInfo />
+</div>
+
+// Custom masking
+replayIntegration({
+  maskAllText: false,
+  maskAllInputs: true,
+  maskTextSelector: '.sensitive',
+  blockSelector: '.private',
+});
+```
+
+### Conditional Recording
+```typescript
+init({
+  replaysSessionSampleRate: 0, // Don't record by default
+  replaysOnErrorSampleRate: 1.0, // Record on error
+  
+  beforeSendTransaction(event) {
+    // Only record premium users
+    if (user?.plan === 'premium') {
+      Sentry.getClient()?.recordSession();
+    }
+    return event;
+  },
+});
+```
+
+## Filtering & Sampling
+
+### Ignore Specific Errors
+```typescript
+init({
+  ignoreErrors: [
+    // Browser extensions
+    'Non-Error promise rejection captured',
+    // Network errors
+    'NetworkError',
+    'Failed to fetch',
+    // User errors
+    'User cancelled',
+    // Known third-party errors
+    /graph\.facebook\.com/,
+  ],
+  
+  denyUrls: [
+    // Chrome extensions
+    /extensions\//i,
+    /^chrome:\/\//i,
+    // Firefox extensions
+    /^moz-extension:\/\//i,
+  ],
+});
+```
+
+### Custom Filtering
+```typescript
+init({
+  beforeSend(event, hint) {
+    // Filter out non-production
+    if (event.environment !== 'production') {
+      return null;
+    }
+    
+    // Filter by error type
+    const error = hint.originalException;
+    if (error?.name === 'AbortError') {
+      return null;
+    }
+    
+    // Sample by user
+    if (Math.random() > 0.1 && !event.exception) {
+      return null; // 10% sampling for non-errors
+    }
+    
+    return event;
+  },
+});
+```
+
+## Monitoring & Alerts
+
+### Performance Budgets
+```typescript
+// Monitor Web Vitals
+import { onCLS, onFID, onLCP } from 'web-vitals';
+
+function sendToSentry({ name, delta, id }) {
+  Sentry.captureMessage(`Web Vital: ${name}`, {
+    level: 'info',
+    tags: { webvital: name },
+    extra: { delta, id },
+  });
+}
+
+onCLS(sendToSentry);
+onFID(sendToSentry);
+onLCP(sendToSentry);
+```
+
+### Custom Metrics
+```typescript
+// Track business metrics
+Sentry.metrics.increment('checkout.completed', 1, {
+  tags: { plan: user.plan },
+});
+
+Sentry.metrics.distribution('api.response_time', responseTime, {
+  unit: 'millisecond',
+  tags: { endpoint: '/api/users' },
+});
+
+Sentry.metrics.gauge('queue.size', queueSize, {
+  tags: { worker: 'email' },
+});
+```
+
+## Development Workflow
+
+### Local Development
+```typescript
+// Disable in development
+init({
+  enabled: process.env.NODE_ENV === 'production',
+  debug: process.env.NODE_ENV === 'development',
+  
+  // Or use tunnel for testing
+  dsn: process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:8000/1' 
+    : process.env.NEXT_PUBLIC_SENTRY_DSN,
+});
+```
+
+### Source Maps
+```bash
+# Upload source maps in CI/CD
+SENTRY_AUTH_TOKEN=... pnpm build
+
+# Or use Vercel integration
+# Automatically uploads on deploy
+```
+
+## My Conventions
+
+1. **Production only** - Disable in development unless debugging
+2. **Low sample rates** - Start with 10% traces, 1% replays
+3. **Privacy first** - Mask all text, block media in replays
+4. **Meaningful context** - Add user ID, feature tags, breadcrumbs
+5. **Filter noise** - Ignore browser extensions, network errors
+6. **Monitor business metrics** - Track what matters
+7. **Route through Next.js** - Use tunnel to bypass blockers
+8. **Alert on trends** - Not individual errors
+
+## Common Patterns
+
+### API Error Wrapper
+```typescript
+// lib/api-wrapper.ts
+export async function withErrorHandling<T>(
+  handler: () => Promise<T>,
+  context?: Record<string, any>
+): Promise<T> {
+  try {
+    return await handler();
+  } catch (error) {
+    Sentry.captureException(error, {
+      extra: context,
+    });
+    throw error;
+  }
+}
+```
+
+### Form Error Handling
+```typescript
+async function handleSubmit(data: FormData) {
+  try {
+    await submitForm(data);
+  } catch (error) {
+    const eventId = Sentry.captureException(error);
+    
+    // Show user-friendly error with ID
+    toast.error(
+      `Something went wrong. Error ID: ${eventId}`
+    );
+  }
+}
+```
+
+### Monitoring SLOs
+```typescript
+// Track critical user journeys
+const transaction = Sentry.startTransaction({
+  name: 'user.onboarding',
+});
+
+try {
+  await completeOnboarding();
+  transaction.setMeasurement('duration', Date.now() - start);
+  transaction.setStatus('ok');
+} catch (error) {
+  transaction.setStatus('internal_error');
+  throw error;
+} finally {
+  transaction.finish();
+}
+```
+
+## Resources & Links
+
+### Official Documentation
+- [Sentry Docs](https://docs.sentry.io)
+- [Next.js Guide](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
+- [Best Practices](https://docs.sentry.io/product/sentry-basics/concepts/tracing/trace-view/)
+- [Performance Monitoring](https://docs.sentry.io/product/performance/)
+
+### Key Features
+- [Error Tracking](https://docs.sentry.io/product/issues/)
+- [Session Replay](https://docs.sentry.io/product/session-replay/)
+- [Profiling](https://docs.sentry.io/product/profiling/)
+- [Cron Monitoring](https://docs.sentry.io/product/crons/)
+- [User Feedback](https://docs.sentry.io/product/user-feedback/)
+
+### Integrations
+- [Vercel Integration](https://docs.sentry.io/product/integrations/deployment/vercel/)
+- [GitHub Integration](https://docs.sentry.io/product/integrations/source-code-mgmt/github/)
+- [Slack Alerts](https://docs.sentry.io/product/integrations/notification-incidents/slack/)
+
+### Advanced Topics
+- [Custom Instrumentation](https://docs.sentry.io/platforms/javascript/performance/instrumentation/custom-instrumentation/)
+- [Data Scrubbing](https://docs.sentry.io/product/data-management-settings/scrubbing/)
+- [Sampling Rules](https://docs.sentry.io/platforms/javascript/configuration/sampling/)
+- [Release Tracking](https://docs.sentry.io/product/releases/)

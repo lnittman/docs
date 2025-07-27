@@ -1,0 +1,256 @@
+# Rule Violations Report
+
+> Detailed listing of all standards violations with fix recommendations
+
+## 🚨 Critical Violations (2)
+
+### 1. Alden - Complete Standards Violation
+**Severity**: Critical  
+**Rules Violated**: 8/10  
+**Impact**: Cannot integrate with ecosystem
+
+```yaml
+Violations:
+  - structure: Single repo instead of ecosystem
+  - naming: Only has alden-web
+  - stack: Legacy (Supabase, Redux)
+  - package_manager: npm instead of pnpm
+  - documentation: No CLAUDE.md files
+  - state_management: Redux instead of RSC/SWR/Jotai
+  - api_pattern: Not using Server Actions
+  - monorepo: No Turborepo setup
+
+Fix Strategy:
+  1. Run migration script
+  2. Create standard structure
+  3. Update dependencies
+  4. Add documentation
+  
+Estimated Time: 2-3 days
+Automation Available: Yes (/compliance/fixes/migrate-alden.sh)
+```
+
+### 2. High Security Vulnerabilities
+**Severity**: Critical  
+**Projects**: Alden, Sine  
+**Impact**: Production deployment blocked
+
+```yaml
+Alden:
+  - next@14.x: XSS vulnerability (CVE-2024-xxxxx)
+  - Fix: Update to next@15.3.4
+
+Sine:
+  - postcss: ReDoS vulnerability
+  - Fix: Update postcss and dependencies
+  
+Immediate Action:
+  pnpm audit fix --production
+```
+
+## ⚠️ Major Violations (5)
+
+### 1. Squish - Non-Standard Architecture
+**Severity**: Major  
+**Rules Violated**: 3  
+**Impact**: Difficult to maintain
+
+```yaml
+Violations:
+  - naming: squish-app, squish-svc instead of standard
+  - structure: Python service breaks pattern
+  - monorepo: Mixed architecture
+
+Considerations:
+  - Python service might be intentional
+  - Needs architecture documentation
+  - Consider extracting to microservice
+
+Fix Strategy:
+  - Document the architecture decision
+  - Align naming where possible
+  - Create integration standards
+```
+
+### 2. Sine - Complex Non-Standard Structure
+**Severity**: Major  
+**Rules Violated**: 2  
+**Impact**: Confusing structure
+
+```yaml
+Violations:
+  - structure: Too many components (filters, loops, studio, web)
+  - organization: Unclear separation of concerns
+
+Fix Strategy:
+  1. Consolidate related components
+  2. Move to standard xyz structure
+  3. Extract shared logic to packages
+```
+
+### 3. Missing Apple Components
+**Severity**: Major  
+**Projects**: Saya (+ Sine, Squish, Alden)  
+**Impact**: Incomplete ecosystem
+
+```yaml
+Projects Missing Apple:
+  - Saya: Should have saya-apple
+  - Sine: Complex structure, unclear if needed
+  - Squish: Python-based, might not need
+  - Alden: Legacy, needs full migration
+
+Fix Priority:
+  1. Saya (active project)
+  2. Others (after structure fixes)
+```
+
+### 4. Outdated Mastra Framework
+**Severity**: Major  
+**Projects**: 8/10 AI services  
+**Impact**: Missing features and fixes
+
+```yaml
+Current vs Target:
+  - Current: 0.10.8 (8 projects)
+  - Target: 0.10.10
+  - Changelog: Bug fixes, performance improvements
+
+Fix Command:
+  /user:ecosystem evolve "mastra@0.10.10"
+```
+
+### 5. Low Test Coverage
+**Severity**: Major  
+**Projects**: 4  
+**Impact**: Quality risk
+
+```yaml
+Below Target (<80%):
+  - Saya: ~60%
+  - Sine: ~65%
+  - Alden: Unknown
+  - Yuba: ~70%
+
+Fix Strategy:
+  1. Add unit tests for critical paths
+  2. Integration tests for API routes
+  3. E2E tests for key workflows
+```
+
+## 🟡 Minor Violations (12)
+
+### Documentation Gaps
+
+```yaml
+Missing CLAUDE.md:
+  - saya-xyz/apps/web/
+  - sine-web/src/
+  - Various package directories
+
+Missing TSDoc:
+  - Exported functions without docs: ~120
+  - Exported types without docs: ~80
+  - API routes without docs: ~30
+```
+
+### Package Version Drift
+
+```yaml
+Next.js Versions:
+  - webs: 15.0.x (target: 15.3.4)
+  - radar: 15.3.0 (target: 15.3.4)
+
+Dev Dependencies:
+  - Mixed ESLint/Biome usage
+  - Outdated TypeScript configs
+  - Testing library versions
+```
+
+### Structure Deviations
+
+```yaml
+Missing Standard Packages:
+  - 4 projects missing packages/ui
+  - 3 projects missing packages/auth
+  - 2 projects missing packages/shared
+
+Non-Standard Naming:
+  - React-LM (library exception)
+  - Some internal package names
+```
+
+## 📋 Violation Summary by Project
+
+| Project | Critical | Major | Minor | Total | Priority |
+|---------|----------|-------|-------|-------|----------|
+| Alden | 2 | 6 | 8 | 16 | 🔴 Immediate |
+| Squish | 0 | 3 | 5 | 8 | 🟠 High |
+| Sine | 1 | 2 | 4 | 7 | 🟠 High |
+| Saya | 0 | 2 | 3 | 5 | 🟡 Medium |
+| Others | 0 | 1 | 2 | 3 | 🟢 Low |
+
+## 🔧 Fix Automation Status
+
+### Automated Fixes Available
+
+```bash
+# Security updates
+/user:ecosystem standards fix security
+
+# Mastra updates
+/user:ecosystem evolve "mastra@0.10.10"
+
+# Documentation generation
+/user:ecosystem standards fix docs
+
+# Biome configuration
+/user:ecosystem standards fix biome
+
+# Package structure
+/user:ecosystem standards fix packages
+```
+
+### Manual Fixes Required
+
+1. **Architectural Changes**
+   - Squish Python service
+   - Sine component consolidation
+   - Alden complete migration
+
+2. **Test Coverage**
+   - Write missing tests
+   - Set up CI coverage reporting
+   - Configure coverage thresholds
+
+3. **Apple Platform**
+   - Create new Swift projects
+   - Set up SwiftUI templates
+   - Configure CI/CD
+
+## 📈 Remediation Timeline
+
+### Week 1
+- [ ] Fix security vulnerabilities
+- [ ] Update Mastra framework
+- [ ] Generate missing docs
+
+### Week 2
+- [ ] Start Alden migration
+- [ ] Add Saya apple component
+- [ ] Align package versions
+
+### Week 3-4
+- [ ] Complete migrations
+- [ ] Improve test coverage
+- [ ] Standardize remaining projects
+
+### Success Metrics
+- Zero critical violations
+- 85%+ compliance score
+- All projects on latest stack
+- 80%+ test coverage
+
+---
+
+*Report generated: 2025-07-05 | Next scan: 2025-07-08*

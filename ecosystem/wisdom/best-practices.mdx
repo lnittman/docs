@@ -1,0 +1,543 @@
+# Best Practices Guide
+
+> Curated best practices derived from ecosystem analysis and real-world success
+
+## 🎯 Development Best Practices
+
+### 1. Start Every Session Right
+
+```bash
+# Always run these commands at session start
+/user:prime [project]         # Load context
+/user:ecosystem audit [project]  # Check health
+git status                    # Check state
+pnpm install                  # Sync dependencies
+```
+
+**Why**: Ensures you have current context and clean state
+
+### 2. Use Extended Thinking for Complex Tasks
+
+```bash
+# For non-trivial features
+/user:build --think "implement user profiles with avatar upload"
+
+# For architectural decisions
+/user:vision --think "explore micro-frontend architecture"
+```
+
+**Why**: Better solutions emerge from careful analysis
+
+### 3. Document While Building
+
+```typescript
+// ❌ Bad: Write code, document later
+function processData(data) {
+  // complex logic
+}
+
+// ✅ Good: Document inline
+/**
+ * Processes user data for analytics pipeline
+ * @param data - Raw user event data
+ * @returns Normalized analytics event
+ * @throws ValidationError if data is malformed
+ */
+function processData(data: UserEvent): AnalyticsEvent {
+  // implementation
+}
+```
+
+**Why**: Documentation debt compounds quickly
+
+## 🏗️ Architecture Best Practices
+
+### 1. Server-First, Always
+
+```typescript
+// ❌ Bad: Client-side data fetching
+'use client'
+function Products() {
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    fetch('/api/products').then(...)
+  }, [])
+}
+
+// ✅ Good: Server-side data loading
+async function Products() {
+  const products = await db.products.findMany()
+  return <ProductList products={products} />
+}
+```
+
+**Why**: Better performance, SEO, and simpler code
+
+### 2. Colocate Related Code
+
+```
+❌ Bad: Scattered by type
+src/
+├── components/
+│   └── ProductCard.tsx
+├── hooks/
+│   └── useProduct.ts
+├── utils/
+│   └── formatPrice.ts
+└── types/
+    └── product.ts
+
+✅ Good: Colocated by feature
+src/
+└── features/
+    └── products/
+        ├── ProductCard.tsx
+        ├── useProduct.ts
+        ├── formatPrice.ts
+        └── types.ts
+```
+
+**Why**: Easier to understand and maintain
+
+### 3. Use Proper Error Boundaries
+
+```typescript
+// Every route should have error handling
+app/
+├── layout.tsx         # Root layout
+├── error.tsx         # Global error boundary
+├── products/
+│   ├── page.tsx
+│   └── error.tsx     # Route-specific errors
+└── api/
+    └── products/
+        └── route.ts  # API error handling
+```
+
+**Why**: Users should never see white screens
+
+## 💾 Data Best Practices
+
+### 1. Validate at the Border
+
+```typescript
+// ✅ Good: Validate all external data
+import { z } from 'zod'
+
+const userSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1),
+  age: z.number().positive().optional()
+})
+
+// In Server Action
+export async function createUser(data: unknown) {
+  const validated = userSchema.parse(data)
+  // Safe to use validated data
+}
+
+// In API Route
+export async function POST(req: Request) {
+  const body = await req.json()
+  const validated = userSchema.parse(body)
+  // Safe to use validated data
+}
+```
+
+**Why**: Prevents runtime errors and security issues
+
+### 2. Use Transactions for Related Operations
+
+```typescript
+// ✅ Good: Atomic operations
+async function transferCredits(fromId: string, toId: string, amount: number) {
+  return await db.$transaction(async (tx) => {
+    const from = await tx.user.update({
+      where: { id: fromId },
+      data: { credits: { decrement: amount } }
+    })
+    
+    if (from.credits < 0) {
+      throw new Error('Insufficient credits')
+    }
+    
+    await tx.user.update({
+      where: { id: toId },
+      data: { credits: { increment: amount } }
+    })
+    
+    await tx.creditTransfer.create({
+      data: { fromId, toId, amount }
+    })
+  })
+}
+```
+
+**Why**: Maintains data consistency
+
+### 3. Implement Soft Deletes
+
+```prisma
+model User {
+  id        String    @id
+  email     String    @unique
+  deletedAt DateTime?
+  
+  @@index([deletedAt])
+}
+
+// Queries automatically filter
+const activeUsers = await db.user.findMany({
+  where: { deletedAt: null }
+})
+```
+
+**Why**: Data recovery and audit trails
+
+## 🧪 Testing Best Practices
+
+### 1. Test the Contract, Not Implementation
+
+```typescript
+// ❌ Bad: Testing implementation details
+test('uses forEach to process items', () => {
+  const spy = jest.spyOn(Array.prototype, 'forEach')
+  processItems([1, 2, 3])
+  expect(spy).toHaveBeenCalled()
+})
+
+// ✅ Good: Testing behavior
+test('processes all items correctly', () => {
+  const result = processItems([1, 2, 3])
+  expect(result).toEqual([2, 4, 6])
+})
+```
+
+**Why**: Tests remain stable during refactoring
+
+### 2. Use Testing Hierarchy
+
+```typescript
+// 1. Unit tests for pure functions (fast, many)
+test('formatCurrency formats correctly', () => {
+  expect(formatCurrency(1234.56)).toBe('$1,234.56')
+})
+
+// 2. Integration tests for features (moderate)
+test('product creation flow', async () => {
+  const product = await createProduct(validData)
+  expect(product.id).toBeDefined()
+  
+  const fetched = await getProduct(product.id)
+  expect(fetched.name).toBe(validData.name)
+})
+
+// 3. E2E tests for critical paths (few, slow)
+test('checkout process', async ({ page }) => {
+  await page.goto('/products')
+  await page.click('[data-testid="add-to-cart"]')
+  await page.goto('/checkout')
+  // ... complete flow
+})
+```
+
+**Why**: Optimal test coverage with good performance
+
+### 3. Test Data Builders
+
+```typescript
+// ✅ Good: Reusable test data
+const createTestUser = (overrides = {}) => ({
+  email: 'test@example.com',
+  name: 'Test User',
+  role: 'user',
+  ...overrides
+})
+
+test('admin permissions', () => {
+  const admin = createTestUser({ role: 'admin' })
+  expect(canDelete(admin)).toBe(true)
+})
+```
+
+**Why**: DRY tests, easy to maintain
+
+## 🚀 Performance Best Practices
+
+### 1. Optimize Images
+
+```typescript
+// ✅ Good: Proper image optimization
+import Image from 'next/image'
+
+function ProductImage({ src, alt }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={400}
+      height={300}
+      sizes="(max-width: 768px) 100vw, 400px"
+      loading="lazy"
+      placeholder="blur"
+      blurDataURL={shimmer}
+    />
+  )
+}
+```
+
+**Why**: 80% reduction in image payload
+
+### 2. Implement Proper Caching
+
+```typescript
+// ✅ Good: Strategic caching
+// Static data - long cache
+export const revalidate = 3600 // 1 hour
+
+// Dynamic data - SWR
+const { data } = useSWR('/api/user', fetcher, {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  refreshInterval: 30000 // 30 seconds
+})
+
+// Server cache
+const cached = unstable_cache(
+  async () => db.products.findMany(),
+  ['products'],
+  { revalidate: 300 } // 5 minutes
+)
+```
+
+**Why**: Reduces server load, improves UX
+
+### 3. Bundle Optimization
+
+```typescript
+// ✅ Good: Dynamic imports for heavy components
+const HeavyChart = dynamic(() => import('./HeavyChart'), {
+  loading: () => <Skeleton />,
+  ssr: false
+})
+
+// Lazy load on interaction
+function Dashboard() {
+  const [showChart, setShowChart] = useState(false)
+  
+  return (
+    <>
+      <button onClick={() => setShowChart(true)}>
+        Show Analytics
+      </button>
+      {showChart && <HeavyChart />}
+    </>
+  )
+}
+```
+
+**Why**: Faster initial page load
+
+## 🔒 Security Best Practices
+
+### 1. Always Authenticate Server-Side
+
+```typescript
+// ✅ Good: Server-side auth check
+export async function deletePost(postId: string) {
+  'use server'
+  
+  const user = await requireAuth() // Throws if not authenticated
+  const post = await db.post.findUnique({
+    where: { id: postId }
+  })
+  
+  if (post.authorId !== user.id) {
+    throw new Error('Unauthorized')
+  }
+  
+  return db.post.delete({ where: { id: postId } })
+}
+```
+
+**Why**: Client-side checks can be bypassed
+
+### 2. Sanitize User Input
+
+```typescript
+// ✅ Good: Sanitize and validate
+import DOMPurify from 'isomorphic-dompurify'
+
+const sanitizedHTML = DOMPurify.sanitize(userInput, {
+  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],
+  ALLOWED_ATTR: ['href']
+})
+
+// For database queries, use parameterized queries
+// Prisma does this automatically
+const user = await db.user.findUnique({
+  where: { email: userEmail } // Safe from SQL injection
+})
+```
+
+**Why**: Prevents XSS and injection attacks
+
+### 3. Use Environment Variables Properly
+
+```typescript
+// ✅ Good: Validated env vars
+const env = z.object({
+  DATABASE_URL: z.string().url(),
+  CLERK_SECRET_KEY: z.string().min(1),
+  NEXT_PUBLIC_APP_URL: z.string().url()
+}).parse(process.env)
+
+// Type-safe throughout app
+export { env }
+```
+
+**Why**: Catches configuration errors early
+
+## 🎨 UI/UX Best Practices
+
+### 1. Loading States Everywhere
+
+```typescript
+// ✅ Good: Comprehensive loading states
+function ProductList() {
+  const { data, error, isLoading } = useProducts()
+  
+  if (isLoading) return <ProductSkeleton count={6} />
+  if (error) return <ErrorMessage error={error} />
+  if (!data?.length) return <EmptyState />
+  
+  return <Products data={data} />
+}
+```
+
+**Why**: Users always know what's happening
+
+### 2. Optimistic Updates
+
+```typescript
+// ✅ Good: Instant feedback
+function TodoItem({ todo }) {
+  const [optimisticTodo, setOptimisticTodo] = useState(todo)
+  
+  async function toggle() {
+    // Update UI immediately
+    setOptimisticTodo(prev => ({ ...prev, done: !prev.done }))
+    
+    try {
+      await toggleTodo(todo.id)
+    } catch (error) {
+      // Revert on error
+      setOptimisticTodo(todo)
+      toast.error('Failed to update')
+    }
+  }
+}
+```
+
+**Why**: Feels instant, handles failures gracefully
+
+### 3. Accessible by Default
+
+```typescript
+// ✅ Good: Proper ARIA and keyboard support
+function Modal({ isOpen, onClose, children }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      const focusable = document.querySelector('[data-focus]')
+      focusable?.focus()
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+  
+  return (
+    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+        <Dialog.Content
+          className="fixed inset-4 m-auto max-w-md"
+          aria-describedby={undefined}
+        >
+          {children}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+**Why**: Usable by everyone
+
+## 📝 Documentation Best Practices
+
+### 1. Write for Your Future Self
+
+```markdown
+# Payment Integration
+
+## Why We Chose Stripe
+- Best developer experience
+- Handles compliance (PCI, etc.)
+- Good international support
+
+## Common Issues
+1. **Webhook failures**: Check endpoint URL and signing secret
+2. **3D Secure**: Enable in dashboard for European cards
+3. **Test cards**: Use 4242... for success, 4000... for declines
+
+## Migration Notes
+Previously used PayPal. Migration script in `/scripts/migrate-payments.ts`
+```
+
+**Why**: You'll forget why decisions were made
+
+### 2. Include Examples
+
+```typescript
+/**
+ * Formats a number as currency
+ * 
+ * @example
+ * formatCurrency(1234.56) // "$1,234.56"
+ * formatCurrency(1234.56, 'EUR') // "€1,234.56"
+ * formatCurrency(1234, 'JPY') // "¥1,234"
+ */
+function formatCurrency(amount: number, currency = 'USD'): string {
+  // implementation
+}
+```
+
+**Why**: Examples are worth 1000 words
+
+### 3. Document the Non-Obvious
+
+```typescript
+// ✅ Good: Explains the why
+// We use a custom ID format to ensure compatibility
+// with our legacy system while maintaining sortability
+const generateId = () => {
+  const timestamp = Date.now().toString(36)
+  const random = Math.random().toString(36).substr(2, 9)
+  return `${timestamp}-${random}` // e.g., "kx3f9-a8b2c"
+}
+
+// ❌ Bad: States the obvious
+// This function returns the user's name
+function getUserName(user) {
+  return user.name
+}
+```
+
+**Why**: Focus on intent, not implementation
+
+---
+
+*Best practices derived from production experience across 38 projects | Last updated: 2025-07-05*

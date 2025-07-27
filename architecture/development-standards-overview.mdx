@@ -1,0 +1,144 @@
+# Development Standards Overview
+
+## Standards Hierarchy
+
+### 1. STANDARDS.md
+Location: `~/Developer/STANDARDS.md`
+
+High-level architectural guidelines covering:
+- Product layout and repository structure
+- Technology stack decisions
+- Development workflow
+- Quality standards
+
+### 2. Claude Code Rules
+Location: `~/.claude/rules/`
+
+Detailed implementation rules enforced by AI commands:
+- Based on actual patterns (80%+ adoption across projects)
+- Programmatically verifiable
+- Focused on technical consistency, not aesthetic choices
+- Living documentation that evolves with the ecosystem
+
+### 3. Claude Code Commands
+Location: `~/.claude/commands/`
+
+AI-driven development commands that:
+- Enforce the standards and rules automatically
+- Provide consistent project initialization
+- Enable ecosystem-wide operations
+- Build on each other with context awareness
+
+## How They Work Together
+
+```
+STANDARDS.md (Vision)
+    ↓
+Rules (Specification)  
+    ↓
+Commands (Execution)
+    ↓
+Projects (Reality)
+```
+
+### Example Flow
+
+1. **Standard**: "Products use a four-repository structure"
+2. **Rules**: Detailed specifications for each repository type
+3. **Command**: `/user:create` initializes all four repositories
+4. **Result**: Consistent project structure with zero manual configuration
+
+## Key Principles
+
+### 1. Reality-Based
+- Standards derived from what actually works in production
+- Not theoretical ideals or aspirational patterns
+- Validated by 80%+ adoption across projects
+
+### 2. Flexibility Where Appropriate
+- **Strict** on structure and core tools (100% adoption)
+- **Flexible** on implementation details (varying adoption)
+- **Open** on design and creative choices
+
+### 3. Automated Enforcement
+- Commands handle the complexity
+- Developers focus on features, not configuration
+- Standards are applied consistently without manual effort
+
+## Practical Usage
+
+### Starting a New Project
+```bash
+# In ~/Developer directory
+/user:create "AI-powered recipe manager"
+```
+This automatically:
+- Creates 4 properly structured repositories
+- Installs all standard dependencies
+- Configures authentication, database, and UI
+- Sets up CI/CD patterns
+- Generates documentation structure
+
+### Auditing Existing Projects
+```bash
+/user:ecosystem audit all
+```
+This provides:
+- Compliance scores against standards
+- Pattern analysis across projects
+- Recommendations for improvements
+- Migration paths for updates
+
+### Propagating Changes
+```bash
+/user:ecosystem evolve "upgrade to Next.js 15.1"
+```
+This handles:
+- Identifying affected projects
+- Creating update branches
+- Running tests
+- Generating pull requests
+
+## Maintenance
+
+### Updating Standards
+1. Observe emerging patterns across projects
+2. When pattern reaches 80% adoption, document it
+3. Update relevant rule files
+4. Enhance commands to enforce new patterns
+5. Run ecosystem audit to assess impact
+
+### Version Management
+- Framework versions specified with minimum requirements
+- Update strategy defined in version_guidelines.md
+- Coordinated updates across ecosystem
+- Breaking changes documented and managed
+
+## Benefits
+
+### For Developers
+- Zero configuration setup
+- Consistent patterns across projects
+- Focus on features, not infrastructure
+- Intelligent assistance that understands context
+
+### For Teams
+- Reduced onboarding time
+- Consistent code across developers
+- Automated quality enforcement
+- Living documentation that stays current
+
+### For Products
+- Faster time to market
+- Consistent user experience
+- Reliable deployment patterns
+- Scalable architecture from day one
+
+## Next Steps
+
+1. **Review** existing projects with `/user:ecosystem audit`
+2. **Create** new projects with `/user:create`
+3. **Explore** the command system documentation
+4. **Contribute** patterns that achieve 80%+ adoption
+
+The standards, rules, and commands form a complete system for maintaining consistency and quality across an entire development ecosystem while preserving flexibility where it matters most.

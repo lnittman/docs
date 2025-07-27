@@ -1,0 +1,519 @@
+# How I Use Mastra
+
+My standard approach to building AI applications with Mastra, focusing on agents, workflows, tools, and memory management. Mastra is my TypeScript AI framework of choice for orchestrating LLM-powered features.
+
+## Installation & Setup
+
+### Basic Installation
+```bash
+pnpm add @mastra/core @ai-sdk/openai
+```
+
+### Additional Packages
+```bash
+# Memory & storage
+pnpm add @mastra/memory @mastra/libsql
+
+# Logging
+pnpm add @mastra/loggers
+
+# MCP support
+pnpm add @mastra/mcp
+
+# Deployment
+pnpm add @mastra/deployer-vercel
+```
+
+### Environment Setup
+```bash
+# .env.local
+OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
+GOOGLE_GENERATIVE_AI_API_KEY=...
+DATABASE_URL=...
+```
+
+## Core Architecture
+
+### Mastra Instance
+```typescript
+// apps/ai/src/mastra/index.ts
+import { Mastra } from '@mastra/core';
+import { PinoLogger } from '@mastra/loggers';
+import { LibSQLStore } from '@mastra/libsql';
+
+export const mastra = new Mastra({
+  agents: {
+    chat: chatAgent,
+    analyzer: analyzerAgent,
+  },
+  workflows: {
+    processContent: processContentWorkflow,
+  },
+  storage: new LibSQLStore({
+    url: process.env.DATABASE_URL || 'file:./mastra.db',
+  }),
+  logger: new PinoLogger({
+    name: 'my-app',
+    level: process.env.NODE_ENV === 'production' ? 'warn' : 'info',
+  }),
+  telemetry: {
+    enabled: false, // I disable this in production
+  },
+});
+```
+
+## Agent Patterns
+
+### Dynamic Agents with Runtime Context
+```typescript
+// agents/chat/index.ts
+import { Agent } from '@mastra/core/agent';
+import { Memory } from '@mastra/memory';
+import { openai } from '@ai-sdk/openai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+export const chatAgent = new Agent({
+  name: 'chat',
+  
+  // Dynamic instructions based on context
+  instructions: async ({ runtimeContext }) => {
+    const basePrompt = await loadPrompt('agents/chat/prompt.xml');
+    const userPreferences = runtimeContext.get('user-preferences');
+    const spaceRules = runtimeContext.get('space-rules');
+    
+    return `
+      ${basePrompt}
+      
+      ${userPreferences ? `User Preferences: ${userPreferences}` : ''}
+      ${spaceRules ? `Space Rules: ${spaceRules}` : ''}
+    `;
+  },
+  
+  // Dynamic model selection
+  model: ({ runtimeContext }) => {
+    const modelId = runtimeContext.get('model-id');
+    const provider = runtimeContext.get('provider');
+    
+    switch (provider) {
+      case 'anthropic':
+        return anthropic(modelId || 'claude-3-5-sonnet-20241022');
+      case 'openai':
+      default:
+        return openai(modelId || 'gpt-4o');
+    }
+  },
+  
+  // Memory configuration
+  memory: new Memory({
+    storage,
+    options: {
+      lastMessages: 10,
+      semanticRecall: false,
+      threads: {
+        generateTitle: false,
+      },
+    },
+  }),
+});
+```
+
+### Tool-Enabled Agents
+```typescript
+// agents/analyzer/index.ts
+export const analyzerAgent = new Agent({
+  name: 'analyzer',
+  instructions: loadPrompt('agents/analyzer/prompt.xml'),
+  model: openai('gpt-4o'),
+  
+  tools: {
+    fetchContent: {
+      description: 'Fetch content from URL',
+      schema: z.object({
+        url: z.string().url(),
+      }),
+      execute: async ({ url }) => {
+        // Tool implementation
+        return await fetchUrlContent(url);
+      },
+    },
+    
+    generateChart: {
+      description: 'Generate chart specification',
+      schema: z.object({
+        data: z.array(z.record(z.any())),
+        type: z.enum(['bar', 'line', 'pie']),
+      }),
+      execute: async ({ data, type }) => {
+        return generateChartSpec(data, type);
+      },
+    },
+  },
+});
+```
+
+## Workflow Patterns
+
+### Multi-Step Workflows
+```typescript
+// workflows/analyze-content/index.ts
+import { createWorkflow, createStep } from '@mastra/core/workflows';
+import { z } from 'zod';
+
+// Define steps
+const fetchStep = createStep({
+  id: 'fetch',
+  description: 'Fetch content from URLs',
+  inputSchema: z.object({
+    urls: z.array(z.string().url()),
+  }),
+  outputSchema: z.object({
+    fetchResults: z.array(z.object({
+      url: z.string(),
+      content: z.string(),
+      success: z.boolean(),
+    })),
+  }),
+  execute: async ({ inputData }) => {
+    const results = await Promise.all(
+      inputData.urls.map(url => fetchUrlContent(url))
+    );
+    return { fetchResults: results };
+  },
+});
+
+const analyzeStep = createStep({
+  id: 'analyze',
+  description: 'Analyze fetched content',
+  inputSchema: z.object({
+    content: z.string(),
+  }),
+  outputSchema: z.object({
+    analysis: z.object({
+      summary: z.string(),
+      topics: z.array(z.string()),
+      sentiment: z.string(),
+    }),
+  }),
+  execute: async ({ inputData, runtimeContext }) => {
+    const agent = new Agent({
+      name: 'temp-analyzer',
+      instructions: 'Analyze the provided content',
+      model: createModelFromContext(runtimeContext),
+    });
+    
+    const response = await agent.generate([
+      { role: 'user', content: `Analyze: ${inputData.content}` },
+    ]);
+    
+    return { analysis: JSON.parse(response.text) };
+  },
+});
+
+// Create workflow
+export const analyzeContentWorkflow = createWorkflow({
+  id: 'analyzeContent',
+  description: 'Fetch and analyze web content',
+  inputSchema: z.object({
+    urls: z.array(z.string().url()),
+    prompt: z.string().optional(),
+  }),
+  outputSchema: z.object({
+    results: z.array(z.any()),
+  }),
+  steps: [fetchStep, analyzeStep, combineStep],
+})
+  .then(fetchStep)
+  .parallel([analyzeStep, metadataStep]) // Run in parallel
+  .then(combineStep)
+  .commit();
+```
+
+### Using Agents in Workflows
+```typescript
+// Create step from agent
+const agentStep = createStep(analyzerAgent);
+
+// Use in workflow
+myWorkflow
+  .then(prepareStep)
+  .map({
+    prompt: {
+      step: prepareStep,
+      path: 'formattedPrompt',
+    },
+  })
+  .then(agentStep)
+  .commit();
+```
+
+## Memory Management
+
+### Working Memory
+```typescript
+const agent = new Agent({
+  name: 'assistant',
+  model: openai('gpt-4o'),
+  memory: new Memory({
+    storage,
+    options: {
+      workingMemory: {
+        enabled: true,
+      },
+      lastMessages: 20,
+      semanticRecall: {
+        topK: 3,
+        messageRange: { before: 2, after: 1 },
+      },
+    },
+  }),
+});
+```
+
+### Custom Memory Processors
+```typescript
+import { TokenLimiter, ToolCallFilter } from '@mastra/memory';
+
+const memory = new Memory({
+  storage,
+  processors: [
+    new ToolCallFilter({ exclude: ['debugTool'] }),
+    new TokenLimiter(16000),
+  ],
+});
+```
+
+## MCP Integration
+
+### Using MCP Tools
+```typescript
+import { MCPClient } from '@mastra/mcp';
+
+const mcp = new MCPClient({
+  servers: {
+    filesystem: {
+      command: 'npx',
+      args: ['-y', '@modelcontextprotocol/server-filesystem', '/path'],
+    },
+  },
+});
+
+// Add MCP tools to agent
+const agent = new Agent({
+  name: 'file-assistant',
+  model: openai('gpt-4o'),
+  tools: await mcp.getTools(),
+});
+```
+
+### Creating MCP Servers
+```typescript
+import { MCPServer } from '@mastra/mcp';
+
+const server = new MCPServer({
+  name: 'my-tools',
+  version: '1.0.0',
+  tools: { myTool },
+  agents: { myAgent },
+  workflows: { myWorkflow },
+});
+
+await server.startStdio();
+```
+
+## Runtime Context Pattern
+
+### Building Context
+```typescript
+// runtime-context-builder.ts
+export function buildRuntimeContext(params: {
+  userId: string;
+  modelId?: string;
+  preferences?: any;
+}) {
+  return new Map([
+    ['user-id', params.userId],
+    ['model-id', params.modelId || 'gpt-4o'],
+    ['preferences', params.preferences],
+  ]);
+}
+```
+
+### Using Context
+```typescript
+const runtimeContext = buildRuntimeContext({
+  userId: user.id,
+  modelId: space.modelId,
+  preferences: user.preferences,
+});
+
+const response = await agent.generate(messages, { runtimeContext });
+```
+
+## Service Integration
+
+### Next.js API Routes
+```typescript
+// app/api/chat/route.ts
+import { mastra } from '@/mastra';
+
+export async function POST(req: Request) {
+  const { messages, threadId } = await req.json();
+  
+  const runtimeContext = buildRuntimeContext({
+    userId: auth.userId,
+    modelId: req.headers.get('x-model-id'),
+  });
+  
+  const agent = mastra.getAgent('chat');
+  const response = await agent.stream(messages, {
+    threadId,
+    runtimeContext,
+  });
+  
+  return new Response(response.textStream);
+}
+```
+
+### Workflow Execution
+```typescript
+// app/api/analyze/route.ts
+export async function POST(req: Request) {
+  const { urls, prompt } = await req.json();
+  
+  const workflow = mastra.getWorkflow('analyzeContent');
+  const run = workflow.createRun();
+  
+  const result = await run.start({
+    inputData: { urls, prompt },
+    runtimeContext: buildRuntimeContext({ userId: auth.userId }),
+  });
+  
+  if (result.status === 'success') {
+    return Response.json(result.result);
+  }
+  
+  throw new Error(`Workflow failed: ${result.status}`);
+}
+```
+
+## Deployment
+
+### Vercel Deployment
+```typescript
+// Configure for Vercel
+export const mastra = new Mastra({
+  // ... config
+  deployer: new VercelDeployer({
+    teamSlug: 'my-team',
+    projectName: 'my-ai-service',
+    token: process.env.VERCEL_TOKEN,
+  }),
+});
+```
+
+### Environment Configuration
+```typescript
+// vercel.json
+{
+  "functions": {
+    "app/api/ai/[...path].ts": {
+      "maxDuration": 60
+    }
+  },
+  "env": {
+    "DATABASE_URL": "@database-url",
+    "OPENAI_API_KEY": "@openai-api-key"
+  }
+}
+```
+
+## My Conventions
+
+1. **Separate AI Service** - Keep Mastra in its own service, not in the main turborepo
+2. **XML Prompts** - Store agent prompts as XML files for better formatting
+3. **Runtime Context** - Always use runtime context for dynamic behavior
+4. **Disable Telemetry** - Turn off telemetry in production
+5. **Structured Logging** - Use Pino logger with appropriate levels
+6. **Memory Storage** - Use LibSQL for persistent memory storage
+7. **Error Handling** - Wrap all agent/workflow calls in try-catch
+8. **Type Safety** - Define schemas for all inputs/outputs
+
+## Common Patterns
+
+### Dynamic Model Selection
+```typescript
+function createModelFromContext(runtimeContext: any) {
+  const provider = runtimeContext.get('provider');
+  const modelId = runtimeContext.get('model-id');
+  
+  const modelMap = {
+    openai: {
+      'gpt-4o': () => openai('gpt-4o'),
+      'gpt-4o-mini': () => openai('gpt-4o-mini'),
+    },
+    anthropic: {
+      'claude-3-5-sonnet': () => anthropic('claude-3-5-sonnet-20241022'),
+      'claude-3-5-haiku': () => anthropic('claude-3-5-haiku-20241022'),
+    },
+  };
+  
+  return modelMap[provider]?.[modelId]?.() || openai('gpt-4o');
+}
+```
+
+### Streaming Responses
+```typescript
+const stream = await agent.stream(messages, { threadId });
+
+// For Next.js streaming
+return new Response(stream.textStream, {
+  headers: {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  },
+});
+```
+
+### Error Recovery
+```typescript
+try {
+  const result = await workflow.run(input);
+  return result;
+} catch (error) {
+  logger.error('Workflow failed', { error, input });
+  
+  // Fallback to simple agent
+  const agent = mastra.getAgent('fallback');
+  return await agent.generate([
+    { role: 'user', content: `Process: ${JSON.stringify(input)}` },
+  ]);
+}
+```
+
+## Resources & Links
+
+### Official Documentation
+- [Mastra Docs](https://mastra.ai/docs)
+- [Getting Started](https://mastra.ai/docs/getting-started)
+- [Agent Guide](https://mastra.ai/docs/agents)
+- [Workflow Guide](https://mastra.ai/docs/workflows)
+- [Memory Guide](https://mastra.ai/docs/memory)
+
+### Key Concepts
+- [Runtime Context](https://mastra.ai/docs/agents/runtime-context)
+- [Tool Creation](https://mastra.ai/docs/tools)
+- [MCP Integration](https://mastra.ai/docs/tools-mcp)
+- [Deployment](https://mastra.ai/docs/deployment)
+
+### Integration Guides
+- [Vercel AI SDK](https://mastra.ai/docs/integrations/vercel-ai-sdk)
+- [Next.js Integration](https://mastra.ai/docs/integrations/nextjs)
+- [Observability](https://mastra.ai/docs/observability)
+
+### API Reference
+- [Agent API](https://mastra.ai/docs/reference/agent)
+- [Workflow API](https://mastra.ai/docs/reference/workflow)
+- [Memory API](https://mastra.ai/docs/reference/memory)
+- [MCP Client](https://mastra.ai/docs/reference/mcp-client)

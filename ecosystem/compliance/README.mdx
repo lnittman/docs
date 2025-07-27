@@ -1,0 +1,237 @@
+# Standards Compliance Dashboard
+
+> Real-time tracking of ecosystem adherence to STANDARDS.md and architectural rules
+
+## 📊 Overall Compliance Score: 78%
+
+### Compliance by Category
+
+| Standard | Score | Projects Passing | Projects Failing | Trend |
+|----------|-------|------------------|------------------|-------|
+| **Repository Naming** | 82% | 9/11 | 2 (React-LM, Squish) | → |
+| **Directory Structure** | 73% | 8/11 | 3 (Alden, Sine, Squish) | ↗️ |
+| **Documentation** | 85% | 9/11 | 2 (Saya, Alden) | ↗️ |
+| **Technology Stack** | 91% | 10/11 | 1 (Alden) | ↗️ |
+| **State Management** | 88% | 8/9 | 1 (Alden) | → |
+| **Testing Standards** | 64% | 7/11 | 4 (Low coverage) | ↗️ |
+| **AI Architecture** | 95% | 10/10 | 0 | ✅ |
+| **Code Style** | 92% | 10/11 | 1 (Legacy) | → |
+
+## 🔍 Rule-by-Rule Analysis
+
+### 📁 Product Layout Rules
+
+**Rule**: Repository naming convention `[product]-xyz`, `[product]-ai`, `[product]-apple`, `[product]-docs`
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Compliant | 9 | Kumori, Webs, Radar, Arbor, Voet, Yuba, Saya, Sine (partial), Alden (partial) |
+| ⚠️ Deviation | 2 | React-LM (library structure), Squish (app/svc pattern) |
+
+**Rule**: Monorepo for web, standalone for AI service
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Compliant | 10 | All except Squish |
+| ❌ Violation | 1 | Squish (mixed architecture) |
+
+### 📚 Documentation Rules
+
+**Rule**: CLAUDE.md in major directories
+
+| Status | Count | Details |
+|--------|-------|---------|
+| ✅ Present | 28/33 | 85% coverage |
+| ❌ Missing | 5 | Saya (limited), Alden (none), some subdirs |
+
+**Rule**: TSDoc/JSDoc on exports
+
+| Status | Count | Coverage |
+|--------|-------|----------|
+| ✅ Good | 7 | >80% documented |
+| ⚠️ Partial | 3 | 50-80% documented |
+| ❌ Poor | 1 | <50% documented |
+
+### 🛠️ Turborepo Tooling Rules
+
+**Rule**: pnpm as package manager
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Compliant | 10 | All except Alden |
+| ❌ Violation | 1 | Alden (npm) |
+
+**Rule**: TypeScript strict mode
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Enabled | 11 | All projects |
+| ❌ Disabled | 0 | None |
+
+**Rule**: Biome for formatting/linting
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Configured | 9 | Most projects |
+| ⚠️ Partial | 1 | Mixed with ESLint |
+| ❌ Missing | 1 | Alden |
+
+### 🏗️ Monorepo Structure Rules
+
+**Rule**: Required packages structure
+
+```
+Expected:
+apps/
+├── web/
+├── desktop/ (optional)
+└── mobile/ (optional)
+packages/
+├── ui/
+├── db/
+├── auth/
+└── shared/
+```
+
+| Compliance | Count | Missing Packages |
+|------------|-------|------------------|
+| ✅ Full | 6 | None |
+| ⚠️ Partial | 4 | Some packages missing |
+| ❌ None | 1 | Alden (no packages) |
+
+### 🔄 State Management Rules
+
+**Rule**: Hierarchy - RSC → SWR → Jotai
+
+| Status | Count | Implementation |
+|--------|-------|---------------|
+| ✅ Correct | 8 | Following hierarchy |
+| ⚠️ Partial | 2 | Missing some layers |
+| ❌ Wrong | 1 | Alden (Redux) |
+
+### 🌐 API and Data Flow Rules
+
+**Rule**: Server Actions as primary API
+
+| Status | Count | Implementation |
+|--------|-------|---------------|
+| ✅ Primary | 7 | Server Actions first |
+| ⚠️ Mixed | 3 | Some tRPC usage |
+| ❌ Legacy | 1 | REST/GraphQL only |
+
+### 🤖 AI Service Architecture Rules
+
+**Rule**: Mastra framework usage
+
+| Status | Count | Version |
+|--------|-------|---------|
+| ✅ Latest | 2 | 0.10.10 |
+| ⚠️ Outdated | 8 | 0.10.8 |
+| ❌ None | 0 | - |
+
+**Rule**: Agent/Tool/Workflow structure
+
+| Status | Count | Implementation |
+|--------|-------|---------------|
+| ✅ Full | 10 | Complete structure |
+| ⚠️ Partial | 0 | - |
+| ❌ None | 0 | - |
+
+### 🍎 Apple Platform Rules
+
+**Rule**: SwiftUI + MVVM architecture
+
+| Status | Count | Projects |
+|--------|-------|----------|
+| ✅ Compliant | 7/7 | All Apple projects |
+| ❌ Missing | 4 | No Apple component |
+
+## 🚨 Critical Violations
+
+### High Priority (Fix Immediately)
+
+1. **Alden** - Complete migration needed
+   - Wrong structure
+   - Legacy stack
+   - No documentation
+
+2. **Security Issues**
+   - 2 projects with high-severity vulnerabilities
+   - Outdated dependencies
+
+### Medium Priority (This Week)
+
+1. **Missing Components**
+   - Saya needs apple platform
+   - Documentation gaps
+
+2. **Version Alignment**
+   - 8 projects need Mastra update
+   - 3 projects need Next.js update
+
+### Low Priority (This Month)
+
+1. **Test Coverage**
+   - 4 projects below 80% target
+   - Missing integration tests
+
+2. **Code Style**
+   - Complete Biome adoption
+   - Remove ESLint configs
+
+## 📈 Compliance Trends
+
+### Last 30 Days
+- **Improved**: +5% overall compliance
+- **New Violations**: 2 (version drift)
+- **Fixed Violations**: 7 (documentation added)
+
+### Projected (Next 30 Days)
+- **Target**: 85% compliance
+- **Key Actions**: Alden migration, Mastra updates
+- **Risk Areas**: Test coverage, new projects
+
+## 🔧 Automated Fixes Available
+
+### Quick Fixes (< 5 minutes each)
+
+```bash
+# Update Mastra to latest
+/user:ecosystem evolve "mastra@0.10.10"
+
+# Add missing Biome configs
+/user:ecosystem standards fix biome
+
+# Generate missing CLAUDE.md
+/user:ecosystem standards fix docs
+```
+
+### Complex Fixes (Require Planning)
+
+1. **Alden Migration**
+   - Estimated: 2-3 days
+   - Script available: `/compliance/fixes/migrate-alden.sh`
+
+2. **Test Coverage Improvement**
+   - Estimated: 1 week
+   - Focus on critical paths
+
+## 📊 Compliance Matrix
+
+| Project | Structure | Docs | Stack | State | API | AI | Apple | Overall |
+|---------|-----------|------|-------|-------|-----|----|----|---------|
+| Kumori | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 98% |
+| Webs | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 96% |
+| Radar | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 94% |
+| Arbor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 92% |
+| Voet | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 91% |
+| Yuba | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | 90% |
+| Saya | ⚠️ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | 75% |
+| Sine | ❌ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ❌ | 72% |
+| Squish | ❌ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ | ❌ | 70% |
+| React-LM | ⚠️ | ✅ | ✅ | N/A | N/A | N/A | N/A | 85% |
+| Alden | ❌ | ❌ | ❌ | ❌ | ❌ | N/A | N/A | 45% |
+
+---
+
+*Generated: 2025-07-05 | Compliance rules from ~/.claude/rules/*

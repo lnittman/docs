@@ -1,0 +1,123 @@
+# Claude Code Rules System
+
+## Overview
+
+The Claude Code rules system provides architectural guidelines and standards that are enforced by AI-driven development commands. These rules are derived from actual patterns observed across 80%+ of production projects, ensuring practical applicability rather than theoretical ideals.
+
+## Rule Categories
+
+### 1. Command System Rules
+Located in `~/.claude/commands/components/`, these define how AI commands operate:
+- Component-based architecture for command construction
+- Standardized execution lifecycle
+- Session and context management
+- Interoperability patterns between commands
+
+### 2. Project Structure Rules
+Located in `~/.claude/rules/`, these define technical standards:
+
+#### General Rules
+- **product_layout.md** - Repository naming and organization ([product]-xyz/-ai/-apple/-docs)
+- **documentation_and_ai_guidance.md** - Documentation standards for humans and AI
+
+#### Turborepo Rules (Web Platform)
+- **turborepo_tooling.md** - Standard toolchain (pnpm, TypeScript, Next.js, Biome)
+- **turborepo_monorepo_structure.md** - apps/ and packages/ organization
+- **turborepo_state_management.md** - Data flow patterns (RSC → SWR → Jotai)
+- **turborepo_api_and_data_flow.md** - Server Actions and API patterns
+
+#### AI Service Rules
+- **ai_service_architecture.md** - Mastra framework structure
+- **ai_agent_instructions.md** - Agent configuration formats
+
+#### Apple Platform Rules
+- **apple_project_structure.md** - Xcode and Swift package organization
+- **apple_architecture_patterns.md** - MVVM and dependency injection
+- **apple_ui_ux_patterns.md** - Technical UI patterns (not design language)
+- **apple_networking_layer.md** - Actor-based network architecture
+
+## Key Principles
+
+### 1. Based on Reality
+Rules reflect actual patterns used in 80%+ of production projects, not theoretical ideals.
+
+### 2. Technical, Not Aesthetic
+Rules focus on structural and technical consistency, allowing complete freedom for design choices.
+
+### 3. Flexible Where Appropriate
+- **Required**: Patterns with 100% adoption (e.g., monorepo structure)
+- **Recommended**: Patterns with 80-99% adoption (e.g., React Hook Form)
+- **Optional**: Patterns with less than 80% adoption (e.g., logger package)
+
+### 4. Living Documentation
+Rules evolve based on:
+- New patterns emerging across projects
+- Technology updates and migrations
+- Lessons learned from production usage
+
+## Usage in Commands
+
+### /user:create
+Uses rules to initialize projects with:
+- Correct repository structure
+- Standard dependencies and toolchain
+- Proper architectural patterns
+- Zero manual configuration needed
+
+### /user:ecosystem
+Uses rules to:
+- Audit projects for compliance
+- Identify drift from standards
+- Suggest improvements
+- Propagate updates across projects
+
+## Rule Language Guidelines
+
+### Required Patterns (100% adoption)
+- "All projects use..."
+- "The standard pattern is..."
+- "Projects are structured with..."
+
+### Recommended Patterns (80-99% adoption)
+- "Projects typically use..."
+- "The recommended approach is..."
+- "Most projects implement..."
+
+### Optional Patterns (<80% adoption)
+- "Some projects include..."
+- "Consider using..."
+- "When needed, projects may..."
+
+## Integration with STANDARDS.md
+
+While `~/Developer/STANDARDS.md` provides high-level architectural guidelines, the rules in `~/.claude/rules/` provide implementation specifics that can be programmatically enforced.
+
+## Maintenance
+
+Rules are maintained through:
+1. Regular audits of project patterns
+2. Updates when new patterns achieve 80%+ adoption
+3. Deprecation when patterns fall below 50% adoption
+4. Version updates as technologies evolve
+
+## Examples of Well-Written Rules
+
+### Good: Specific and Verifiable
+```
+All turborepo projects use pnpm as the package manager with a pnpm-workspace.yaml file at the root.
+```
+
+### Bad: Vague and Prescriptive
+```
+Projects must use the best package manager available.
+```
+
+### Good: Flexible Where Appropriate
+```
+Projects typically use React Hook Form with Zod for form validation (85% adoption). Alternative patterns like Formik or native form handling are acceptable based on project requirements.
+```
+
+### Bad: Overly Restrictive
+```
+React Hook Form is the only permitted form library and must be used in all cases.
+```

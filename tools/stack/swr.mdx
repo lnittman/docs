@@ -1,0 +1,624 @@
+# How I Use SWR
+
+My standard SWR setup for data fetching in React/Next.js. Stale-while-revalidate for fast, real-time UI.
+
+## Installation & Setup
+
+```bash
+pnpm add swr
+```
+
+### Basic Configuration
+```typescript
+// lib/swr-config.ts
+import { SWRConfig } from 'swr';
+
+export const swrConfig = {
+  // Global fetcher
+  fetcher: (url: string) => fetch(url).then(res => res.json()),
+  
+  // Revalidation settings
+  revalidateOnFocus: false,
+  revalidateOnReconnect: true,
+  
+  // Error retry
+  errorRetryCount: 3,
+  errorRetryInterval: 5000,
+  
+  // Loading timeout
+  loadingTimeout: 3000,
+  
+  // Dedupe requests
+  dedupingInterval: 2000,
+};
+
+// Provider wrapper
+export function SWRProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <SWRConfig value={swrConfig}>
+      {children}
+    </SWRConfig>
+  );
+}
+```
+
+## Basic Data Fetching
+
+### Simple Fetch
+```typescript
+// hooks/use-user.ts
+import useSWR from 'swr';
+
+export function useUser(id: string) {
+  const { data, error, isLoading } = useSWR(`/api/users/${id}`);
+  
+  return {
+    user: data,
+    isLoading,
+    isError: error,
+  };
+}
+
+// Component usage
+function UserProfile({ userId }: { userId: string }) {
+  const { user, isLoading, isError } = useUser(userId);
+  
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Failed to load user</div>;
+  
+  return <div>Hello {user.name}!</div>;
+}
+```
+
+### Custom Fetcher
+```typescript
+// lib/fetchers.ts
+export const fetcher = (url: string) => 
+  fetch(url).then(res => {
+    if (!res.ok) {
+      throw new Error('Failed to fetch');
+    }
+    return res.json();
+  });
+
+// With auth token
+export const authFetcher = (url: string, token: string) =>
+  fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(res => res.json());
+
+// Usage
+const { data } = useSWR('/api/protected', url => authFetcher(url, token));
+```
+
+## TypeScript Integration
+
+### Typed Hooks
+```typescript
+// types/api.ts
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  meta?: {
+    total: number;
+    page: number;
+  };
+}
+
+// hooks/use-typed-swr.ts
+import useSWR, { SWRConfiguration } from 'swr';
+
+export function useTypedSWR<T = any>(
+  key: string | null,
+  options?: SWRConfiguration
+) {
+  const { data, error, isLoading, mutate } = useSWR<T>(key, options);
+  
+  return {
+    data,
+    error,
+    isLoading,
+    mutate,
+    isError: !!error,
+  };
+}
+
+// Usage
+const { data: users } = useTypedSWR<User[]>('/api/users');
+```
+
+## Mutations & Optimistic Updates
+
+### Basic Mutation
+```typescript
+// hooks/use-todos.ts
+import useSWR, { mutate } from 'swr';
+
+export function useTodos() {
+  const { data, error, isLoading } = useSWR<Todo[]>('/api/todos');
+  
+  const addTodo = async (title: string) => {
+    const newTodo = { title, completed: false };
+    
+    // Make API call
+    const created = await fetch('/api/todos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTodo),
+    }).then(res => res.json());
+    
+    // Revalidate to get fresh data
+    mutate('/api/todos');
+    
+    return created;
+  };
+  
+  return {
+    todos: data || [],
+    isLoading,
+    error,
+    addTodo,
+  };
+}
+```
+
+### Optimistic Updates
+```typescript
+// hooks/use-optimistic-todos.ts
+import useSWR from 'swr';
+
+export function useOptimisticTodos() {
+  const { data: todos = [], mutate } = useSWR<Todo[]>('/api/todos');
+  
+  const toggleTodo = async (id: string) => {
+    // Find the todo
+    const todoIndex = todos.findIndex(t => t.id === id);
+    if (todoIndex === -1) return;
+    
+    // Optimistically update
+    const updatedTodos = [...todos];
+    updatedTodos[todoIndex] = {
+      ...updatedTodos[todoIndex],
+      completed: !updatedTodos[todoIndex].completed,
+    };
+    
+    // Update local data immediately
+    mutate(updatedTodos, false);
+    
+    try {
+      // Make API call
+      await fetch(`/api/todos/${id}/toggle`, { method: 'PATCH' });
+      
+      // Revalidate to ensure consistency
+      mutate();
+    } catch (error) {
+      // Revert on error
+      mutate(todos, false);
+      throw error;
+    }
+  };
+  
+  const deleteTodo = async (id: string) => {
+    // Optimistically remove
+    const filteredTodos = todos.filter(t => t.id !== id);
+    mutate(filteredTodos, false);
+    
+    try {
+      await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+      mutate();
+    } catch (error) {
+      // Revert on error
+      mutate(todos, false);
+      throw error;
+    }
+  };
+  
+  return { todos, toggleTodo, deleteTodo };
+}
+```
+
+## Pagination
+
+### Simple Pagination
+```typescript
+// hooks/use-paginated.ts
+import useSWR from 'swr';
+
+interface PaginatedResponse<T> {
+  data: T[];
+  page: number;
+  totalPages: number;
+  total: number;
+}
+
+export function usePaginatedData<T>(
+  endpoint: string,
+  page: number = 1,
+  limit: number = 20
+) {
+  const { data, error, isLoading } = useSWR<PaginatedResponse<T>>(
+    `${endpoint}?page=${page}&limit=${limit}`
+  );
+  
+  return {
+    data: data?.data || [],
+    page: data?.page || page,
+    totalPages: data?.totalPages || 0,
+    total: data?.total || 0,
+    isLoading,
+    error,
+  };
+}
+
+// Component
+function PaginatedList() {
+  const [page, setPage] = useState(1);
+  const { data, totalPages, isLoading } = usePaginatedData<Item>(
+    '/api/items',
+    page
+  );
+  
+  return (
+    <>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ItemList items={data} />
+      )}
+      
+      <Pagination
+        current={page}
+        total={totalPages}
+        onChange={setPage}
+      />
+    </>
+  );
+}
+```
+
+### Infinite Loading
+```typescript
+// hooks/use-infinite.ts
+import useSWRInfinite from 'swr/infinite';
+
+export function useInfiniteItems() {
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    // Reached the end
+    if (previousPageData && !previousPageData.hasMore) return null;
+    
+    // First page
+    if (pageIndex === 0) return '/api/items?limit=20';
+    
+    // Next pages
+    return `/api/items?cursor=${previousPageData.nextCursor}&limit=20`;
+  };
+  
+  const { data, error, size, setSize, isLoading } = useSWRInfinite(getKey);
+  
+  const items = data ? data.flatMap(page => page.items) : [];
+  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
+  const isEmpty = data?.[0]?.items.length === 0;
+  const isReachingEnd = isEmpty || (data && !data[data.length - 1]?.hasMore);
+  
+  return {
+    items,
+    error,
+    isLoading,
+    isLoadingMore,
+    isEmpty,
+    isReachingEnd,
+    loadMore: () => setSize(size + 1),
+  };
+}
+
+// Component
+function InfiniteList() {
+  const {
+    items,
+    isLoading,
+    isLoadingMore,
+    isReachingEnd,
+    loadMore,
+  } = useInfiniteItems();
+  
+  return (
+    <div>
+      {items.map(item => (
+        <ItemCard key={item.id} item={item} />
+      ))}
+      
+      {isLoadingMore && <div>Loading more...</div>}
+      
+      {!isReachingEnd && (
+        <button onClick={loadMore} disabled={isLoadingMore}>
+          Load More
+        </button>
+      )}
+    </div>
+  );
+}
+```
+
+## Real-time & Subscriptions
+
+### Polling
+```typescript
+// hooks/use-live-data.ts
+export function useLiveData(interval = 5000) {
+  const { data, error } = useSWR('/api/live-data', {
+    refreshInterval: interval,
+  });
+  
+  return { data, error };
+}
+```
+
+### WebSocket Integration
+```typescript
+// hooks/use-realtime.ts
+import useSWR from 'swr';
+import { useEffect } from 'react';
+
+export function useRealtimeMessages(channelId: string) {
+  const { data, mutate } = useSWR<Message[]>(`/api/channels/${channelId}/messages`);
+  
+  useEffect(() => {
+    const ws = new WebSocket(`wss://api.example.com/channels/${channelId}`);
+    
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      
+      // Update local data
+      mutate((messages = []) => [...messages, message], false);
+    };
+    
+    return () => ws.close();
+  }, [channelId, mutate]);
+  
+  return { messages: data || [] };
+}
+```
+
+## Error Handling
+
+### Global Error Handler
+```typescript
+// lib/swr-error.ts
+export function useErrorHandler() {
+  return {
+    onError: (error: Error) => {
+      console.error('SWR Error:', error);
+      
+      // Show toast notification
+      if (error.message.includes('Network')) {
+        showToast('Network error. Please check your connection.');
+      } else if (error.message.includes('401')) {
+        // Redirect to login
+        router.push('/login');
+      }
+    },
+  };
+}
+
+// In provider
+<SWRConfig value={{
+  ...swrConfig,
+  onError: errorHandler.onError,
+}}>
+  {children}
+</SWRConfig>
+```
+
+### Retry Logic
+```typescript
+// hooks/use-retry.ts
+export function useRetryableData(key: string) {
+  const { data, error, mutate } = useSWR(key, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Never retry on 404
+      if (error.status === 404) return;
+      
+      // Only retry up to 3 times
+      if (retryCount >= 3) return;
+      
+      // Retry after 5 seconds
+      setTimeout(() => revalidate({ retryCount }), 5000);
+    },
+  });
+  
+  return { data, error, retry: () => mutate() };
+}
+```
+
+## Prefetching & SSR
+
+### Prefetching
+```typescript
+// lib/prefetch.ts
+import { preload } from 'swr';
+
+// Prefetch on hover
+export function PrefetchLink({ href, userId }: Props) {
+  const handleMouseEnter = () => {
+    preload(`/api/users/${userId}`, fetcher);
+  };
+  
+  return (
+    <Link href={href} onMouseEnter={handleMouseEnter}>
+      View Profile
+    </Link>
+  );
+}
+
+// Prefetch programmatically
+export async function prefetchUserData(userId: string) {
+  await preload(`/api/users/${userId}`, fetcher);
+}
+```
+
+### Next.js SSR/SSG
+```typescript
+// pages/users/[id].tsx or app/users/[id]/page.tsx
+import { SWRConfig } from 'swr';
+
+export async function getServerSideProps({ params }) {
+  const user = await fetcher(`/api/users/${params.id}`);
+  
+  return {
+    props: {
+      fallback: {
+        [`/api/users/${params.id}`]: user,
+      },
+    },
+  };
+}
+
+function UserPage({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <UserProfile />
+    </SWRConfig>
+  );
+}
+
+// The component can use SWR normally
+function UserProfile() {
+  const { data: user } = useSWR(`/api/users/${id}`);
+  // Data is immediately available from fallback
+  return <div>{user.name}</div>;
+}
+```
+
+## Performance Patterns
+
+### Dependent Fetching
+```typescript
+// hooks/use-dependent.ts
+export function useUserPosts(userId: string | null) {
+  const { data: user } = useSWR(userId ? `/api/users/${userId}` : null);
+  const { data: posts } = useSWR(
+    user ? `/api/users/${userId}/posts` : null
+  );
+  
+  return { user, posts };
+}
+```
+
+### Conditional Fetching
+```typescript
+// Only fetch when user is authenticated
+const { data } = useSWR(
+  isAuthenticated ? '/api/protected-data' : null
+);
+
+// Fetch based on state
+const { data } = useSWR(
+  shouldFetch ? `/api/items?filter=${filter}` : null
+);
+```
+
+### Request Deduplication
+```typescript
+// These will share the same request
+function ComponentA() {
+  const { data } = useSWR('/api/data');
+}
+
+function ComponentB() {
+  const { data } = useSWR('/api/data'); // Same cache
+}
+```
+
+## My Conventions
+
+1. **Custom hooks for everything** - Wrap SWR in domain-specific hooks
+2. **TypeScript always** - Type all responses
+3. **Optimistic UI by default** - Better UX
+4. **Error boundaries** - Catch and handle gracefully
+5. **Prefetch on interaction** - Hover, focus, etc.
+6. **Global config** - Consistent behavior
+7. **Fallback data for SSR** - No loading states
+
+## Common Helpers
+
+### useAPI Hook
+```typescript
+// hooks/use-api.ts
+export function useAPI<T = any>(
+  endpoint: string | null,
+  options?: SWRConfiguration
+) {
+  const { data, error, isLoading, mutate } = useSWR<T>(
+    endpoint,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      ...options,
+    }
+  );
+  
+  return {
+    data,
+    loading: isLoading,
+    error,
+    refresh: () => mutate(),
+    mutate,
+  };
+}
+```
+
+### Cache Management
+```typescript
+// lib/cache.ts
+import { mutate } from 'swr';
+
+export const cache = {
+  // Clear all cache
+  clear: () => mutate(() => true, undefined, { revalidate: false }),
+  
+  // Clear specific pattern
+  clearPattern: (pattern: string) => {
+    mutate(
+      key => typeof key === 'string' && key.includes(pattern),
+      undefined,
+      { revalidate: false }
+    );
+  },
+  
+  // Revalidate all
+  revalidateAll: () => mutate(() => true),
+};
+```
+
+## Resources & Links
+
+### Official Documentation
+- [SWR Documentation](https://swr.vercel.app)
+- [API Reference](https://swr.vercel.app/docs/api)
+- [Advanced Usage](https://swr.vercel.app/docs/advanced/cache)
+- [TypeScript Guide](https://swr.vercel.app/docs/typescript)
+
+### Key Features
+- [Data Fetching](https://swr.vercel.app/docs/data-fetching)
+- [Mutations](https://swr.vercel.app/docs/mutation)
+- [Pagination](https://swr.vercel.app/docs/pagination)
+- [Error Handling](https://swr.vercel.app/docs/error-handling)
+- [Prefetching](https://swr.vercel.app/docs/prefetching)
+
+### Integration Guides
+- [Next.js SSR/SSG](https://swr.vercel.app/docs/with-nextjs)
+- [React Native](https://swr.vercel.app/docs/data-fetching#react-native)
+- [GraphQL](https://swr.vercel.app/docs/data-fetching#graphql)
+
+### Examples
+- [SWR Examples](https://github.com/vercel/swr/tree/main/examples)
+- [Optimistic UI](https://github.com/vercel/swr/tree/main/examples/optimistic-ui)
+- [Infinite Loading](https://github.com/vercel/swr/tree/main/examples/infinite-scroll)

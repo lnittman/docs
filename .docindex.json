@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-01-03",
+  "lastUpdated": "2025-07-21",
   "description": "Machine-readable index for Developer Documentation Hub",
   "categories": {
     "getting-started": {
@@ -24,6 +24,11 @@
             { "path": "prompts/ai/mastra.xml", "title": "Mastra AI Framework Prompts", "tags": ["ai", "agents"] }
           ]
         },
+        "audit": {
+          "files": [
+            { "path": "prompts/audit/", "title": "Audit Prompts", "tags": ["audit", "analysis"] }
+          ]
+        },
         "code": {
           "files": [
             { "path": "prompts/code/code-review.xml", "title": "Code Review Template", "tags": ["review", "quality"] },
@@ -36,6 +41,16 @@
             { "path": "prompts/docs/document.xml", "title": "General Documentation", "tags": ["documentation"] },
             { "path": "prompts/docs/document-turborepo.xml", "title": "Turborepo Documentation", "tags": ["turborepo", "monorepo"] },
             { "path": "prompts/docs/vision.xml", "title": "Vision Documents", "tags": ["vision", "planning"] }
+          ]
+        },
+        "philosophy": {
+          "files": [
+            { "path": "prompts/philosophy/", "title": "Philosophy Prompts", "tags": ["philosophy", "thinking"] }
+          ]
+        },
+        "reference": {
+          "files": [
+            { "path": "prompts/reference/", "title": "Reference Prompts", "tags": ["reference", "templates"] }
           ]
         },
         "state": {
@@ -118,12 +133,32 @@
       ]
     },
     "fonts": {
-      "description": "Typography collection tracked with Git LFS",
-      "note": "Font files are binary assets tracked with Git LFS",
+      "description": "Typography collection (local only)",
+      "note": "Font files are stored locally and not tracked in git",
       "families": [
-        "alcala", "bertin", "brett", "cx80", "exposure", 
-        "jgs-main", "kmr", "louize", "milling", "stuart"
+        "alcala", "bertin", "brett", "cx80", "exposure", "heritage",
+        "jgs-main", "jspr", "kmr", "lancia", "louize", "milling", "stuart"
       ]
+    },
+    "vision": {
+      "description": "Strategic vision and project analysis",
+      "subcategories": {
+        "quest": {
+          "files": [
+            { "path": "vision/quest/README.md", "title": "Quest Overview", "tags": ["vision", "strategy"] },
+            { "path": "vision/quest/arbor-analysis.md", "title": "Arbor Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/docs-directory-analysis.md", "title": "Documentation Directory Analysis", "tags": ["analysis", "documentation"] },
+            { "path": "vision/quest/global-analysis.md", "title": "Global Project Analysis", "tags": ["analysis", "global"] },
+            { "path": "vision/quest/kumori-analysis.md", "title": "Kumori Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/next-claude-commands.md", "title": "Next Claude Commands", "tags": ["claude", "commands"] },
+            { "path": "vision/quest/radar-analysis.md", "title": "Radar Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/sine-analysis.md", "title": "Sine Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/squish-analysis.md", "title": "Squish Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/webs-analysis.md", "title": "Webs Project Analysis", "tags": ["analysis", "project"] },
+            { "path": "vision/quest/yuba-analysis.md", "title": "Yuba Project Analysis", "tags": ["analysis", "project"] }
+          ]
+        }
+      }
     }
   },
   "searchIndex": {
@@ -132,20 +167,22 @@
       "development", "standards", "code review", "state management",
       "design", "simplicity", "architecture", "maeda", "rams", "fowler",
       "beck", "karpathy", "wardley", "mastra", "vercel", "philosophy",
-      "fonts", "typography", "design-assets"
+      "fonts", "typography", "design-assets", "vision", "analysis", "quest",
+      "audit", "reference", "heritage", "jspr", "lancia"
     ],
     "frequently_accessed": [
       "apps/patterns.md",
       "tools/claude-code-power-user.md",
       "apps/docs.md",
-      "inspo/README.md"
+      "inspo/README.md",
+      "vision/quest/README.md"
     ]
   },
   "metadata": {
     "generator": "manual",
     "schema_version": "1.0",
-    "total_files": 45,
-    "total_categories": 8,
+    "total_files": 65,
+    "total_categories": 9,
     "uses_git_lfs": true
   }
 }

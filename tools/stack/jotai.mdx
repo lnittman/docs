@@ -1,0 +1,573 @@
+# How I Use Jotai
+
+My standard Jotai setup for React state management. Atomic state that's simple, performant, and TypeScript-first.
+
+## Installation & Basic Setup
+
+```bash
+pnpm add jotai
+```
+
+### Provider Setup (Optional)
+```typescript
+// app/layout.tsx or _app.tsx
+import { Provider } from 'jotai';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <Provider>
+          {children}
+        </Provider>
+      </body>
+    </html>
+  );
+}
+```
+
+Note: Provider is optional for basic usage but required for:
+- SSR/Next.js (prevents state leakage)
+- Multiple stores
+- DevTools integration
+
+## Basic Atoms
+
+### Primitive Atoms
+```typescript
+// atoms/ui.ts
+import { atom } from 'jotai';
+
+// Simple values
+export const countAtom = atom(0);
+export const textAtom = atom('');
+export const isOpenAtom = atom(false);
+
+// Objects/Arrays
+export const userAtom = atom<User | null>(null);
+export const itemsAtom = atom<Item[]>([]);
+
+// With debugLabel for DevTools
+export const themeAtom = atom<'light' | 'dark'>('light');
+themeAtom.debugLabel = 'theme';
+```
+
+### Using Atoms in Components
+```typescript
+// components/counter.tsx
+'use client';
+
+import { useAtom } from 'jotai';
+import { countAtom } from '@/atoms/ui';
+
+export function Counter() {
+  const [count, setCount] = useAtom(countAtom);
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+```
+
+## Derived Atoms
+
+### Read-Only Derived
+```typescript
+// atoms/derived.ts
+import { atom } from 'jotai';
+import { itemsAtom } from './ui';
+
+// Simple derivation
+export const itemCountAtom = atom(
+  (get) => get(itemsAtom).length
+);
+
+// Complex computation
+export const summaryAtom = atom((get) => {
+  const items = get(itemsAtom);
+  return {
+    total: items.length,
+    completed: items.filter(i => i.completed).length,
+    pending: items.filter(i => !i.completed).length,
+  };
+});
+
+// Combining multiple atoms
+export const fullNameAtom = atom((get) => {
+  const user = get(userAtom);
+  return user ? `${user.firstName} ${user.lastName}` : '';
+});
+```
+
+### Write-Only Actions
+```typescript
+// atoms/actions.ts
+export const addItemAtom = atom(
+  null, // convention for write-only
+  (get, set, newItem: NewItem) => {
+    const items = get(itemsAtom);
+    set(itemsAtom, [...items, { ...newItem, id: Date.now() }]);
+  }
+);
+
+export const toggleItemAtom = atom(
+  null,
+  (get, set, id: number) => {
+    const items = get(itemsAtom);
+    set(itemsAtom, 
+      items.map(item => 
+        item.id === id 
+          ? { ...item, completed: !item.completed }
+          : item
+      )
+    );
+  }
+);
+```
+
+### Read-Write Atoms
+```typescript
+// atoms/filters.ts
+const filterAtom = atom<'all' | 'active' | 'completed'>('all');
+
+export const filteredItemsAtom = atom(
+  (get) => {
+    const items = get(itemsAtom);
+    const filter = get(filterAtom);
+    
+    switch (filter) {
+      case 'active':
+        return items.filter(i => !i.completed);
+      case 'completed':
+        return items.filter(i => i.completed);
+      default:
+        return items;
+    }
+  },
+  (get, set, filter: 'all' | 'active' | 'completed') => {
+    set(filterAtom, filter);
+  }
+);
+```
+
+## Async Atoms
+
+### Basic Async
+```typescript
+// atoms/async.ts
+import { atom } from 'jotai';
+
+// Async read
+export const userDataAtom = atom(async (get) => {
+  const userId = get(userIdAtom);
+  if (!userId) return null;
+  
+  const response = await fetch(`/api/users/${userId}`);
+  return response.json();
+});
+
+// With Suspense
+export function UserProfile() {
+  const [user] = useAtom(userDataAtom);
+  return <div>{user.name}</div>;
+}
+
+// Parent component
+export function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UserProfile />
+    </Suspense>
+  );
+}
+```
+
+### Async with Loading States
+```typescript
+// atoms/weather.ts
+import { atom } from 'jotai';
+import { loadable } from 'jotai/utils';
+
+const weatherAtom = atom(async (get) => {
+  const city = get(cityAtom);
+  const res = await fetch(`/api/weather?city=${city}`);
+  return res.json();
+});
+
+export const loadableWeatherAtom = loadable(weatherAtom);
+
+// component
+export function Weather() {
+  const [weather] = useAtom(loadableWeatherAtom);
+  
+  if (weather.state === 'loading') {
+    return <div>Loading weather...</div>;
+  }
+  
+  if (weather.state === 'hasError') {
+    return <div>Error: {weather.error.message}</div>;
+  }
+  
+  return <div>Temperature: {weather.data.temp}°C</div>;
+}
+```
+
+### Async Actions
+```typescript
+// atoms/api.ts
+export const saveItemAtom = atom(
+  null,
+  async (get, set, item: Item) => {
+    set(isSavingAtom, true);
+    
+    try {
+      const response = await fetch('/api/items', {
+        method: 'POST',
+        body: JSON.stringify(item),
+      });
+      
+      const saved = await response.json();
+      
+      // Update local state
+      set(itemsAtom, (items) => [...items, saved]);
+      
+      // Clear form
+      set(formAtom, initialFormState);
+      
+      return saved;
+    } catch (error) {
+      set(errorAtom, error.message);
+      throw error;
+    } finally {
+      set(isSavingAtom, false);
+    }
+  }
+);
+```
+
+## Patterns I Use
+
+### Form State Management
+```typescript
+// atoms/form.ts
+import { atom } from 'jotai';
+import { focusAtom } from 'jotai-optics';
+
+// Form data atom
+const formAtom = atom({
+  name: '',
+  email: '',
+  message: '',
+});
+
+// Focused atoms for individual fields
+export const nameAtom = focusAtom(formAtom, (optic) => optic.prop('name'));
+export const emailAtom = focusAtom(formAtom, (optic) => optic.prop('email'));
+export const messageAtom = focusAtom(formAtom, (optic) => optic.prop('message'));
+
+// Validation
+export const formErrorsAtom = atom((get) => {
+  const form = get(formAtom);
+  const errors: Record<string, string> = {};
+  
+  if (!form.name) errors.name = 'Name is required';
+  if (!form.email) errors.email = 'Email is required';
+  if (!/\S+@\S+\.\S+/.test(form.email)) errors.email = 'Email is invalid';
+  
+  return errors;
+});
+
+export const isFormValidAtom = atom(
+  (get) => Object.keys(get(formErrorsAtom)).length === 0
+);
+```
+
+### Global UI State
+```typescript
+// atoms/ui.ts
+import { atom } from 'jotai';
+
+// Modals
+export const modalAtom = atom<{
+  type: 'confirm' | 'alert' | null;
+  data?: any;
+}>({ type: null });
+
+export const openModalAtom = atom(
+  null,
+  (get, set, { type, data }) => {
+    set(modalAtom, { type, data });
+  }
+);
+
+export const closeModalAtom = atom(
+  null,
+  (get, set) => {
+    set(modalAtom, { type: null });
+  }
+);
+
+// Toast notifications
+export const toastsAtom = atom<Toast[]>([]);
+
+export const addToastAtom = atom(
+  null,
+  (get, set, toast: Omit<Toast, 'id'>) => {
+    const id = Date.now();
+    set(toastsAtom, (toasts) => [...toasts, { ...toast, id }]);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      set(toastsAtom, (toasts) => toasts.filter(t => t.id !== id));
+    }, 5000);
+  }
+);
+```
+
+### Persistence with localStorage
+```typescript
+// atoms/settings.ts
+import { atomWithStorage } from 'jotai/utils';
+
+// Automatically synced with localStorage
+export const settingsAtom = atomWithStorage('app-settings', {
+  theme: 'light',
+  language: 'en',
+  notifications: true,
+});
+
+// With custom storage
+export const authTokenAtom = atomWithStorage(
+  'auth-token',
+  null,
+  {
+    getItem: (key) => {
+      const stored = localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : null;
+    },
+    setItem: (key, value) => {
+      if (value === null) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    },
+    removeItem: (key) => localStorage.removeItem(key),
+  }
+);
+```
+
+### Reset Pattern
+```typescript
+// atoms/resettable.ts
+import { atom } from 'jotai';
+import { atomWithReset, RESET } from 'jotai/utils';
+
+// Resettable atom
+export const searchAtom = atomWithReset('');
+export const filtersAtom = atomWithReset({
+  category: 'all',
+  sortBy: 'date',
+});
+
+// Reset action
+export const resetFiltersAtom = atom(
+  null,
+  (get, set) => {
+    set(searchAtom, RESET);
+    set(filtersAtom, RESET);
+  }
+);
+```
+
+## Utils & Helpers
+
+### atomFamily for Dynamic Atoms
+```typescript
+// atoms/items.ts
+import { atomFamily } from 'jotai/utils';
+
+// Create atoms dynamically by ID
+export const itemAtomFamily = atomFamily(
+  (id: string) => atom({ id, name: '', completed: false })
+);
+
+// Usage
+function ItemEditor({ id }: { id: string }) {
+  const [item, setItem] = useAtom(itemAtomFamily(id));
+  // ...
+}
+```
+
+### selectAtom for Performance
+```typescript
+// atoms/selectors.ts
+import { selectAtom } from 'jotai/utils';
+
+// Only re-render when specific property changes
+export const itemNameAtom = selectAtom(
+  itemAtom,
+  (item) => item.name
+);
+
+export const isCompletedAtom = selectAtom(
+  itemAtom,
+  (item) => item.completed
+);
+```
+
+## DevTools Integration
+
+### Setup
+```typescript
+// components/devtools.tsx
+import { useAtomsDevtools } from 'jotai-devtools';
+
+export function AtomsDevtools({ children }: { children: React.ReactNode }) {
+  useAtomsDevtools('MyApp');
+  return <>{children}</>;
+}
+
+// Wrap your app
+export default function App() {
+  return (
+    <AtomsDevtools>
+      <YourApp />
+    </AtomsDevtools>
+  );
+}
+```
+
+### Debug Individual Atoms
+```typescript
+import { useAtomDevtools } from 'jotai-devtools';
+
+function DebuggedComponent() {
+  const [count, setCount] = useAtom(countAtom);
+  
+  // Connect to Redux DevTools
+  useAtomDevtools(countAtom, 'count');
+  
+  return <div>{count}</div>;
+}
+```
+
+## TypeScript Patterns
+
+### Typed Atoms
+```typescript
+// atoms/types.ts
+import { atom, WritableAtom } from 'jotai';
+
+// Explicit types
+export const userAtom = atom<User | null>(null);
+export const loadingAtom = atom<boolean>(false);
+export const errorsAtom = atom<Record<string, string>>({});
+
+// Async atom types
+export const asyncDataAtom = atom<Promise<Data>>(
+  async () => fetchData()
+);
+
+// Write-only with typed arguments
+export const updateUserAtom = atom<
+  null,
+  [Partial<User>],
+  void
+>(
+  null,
+  async (get, set, updates) => {
+    const user = get(userAtom);
+    if (!user) return;
+    
+    const updated = { ...user, ...updates };
+    set(userAtom, updated);
+  }
+);
+```
+
+## My Conventions
+
+1. **Organize by feature** - Group related atoms together
+2. **Use debugLabel** - Essential for DevTools
+3. **Suffix naming** - `*Atom` for clarity
+4. **Async with Suspense** - Better UX than loading states
+5. **Write-only for actions** - Clear intent
+6. **Derived for computed** - Don't duplicate state
+7. **atomWithStorage for persistence** - Built-in localStorage sync
+
+## Common Patterns
+
+### Search with Debounce
+```typescript
+const searchInputAtom = atom('');
+const debouncedSearchAtom = atom(
+  (get) => get(searchInputAtom),
+  (get, set, value: string) => {
+    set(searchInputAtom, value);
+    
+    // Cancel previous timeout
+    const timeoutId = get(searchTimeoutAtom);
+    if (timeoutId) clearTimeout(timeoutId);
+    
+    // Set new timeout
+    const newTimeoutId = setTimeout(() => {
+      set(searchQueryAtom, value);
+    }, 300);
+    
+    set(searchTimeoutAtom, newTimeoutId);
+  }
+);
+```
+
+### Optimistic Updates
+```typescript
+const updateItemOptimisticallyAtom = atom(
+  null,
+  async (get, set, { id, updates }) => {
+    // Optimistic update
+    set(itemsAtom, (items) =>
+      items.map(item =>
+        item.id === id ? { ...item, ...updates } : item
+      )
+    );
+    
+    try {
+      await api.updateItem(id, updates);
+    } catch (error) {
+      // Revert on error
+      const original = get(originalItemsAtom);
+      set(itemsAtom, original);
+      throw error;
+    }
+  }
+);
+```
+
+## Resources & Links
+
+### Official Documentation
+- [Jotai Documentation](https://jotai.org)
+- [Core Concepts](https://jotai.org/docs/introduction)
+- [API Reference](https://jotai.org/docs/api/core)
+- [Guides](https://jotai.org/docs/guides/nextjs)
+
+### Utilities
+- [jotai/utils](https://jotai.org/docs/utilities/storage)
+- [jotai-tanstack-query](https://jotai.org/docs/extensions/query)
+- [jotai-immer](https://jotai.org/docs/extensions/immer)
+- [jotai-optics](https://jotai.org/docs/extensions/optics)
+
+### Ecosystem
+- [jotai-devtools](https://github.com/jotaijs/jotai-devtools)
+- [jotai-form](https://github.com/jotaijs/jotai-form)
+- [jotai-location](https://github.com/jotaijs/jotai-location)
+
+### Learning Resources
+- [Comparison with Other Libraries](https://jotai.org/docs/basics/comparison)
+- [TypeScript Guide](https://jotai.org/docs/guides/typescript)
+- [Performance Tips](https://jotai.org/docs/guides/performance)

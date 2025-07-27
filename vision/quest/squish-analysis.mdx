@@ -1,0 +1,261 @@
+# Squish: The Semantic Octopus
+*Eight Arms Reaching Through the Dimensions of Meaning*
+
+## The Essence
+
+Squish embodies a profound truth: in the age of information overload, the problem isn't storage—it's retrieval. Like its octopus mascot, Squish extends intelligent tentacles through vast oceans of content, finding exactly what you need through semantic understanding rather than crude keyword matching.
+
+## The Vision Tentacled
+
+### Content That Finds Itself
+
+Traditional organization requires humans to categorize, tag, and file. Squish inverts this: content understands itself and gravitates toward related content, forming organic clusters of meaning.
+
+### The Multimodal Mind
+
+Squish doesn't discriminate between media types:
+- **Images** speak through pixels
+- **Videos** communicate through motion
+- **Audio** resonates through waves
+- **Text** expresses through words
+- **All** understood through 1408-dimensional vectors
+
+## The Architecture of Intelligence
+
+### The Embedding Universe
+
+```typescript
+// Every piece of content becomes a point in 1408-dimensional space
+interface ContentConsciousness {
+  vector: Float32Array[1408];  // Its location in meaning-space
+  modality: 'image' | 'video' | 'audio' | 'text';
+  connections: SemanticDistance[]; // Its neighbors in understanding
+}
+```
+
+### The Board Aggregation Magic
+
+When content combines on a board, their vectors don't just add—they harmonize:
+```python
+# Weighted aggregation based on engagement
+board_vector = sum(
+    content.vector * content.engagement_weight 
+    for content in board.contents
+) / total_weight
+```
+
+## The User Journeys Through Semantic Space
+
+### The Visual Thinker
+
+Drops an image and asks: "Find everything that feels like this"
+- Squish understands the mood, composition, subject
+- Returns images with similar semantic fingerprints
+- Reveals connections humans might miss
+
+### The Research Collector
+
+Building a board about "sustainable architecture":
+- Adds images of buildings
+- Drops in PDF papers
+- Includes video documentaries
+- Squish finds related content across all modalities
+
+### The Memory Keeper
+
+"I remember seeing something about blue butterflies..."
+- Vague query becomes precise through semantic search
+- Finds the exact image from months ago
+- Plus related content they didn't know they had
+
+## The Technical Tentacles
+
+### Google Vertex AI as the Brain
+
+Multimodal embeddings that understand:
+- Visual composition and style
+- Textual meaning and context
+- Audio patterns and rhythms
+- Temporal flow in videos
+
+### The Vector Database as Memory
+
+PGVector turning PostgreSQL into a semantic powerhouse:
+- Cosine similarity for meaning-distance
+- Efficient indexing for massive scale
+- ACID compliance for data integrity
+
+### The Processing Pipeline
+
+1. **Ingestion**: Content enters the system
+2. **Analysis**: AI extracts understanding
+3. **Embedding**: Meaning becomes mathematics
+4. **Storage**: Vectors find their home
+5. **Connection**: Related content links form
+6. **Discovery**: Users explore semantic neighborhoods
+
+## The Innovation Currents
+
+### 1. True Multimodal Understanding
+
+Not just multiple media types, but unified understanding:
+- A lecture video connects to related PDFs
+- A photograph links to relevant podcasts
+- A sketch finds similar architectural plans
+
+### 2. Semantic Board Intelligence
+
+Boards aren't just folders—they're living entities:
+- Board vectors evolve as content is added
+- Suggestions improve with interaction
+- Boards can find related boards
+
+### 3. Visual Search Revolution
+
+Upload an image, find your memories:
+- No tags needed
+- No descriptions required
+- Just pure semantic similarity
+
+## The Design Philosophy
+
+### The Octopus Metaphor
+
+Why an octopus?
+- **Eight arms**: Multiple ways to grasp content
+- **Intelligence**: Among the smartest creatures
+- **Adaptability**: Changes color like content changes context
+- **Curiosity**: Always exploring, always learning
+
+### Playful Yet Powerful
+
+The UI embraces whimsy without sacrificing function:
+- Octopus animations for processing
+- Tentacle gestures for connections
+- Ocean themes for vast content
+- But always, clarity in purpose
+
+## The AI Orchestration
+
+### Mastra Workflows in Action
+
+```typescript
+// Semantic understanding workflow
+const understandContent = workflow({
+  name: 'semantic-analysis',
+  steps: [
+    extractMetadata,
+    generateEmbedding,
+    findSimilarContent,
+    suggestConnections,
+    updateBoardVectors
+  ]
+});
+```
+
+### The Gemini Enhancement
+
+When searching, Gemini doesn't just match—it understands:
+- Expands queries with semantic relatives
+- Provides context for better results
+- Explains why content matches
+
+## The Cultural Impact
+
+### Changing How We Think About Organization
+
+Traditional: "Where should I file this?"
+Squish: "What does this mean?"
+
+### The Death of the Folder
+
+Hierarchical organization assumes:
+- Content fits in one place
+- Categories are clear
+- Structure is static
+
+Squish knows:
+- Content has multiple meanings
+- Categories are fluid
+- Structure emerges from use
+
+## The Evolution Path
+
+### Current State: The Semantic Foundation
+- Multimodal embeddings working
+- Basic board intelligence active
+- Search understanding context
+- UI playful and functional
+
+### Near Future: The Learning Ocean
+- Personalized embeddings based on usage
+- Collaborative boards with shared understanding
+- API for third-party integration
+- Mobile apps for capture anywhere
+
+### Far Future: The Meaning Platform
+- Real-time content understanding
+- Predictive content suggestions
+- Cross-platform semantic sync
+
+## The Technical Poetry
+
+```typescript
+// Content finds its tribe
+async function discoverSemanticFamily(
+  orphan: Content
+): Promise<Content[]> {
+  const soul = await extractEmbedding(orphan);
+  const family = await findNearestNeighbors(soul, {
+    dimensions: 1408,
+    threshold: 0.85,
+    multimodal: true
+  });
+  
+  return family.map(member => ({
+    ...member,
+    relationship: calculateSemanticDistance(soul, member.soul)
+  }));
+}
+```
+
+## The Philosophical Depths
+
+### Beyond Search to Discovery
+
+Search implies you know what you're looking for. Squish enables discovery—finding what you didn't know you needed.
+
+### The Semantic Web Realized
+
+Tim Berners-Lee dreamed of a web where meaning was machine-readable. Squish makes this real for personal content.
+
+## The Community Ocean
+
+Squish users are:
+- Digital archaeologists excavating their own archives
+- Meaning-makers connecting disparate ideas
+- Visual thinkers finally having a visual database
+- Researchers transcending media boundaries
+
+## The Business Model as Ecosystem
+
+### Storage Tiers
+- **Free**: 1GB with basic embeddings
+- **Pro**: 100GB with advanced AI
+- **Team**: Shared semantic spaces
+- **Enterprise**: Custom models and unlimited scale
+
+### The Network Effect
+Every board created increases the value for all users through better understanding of content relationships.
+
+## The Synthesis
+
+Squish represents a paradigm shift in how we relate to our digital artifacts. By giving content the ability to understand itself and find its semantic family, it transforms the overwhelming ocean of information into a navigable, discoverable space of meaning.
+
+In the ecosystem, Squish is the memory palace—where all types of content live not in rigid folders but in fluid, meaningful relationships. It's where the octopus of consciousness extends its tentacles through the dimensions of understanding, bringing back exactly what you need, when you need it, even when you don't know what you're looking for.
+
+---
+
+*"The sea, once it casts its spell, holds one in its net of wonder forever." - Jacques Cousteau*
+
+*Squish casts this spell on digital content, creating nets of semantic wonder where every dive reveals new connections.*

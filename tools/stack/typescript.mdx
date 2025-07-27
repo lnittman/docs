@@ -1,0 +1,459 @@
+# How I Use TypeScript
+
+My TypeScript configuration approach for strict type safety and optimal developer experience across turborepo monorepos. Focus on catching errors early while maintaining fast compilation.
+
+## Installation & Setup
+
+### Basic Setup
+```bash
+pnpm add -D typescript @types/node
+```
+
+### Additional Type Packages
+```bash
+# React types
+pnpm add -D @types/react @types/react-dom
+
+# Common utility types
+pnpm add -D @types/lodash @types/uuid
+```
+
+## Configuration Structure
+
+### Monorepo TypeScript Config
+```
+packages/typescript-config/
+├── base.json         # Shared base configuration
+├── nextjs.json      # Next.js specific config
+├── react-library.json # React component libraries
+└── node.json        # Node.js services
+```
+
+### Base Configuration
+```json
+// packages/typescript-config/base.json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
+  "compilerOptions": {
+    // Type Checking - Maximum strictness
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    
+    // Additional Checks
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    
+    // Module Resolution
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    
+    // Emit
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    
+    // Performance
+    "skipLibCheck": true,
+    "incremental": false,
+    "forceConsistentCasingInFileNames": true
+  }
+}
+```
+
+### Next.js Configuration
+```json
+// packages/typescript-config/nextjs.json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Next.js",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@repo/*": ["../../packages/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
+```
+
+## App-Level Configuration
+
+### Next.js App
+```json
+// apps/app/tsconfig.json
+{
+  "extends": "@repo/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@repo/*": ["../../packages/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ]
+}
+```
+
+### Node Service
+```json
+// apps/api/tsconfig.json
+{
+  "extends": "@repo/typescript-config/node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+## Strict Mode Features
+
+### Null Checks
+```typescript
+// strictNullChecks ensures null/undefined are explicit
+function processUser(user: User | null) {
+  // Error: Object is possibly 'null'
+  console.log(user.name);
+  
+  // Correct: Check first
+  if (user) {
+    console.log(user.name);
+  }
+}
+```
+
+### No Unchecked Indexed Access
+```typescript
+// noUncheckedIndexedAccess adds undefined to index signatures
+const config: Record<string, string> = { foo: 'bar' };
+
+// Type is string | undefined
+const value = config['unknown'];
+
+// Must check before use
+if (value) {
+  console.log(value.toUpperCase());
+}
+```
+
+### No Implicit Override
+```typescript
+// noImplicitOverride requires explicit override keyword
+class Animal {
+  move() { /* ... */ }
+}
+
+class Dog extends Animal {
+  // Error: Missing 'override' keyword
+  move() { /* ... */ }
+  
+  // Correct
+  override move() { /* ... */ }
+}
+```
+
+## Path Mapping
+
+### Turborepo Paths
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      // App-specific imports
+      "@/*": ["./src/*"],
+      
+      // Package imports
+      "@repo/api": ["../../packages/api/src"],
+      "@repo/database": ["../../packages/database/src"],
+      "@repo/design": ["../../packages/design/src"],
+      "@repo/types": ["../../packages/types/src"]
+    }
+  }
+}
+```
+
+### Usage
+```typescript
+// Instead of: import { Button } from '../../../packages/design/src'
+import { Button } from '@repo/design/components';
+
+// Instead of: import { db } from '../../../../packages/database/src'
+import { db } from '@repo/database';
+```
+
+## Type-Only Imports
+
+### Explicit Type Imports
+```typescript
+// Prefer type-only imports for types
+import type { User, Post } from '@repo/types';
+import { createUser } from '@repo/api';
+
+// For mixed imports
+import { api, type ApiConfig } from '@repo/api';
+```
+
+### Benefits
+- Clearer intent
+- Better tree-shaking
+- Prevents circular dependencies
+- Faster builds
+
+## Utility Types
+
+### Custom Utility Types
+```typescript
+// packages/types/src/utils.ts
+
+// Make all properties optional recursively
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+// Make specific properties required
+export type RequireFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
+
+// Exclude null and undefined
+export type NonNullableFields<T> = {
+  [P in keyof T]: NonNullable<T[P]>;
+};
+
+// Async function return type
+export type AsyncReturnType<T extends (...args: any) => Promise<any>> =
+  T extends (...args: any) => Promise<infer R> ? R : never;
+```
+
+## Declaration Files
+
+### Global Types
+```typescript
+// types/global.d.ts
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NODE_ENV: 'development' | 'production' | 'test';
+      DATABASE_URL: string;
+      NEXT_PUBLIC_API_URL: string;
+    }
+  }
+}
+
+export {};
+```
+
+### Module Augmentation
+```typescript
+// types/next-auth.d.ts
+import { DefaultSession } from 'next-auth';
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string;
+      role: 'admin' | 'user';
+    } & DefaultSession['user'];
+  }
+}
+```
+
+## Type Guards
+
+### User-Defined Type Guards
+```typescript
+// Type guard functions
+function isUser(obj: any): obj is User {
+  return obj && typeof obj.id === 'string' && typeof obj.email === 'string';
+}
+
+// Usage
+const data: unknown = await fetchData();
+if (isUser(data)) {
+  // data is typed as User here
+  console.log(data.email);
+}
+```
+
+### Discriminated Unions
+```typescript
+type Result<T> = 
+  | { success: true; data: T }
+  | { success: false; error: string };
+
+function processResult<T>(result: Result<T>) {
+  if (result.success) {
+    // TypeScript knows result.data exists
+    return result.data;
+  } else {
+    // TypeScript knows result.error exists
+    throw new Error(result.error);
+  }
+}
+```
+
+## Performance Optimization
+
+### Project References
+```json
+// For large monorepos, use project references
+{
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true
+  },
+  "references": [
+    { "path": "./packages/types" },
+    { "path": "./packages/database" }
+  ]
+}
+```
+
+### Type Checking Scripts
+```json
+// package.json
+{
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "typecheck:all": "turbo run typecheck"
+  }
+}
+```
+
+## Common Patterns
+
+### Const Assertions
+```typescript
+// Use 'as const' for literal types
+const ROLES = ['admin', 'user', 'guest'] as const;
+type Role = typeof ROLES[number]; // 'admin' | 'user' | 'guest'
+
+const config = {
+  api: {
+    timeout: 5000,
+    retries: 3,
+  },
+} as const;
+```
+
+### Template Literal Types
+```typescript
+// Dynamic string types
+type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type APIRoute = `/api/${string}`;
+type APIEndpoint = `${HTTPMethod} ${APIRoute}`;
+
+const endpoint: APIEndpoint = 'GET /api/users'; // Valid
+```
+
+### Mapped Types
+```typescript
+// Create variations of existing types
+type Getters<T> = {
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+};
+
+interface Person {
+  name: string;
+  age: number;
+}
+
+type PersonGetters = Getters<Person>;
+// { getName: () => string; getAge: () => number; }
+```
+
+## My Conventions
+
+1. **Always use strict mode** - All strict flags enabled
+2. **Type-only imports** - Explicit about what's a type
+3. **No implicit any** - Everything must be typed
+4. **Path aliases** - Clean imports with @ prefix
+5. **Shared configs** - DRY principle for tsconfig
+6. **No unchecked access** - Safe index signatures
+7. **Explicit overrides** - Clear inheritance
+8. **Source maps** - Always enabled for debugging
+
+## Integration with Tools
+
+### ESLint Integration
+```json
+// .eslintrc.json
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error"
+  }
+}
+```
+
+### VS Code Settings
+```json
+// .vscode/settings.json
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
+```
+
+## Resources & Links
+
+### Official Documentation
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/)
+- [TSConfig Reference](https://www.typescriptlang.org/tsconfig)
+- [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+- [Compiler Options](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
+
+### Advanced Topics
+- [Type Challenges](https://github.com/type-challenges/type-challenges)
+- [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [Declaration Files](https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html)
+- [Module Resolution](https://www.typescriptlang.org/docs/handbook/module-resolution.html)
+
+### Best Practices
+- [TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html)
+- [Do's and Don'ts](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
+- [Performance](https://github.com/microsoft/TypeScript/wiki/Performance)
+- [Project References](https://www.typescriptlang.org/docs/handbook/project-references.html)

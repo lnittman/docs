@@ -1,0 +1,260 @@
+# Actual Patterns Audit - Developer Projects
+**Date**: 2025-01-05
+**Auditor**: Claude
+
+## Executive Summary
+
+This audit identifies actual patterns used across projects in ~/Developer/apps and ~/Developer/docs, focusing on patterns that appear in 80%+ of projects.
+
+## 1. Turborepo Projects (*-xyz)
+
+### Universal Patterns (100% adoption)
+- **Structure**: All xyz projects use turborepo monorepo structure
+- **Package Manager**: pnpm with workspaces (100%)
+- **Linting**: `ultracite lint` command using Biome (100%)
+- **Core Dependencies**:
+  - `turbo` - Build orchestration
+  - `@biomejs/biome` - Linting/formatting
+  - `@repo/typescript-config` - Shared TS config
+  - `@turbo/gen` - Code generation
+
+### Common Structure (90%+ adoption)
+```
+project-xyz/
+├── apps/
+│   ├── api/       (100% - API backend)
+│   └── app/       (100% - Next.js frontend)
+├── packages/      (100% - Shared packages)
+├── turbo.json     (100% - Turbo config)
+├── biome.json     (100% - Linter config)
+└── pnpm-workspace.yaml (100%)
+```
+
+### Package Patterns (80%+ adoption)
+Common packages found across projects:
+- `analytics` (85%)
+- `api` (100%)
+- `auth` (100%)
+- `database` (100%)
+- `design` (85%)
+- `logger` (71%)
+- `mastra` (85%)
+
+### Script Patterns (100% adoption)
+```json
+{
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "ultracite lint",
+    "test": "turbo test",
+    "bump-ui": "npx shadcn@latest add --all --overwrite -c packages/design"
+  }
+}
+```
+
+### Technology Stack (90%+ adoption)
+- **Next.js**: v15.3.x (100%)
+- **React**: v19.x (100%)
+- **TypeScript**: v5.x (100%)
+- **Prisma**: v6.x with Neon adapter (100%)
+- **Auth**: Clerk (100%)
+
+### Theme/Color Mode Pattern (100% adoption)
+All projects use identical theme provider pattern:
+- `next-themes` for theme management
+- `ThemeProvider` wrapper component
+- `attribute="class"` for CSS class-based theming
+- `defaultTheme="system"` with system detection
+- `disableTransitionOnChange` for smooth switching
+
+Example from multiple projects:
+```typescript
+'use client'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
+      {children}
+    </NextThemesProvider>
+  )
+}
+```
+
+## 2. AI Services (*-ai)
+
+### Universal Patterns (100% adoption)
+- **Structure**: Standalone TypeScript projects
+- **Mastra Framework**: 100% use Mastra for AI orchestration
+- **Directory Structure**:
+  ```
+  project-ai/
+  ├── src/
+  │   └── mastra/
+  │       ├── index.ts      (100% - Main Mastra config)
+  │       ├── agents/       (85% - AI agents)
+  │       ├── workflows/    (85% - Workflow definitions)
+  │       └── tools/        (85% - Tool integrations)
+  ├── package.json
+  └── tsconfig.json
+  ```
+
+### Mastra Configuration Pattern (100% adoption)
+```typescript
+import { Mastra } from '@mastra/core'
+import { PostgresStore } from '@mastra/pg'
+import { PinoLogger } from '@mastra/loggers'
+
+export const mastra = new Mastra({
+  tools,
+  workflows,
+  agents,
+  storage: new PostgresStore({ connectionString }),
+  logger: new PinoLogger({
+    name: 'Project AI',
+    level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  }),
+  telemetry: { enabled: false },
+  server: {
+    port: 6789,
+    host: '0.0.0.0',
+    apiRoutes: [...]
+  }
+})
+```
+
+### Common Dependencies (90%+ adoption)
+- `@mastra/core` (100%)
+- `@mastra/pg` (100%)
+- `@mastra/loggers` (100%)
+- TypeScript (100%)
+
+## 3. Apple Projects (*-apple)
+
+### Swift Package Structure (100% adoption)
+All Apple projects use modular Swift Package Manager structure:
+```
+project-apple/
+├── Packages/
+│   ├── Analytics/     (100%)
+│   ├── Auth/          (100%)
+│   ├── Design/        (100%)
+│   └── Networking/    (85%)
+└── project-ios/       (100% - Main iOS app)
+```
+
+### Package.swift Pattern (100% adoption)
+```swift
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "PackageName",
+    platforms: [
+        .iOS(.v17),
+        .macOS(.v14)
+    ],
+    products: [
+        .library(name: "PackageName", targets: ["PackageName"])
+    ],
+    dependencies: [...],
+    targets: [...]
+)
+```
+
+### Common Swift Dependencies (80%+ adoption)
+- Glur (for blur effects)
+- SwiftUI (100%)
+- Combine (85%)
+
+## 4. Documentation Patterns
+
+### Structure (100% adoption in project docs)
+```
+project-docs/
+├── README.md              (100%)
+├── VERSION_COMPATIBILITY.md (71%)
+└── Various project-specific docs
+```
+
+### Global Documentation Structure
+```
+~/Developer/docs/
+├── apps/          (Application patterns)
+├── design/        (Design system docs)
+├── diagrams/      (Architecture diagrams)
+├── fonts/         (Font resources)
+├── inspo/         (Inspiration/philosophy)
+├── prompts/       (AI prompts)
+├── reference/     (Quick references)
+└── tools/         (Tool documentation)
+```
+
+## 5. Build and Development Patterns
+
+### Turbo.json Configuration (100% consistency)
+```json
+{
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "**/generated/**"]
+    },
+    "dev": {},
+    "test": { "dependsOn": ["^test"] },
+    "clean": {}
+  }
+}
+```
+
+### Environment Configuration (100% adoption)
+- All projects use environment variables for configuration
+- Database URL pattern: PostgreSQL/Neon
+- API secrets for internal communication
+
+## 6. UI/UX Technical Patterns
+
+### Component Library (100% adoption in xyz projects)
+- shadcn/ui as base component library
+- Custom design system package wrapping shadcn
+- Tailwind CSS for styling (100%)
+- CSS variables for theming
+
+### Common UI Patterns
+- Toaster/notifications (Sonner - 100%)
+- Form handling (React Hook Form + Zod - 85%)
+- Icons (Lucide React - 90%)
+
+## 7. Database and API Patterns
+
+### Prisma Schema Location (100%)
+- Always in `packages/database/prisma/schema.prisma`
+- Neon adapter for serverless PostgreSQL
+- Shared client exported from database package
+
+### API Structure (100% in xyz projects)
+- Next.js App Router API routes
+- tRPC or REST endpoints in `apps/api`
+- Consistent error handling patterns
+
+## Conclusion
+
+The codebase shows remarkable consistency with these patterns being true standards:
+
+1. **Monorepo with Turborepo** - Universal for web projects
+2. **Mastra for AI** - Universal for AI services  
+3. **Modular Swift Packages** - Universal for Apple projects
+4. **Next.js 15 + React 19** - Standard stack
+5. **Clerk for Auth** - Universal choice
+6. **Prisma + Neon** - Database standard
+7. **Theme Provider Pattern** - Identical implementation
+8. **pnpm + Biome** - Tooling standard
+
+These patterns represent actual implementation choices, not aspirational standards. Any new project should follow these established patterns for consistency.

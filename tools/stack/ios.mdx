@@ -1,0 +1,506 @@
+# How I Use Swift & SwiftUI
+
+My standard iOS/macOS app setup for -apple projects. Clean architecture with Swift Package Manager.
+
+## Project Structure
+
+```
+project-apple/
+├── Packages/              # Swift Package Manager modules
+│   ├── Auth/             # Clerk authentication
+│   ├── Core/             # Business logic & models
+│   ├── Design/           # UI components & styling
+│   ├── Networking/       # API client
+│   └── Analytics/        # PostHog integration
+├── project-ios/          # iOS app target
+├── project-macos/        # macOS app target (when needed)
+├── Package.swift         # Root package manifest
+└── project.xcodeproj/    # Xcode project
+```
+
+## Package Configuration
+
+### Root Package.swift
+```swift
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "ProjectPackages",
+    platforms: [
+        .iOS(.v17),
+        .macOS(.v14)
+    ],
+    products: [
+        .library(name: "Auth", targets: ["Auth"]),
+        .library(name: "Core", targets: ["Core"]),
+        .library(name: "Design", targets: ["Design"]),
+        .library(name: "Networking", targets: ["Networking"]),
+        .library(name: "Analytics", targets: ["Analytics"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/clerk/clerk-ios", from: "0.6.0"),
+        .package(url: "https://github.com/PostHog/posthog-ios", from: "3.0.0"),
+        .package(url: "https://github.com/hmlongco/Factory", from: "2.3.0"),
+        .package(url: "https://github.com/kean/Get", from: "2.2.0"),
+        .package(url: "https://github.com/NicholasBellucci/Glur", from: "1.0.0")
+    ],
+    targets: [
+        .target(
+            name: "Auth",
+            dependencies: [
+                .product(name: "ClerkSDK", package: "clerk-ios")
+            ]
+        ),
+        .target(
+            name: "Core",
+            dependencies: ["Factory"]
+        ),
+        .target(
+            name: "Design",
+            dependencies: ["Glur"]
+        ),
+        .target(
+            name: "Networking", 
+            dependencies: ["Get", "Core"]
+        ),
+        .target(
+            name: "Analytics",
+            dependencies: [
+                .product(name: "PostHog", package: "posthog-ios")
+            ]
+        )
+    ]
+)
+```
+
+## Architecture Patterns
+
+### MVVM with SwiftUI
+```swift
+// View Model
+@MainActor
+final class HomeViewModel: ObservableObject {
+    @Published var items: [Item] = []
+    @Published var isLoading = false
+    @Published var error: Error?
+    
+    private let service: ItemService
+    
+    init(service: ItemService = .shared) {
+        self.service = service
+    }
+    
+    func loadItems() async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            items = try await service.fetchItems()
+        } catch {
+            self.error = error
+        }
+    }
+}
+
+// View
+struct HomeView: View {
+    @StateObject private var viewModel = HomeViewModel()
+    
+    var body: some View {
+        List(viewModel.items) { item in
+            ItemRow(item: item)
+        }
+        .task {
+            await viewModel.loadItems()
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView()
+            }
+        }
+    }
+}
+```
+
+### Dependency Injection with Factory
+```swift
+// In Core package
+import Factory
+
+extension Container {
+    var apiClient: Factory<APIClient> {
+        Factory(self) { 
+            APIClient(baseURL: Config.apiURL)
+        }
+        .singleton
+    }
+    
+    var authService: Factory<AuthService> {
+        Factory(self) { 
+            ClerkAuthService()
+        }
+        .singleton
+    }
+    
+    var itemService: Factory<ItemService> {
+        Factory(self) {
+            ItemService(
+                apiClient: self.apiClient(),
+                authService: self.authService()
+            )
+        }
+    }
+}
+```
+
+### Networking with Get
+```swift
+// In Networking package
+import Get
+
+struct APIClient {
+    let client: APIClient
+    
+    init(baseURL: URL) {
+        var configuration = APIClient.Configuration()
+        configuration.baseURL = baseURL
+        configuration.delegate = AuthDelegate()
+        self.client = APIClient(configuration: configuration)
+    }
+}
+
+// API Endpoints
+extension APIClient {
+    func items() async throws -> [Item] {
+        try await client.send(Request<[Item]>(path: "/items"))
+    }
+    
+    func createItem(_ item: NewItem) async throws -> Item {
+        try await client.send(
+            Request<Item>(
+                path: "/items",
+                method: .post,
+                body: item
+            )
+        )
+    }
+}
+
+// Auth Delegate
+final class AuthDelegate: APIClientDelegate {
+    func client(_ client: APIClient, willSendRequest request: inout URLRequest) async throws {
+        if let token = await ClerkAuth.shared.session?.jwt {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+    }
+}
+```
+
+## UI Patterns
+
+### Design System Components
+```swift
+// In Design package
+import SwiftUI
+
+// Custom Button
+struct PrimaryButton: View {
+    let title: String
+    let action: () -> Void
+    @State private var isPressed = false
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.accentColor)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .scaleEffect(isPressed ? 0.95 : 1)
+        }
+        .buttonStyle(.plain)
+        .onLongPressGesture(
+            minimumDuration: 0,
+            maximumDistance: .infinity,
+            pressing: { isPressed = $0 },
+            perform: {}
+        )
+    }
+}
+
+// Custom Card
+struct Card<Content: View>: View {
+    @ViewBuilder let content: Content
+    
+    var body: some View {
+        content
+            .padding()
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .shadow(color: .black.opacity(0.1), radius: 10)
+    }
+}
+```
+
+### Navigation Patterns
+```swift
+// App entry point
+@main
+struct ProjectApp: App {
+    @StateObject private var authManager = ClerkAuth.shared
+    
+    var body: some Scene {
+        WindowGroup {
+            Group {
+                if authManager.isSignedIn {
+                    MainTabView()
+                } else {
+                    AuthView()
+                }
+            }
+            .task {
+                await authManager.load()
+            }
+        }
+    }
+}
+
+// Tab Navigation
+struct MainTabView: View {
+    var body: some View {
+        TabView {
+            HomeView()
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+            
+            ProfileView()
+                .tabItem {
+                    Label("Profile", systemImage: "person")
+                }
+        }
+    }
+}
+```
+
+## State Management
+
+### SwiftUI Native State
+```swift
+// Local State
+@State private var searchText = ""
+@State private var isShowingDetail = false
+
+// Shared State Object
+@StateObject private var store = DataStore()
+
+// Environment Values
+@Environment(\.dismiss) private var dismiss
+@EnvironmentObject private var authManager: AuthManager
+
+// App Storage for Persistence
+@AppStorage("theme") private var theme = Theme.system
+```
+
+### Observable Pattern
+```swift
+@Observable
+final class DataStore {
+    var items: [Item] = []
+    var selectedItem: Item?
+    
+    func selectItem(_ item: Item) {
+        selectedItem = item
+    }
+}
+```
+
+## Authentication with Clerk
+
+### Setup in Auth Package
+```swift
+import ClerkSDK
+
+@MainActor
+final class ClerkAuth: ObservableObject {
+    static let shared = ClerkAuth()
+    
+    @Published var user: User?
+    @Published var session: Session?
+    
+    var isSignedIn: Bool { session != nil }
+    
+    private init() {
+        Clerk.configure(publishableKey: Config.clerkPublishableKey)
+    }
+    
+    func load() async {
+        do {
+            session = try await Clerk.shared.session
+            user = session?.user
+        } catch {
+            print("Failed to load session: \(error)")
+        }
+    }
+    
+    func signIn() async throws {
+        // Trigger Clerk sign in flow
+    }
+    
+    func signOut() async {
+        try? await Clerk.shared.signOut()
+        session = nil
+        user = nil
+    }
+}
+```
+
+## Analytics with PostHog
+
+### Setup in Analytics Package
+```swift
+import PostHog
+
+enum Analytics {
+    static func configure() {
+        let config = PostHogConfig(
+            apiKey: Config.posthogApiKey,
+            host: Config.posthogHost
+        )
+        PostHogSDK.shared.setup(config)
+    }
+    
+    static func track(_ event: String, properties: [String: Any]? = nil) {
+        PostHogSDK.shared.capture(event, properties: properties)
+    }
+    
+    static func identify(userId: String, properties: [String: Any]? = nil) {
+        PostHogSDK.shared.identify(userId, properties: properties)
+    }
+}
+```
+
+## Build Configuration
+
+### Config Management
+```swift
+// In Core package
+enum Config {
+    static var apiURL: URL {
+        URL(string: ProcessInfo.processInfo.environment["API_URL"] ?? "https://api.example.com")!
+    }
+    
+    static var clerkPublishableKey: String {
+        ProcessInfo.processInfo.environment["CLERK_PUBLISHABLE_KEY"] ?? ""
+    }
+    
+    static var posthogApiKey: String {
+        ProcessInfo.processInfo.environment["POSTHOG_API_KEY"] ?? ""
+    }
+}
+```
+
+### Xcode Schemes
+- Development: Local API, debug builds
+- Staging: Staging API, TestFlight builds  
+- Production: Production API, App Store builds
+
+## Testing Patterns
+
+```swift
+// Unit Tests
+final class ItemServiceTests: XCTestCase {
+    func testFetchItems() async throws {
+        let mockClient = MockAPIClient()
+        let service = ItemService(apiClient: mockClient)
+        
+        let items = try await service.fetchItems()
+        
+        XCTAssertEqual(items.count, 3)
+    }
+}
+
+// UI Tests
+final class HomeViewUITests: XCTestCase {
+    func testItemsDisplay() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        XCTAssertTrue(app.tables["ItemsList"].exists)
+        XCTAssertTrue(app.cells.count > 0)
+    }
+}
+```
+
+## Common Patterns
+
+### Error Handling
+```swift
+enum AppError: LocalizedError {
+    case network(Error)
+    case unauthorized
+    case notFound
+    
+    var errorDescription: String? {
+        switch self {
+        case .network(let error): 
+            return error.localizedDescription
+        case .unauthorized: 
+            return "Please sign in to continue"
+        case .notFound: 
+            return "The requested resource was not found"
+        }
+    }
+}
+```
+
+### Loading States
+```swift
+enum LoadingState<T> {
+    case idle
+    case loading
+    case loaded(T)
+    case error(Error)
+}
+```
+
+## My Conventions
+
+1. **Swift Package Manager only** - No CocoaPods/Carthage
+2. **MVVM architecture** - Clear separation of concerns
+3. **Factory for DI** - Type-safe dependency injection
+4. **Async/await everywhere** - Modern concurrency
+5. **SwiftUI only** - No UIKit unless necessary
+6. **Protocol-oriented** - Testable abstractions
+7. **Modular packages** - Reusable components
+
+## Integration with -xyz Projects
+
+### API Integration
+- Point to Cloudflare Worker API
+- Use JWT from Clerk for auth
+- Handle errors consistently
+- Cache with SwiftUI/CoreData
+
+### Shared Business Logic
+- Models match Drizzle schemas
+- Validation rules consistent
+- Error codes standardized
+
+## Gotchas & Solutions
+
+1. **Preview crashes** → Check @MainActor usage
+2. **Navigation bugs** → Use NavigationStack properly
+3. **State updates** → Ensure @Published on main thread
+4. **API errors** → Check auth token refresh
+5. **Build issues** → Clean DerivedData
+
+## Links
+
+- [Swift Package Manager](https://swift.org/package-manager/)
+- [SwiftUI Documentation](https://developer.apple.com/documentation/swiftui)
+- [Clerk iOS SDK](https://github.com/clerk/clerk-ios)
+- [Factory DI](https://github.com/hmlongco/Factory)

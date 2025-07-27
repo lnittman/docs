@@ -1,0 +1,47 @@
+# Design Patterns & Philosophy
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-03  
+**Purpose**: Bridge between design assets and development philosophy
+
+## 🎨 Design Philosophy
+
+Our design approach is informed by masters of simplicity and functionality:
+
+### Core Influences
+- **[Dieter Rams](../inspo/dieter-rams/)** - Ten principles of good design
+- **[Teenage Engineering](../inspo/te/)** - Playful minimalism
+- **[John Maeda](../inspo/design-and-aesthetics/john-maeda/)** - Laws of simplicity
+- **[Susan Kare](../inspo/design-and-aesthetics/susan-kare/)** - Pixel-perfect clarity
+
+### Applied Principles
+1. **Less, but better** - Remove until it breaks, then add back only essentials
+2. **Honest interfaces** - UI should reveal function, not hide it
+3. **Playful restraint** - Constrain to essential controls, make exploration safe
+4. **Pixel precision** - Every pixel should have purpose
+
+## 🎯 Pattern Library
+
+### Typography Patterns
+- **Headers**: Stuart Titling for impact
+- **Body**: Stuart Text for readability  
+- **Code**: JetBrains Mono or system monospace
+- **Accents**: CX80 for technical/futuristic elements
+
+### Color Patterns
+See [Rams on Color](../inspo/dieter-rams/color.md) for our approach to restrained color usage.
+
+### Component Patterns
+Following [Don Norman's principles](../inspo/design-and-aesthetics/don-norman/):
+- Clear affordances
+- Immediate feedback
+- Forgiving interactions
+- Consistent mental models
+
+## 🔗 Quick Links
+
+- [Design Thinking Prompts](../prompts/philosophy/design-thinking.md)
+- [Retro Pixel Prompt](./prompts/retro-pixel.xml)
+- [Font Reference](./FONTS_REFERENCE.md)
+
+---
+*"Good design is as little design as possible" - Dieter Rams*

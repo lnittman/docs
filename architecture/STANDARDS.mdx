@@ -1,0 +1,558 @@
+# Developer Standards & Patterns
+
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-03  
+**Status**: Current  
+**Category**: Architecture  
+**Purpose**: Comprehensive architectural standards for all projects in ~/Developer ecosystem
+
+## 📋 Table of Contents
+
+1. [Product Layout](#product-layout)
+2. [Documentation and AI Guidance](#documentation-and-ai-guidance)
+3. [Turborepo Standards](#turborepo-standards)
+4. [AI Service Architecture](#ai-service-architecture)
+5. [Apple Platform Standards](#apple-platform-standards)
+6. [Common Patterns](#common-patterns)
+7. [Quality Standards](#quality-standards)
+
+## Product Layout
+
+### 1. Monorepo and Standalone Services
+
+A product must be organized into a primary web monorepo and standalone service directories:
+
+- `[product-name]-xyz/`: The web platform, managed as a Turborepo monorepo with pnpm
+- `[product-name]-ai/`: The AI service, managed as a standalone Node.js/TypeScript project
+- `[product-name]-apple/`: The native Apple platform project (if applicable)
+- `[product-name]-docs/`: Centralized documentation for the entire product
+
+### 2. Naming Conventions
+
+- **Web**: Use `-xyz` suffix (legacy: `-web` for sine)
+- **AI**: Use `-ai` suffix
+- **Apple**: Use `-apple` suffix
+- **Docs**: Use `-docs` suffix
+
+## Documentation and AI Guidance
+
+### 1. LLM-Specific Documentation
+
+Key directories must contain documentation optimized for AI interpretation:
+
+- **`CLAUDE.md`**: Required in project roots and major directories
+- **`AGENTS.md`**: For AI-specific directories (e.g., `apps/api`, `src/mastra/agents`)
+- **Purpose**: Provide high-level overview, architecture, patterns, and operational guidelines
+- **Content**: Written as "system prompts" explaining the "why" behind the code
+
+### 2. Code-Level Documentation
+
+- **TSDoc/JSDoc**: All exported functions, classes, and complex types must be documented
+- **Required Tags**: `@param`, `@returns`, brief summary, `@example` (encouraged)
+- **Focus**: Document intent and usage, not implementation details
+
+### 3. Project Documentation Structure
+
+```
+[projectName]-docs/
+├── .docindex.json           # Machine-readable index for AI navigation
+├── README.md               # Comprehensive overview and navigation
+├── architecture/           # System design and decisions
+├── guides/                # How-to guides
+│   ├── deployment/
+│   ├── development/
+│   └── setup/
+├── operations/            # DevOps and maintenance procedures
+├── planning/              # Roadmaps and proposals
+├── reference/             # API and technical reference
+└── archive/               # Historical documentation
+```
+
+## Turborepo Standards
+
+### 1. Core Tooling and Dependencies
+
+All `*-xyz` projects must use:
+
+- **Package Manager**: `pnpm` (10.10.0+)
+- **Language**: `TypeScript` (latest stable, strict mode enabled)
+- **Framework**: `Next.js` (15+) with App Router
+- **Formatter/Linter**: `Biome` (extends `ultracite`)
+- **Node Version**: `>=20.9.0`
+
+### 2. Monorepo Structure
+
+```
+[projectName]-xyz/
+├── apps/
+│   ├── app/              # Main Next.js user-facing application
+│   └── api/              # Optional API service for webhooks/cron
+├── packages/
+│   ├── analytics/        # PostHog wrapper
+│   ├── api/              # Business logic and domain services
+│   ├── auth/             # Clerk authentication wrapper
+│   ├── cache/            # Redis/caching utilities
+│   ├── database/         # Prisma client and schema
+│   ├── design/           # UI components and design system
+│   ├── email/            # React Email templates (if needed)
+│   ├── github/           # GitHub integration
+│   ├── logger/           # Structured logging
+│   ├── mastra/           # AI service client wrapper
+│   ├── next-config/      # Shared Next.js configuration
+│   ├── rate-limit/       # Rate limiting utilities
+│   ├── security/         # Security middleware
+│   ├── seo/              # SEO utilities
+│   ├── typescript-config/ # Shared TypeScript configs
+│   └── webhooks/         # Webhook utilities
+├── biome.json
+├── package.json
+├── pnpm-workspace.yaml
+├── tsconfig.json
+└── turbo.json
+```
+
+### 3. Standard Scripts
+
+```json
+{
+  "build": "turbo build",
+  "dev": "turbo dev",
+  "lint": "ultracite lint",
+  "format": "ultracite format",
+  "test": "turbo test",
+  "analyze": "turbo analyze",
+  "boundaries": "turbo boundaries",
+  "bump-deps": "npx npm-check-updates --deep -u && pnpm install",
+  "migrate": "cd packages/database && npx prisma format && npx prisma generate && npx prisma db push",
+  "clean": "git clean -xdf node_modules"
+}
+```
+
+### 4. Package Standards
+
+- **Naming**: Internal packages use `@repo/[package-name]`
+- **Protocol**: All internal dependencies use `workspace:*`
+- **Exports**: Explicitly defined in package.json
+- **Structure**: Each package has `src/` directory with `index.ts` entry
+
+### 5. Authentication
+
+- **Provider**: `Clerk` is mandatory
+- **UI**: `Clerk Elements` for custom unstyled auth forms
+- **Middleware**: Protect routes via middleware configuration
+
+### 6. UI and Styling
+
+- **Styling**: `Tailwind CSS` v4 with CSS variables
+- **Components**: `Radix UI` primitives + `shadcn/ui` patterns
+- **Utilities**: `cva` for variants, `tailwind-merge` for class merging
+- **Theme**: Glass morphism with blur effects and transparency
+
+### 7. State Management
+
+#### Client UI State
+- **Library**: `Jotai` for ephemeral client-side state
+- **Organization**: Atoms in `apps/app/src/atoms/` by feature
+- **Usage**: Modal states, UI toggles, menus
+
+#### Server State
+- **Library**: `SWR` for server state management
+- **Pattern**: RSC hydration via `fallbackData`
+- **Cache**: Automatic revalidation and optimistic updates
+
+### 8. Database
+
+- **ORM**: `Prisma` with PostgreSQL
+- **Location**: Schema in `packages/database/prisma/schema.prisma`
+- **Client**: Exported from `@repo/database`
+- **Migrations**: Version controlled in `prisma/migrations/`
+
+### 9. API and Data Flow
+
+#### Primary Pattern: Server Actions
+```typescript
+// apps/app/src/actions/[domain].ts
+"use server";
+
+export async function createItem(input: CreateItemInput) {
+  // 1. Validate with Zod
+  const validated = createItemSchema.parse(input);
+  
+  // 2. Check authentication
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+  
+  // 3. Delegate to service layer
+  const result = await itemService.create(userId, validated);
+  
+  // 4. Invalidate cache
+  revalidatePath("/items");
+  
+  return result;
+}
+```
+
+#### Secondary Pattern: Route Handlers
+Only for:
+- GET requests for client data fetching
+- Third-party webhooks
+- Service-to-service communication
+- Health checks
+
+#### Service Layer
+All business logic in `packages/api/services/`:
+```typescript
+// packages/api/services/[domain].ts
+export const itemService = {
+  async create(userId: string, data: ValidatedData) {
+    // Business logic here
+    // Only services touch database
+    return await db.item.create({...});
+  }
+};
+```
+
+## AI Service Architecture
+
+### 1. Project Structure
+
+```
+[projectName]-ai/
+├── src/
+│   └── mastra/
+│       ├── agents/       # Agent definitions
+│       │   └── [agent]/
+│       │       ├── index.ts          # Agent configuration
+│       │       ├── instructions.xml  # Structured prompts
+│       │       └── memory.ts         # Memory configuration
+│       ├── tools/        # Tool implementations
+│       ├── workflows/    # Multi-step processes
+│       ├── lib/         # Shared utilities
+│       │   └── attachments/
+│       │       ├── embeddings.ts
+│       │       ├── processor.ts
+│       │       └── rag.ts
+│       └── index.ts     # Mastra instance
+├── tools/
+│   └── mcp/            # MCP tool configurations
+├── package.json
+└── tsconfig.json
+```
+
+### 2. Core Framework
+
+- **Framework**: `@mastra/core` for all AI orchestration
+- **Type**: ES modules (`"type": "module"`)
+- **Scripts**: `mastra dev`, `mastra build`, `mastra start`
+
+### 3. Model Initialization Pattern
+
+```typescript
+// Lazy initialization to prevent multiple instances
+let model: ChatModel | null = null;
+
+export function getChatModel() {
+  if (!model) {
+    model = anthropic.chat("claude-3-5-sonnet");
+  }
+  return model;
+}
+```
+
+### 4. Agent Instructions Format
+
+```xml
+<agent_instructions>
+  <purpose>Concise statement of agent's role</purpose>
+  
+  <capabilities>
+    <capability>Specific action 1</capability>
+    <capability>Specific action 2</capability>
+  </capabilities>
+  
+  <methodology>
+    <step>Analyze request</step>
+    <step>Plan approach</step>
+    <step>Execute solution</step>
+    <step>Summarize results</step>
+  </methodology>
+  
+  <guidelines>
+    <guideline>Behavioral rule 1</guideline>
+    <guideline>Behavioral rule 2</guideline>
+  </guidelines>
+  
+  <response_examples>
+    <example>
+      <query>Example user query</query>
+      <response>Example agent response</response>
+    </example>
+  </response_examples>
+  
+  <include>tools/mcp/github.xml</include>
+</agent_instructions>
+```
+
+### 5. Storage and Memory
+
+- **Database**: Same PostgreSQL instance as web app
+- **Storage**: `@mastra/pg` for PostgresStore and PgVector
+- **Pattern**: Shared storage instances to minimize connections
+
+## Apple Platform Standards
+
+### 1. Project Structure
+
+```
+[projectName]-apple/
+├── Packages/              # Local Swift packages
+│   ├── Auth/             # Clerk authentication
+│   ├── Design/           # SwiftUI design system
+│   ├── [Name]Networking/ # API client
+│   └── Analytics/        # Event tracking
+├── [projectName]-ios/     # Main iOS app
+│   ├── Assets.xcassets/
+│   ├── Resources/
+│   │   └── Fonts/
+│   ├── Views/            # SwiftUI views
+│   ├── ViewModels/       # MVVM view models
+│   ├── Services/         # Business logic
+│   ├── Managers/         # Singletons
+│   └── Models/           # Data models
+└── [projectName].xcodeproj
+```
+
+### 2. Swift Package Structure
+
+```swift
+// Package.swift
+let package = Package(
+    name: "PackageName",
+    platforms: [.iOS(.v17), .macOS(.v14)],
+    products: [
+        .library(name: "PackageName", targets: ["PackageName"])
+    ],
+    dependencies: [
+        // External dependencies
+    ],
+    targets: [
+        .target(
+            name: "PackageName",
+            dependencies: [],
+            path: "Sources"
+        ),
+        .testTarget(
+            name: "PackageNameTests",
+            dependencies: ["PackageName"],
+            path: "Tests"
+        )
+    ]
+)
+```
+
+### 3. Architecture Patterns
+
+#### MVVM Pattern
+- **View**: SwiftUI views, lightweight presentation only
+- **ViewModel**: ObservableObject managing view state
+- **Model**: Simple structs, Codable and Identifiable
+
+#### Dependency Injection
+```swift
+// Centralized container
+class AppDependencies {
+    static let shared = AppDependencies()
+    
+    lazy var networkManager = NetworkManager()
+    lazy var authService = AuthService()
+    // ... other services
+}
+
+// Injected via environment
+.environmentObject(AppDependencies.shared)
+```
+
+#### Service Layer
+- Business logic in service classes
+- Protocol-oriented design
+- ViewModels depend on protocols, not implementations
+
+### 4. UI/UX Patterns
+
+#### Glass Morphism Design
+- **Base**: `ultraThinMaterial` blur effect
+- **Enhancement**: Custom gradients and borders
+- **Package**: `Glur` for advanced blur effects
+- **Implementation**: `VariableBlurView` for dynamic blurs
+
+#### Haptic Feedback
+```swift
+// Centralized semantic haptics
+class HapticManager {
+    static let shared = HapticManager()
+    
+    func tap(_ action: PrimaryAction) {
+        // Maps semantic actions to haptic patterns
+    }
+}
+```
+
+#### Navigation
+- **Transitions**: Custom, physics-based animations
+- **Gestures**: Edge-swipe for dismissal
+- **Springs**: All animations use spring physics
+
+### 5. Networking Layer
+
+#### Actor-based Architecture
+```swift
+actor NetworkManager {
+    // Thread-safe network operations
+    private var activeTasks: [URL: Task<Data, Error>] = [:]
+    
+    func fetch<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+        // Request coalescing
+        // Response caching
+        // Interceptor chain
+    }
+}
+```
+
+#### Core Features
+1. **Type-Safe Endpoints**: Strongly typed enum/struct
+2. **Request Coalescing**: Prevent duplicate requests
+3. **Response Caching**: Actor-based cache with policies
+4. **Interceptor Chain**: Auth, logging, retry logic
+
+## Common Patterns
+
+### 1. Error Handling
+
+```typescript
+// Web projects
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public statusCode: number = 400
+  ) {
+    super(message);
+  }
+}
+
+// Consistent error responses
+export function errorResponse(error: ApiError) {
+  return NextResponse.json(
+    { error: error.message, code: error.code },
+    { status: error.statusCode }
+  );
+}
+```
+
+### 2. Authentication Pattern
+
+```typescript
+// Server-side auth check
+import { auth } from "@repo/auth/server";
+
+export async function protectedAction() {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new ApiError("Unauthorized", "UNAUTHORIZED", 401);
+  }
+  // ... continue
+}
+```
+
+### 3. Validation Pattern
+
+```typescript
+// Zod schemas with inference
+import { z } from "zod";
+
+export const createItemSchema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string().optional(),
+});
+
+export type CreateItemInput = z.infer<typeof createItemSchema>;
+```
+
+### 4. Component Patterns
+
+```typescript
+// shadcn/ui pattern with cva
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@repo/design/lib/utils";
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center...",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground",
+        destructive: "bg-destructive text-destructive-foreground",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 px-3",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {}
+```
+
+### 5. File Naming Conventions
+
+- **Files/Directories**: `kebab-case`
+- **Components**: `PascalCase.tsx`
+- **Utilities**: `camelCase.ts`
+- **Constants**: `UPPER_SNAKE_CASE`
+- **Types/Interfaces**: `PascalCase`
+
+## Quality Standards
+
+### Before Committing
+
+- [ ] TypeScript compiles without errors
+- [ ] Biome formatting applied (`pnpm format`)
+- [ ] No `console.log` statements
+- [ ] Error boundaries implemented
+- [ ] Loading states handled
+- [ ] Mobile responsive design
+- [ ] Accessibility checked (keyboard nav, ARIA)
+- [ ] Documentation updated (CLAUDE.md if needed)
+
+### Testing Requirements
+
+- **Unit Tests**: Vitest for business logic
+- **Integration**: Test critical user flows
+- **AI Tests**: Custom Mastra test harness
+- **Coverage**: Aim for 80% on critical paths
+
+### Performance Standards
+
+- **Bundle Size**: Monitor with `turbo analyze`
+- **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1
+- **Images**: Optimized with Next.js Image
+- **Fonts**: System fonts or optimized web fonts
+
+### Security Standards
+
+- **Environment Variables**: Never commit secrets
+- **API Keys**: Use environment variables with `NEXT_PUBLIC_` prefix for client
+- **Authentication**: Always verify on server side
+- **Input Validation**: Validate all user input with Zod
+- **SQL Injection**: Use Prisma parameterized queries
+
+---
+
+*This document represents the actual implemented standards across all projects. Updates should reflect real pattern changes, not aspirational features.*
