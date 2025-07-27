@@ -29,7 +29,7 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Overview",
             "pages": [
               "index",
               "README"
@@ -47,7 +47,7 @@
             ]
           },
           {
-            "group": "Tools & Frameworks",
+            "group": "Tools",
             "pages": [
               "tools/README",
               "tools/anthropic/claude-code",
@@ -63,7 +63,7 @@
             ]
           },
           {
-            "group": "Stack Components",
+            "group": "Stack",
             "pages": [
               "tools/stack/nextjs",
               "tools/stack/tailwind",
@@ -82,7 +82,7 @@
             ]
           },
           {
-            "group": "Design System",
+            "group": "Design",
             "pages": [
               "design/README",
               "design/DESIGN_PATTERNS",
