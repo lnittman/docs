@@ -4,6 +4,7 @@
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -11,6 +12,7 @@
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -18,6 +20,7 @@
   src: url('/fonts/louize/LouizeDisplayTrialCnd-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -25,6 +28,7 @@
   src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/6397be61-3ea4-459d-8a3e-fd95168cb214.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -32,299 +36,386 @@
   src: url('https://intdev-global.s3.us-west-2.amazonaws.com/public/internet-dev/e049dfb6-9c5d-4ac4-97c2-eb6e95c61d09.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
-/* Reset Mintlify's theme colors to pure black/white */
+/* Base color variables */
 :root {
-  --primary: #000000 !important;
-  --primary-light: #000000 !important;
-  --primary-dark: #000000 !important;
-  --primary-foreground: #ffffff !important;
-  --background: #ffffff !important;
-  --foreground: #000000 !important;
-  --muted-foreground: #666666 !important;
-  --accent: #000000 !important;
-  --accent-foreground: #ffffff !important;
-  --ring: #000000 !important;
-  --border: rgba(0, 0, 0, 0.1) !important;
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --muted: #f5f5f5;
+  --muted-foreground: #6b6b6b;
+  --border: #e5e5e5;
+  --accent: #000000;
 }
 
 .dark {
-  --primary: #ffffff !important;
-  --primary-light: #ffffff !important;
-  --primary-dark: #ffffff !important;
-  --primary-foreground: #000000 !important;
-  --background: #000000 !important;
-  --foreground: #ffffff !important;
-  --muted-foreground: #999999 !important;
-  --accent: #ffffff !important;
-  --accent-foreground: #000000 !important;
-  --ring: #ffffff !important;
-  --border: rgba(255, 255, 255, 0.1) !important;
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --muted: #1a1a1a;
+  --muted-foreground: #999999;
+  --border: #262626;
+  --accent: #ffffff;
 }
 
-/* Override ALL pink/purple/fuchsia colors using Mintlify selectors */
-.nav-tabs-item:hover,
-.nav-dropdown-item:hover,
-.sidebar-link:hover,
-.sidebar-group-header:hover,
-.toc-item:hover,
-.card:hover,
-.accordion:hover,
-.tab:hover,
-[class*="hover"]:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
+/* Global resets */
+* {
+  box-sizing: border-box;
+}
+
+/* Base typography */
+body {
+  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--foreground) !important;
+  background-color: var(--background) !important;
+  line-height: 1.6;
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* All text should use foreground color */
+p, span, div, li, td, th, label {
   color: var(--foreground) !important;
 }
 
-.dark .nav-tabs-item:hover,
-.dark .nav-dropdown-item:hover,
-.dark .sidebar-link:hover,
-.dark .sidebar-group-header:hover,
-.dark .toc-item:hover,
-.dark .card:hover,
-.dark .accordion:hover,
-.dark .tab:hover,
-.dark [class*="hover"]:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
   color: var(--foreground) !important;
+  line-height: 1.2;
 }
 
-/* Active states */
-.nav-tabs-item[aria-selected="true"],
-.nav-tabs-item.active,
-[role="tab"][aria-selected="true"] {
-  background-color: transparent !important;
-  border-bottom: 2px solid var(--foreground) !important;
-  color: var(--foreground) !important;
+/* Code typography */
+code, pre, .font-mono, .code-block {
+  font-family: 'TX02Mono', 'IosevkaTerm', 'SF Mono', Monaco, monospace !important;
+  font-size: 0.875em;
+  font-feature-settings: "liga" 0;
 }
 
-/* Remove ALL gradient backgrounds */
-[class*="bg-gradient"],
-[class*="from-"],
-[class*="to-"],
-[class*="via-"] {
-  background: transparent !important;
-  background-image: none !important;
+/* Navbar */
+#navbar {
+  background-color: var(--background) !important;
+  border-bottom: 1px solid var(--border) !important;
 }
 
-/* Override any inline styles */
-[style*="background-color: rgb(251"],
-[style*="background-color: rgb(244"],
-[style*="background-color: rgb(236"],
-[style*="background-color: rgb(219"],
-[style*="background: rgb(251"],
-[style*="background: rgb(244"],
-[style*="background: rgb(236"],
-[style*="background: rgb(219"],
-[style*="rgb(251, 207, 232)"],
-[style*="rgb(244, 114, 182)"],
-[style*="rgb(236, 72, 153)"],
-[style*="rgb(219, 39, 119)"] {
-  background: transparent !important;
-  background-color: transparent !important;
+.nav-logo img {
+  height: 24px;
+  width: 24px;
 }
 
-/* Fix text colors throughout */
-body,
-.mdx-content,
-.prose,
-p, span, div, li, h1, h2, h3, h4, h5, h6,
-.sidebar-title,
-.sidebar-group-header,
-.nav-tabs-item,
 .navbar-link {
+  font-weight: 500;
+  color: var(--foreground) !important;
+  text-decoration: none !important;
+}
+
+.navbar-link:hover {
+  opacity: 0.7;
+}
+
+/* Remove navbar icons */
+.navbar-link svg {
+  display: none !important;
+}
+
+/* Sidebar */
+#sidebar {
+  background-color: var(--background) !important;
+  border-right: 1px solid var(--border) !important;
+}
+
+.sidebar-group-header {
+  font-weight: 600;
+  color: var(--foreground) !important;
+  text-transform: none;
+}
+
+.sidebar-title {
+  font-weight: 500;
+  color: var(--muted-foreground) !important;
+}
+
+.sidebar-link {
+  color: var(--muted-foreground) !important;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+  color: var(--foreground) !important;
+  background-color: var(--muted) !important;
+}
+
+.sidebar-link[aria-selected="true"] {
+  color: var(--foreground) !important;
+  background-color: var(--muted) !important;
+}
+
+/* Navigation tabs */
+.nav-tabs {
+  border-bottom: 1px solid var(--border) !important;
+  background-color: var(--background) !important;
+}
+
+.nav-tabs-item {
+  color: var(--muted-foreground) !important;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  background-color: transparent !important;
+}
+
+.nav-tabs-item:hover {
+  color: var(--foreground) !important;
+  background-color: transparent !important;
+}
+
+.nav-tabs-item[aria-selected="true"] {
+  color: var(--foreground) !important;
+  border-bottom-color: var(--accent) !important;
+  background-color: transparent !important;
+}
+
+/* Content */
+.mdx-content {
+  max-width: 48rem;
+  margin: 0 auto;
   color: var(--foreground) !important;
 }
 
-/* Remove underlines from links by default */
+.mdx-content * {
+  color: inherit;
+}
+
+/* Links */
+.mdx-content a,
 a {
   color: var(--foreground) !important;
-  text-decoration: none !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
 }
 
-/* Add subtle underline on hover only */
+.mdx-content a:hover,
 a:hover {
-  text-decoration: underline !important;
-  text-decoration-color: rgba(0, 0, 0, 0.3) !important;
-  opacity: 0.8;
+  opacity: 0.7;
+  text-decoration: underline;
 }
 
-.dark a:hover {
-  text-decoration-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-/* Apply custom fonts globally */
-* {
-  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-}
-
-/* Headings and bold text */
-h1, h2, h3, h4, h5, h6,
-.font-semibold,
-.font-bold,
-strong,
-.sidebar-title,
-.nav-tabs-item {
-  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  font-weight: 700 !important;
-}
-
-/* Code blocks and monospace text */
-code,
-pre,
-.font-mono,
-.code-block,
-.inline-code,
-[class*="language-"] {
-  font-family: 'TX02Mono', 'IosevkaTerm', 'Courier New', monospace !important;
-  text-decoration: none !important;
-}
-
-/* Fix code block styling */
-.code-block,
+/* Code blocks */
 pre {
-  background-color: #f5f5f5 !important;
-  border: 1px solid #e5e5e5 !important;
+  background-color: var(--muted) !important;
+  border: 1px solid var(--border) !important;
   border-radius: 6px;
+  padding: 1rem;
   overflow-x: auto;
+  margin: 1.5rem 0;
 }
 
-.dark .code-block,
 .dark pre {
   background-color: #1a1a1a !important;
-  border: 1px solid #333333 !important;
+  border-color: #333 !important;
 }
 
 /* Remove underlines from code */
-code, 
-code *, 
-pre *, 
-.code-block *,
-[class*="language-"] * {
+pre code,
+.code-block code {
   text-decoration: none !important;
 }
 
-/* Fix inline code */
+/* Inline code */
 :not(pre) > code {
-  background-color: rgba(0, 0, 0, 0.06) !important;
-  padding: 0.2em 0.4em;
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+  padding: 0.125rem 0.25rem;
   border-radius: 3px;
   font-size: 0.875em;
   text-decoration: none !important;
 }
 
-.dark :not(pre) > code {
-  background-color: rgba(255, 255, 255, 0.06) !important;
-}
-
-/* Hide Ask AI button in header */
-[aria-label*="Ask AI"],
-[aria-label*="ask ai"],
-button:has(svg[class*="sparkles"]),
-#assistant-entry,
-#assistant-entry-mobile {
-  display: none !important;
-}
-
-/* Hide Mintlify branding */
-.logo-text,
-[href*="mintlify.com"]:not(.navbar-link) {
-  display: none !important;
-}
-
-/* Ensure logo is properly sized */
-.nav-logo img,
-#navbar img {
-  height: 24px !important;
-  width: 24px !important;
-  object-fit: contain;
-}
-
-/* Remove icons from navbar links */
-.navbar-link svg {
-  display: none !important;
-}
-
-/* Style navbar links */
-.navbar-link {
-  font-family: 'Louize', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  font-weight: 500;
-  text-decoration: none !important;
-}
-
-/* Fix search bar */
-#search-input,
-input[type="search"] {
-  background-color: var(--background) !important;
-  border: 1px solid var(--border) !important;
-  color: var(--foreground) !important;
-}
-
-/* Remove box shadows with color */
-[class*="shadow"] {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.dark [class*="shadow"] {
-  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Fix card styling */
+/* Cards and hover states */
 .card {
   background-color: var(--background) !important;
   border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-/* Ensure TOC items are styled correctly */
-.toc-item {
-  color: var(--muted-foreground) !important;
+.card:hover {
+  border-color: var(--accent) !important;
+  background-color: var(--background) !important;
+  transform: translateY(-2px);
 }
 
-.toc-item.active,
-.toc-item:hover {
-  color: var(--foreground) !important;
-}
-
-/* Fix any remaining blue text */
-.text-blue-600,
-.text-blue-500,
-.text-primary,
-[class*="text-blue"] {
-  color: var(--foreground) !important;
-}
-
-/* Page context menu (right side "On this page") */
-#table-of-contents h3,
-#table-of-contents-content a {
-  color: var(--foreground) !important;
-}
-
-/* Fix feedback toolbar */
-.feedback-toolbar button {
-  color: var(--foreground) !important;
-}
-
-/* Override Mintlify's pink tile backgrounds more aggressively */
-.bg-primary\/5,
-.bg-primary\/10,
-.hover\:bg-primary\/5:hover,
-.hover\:bg-primary\/10:hover,
-[class*="bg-pink"],
-[class*="bg-purple"],
-[class*="bg-fuchsia"] {
+/* Remove ALL pink/colored backgrounds */
+[class*="bg-"]:not([class*="bg-background"]) {
   background-color: transparent !important;
 }
 
-/* Tab hover fix with more specific selectors */
-#navbar [role="tablist"] button:hover,
-#navbar [role="tab"]:hover,
-.nav-tabs .nav-tabs-item:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
+/* Hover states cleanup */
+*:hover {
+  background-color: inherit;
 }
 
-.dark #navbar [role="tablist"] button:hover,
-.dark #navbar [role="tab"]:hover,
-.dark .nav-tabs .nav-tabs-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+/* Specific interactive element hovers */
+.sidebar-link:hover,
+.nav-dropdown-item:hover,
+.toc-item:hover {
+  background-color: var(--muted) !important;
+}
+
+/* Table of contents */
+#table-of-contents,
+.toc {
+  background-color: var(--background) !important;
+}
+
+.toc-item {
+  color: var(--muted-foreground) !important;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.toc-item:hover,
+.toc-item.active {
+  color: var(--foreground) !important;
+}
+
+/* Search */
+#search-input,
+#search-bar-entry input {
+  background-color: var(--muted) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+  font-family: inherit;
+}
+
+#search-input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Hide Ask AI button */
+#assistant-entry,
+#assistant-entry-mobile,
+[aria-label*="Ask AI"],
+.chat-assistant-sheet {
+  display: none !important;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--foreground) !important;
+}
+
+/* Remove Mintlify branding */
+[href*="mintlify.com"]:not(.nav-anchor) {
+  display: none !important;
+}
+
+/* Feedback toolbar */
+.feedback-toolbar {
+  background-color: var(--background) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Pagination */
+.pagination-next,
+.pagination-prev {
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+  background-color: var(--background) !important;
+}
+
+.pagination-next:hover,
+.pagination-prev:hover {
+  border-color: var(--accent) !important;
+  background-color: var(--muted) !important;
+}
+
+/* Callouts */
+.callout {
+  background-color: var(--muted) !important;
+  border-left: 4px solid var(--accent) !important;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* Steps */
+.step {
+  border-left: 2px solid var(--border) !important;
+}
+
+.step::before {
+  background-color: var(--accent) !important;
+  color: var(--background) !important;
+}
+
+/* Accordions */
+.accordion {
+  background-color: var(--background) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+.accordion:hover {
+  border-color: var(--accent) !important;
+  background-color: var(--background) !important;
+}
+
+/* Tab content */
+.tab-content {
+  border: 1px solid var(--border) !important;
+  border-top: none;
+  background-color: var(--background) !important;
+}
+
+/* Method pills */
+.method-pill,
+.method-nav-pill {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* API sections */
+.api-section {
+  background-color: var(--background) !important;
+}
+
+/* Banner */
+#banner {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* Footer */
+#footer {
+  background-color: var(--background) !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+/* Remove any remaining gradients or decorations */
+[class*="bg-gradient"],
+[class*="decoration"] {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+/* Ensure all Mintlify-specific hover states are clean */
+.almond-layout *:hover {
+  background-color: inherit;
+}
+
+/* Override any theme-specific colors */
+[style*="color"],
+[style*="background"] {
+  color: inherit !important;
+  background-color: inherit !important;
 }

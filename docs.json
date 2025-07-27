@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "almond",
   "name": "Luke's Docs",
   "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
   "colors": {
