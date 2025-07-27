@@ -92,10 +92,10 @@
         ]
       },
       {
-        "tab": "Prompts & Patterns",
+        "tab": "Prompts",
         "groups": [
           {
-            "group": "Available Prompts",
+            "group": "Available",
             "pages": [
               "prompts-showcase",
               "prompts/philosophy/design-thinking",
@@ -108,7 +108,7 @@
         "tab": "Inspiration",
         "groups": [
           {
-            "group": "Design & Aesthetics",
+            "group": "Design",
             "pages": [
               "inspiration/README",
               "inspiration/dieter-rams/color",
@@ -120,7 +120,7 @@
             ]
           },
           {
-            "group": "AI & Modern Development",
+            "group": "Development",
             "pages": [
               "inspiration/ai-and-modern-development/andrej-karpathy/README",
               "inspiration/ai-and-modern-development/mastra-team/README",
@@ -128,7 +128,7 @@
             ]
           },
           {
-            "group": "Software Architecture",
+            "group": "Architecture",
             "pages": [
               "inspiration/software-architecture/kent-beck/README",
               "inspiration/software-architecture/martin-fowler/README",
@@ -136,7 +136,7 @@
             ]
           },
           {
-            "group": "Systems & Strategy",
+            "group": "Systems",
             "pages": [
               "inspiration/systems-and-strategy/simon-wardley/README",
               "inspiration/te/te"
@@ -156,7 +156,7 @@
             ]
           },
           {
-            "group": "Standards & Evolution",
+            "group": "Standards",
             "pages": [
               "ecosystem/compliance/README",
               "ecosystem/compliance/violations",
@@ -167,7 +167,7 @@
             ]
           },
           {
-            "group": "Projects & Reports",
+            "group": "Projects",
             "pages": [
               "ecosystem/projects/active",
               "ecosystem/reports/latest",
@@ -182,7 +182,7 @@
         "tab": "Workflows",
         "groups": [
           {
-            "group": "Development Workflows",
+            "group": "Commands",
             "pages": [
               "workflows/high-yield-command-workflows"
             ]
