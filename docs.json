@@ -13,7 +13,6 @@
     "light": "/favicon-32x32.png",
     "dark": "/favicon-32x32.png"
   },
-  "css": "/custom.css",
   "navbar": {
     "links": [
       {
@@ -41,28 +40,36 @@
           {
             "group": "Architecture",
             "pages": [
-              "architecture/ARCHITECTURE_PATTERNS",
-              "architecture/STANDARDS",
-              "architecture/APPLE_PROJECT_PATTERNS",
-              "architecture/ACTUAL_PATTERNS_AUDIT",
-              "architecture/claude-code-rules",
-              "architecture/development-standards-overview"
+              "architecture/patterns",
+              "architecture/standards",
+              "architecture/apple",
+              "architecture/claude"
             ]
           },
           {
             "group": "Tools",
             "pages": [
               "tools/README",
-              "tools/anthropic/claude-code",
-              "tools/anthropic/claude-code-command-system",
-              "tools/anthropic/claude-code-power-user",
-              "tools/anthropic/claude-command-center",
-              "tools/anthropic/claude-developer-hub",
-              "tools/anthropic/claude-4-system-card",
-              "tools/anthropic/claude-api-primer",
-              "tools/anthropic/codex",
-              "tools/anthropic/how-anthropic-teams-use-claude-code",
-              "tools/anthropic/prompt-engineering"
+              {
+                "group": "Claude",
+                "pages": [
+                  "tools/anthropic/claude-code",
+                  "tools/anthropic/claude-code-power-user",
+                  "tools/anthropic/claude-code-command-system",
+                  "tools/anthropic/claude-api-primer",
+                  "tools/anthropic/claude-4-system-card",
+                  "tools/anthropic/prompt-engineering",
+                  "tools/anthropic/how-anthropic-teams-use-claude-code"
+                ]
+              },
+              {
+                "group": "Other Tools",
+                "pages": [
+                  "tools/anthropic/claude-command-center",
+                  "tools/anthropic/claude-developer-hub",
+                  "tools/anthropic/codex"
+                ]
+              }
             ]
           },
           {
@@ -88,8 +95,8 @@
             "group": "Design",
             "pages": [
               "design/README",
-              "design/DESIGN_PATTERNS",
-              "design/FONTS_REFERENCE"
+              "design/design-patterns",
+              "design/fonts-reference"
             ]
           }
         ]
