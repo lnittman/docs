@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "linden",
   "name": "Luke's Docs",
   "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
   "colors": {
@@ -269,7 +269,12 @@
     }
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude"]
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
   },
   "api": {
     "playground": {
