@@ -13,7 +13,6 @@
     "light": "/favicon-32x32.png",
     "dark": "/favicon-32x32.png"
   },
-  "css": "/custom.css",
   "navbar": {
     "links": [
       {
