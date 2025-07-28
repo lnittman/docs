@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "mint",
   "name": "Luke's Docs",
   "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
   "colors": {
@@ -13,6 +13,7 @@
     "light": "/favicon-32x32.png",
     "dark": "/favicon-32x32.png"
   },
+  "css": "/custom.css",
   "navbar": {
     "links": [
       {
@@ -43,6 +44,7 @@
             "pages": [
               "architecture/patterns",
               "architecture/standards",
+              "architecture/turborepo",
               "architecture/apple",
               "architecture/claude",
               "architecture/audit",
