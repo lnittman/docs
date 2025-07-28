@@ -1,0 +1,123 @@
+---
+title: "Typography Specimens"
+description: "Font families and type specimens from our collection"
+---
+
+# Typography Specimens
+
+A comprehensive showcase of typefaces in our design arsenal, each selected for specific aesthetic and functional purposes.
+
+## Display Fonts
+
+### Louize Display
+A condensed display typeface with strong personality, perfect for headlines and branding.
+
+<div className="type-specimen" style={{ marginTop: '2rem', marginBottom: '3rem' }}>
+  <h1 style={{ fontFamily: 'LouizeDisplayTrialCnd-Bold', fontSize: '4rem', lineHeight: 1.1 }}>Louize Display Bold</h1>
+  <h2 style={{ fontFamily: 'LouizeDisplayTrialCnd-Medium', fontSize: '3rem', lineHeight: 1.2 }}>Louize Display Medium</h2>
+  <h3 style={{ fontFamily: 'LouizeDisplayTrialCnd-Regular', fontSize: '2.5rem', lineHeight: 1.2 }}>Louize Display Regular</h3>
+  <p style={{ fontFamily: 'LouizeDisplayTrialCnd-Regular', fontSize: '1.5rem', marginTop: '1rem' }}>
+    The quick brown fox jumps over the lazy dog
+  </p>
+</div>
+
+### Alcala
+A sophisticated serif with display and text variants.
+
+**Variants**: BlackDisplay, Bold, Italic, Roman
+
+### Stuart
+A versatile family with Caption, Text, and Titling optical sizes.
+
+**Optical Sizes**:
+- **Caption**: Optimized for small sizes (6-8pt)
+- **Text**: Perfect for body copy (9-14pt)  
+- **Titling**: Refined for large display (18pt+)
+
+## Experimental & Variable Fonts
+
+### Milling
+A unique variable font with Simplex, Duplex, and Triplex variants featuring different stroke depths.
+
+**Axes**: Weight, Depth (0mm to 5mm)
+
+### Exposure
+Variable font with exposure-based weight system from -100 to +100.
+
+### CX80
+Multi-axis variable font with 4 style variants (0-3).
+
+## Monospace & Technical
+
+### JGS Font Family
+ASCII art and technical documentation fonts based on classic terminal aesthetics.
+
+**Included**: jgs5, jgs7, jgs9, jgs_Font  
+**Special Use**: ASCII art, retro computing, terminal interfaces
+
+See detailed documentation: [JGS Font Documentation](/design/fonts/jgs)
+
+### TX02 Mono
+Modern monospace for code and technical content.
+
+### IosevkaTerm
+Narrow monospace optimized for terminal use.
+
+## Art & Display
+
+### Brett
+Artistic display font with unique character.
+
+### Heritage Display
+Classic heritage-inspired display face.
+
+### Bertin
+Data visualization fonts with dot and square variants for creating data-driven typography.
+
+**Variants**:
+- BertinDot (Multi, Orientation, Rotation, Shape, Size, Value)
+- BertinSquare (Multi, Orientation, Rotation, Shape, Size, Value)
+
+## Web Font Loading
+
+### Basic Implementation
+```css
+@font-face {
+  font-family: 'Louize';
+  src: url('/fonts/louize/LouizeDisplayTrialCnd-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+### Variable Font Loading
+```css
+@font-face {
+  font-family: 'Exposure';
+  src: url('/fonts/exposure/ExposureTrialVAR.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-display: swap;
+}
+```
+
+## Typography Guidelines
+
+### Pairing Recommendations
+- **Headers**: Louize Display + body in Stuart Text
+- **Technical**: TX02 Mono headers + IosevkaTerm code
+- **Editorial**: Alcala + Stuart Text
+- **Experimental**: Milling + Exposure
+
+### Performance Considerations
+- Use `font-display: swap` for better perceived performance
+- Subset fonts when possible
+- Consider variable fonts for flexibility with smaller file sizes
+
+## Font Licensing
+All fonts in this collection are trial/specimen versions. Check individual font licenses before production use.
+
+## Related Resources
+- [Fonts Reference](/design/fonts-reference) - Complete font inventory
+- [Design Patterns](/design/design-patterns) - Typography in context
+- [Icons Gallery](/design/icons) - Complementary icon sets

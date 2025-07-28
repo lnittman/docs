@@ -34,7 +34,8 @@
             "group": "Overview",
             "pages": [
               "index",
-              "README"
+              "README",
+              "CLAUDE"
             ]
           },
           {
@@ -43,7 +44,9 @@
               "architecture/patterns",
               "architecture/standards",
               "architecture/apple",
-              "architecture/claude"
+              "architecture/claude",
+              "architecture/audit",
+              "architecture/overview"
             ]
           },
           {
@@ -96,7 +99,10 @@
             "pages": [
               "design/README",
               "design/design-patterns",
-              "design/fonts-reference"
+              "design/typography",
+              "design/icons",
+              "design/fonts-reference",
+              "design/fonts/jgs"
             ]
           }
         ]
@@ -195,6 +201,24 @@
             "group": "Commands",
             "pages": [
               "workflows/high-yield-command-workflows"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Diagrams",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "diagrams/README"
+            ]
+          },
+          {
+            "group": "Architecture",
+            "pages": [
+              "diagrams/architecture/README",
+              "diagrams/architecture/high-level/webs-system-overview"
             ]
           }
         ]

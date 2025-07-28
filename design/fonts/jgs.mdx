@@ -1,0 +1,112 @@
+---
+title: "JGS Font Documentation"
+description: "ASCII art fonts for terminal aesthetics and retro computing"
+---
+
+# JGS Font Family
+
+The JGS font family is a collection of monospace fonts specifically designed for ASCII art, terminal interfaces, and retro computing aesthetics.
+
+## Font Variants
+
+### jgs5
+The lightest variant, perfect for delicate ASCII art.
+- **Character width**: 5 pixels
+- **Best for**: Fine detail work, dense layouts
+
+### jgs7 
+The standard variant with balanced weight.
+- **Character width**: 7 pixels
+- **Best for**: General ASCII art, terminal interfaces
+
+### jgs9
+The heaviest variant for bold statements.
+- **Character width**: 9 pixels  
+- **Best for**: Headers, emphasis, logos
+
+### jgs_Font
+The original comprehensive variant.
+- **Full character set**: Extended ASCII support
+- **Best for**: Complete terminal emulation
+
+## ASCII Art Examples
+
+### City Skyline
+```
+     |\\___/|
+     | o o |
+     |  >  |
+     |_____|
+```
+
+### Dragon
+```
+                 __====-_  _-====__
+           _--^^^#####//      \\\\#####^^^--_
+        _-^##########// (    ) \\\\##########^-_
+       -############//  |\\^^/|  \\\\############-
+```
+
+## Web Implementation
+
+### Loading the Fonts
+```css
+@font-face {
+  font-family: 'jgs7';
+  src: url('/fonts/jgs-main/fonts/webfonts/jgs7.woff2') format('woff2'),
+       url('/fonts/jgs-main/fonts/webfonts/jgs7.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+```
+
+### Usage in CSS
+```css
+.ascii-art {
+  font-family: 'jgs7', monospace;
+  font-size: 16px;
+  line-height: 1;
+  white-space: pre;
+}
+```
+
+## Character Support
+
+The JGS fonts include:
+- Full ASCII character set (0-127)
+- Extended ASCII for box drawing
+- Special characters for ASCII art
+- Optimized spacing for alignment
+
+## Historical Context
+
+JGS fonts are inspired by the golden age of BBS (Bulletin Board Systems) and ASCII art from the 1980s and 1990s. They capture the aesthetic of:
+- ANSI art scenes
+- Demoscene productions  
+- Terminal-based interfaces
+- Retro computing culture
+
+## Use Cases
+
+### Terminal Emulation
+Perfect for creating authentic terminal interfaces in web applications.
+
+### ASCII Art Galleries
+Display ASCII art as originally intended with proper character spacing.
+
+### Retro Gaming
+Create text-based game interfaces with period-appropriate typography.
+
+### Data Visualization
+Use the grid-based nature for creative data representations.
+
+## Technical Specifications
+
+- **Format**: TrueType (.ttf), WOFF, WOFF2
+- **Encoding**: Unicode
+- **Hinting**: Optimized for screen display
+- **License**: See LICENSE file in fonts directory
+
+## Related Resources
+- [Typography Specimens](/design/typography) - Full font collection
+- [Design Patterns](/design/design-patterns) - Using fonts in context

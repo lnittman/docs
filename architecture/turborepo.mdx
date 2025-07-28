@@ -1,0 +1,141 @@
+---
+title: "Turborepo"
+description: "Monorepo architecture patterns for xyz projects"
+---
+
+# Turborepo Architecture
+
+All `-xyz` projects follow a consistent Turborepo monorepo structure that enables efficient code sharing and orchestrated builds.
+
+## Standard Structure
+
+```
+project-xyz/
+├── apps/
+│   ├── api/          # Hono + Cloudflare Workers backend
+│   └── app/          # Next.js 15 frontend
+├── packages/
+│   ├── api/          # Shared API types and utilities
+│   ├── auth/         # Authentication logic (Clerk)
+│   ├── core/         # Core business logic
+│   ├── database/     # Database schemas and queries
+│   ├── design/       # UI components and design system
+│   ├── env/          # Environment configuration
+│   └── validators/   # Shared validation schemas
+├── tooling/
+│   ├── tailwind/     # Tailwind CSS configuration
+│   ├── tsconfig/     # TypeScript configurations
+│   └── biome/        # Linting configuration
+├── turbo.json        # Turborepo pipeline config
+├── biome.json        # Biome linter config
+└── pnpm-workspace.yaml
+```
+
+## Pipeline Configuration
+
+Standard `turbo.json` pipeline:
+
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    }
+  }
+}
+```
+
+## Workspace Management
+
+### Package Naming Convention
+All internal packages use the `@repo/` namespace:
+- `@repo/api` - API types and client
+- `@repo/design` - UI components
+- `@repo/database` - Database layer
+- `@repo/validators` - Shared schemas
+
+### Dependency Management
+```json
+// apps/app/package.json
+{
+  "dependencies": {
+    "@repo/api": "workspace:*",
+    "@repo/design": "workspace:*",
+    "@repo/database": "workspace:*"
+  }
+}
+```
+
+## Development Commands
+
+Standard commands across all xyz projects:
+
+```bash
+# Development
+pnpm dev              # Start all apps in dev mode
+pnpm dev:app          # Start only frontend
+pnpm dev:api          # Start only backend
+
+# Building
+pnpm build            # Build all apps
+turbo build --filter=app  # Build specific app
+
+# Code Quality
+ultracite lint        # Run Biome linter
+pnpm typecheck        # TypeScript checking
+```
+
+## Performance Optimizations
+
+### Caching Strategy
+- Remote caching enabled via Vercel
+- Local caching for development
+- Selective invalidation based on inputs
+
+### Build Optimization
+- Parallel execution of independent tasks
+- Topological ordering for dependencies
+- Incremental builds with proper outputs
+
+## Integration Points
+
+### With CI/CD
+- GitHub Actions integration
+- Automatic dependency detection
+- Selective deployment based on changes
+
+### With Development Tools
+- VSCode workspace recommendations
+- Biome for consistent formatting
+- TypeScript project references
+
+## Common Patterns
+
+### Shared Configuration
+All configuration files live in `tooling/`:
+- TypeScript configs extend from base
+- Tailwind presets shared across apps
+- Biome rules consistent everywhere
+
+### Environment Variables
+Centralized in `packages/env/`:
+- Type-safe environment access
+- Validation at build time
+- Shared across all apps
+
+## Related Documentation
+- [Standards](/architecture/standards) - Overall architecture standards
+- [Patterns](/architecture/patterns) - Implementation patterns
+- [Audit](/architecture/audit) - Pattern adoption audit
