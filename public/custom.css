@@ -5,12 +5,20 @@
   --mint-primary-dark: #000000 !important;
 }
 
-/* Remove ALL pink/accent hover states */
+/* Remove ALL pink/accent hover states and weird tiles */
 *:hover {
   background-color: inherit !important;
 }
 
-/* Then add back subtle hover states */
+/* Fix header hover tiles */
+.header-link:hover,
+.header-button:hover,
+[class*="header"]:hover {
+  background-color: transparent !important;
+  opacity: 0.7;
+}
+
+/* Navigation tabs hover states */
 .nav-tabs-item:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
   opacity: 0.8;
@@ -21,6 +29,11 @@
   opacity: 0.8;
 }
 
+/* Sidebar link styles */
+.sidebar-link {
+  transition: opacity 0.2s ease;
+}
+
 .sidebar-link:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
   opacity: 0.8;
@@ -29,6 +42,35 @@
 .dark .sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   opacity: 0.8;
+}
+
+/* Fix "On this page" sidebar active states in dark mode */
+.dark .toc-link.active,
+.dark [class*="toc"][class*="active"],
+.dark .on-this-page .active {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.dark .toc-link:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Fix all clickable links and buttons in dark mode */
+.dark a,
+.dark button,
+.dark [role="button"],
+.dark .clickable {
+  color: inherit;
+}
+
+.dark a:hover,
+.dark button:hover,
+.dark [role="button"]:hover,
+.dark .clickable:hover {
+  opacity: 0.8;
+  background-color: transparent !important;
 }
 
 /* Cards and interactive elements */
@@ -42,4 +84,9 @@
 .dark .accordion:hover {
   background-color: rgba(255, 255, 255, 0.02) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Ensure no underlines on hover */
+a:hover {
+  text-decoration: none !important;
 }

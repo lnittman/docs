@@ -3,11 +3,6 @@
   "theme": "linden",
   "name": "Luke's Docs",
   "description": "AI-optimized developer knowledge base with reusable patterns and documentation",
-  "colors": {
-    "primary": "#000000",
-    "light": "#000000",
-    "dark": "#ffffff"
-  },
   "favicon": "/favicon.ico",
   "logo": {
     "light": "/favicon-32x32.png",
@@ -25,6 +20,7 @@
       }
     ]
   },
+  "contentDir": "content",
   "navigation": {
     "tabs": [
       {
@@ -60,6 +56,8 @@
                   "tools/anthropic/claude-code",
                   "tools/anthropic/claude-code-power-user",
                   "tools/anthropic/claude-code-command-system",
+                  "tools/anthropic/claude-command-center",
+                  "tools/anthropic/claude-developer-hub",
                   "tools/anthropic/claude-api-primer",
                   "tools/anthropic/claude-4-system-card",
                   "tools/anthropic/prompt-engineering",
@@ -67,10 +65,8 @@
                 ]
               },
               {
-                "group": "Other Tools",
+                "group": "Development",
                 "pages": [
-                  "tools/anthropic/claude-command-center",
-                  "tools/anthropic/claude-developer-hub",
                   "tools/anthropic/codex"
                 ]
               }
