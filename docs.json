@@ -8,6 +8,11 @@
     "light": "/favicon-32x32.png",
     "dark": "/favicon-32x32.png"
   },
+  "colors": {
+    "primary": "#000000",
+    "light": "#FFFFFF",
+    "dark": "#000000"
+  },
   "navbar": {
     "links": [
       {
