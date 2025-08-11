@@ -1,4 +1,17 @@
+---
+title: Turborepo
+description: How I Use Turborepo
+---
+
 # How I Use Turborepo
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard monorepo setup for -xyz projects. Every web project follows this exact pattern.
 
@@ -10,7 +23,7 @@ project-xyz/
 │   ├── app/        # Main Next.js 15 app (customer-facing)
 │   ├── web/        # Marketing/landing pages
 │   ├── api/        # Cloudflare Worker API (Hono)
-│   └── ai/         # Mastra AI service
+│   └── ai/         # Mastra AI service (preferred)
 ├── packages/
 │   ├── auth/       # Clerk integration & utilities
 │   ├── database/   # Drizzle schemas, migrations & client
@@ -145,16 +158,16 @@ export async function getUserById(id: string) {
 
 ### Development Workflow
 ```bash
-# Start everything
+# Start Everything
 pnpm dev
 
-# Build for production
+# Build For Production
 pnpm build
 
-# Type checking across monorepo
+# Type Checking Across Monorepo
 pnpm type-check
 
-# Database operations
+# Database Operations
 pnpm db:migrate      # Run migrations
 pnpm db:studio       # Open Drizzle Studio
 pnpm db:push         # Push schema changes (dev only)
@@ -217,7 +230,7 @@ pnpm db:push         # Push schema changes (dev only)
 
 ## Integration Points
 
-### TypeScript Configuration
+### Typescript Configuration
 Root tsconfig.json with:
 - `"strict": true`
 - Path aliases for packages
@@ -250,22 +263,22 @@ Single biome.json at root:
 ## Common Commands
 
 ```bash
-# Add dependency to specific package
+# Add Dependency To Specific Package
 pnpm --filter @project/app add some-package
 
-# Run command in specific package
+# Run Command In Specific Package
 pnpm --filter @project/database migrate
 
-# Update all dependencies
+# Update All Dependencies
 pnpm update -r
 
-# Clean everything
+# Clean Everything
 pnpm clean && pnpm install
 
-# Build specific app
+# Build Specific App
 pnpm build --filter @project/app
 
-# Run dev with specific filter
+# Run Dev With Specific Filter
 pnpm dev --filter @project/app --filter @project/api
 ```
 
@@ -273,23 +286,23 @@ pnpm dev --filter @project/app --filter @project/api
 
 Starting a new project:
 ```bash
-# Create monorepo structure
+# Create Monorepo Structure
 mkdir project-xyz && cd project-xyz
 pnpm init
 
-# Set up workspace
+# Set Up Workspace
 echo "packages:\n  - 'apps/*'\n  - 'packages/*'" > pnpm-workspace.yaml
 
-# Create apps
+# Create Apps
 mkdir -p apps/{app,api,ai}
 
-# Create packages  
+# Create Packages  
 mkdir -p packages/{auth,database,design,services}
 
-# Install turbo
+# Install Turbo
 pnpm add -D turbo typescript
 
-# Copy configs from existing project
+# Copy Configs From Existing Project
 cp ../other-xyz/{turbo.json,biome.json,tsconfig.json} .
 ```
 
@@ -334,3 +347,9 @@ cp ../other-xyz/{turbo.json,biome.json,tsconfig.json} .
 - [TypeScript](https://turbo.build/repo/docs/handbook/tools/typescript)
 - [Docker](https://turbo.build/repo/docs/handbook/tools/docker)
 - [CI/CD](https://turbo.build/repo/docs/ci)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

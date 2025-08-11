@@ -1,0 +1,13 @@
+{
+  "name": "docs",
+  "private": true,
+  "scripts": {
+    "audit": "node audit-docs.js",
+    "fix-docs": "node fix-docs.js"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.28.0",
+    "@prisma/client": "^6.13.0",
+    "prisma": "^6.13.0"
+  }
+}

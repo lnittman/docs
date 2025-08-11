@@ -1,4 +1,17 @@
-# How I Use Drizzle ORM
+---
+title: Drizzle
+description: How I Use Drizzle ORM
+---
+
+# How I Use Drizzle Orm
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Drizzle setup for PostgreSQL with type safety, migrations, and schema validation.
 
@@ -276,7 +289,7 @@ await db
   .where(eq(items.projectId, projectId));
 ```
 
-### Joins and Relations
+### Joins And Relations
 ```typescript
 // Simple join
 const projectsWithUsers = await db
@@ -474,7 +487,7 @@ export async function paginate<T>(
 }
 ```
 
-### Soft Delete Pattern (when needed)
+### Soft Delete Pattern (When Needed)
 ```typescript
 // Add to schema
 deletedAt: timestamp('deleted_at'),
@@ -497,19 +510,19 @@ const activeItems = await db
 ## Migration Workflow
 
 ```bash
-# 1. Make schema changes
+# 1. Make Schema Changes
 # Edit src/schema.ts
 
-# 2. Generate migration
+# 2. Generate Migration
 pnpm generate
 
-# 3. Review migration
+# 3. Review Migration
 # Check drizzle/migrations/0001_*.sql
 
-# 4. Run migration
+# 4. Run Migration
 pnpm migrate
 
-# 5. Push to dev (skips migration files)
+# 5. Push To Dev (skips Migration Files)
 pnpm push
 ```
 
@@ -541,8 +554,15 @@ pnpm push
 - [Connection Pooling](https://orm.drizzle.team/docs/connect-pooling)
 - [Zod Integration](https://orm.drizzle.team/docs/zod)
 
-### PostgreSQL Resources
+### Postgresql Resources
 - [PostgreSQL Docs](https://www.postgresql.org/docs/)
 - [Data Types](https://www.postgresql.org/docs/current/datatype.html)
 - [JSON Functions](https://www.postgresql.org/docs/current/functions-json.html)
 - [Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

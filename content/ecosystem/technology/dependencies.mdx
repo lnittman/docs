@@ -1,4 +1,17 @@
+---
+title: Dependencies
+description: Dependency Matrix
+---
+
 # Dependency Matrix
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 > Detailed dependency analysis across all active projects
 
@@ -93,7 +106,7 @@ yarn:      0 projects (0%)  -
 }
 ```
 
-## 🚨 Security Vulnerabilities by Project
+## 🚨 Security Vulnerabilities By Project
 
 ### High Priority
 
@@ -113,14 +126,14 @@ yarn:      0 projects (0%)  -
 
 ### Phase 1: Security (Immediate)
 ```bash
-# Update high-severity issues
+# Update High-severity Issues
 pnpm update next@latest -r --filter alden-web
 pnpm audit fix --production
 ```
 
 ### Phase 2: Mastra Alignment (This Week)
 ```bash
-# Update all AI services to latest Mastra
+# Update All AI Services To Latest Mastra
 pnpm update @mastra/core@^0.10.10 -r --filter "*-ai"
 pnpm update @mastra/engine@^0.10.10 -r --filter "*-ai"
 ```
@@ -188,3 +201,13 @@ pnpm update next@^15.3.4 react@^19.0.0 -r --filter "*-xyz"
 ---
 
 *Generated: 2025-07-05 | Next update: Weekly on Mondays*
+---
+title: Dependency Matrix
+description: Ecosystem dependency versions and health tracking
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Readme](/ecosystem/compliance/README)
+- [Readme](/ecosystem/technology/README)

@@ -1,8 +1,17 @@
+---
+title: Patterns
+description: Architecture Patterns & Standards
+---
+
 # Architecture Patterns & Standards
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 This document serves as a comprehensive guide and template for building and auditing applications in the portfolio. It documents established patterns across all turborepo projects and can be used as a prompt for AI tools to validate codebases.
 
-## Table of Contents
+## Table Of Contents
 1. [Project Structure](#project-structure)
 2. [Turborepo Configuration](#turborepo-configuration)
 3. [Mastra AI Integration](#mastra-ai-integration)
@@ -52,7 +61,7 @@ This document serves as a comprehensive guide and template for building and audi
 ```
 
 ### Key Principles
-- **NO apps/ai** in turborepo - AI functionality lives in standalone `[projectName]-ai`
+- Use `apps/ai` inside the Turborepo for AI functionality (preferred)
 - Each package has a clear, focused responsibility
 - Workspace dependencies use `workspace:*` protocol
 - TypeScript for everything
@@ -82,7 +91,7 @@ This document serves as a comprehensive guide and template for building and audi
 
 ## Mastra AI Integration
 
-### 1. Standalone AI Service (`[projectName]-ai/`)
+### AI Service App (`apps/ai/`)
 ```typescript
 // src/mastra/index.ts
 import { Mastra } from '@mastra/core'
@@ -226,7 +235,7 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 - Command palette for power users
 - Mobile-first with desktop enhancements
 
-### Common UI Components
+### Common Ui Components
 - `GlassButton` - Primary interactive element
 - `CommandMenu` - ⌘K interface
 - `Sheet` - Mobile-friendly drawer
@@ -283,7 +292,7 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 }
 ```
 
-### UI Libraries
+### Ui Libraries
 - Radix UI primitives
 - Tailwind CSS
 - CVA (class-variance-authority)
@@ -292,9 +301,8 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 ## Migration Checklist
 
 ### Phase 1: Structure
-- [ ] Remove `apps/ai` from turborepo
-- [ ] Create `[projectName]-ai/` with Mastra
-- [ ] Create `packages/mastra/`
+- [ ] Ensure `apps/ai` exists in the monorepo
+- [ ] Create/update `packages/ai/` or `packages/mastra/`
 - [ ] Create/update `packages/api/`
 
 ### Phase 2: Dependencies
@@ -332,17 +340,17 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 Run these to ensure compliance:
 
 ```bash
-# Check for legacy apps/ai
-ls apps/ | grep -v "ai" || echo "✓ No apps/ai found"
+# Ensure apps/ai exists
+test -d apps/ai && echo "✓ apps/ai present" || echo "✗ Missing apps/ai"
 
-# Verify packages structure
-ls packages/ | grep -E "(api|mastra|database|ui)" || echo "✗ Missing core packages"
+# Verify Packages Structure
+ls packages/ | grep -E "(api|ai|mastra|database|ui)" || echo "✗ Missing core packages"
 
-# Check Mastra imports
-grep -r "@mastra/client-js" packages/api && echo "✗ Direct imports found" || echo "✓ No direct imports"
+# Check Mastra Imports Are Wrapped
+rg "@mastra/client-js" packages | wc -l | xargs -I{} sh -c 'test {} -eq 0 && echo "✓ No direct Mastra client imports" || echo "✗ Replace direct Mastra imports with @repo/ai or @repo/mastra wrappers"'
 
-# Verify workspace deps
-grep -r "@repo/mastra" packages/api/package.json && echo "✓ Using workspace dep" || echo "✗ Missing workspace dep"
+# Verify Workspace Deps
+rg '"workspace:\*"' packages/**/package.json >/dev/null && echo "✓ Using workspace protocol" || echo "✗ Missing workspace protocol"
 ```
 
 ## Notes
@@ -354,4 +362,11 @@ This architecture prioritizes:
 4. **Performance** - Optimized builds, proper caching
 5. **Maintainability** - Easy to update dependencies, clear ownership
 
-When in doubt, follow the patterns established in arbor, radar, and webs projects as they represent the most mature implementations.
+When in doubt, follow the patterns documented in this hub. Avoid referencing product-specific implementations in these standards.
+
+## See Also
+
+- [Turborepo](/architecture/turborepo)
+- [Developer Standards](/architecture/standards)
+- [Turborepo (Stack Guide)](/tools/stack/turborepo)
+- [AI SDK (Stack Guide)](/tools/stack/ai-sdk)

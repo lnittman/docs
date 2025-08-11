@@ -1,6 +1,15 @@
-# Simon Wardley: Strategic Thinking and Wardley Mapping
+---
+title: Simon Wardley: Strategic Thinking and Wardley Mapping
+description: Core ideas of Wardley Mapping and their application to strategy
+---
 
-## Overview of Wardley Mapping and Strategic Thinking
+# Simon Wardley: Strategic Thinking And Wardley Mapping
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview Of Wardley Mapping And Strategic Thinking
 
 Wardley Mapping is a strategic planning technique developed by Simon Wardley that helps organizations visualize their value chains and understand the evolution of their components. It combines situational awareness with movement patterns to enable better strategic decision-making.
 
@@ -30,7 +39,7 @@ The evolution axis is fundamental to Wardley Mapping. All components evolve thro
 - **Examples**: Early AI research, quantum computing experiments
 - **Strategy**: Exploration, R&D, accepting failure
 
-### 2. Custom-Built (Emerging)
+### 2. Custom-built (Emerging)
 - **Characteristics**: Uncommon, requires expertise, bespoke solutions
 - **Properties**: Very expensive, somewhat reliable, crafted by experts
 - **Examples**: Custom ML models, specialized enterprise software
@@ -59,25 +68,25 @@ The evolution axis is fundamental to Wardley Mapping. All components evolve thro
 | **Failure** | High tolerance | Moderate tolerance | Low tolerance | No tolerance |
 | **Characteristics** | Chaotic | Divergent | Convergent | Stable |
 
-## How to Create and Use Wardley Maps for Technical Decisions
+## How To Create And Use Wardley Maps For Technical Decisions
 
-### Step-by-Step Guide to Creating a Wardley Map
+### Step-by-step Guide To Creating A Wardley Map
 
-#### 1. Identify the User Need
+#### 1. Identify The User Need
 - Start with a clear user need (top of the map)
 - Be specific: "Stream video content" not "entertainment"
 
-#### 2. Identify Components in the Value Chain
+#### 2. Identify Components In The Value Chain
 - List all components needed to meet the user need
 - Work backwards from user need to underlying components
 - Include both visible and invisible components
 
-#### 3. Position on Evolution Axis (X-axis)
+#### 3. Position On Evolution Axis (X-Axis)
 - Place each component based on its evolution stage
 - Consider: ubiquity, certainty, and standardization
 - Be honest about current state, not desired state
 
-#### 4. Position on Value Chain (Y-axis)
+#### 4. Position On Value Chain (Y-Axis)
 - Components closer to user at top
 - Infrastructure and dependencies at bottom
 - Show connections between components
@@ -87,7 +96,7 @@ The evolution axis is fundamental to Wardley Mapping. All components evolve thro
 - Identify areas of rapid change
 - Consider competitive movements
 
-### Example: Mapping a Modern Web Application
+### Example: Mapping A Modern Web Application
 
 ```
 User Need: Online Shopping Experience
@@ -115,9 +124,9 @@ User Need: Online Shopping Experience
     └─ Monitoring (Product → Commodity)
 ```
 
-### Using Maps for Technical Decisions
+### Using Maps For Technical Decisions
 
-#### Build vs Buy Analysis
+#### Build Vs Buy Analysis
 - **Genesis/Custom**: Usually build (no alternatives exist)
 - **Product**: Evaluate build vs buy based on differentiation
 - **Commodity**: Always buy/rent unless strategic reason
@@ -135,7 +144,7 @@ User Need: Online Shopping Experience
 - **Competitive Risk**: Competitors using more evolved components
 - **Technical Debt**: Custom-built commodities
 
-## Strategic Patterns and Gameplay
+## Strategic Patterns And Gameplay
 
 ### Common Strategic Patterns
 
@@ -144,7 +153,7 @@ User Need: Online Shopping Experience
 - Example: Open-sourcing similar technology
 - Counter: Move up the value chain
 
-#### 2. Tower and Moat
+#### 2. Tower And Moat
 - Build on commodity base (tower)
 - Create custom differentiation (moat)
 - Example: Netflix on AWS with custom recommendation engine
@@ -154,7 +163,7 @@ User Need: Online Shopping Experience
 - Accelerate ecosystem evolution
 - Example: AWS, Salesforce platform
 
-#### 4. Pioneer-Settler-Town Planner
+#### 4. Pioneer-settler-town Planner
 - **Pioneers**: Explore genesis innovations
 - **Settlers**: Turn innovations into products
 - **Town Planners**: Industrialize into commodities
@@ -177,7 +186,7 @@ User Need: Online Shopping Experience
 4. **Think small teams**: Two-pizza rule for innovation
 5. **Design for constant evolution**: Everything changes
 
-## Applications for Technology Choices and Roadmapping
+## Applications For Technology Choices And Roadmapping
 
 ### Technology Stack Evaluation
 
@@ -205,9 +214,9 @@ Analytics Dashboard (User Need)
     └─ Snowflake (Product → Commodity)
 ```
 
-### Roadmapping with Evolution
+### Roadmapping With Evolution
 
-#### Quarter-by-Quarter Evolution Plan
+#### Quarter-by-quarter Evolution Plan
 **Q1**: Identify current position
 - Map existing technology stack
 - Identify evolution gaps
@@ -237,7 +246,7 @@ Analytics Dashboard (User Need)
 | **Product** | Feature competition | Product teams | Market share |
 | **Commodity** | Cost optimization | Operations | Efficiency, uptime |
 
-## Prompt Patterns for Strategic Analysis
+## Prompt Patterns For Strategic Analysis
 
 ### Wardley Mapping Analysis Prompts
 
@@ -260,7 +269,7 @@ Map the value chain for [user need/service]:
 5. Identify strategic opportunities
 ```
 
-#### 3. Build vs Buy Decision
+#### 3. Build Vs Buy Decision
 ```
 Evaluate [component/technology] for build vs buy:
 - Current evolution stage
@@ -377,7 +386,7 @@ AI-Powered Customer Service (User Need)
 - Multimodal interfaces present innovation opportunity
 - Vector databases evolving quickly - prepare for commoditization
 
-### Example 2: DevOps Toolchain Mapping
+### Example 2: Devops Toolchain Mapping
 
 ```
 Continuous Delivery (User Need)
@@ -451,7 +460,7 @@ Online Shopping Experience (User Need)
 6. **Doctrine guides tactics**: Universal principles apply regardless of context
 7. **Gameplay requires awareness**: Understand the landscape before moving
 
-### Getting Started with Wardley Mapping
+### Getting Started With Wardley Mapping
 
 1. Start small - map one service or user need
 2. Focus on evolution positioning accuracy
@@ -459,9 +468,16 @@ Online Shopping Experience (User Need)
 4. Identify one strategic play
 5. Iterate and refine based on learning
 
-### Resources for Deeper Learning
+### Resources For Deeper Learning
 
 - Simon Wardley's book: "Wardley Maps" (available free online)
 - Community: MapCamp conferences and online community
 - Practice: Map your own technology stack
 - Share: Discuss maps with your team for insights
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

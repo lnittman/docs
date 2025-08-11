@@ -1,4 +1,13 @@
-# Kent Beck: Extreme Programming (XP) and Test-Driven Development
+---
+title: Kent Beck: XP and Test-Driven Development
+description: Core ideas from Extreme Programming and TDD
+---
+
+# Kent Beck: Extreme Programming (XP) And Test-driven Development
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Overview
 
@@ -7,10 +16,10 @@ Kent Beck is a pioneering software engineer who revolutionized software developm
 ### Extreme Programming (XP)
 XP is an agile software development methodology that aims to improve software quality and responsiveness to changing customer requirements. It advocates frequent releases in short development cycles, which improves productivity and introduces checkpoints at which new customer requirements can be adopted.
 
-### Test-Driven Development (TDD)
+### Test-driven Development (TDD)
 TDD is a software development process relying on software requirements being converted to test cases before software is fully developed, and tracking all software development by repeatedly testing the software against all test cases.
 
-## Core XP Values
+## Core Xp Values
 
 ### 1. **Communication**
 - Face-to-face conversation is the best form of communication
@@ -37,7 +46,7 @@ TDD is a software development process relying on software requirements being con
 - Everyone contributes value
 - Management respects the team's expertise
 
-## XP Practices
+## Xp Practices
 
 ### Primary Practices
 1. **Sit Together**: Develop in an open space big enough for the team
@@ -67,25 +76,25 @@ TDD is a software development process relying on software requirements being con
 - Negotiated Scope Contract
 - Pay-Per-Use
 
-## TDD Cycle: Red-Green-Refactor
+## Tdd Cycle: Red-green-refactor
 
 The TDD cycle consists of three phases:
 
-### 1. **Red Phase** - Write a Failing Test
+### 1. **Red Phase** - Write A Failing Test
 Write a test for the next bit of functionality you want to add. The test should fail because the functionality doesn't exist yet.
 
-### 2. **Green Phase** - Make the Test Pass
+### 2. **Green Phase** - Make The Test Pass
 Write the simplest code possible to make the test pass. Don't worry about elegance or efficiency at this stage.
 
-### 3. **Refactor Phase** - Improve the Code
+### 3. **Refactor Phase** - Improve The Code
 Clean up the code while keeping all tests passing. Remove duplication, improve naming, and simplify structure.
 
-## TDD Examples
+## Tdd Examples
 
 ### Example 1: Simple Calculator
 
 ```python
-# Step 1: Red - Write a failing test
+# Step 1: Red - Write A Failing Test
 import unittest
 
 class TestCalculator(unittest.TestCase):
@@ -94,41 +103,41 @@ class TestCalculator(unittest.TestCase):
         result = calc.add(2, 3)
         self.assertEqual(result, 5)
 
-# This test fails because Calculator doesn't exist yet
+# This Test Fails Because Calculator Doesn't Exist Yet
 ```
 
 ```python
-# Step 2: Green - Make it pass with minimal code
+# Step 2: Green - Make It Pass With Minimal Code
 class Calculator:
     def add(self, a, b):
         return 5  # Simplest thing that makes the test pass
 
-# Test now passes!
+# Test Now Passes!
 ```
 
 ```python
-# Step 3: Write another failing test
+# Step 3: Write Another Failing Test
 def test_add_different_numbers(self):
     calc = Calculator()
     result = calc.add(10, 20)
     self.assertEqual(result, 30)
 
-# This test fails with our hardcoded implementation
+# This Test Fails With Our Hardcoded Implementation
 ```
 
 ```python
-# Step 4: Green - Fix the implementation
+# Step 4: Green - Fix The Implementation
 class Calculator:
     def add(self, a, b):
         return a + b  # Now it actually adds
 
-# Both tests pass!
+# Both Tests Pass!
 ```
 
 ```python
-# Step 5: Refactor - Clean up if needed
-# In this simple case, the code is already clean
-# But we might add validation, error handling, etc.
+# Step 5: Refactor - Clean Up If Needed
+# In This Simple Case, The Code Is Already Clean
+# But We Might Add Validation, Error Handling, Etc.
 class Calculator:
     def add(self, a, b):
         """Add two numbers and return the result."""
@@ -219,11 +228,11 @@ The system must work correctly as defined by the tests.
 The code should clearly communicate what it does.
 
 ```python
-# Bad - Unclear intent
+# Bad - Unclear Intent
 def calc(x, y, z):
     return x * y * z / 100
 
-# Good - Clear intent
+# Good - Clear Intent
 def calculate_compound_interest(principal, rate, time):
     """Calculate compound interest given principal, rate, and time."""
     return principal * rate * time / 100
@@ -274,21 +283,21 @@ class RegexEngine:
     def match(self, text):
         # Complex regex logic
 
-# Good - Simple and minimal
+# Good - Simple And Minimal
 import re
 
 def is_valid_email(email):
     return bool(re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', email))
 ```
 
-## Applications for Iterative Development with AI
+## Applications For Iterative Development With AI
 
 ### 1. **AI-Assisted Test Writing**
 
 Use AI to generate test cases based on requirements:
 
 ```python
-# Prompt: "Generate comprehensive test cases for a user authentication system"
+# Prompt: "Generate Comprehensive Test Cases For A User Authentication System"
 
 class TestUserAuthentication(unittest.TestCase):
     def test_valid_login(self):
@@ -325,12 +334,12 @@ Break down features into small, testable increments:
 // Each iteration follows TDD with AI assistance
 ```
 
-### 3. **Refactoring with AI**
+### 3. **Refactoring With AI**
 
 Use AI to suggest refactoring opportunities:
 
 ```python
-# Original code
+# Original Code
 def process_order(order):
     total = 0
     for item in order.items:
@@ -347,7 +356,7 @@ def process_order(order):
     
     return total
 
-# AI-suggested refactoring
+# Ai-suggested Refactoring
 class OrderProcessor:
     def process_order(self, order):
         subtotal = self._calculate_subtotal(order)
@@ -368,7 +377,7 @@ class OrderProcessor:
         return amount * 1.08
 ```
 
-## Prompt Patterns for Test-First Development
+## Prompt Patterns For Test-first Development
 
 ### 1. **Test Generation Pattern**
 
@@ -451,7 +460,7 @@ Following XP practices:
 - Ensure we're building the simplest thing that works
 ```
 
-## Best Practices for XP with AI Tools
+## Best Practices For Xp With AI Tools
 
 ### 1. **Maintain Human Judgment**
 - AI suggestions should be reviewed and understood
@@ -473,7 +482,7 @@ Following XP practices:
 - Explore alternative implementations
 - Discover edge cases you might miss
 
-### 5. **Balance Automation and Understanding**
+### 5. **Balance Automation And Understanding**
 - Use AI to accelerate, not replace thinking
 - Ensure team understands all code
 - Maintain ability to work without AI
@@ -490,3 +499,10 @@ Kent Beck's contributions through XP and TDD provide a solid foundation for mode
 The key is to use AI as a tool to amplify XP and TDD practices, not replace the thinking and collaboration that make them effective. By following the Red-Green-Refactor cycle with AI assistance, teams can deliver higher quality software faster while maintaining the discipline and craftsmanship that Kent Beck advocates.
 
 Remember: "Make it work, make it right, make it fast" – in that order, with AI helping at each step.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

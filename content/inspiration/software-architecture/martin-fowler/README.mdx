@@ -1,6 +1,15 @@
-# Martin Fowler: Software Architecture Patterns and Principles
+---
+title: Martin Fowler: Software Architecture Patterns and Principles
+description: Fowler’s key contributions to software architecture and practice
+---
 
-## Overview of Fowler's Contributions
+# Martin Fowler: Software Architecture Patterns And Principles
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview Of Fowler's Contributions
 
 Martin Fowler has profoundly influenced modern software architecture through his work on refactoring, design patterns, and architectural thinking. As Chief Scientist at ThoughtWorks, he has championed pragmatic approaches to building maintainable, evolvable software systems.
 
@@ -143,7 +152,7 @@ function addTax(price, address) {
 }
 ```
 
-### 3. Domain-Driven Design Integration
+### 3. Domain-driven Design Integration
 
 Fowler promotes DDD patterns for managing complexity in large systems.
 
@@ -319,7 +328,7 @@ class Account:
         return account
 ```
 
-### 3. CQRS (Command Query Responsibility Segregation)
+### 3. Cqrs (Command Query Responsibility Segregation)
 
 Separate read and write models for complex domains.
 
@@ -451,7 +460,7 @@ class ArchitecturalFitnessTests:
 Document architectural decisions for future reference.
 
 ```markdown
-# ADR-001: Adopt Event-Driven Architecture for Order Processing
+# Adr-001: Adopt Event-driven Architecture For Order Processing
 
 ## Status
 Accepted
@@ -506,7 +515,7 @@ class OrderSaga:
         self.state = 'PAYMENT_PENDING'
 ```
 
-## Applications for Modern Distributed Systems
+## Applications For Modern Distributed Systems
 
 ### 1. Service Mesh Integration
 
@@ -626,7 +635,7 @@ func (cb *CircuitBreaker) Call(fn func() error) error {
 }
 ```
 
-## Prompt Patterns for Architectural Decisions
+## Prompt Patterns For Architectural Decisions
 
 ### 1. Architecture Analysis Prompt
 
@@ -670,7 +679,7 @@ Design a microservices architecture following Fowler's principles:
 4. Suggest migration approach (e.g., Strangler Fig)
 ```
 
-### 4. Event-Driven Design Prompt
+### 4. Event-driven Design Prompt
 
 ```markdown
 For a system handling [describe business process]:
@@ -720,3 +729,10 @@ Design for evolvability:
 Martin Fowler's architectural patterns and principles provide a pragmatic foundation for building modern distributed systems. By focusing on evolutionary design, clear boundaries, and continuous improvement, teams can build systems that gracefully handle changing requirements while maintaining quality and maintainability.
 
 The key is to apply these patterns judiciously, always considering the specific context and constraints of your system. Architecture is about trade-offs, and Fowler's work helps us make those trade-offs consciously and effectively.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

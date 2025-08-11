@@ -1,4 +1,17 @@
+---
+title: Readme
+description: Pattern Library & Collective Wisdom
+---
+
 # Pattern Library & Collective Wisdom
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 > Extracted patterns, learnings, and best practices from across the ecosystem
 
@@ -11,22 +24,27 @@ This library captures the collective intelligence gathered from analyzing 38 pro
 ### 1. The Ecosystem Pattern
 **Context**: Building multiple related applications  
 **Problem**: Code duplication, inconsistent standards, difficult maintenance  
-**Solution**: Four-repository ecosystem pattern
+**Solution**: Turborepo-first ecosystem pattern
 
 ```
-[product]-xyz    # Web platform (Turborepo monorepo)
-[product]-ai     # AI service (Mastra, standalone)
-[product]-apple  # Native iOS/macOS (Swift)
-[product]-docs   # Documentation (AI-optimized)
+[product]-xyz    # Turborepo monorepo (apps + packages)
+  apps/
+    app/        # Web app (Next.js)
+    api/        # API worker (Hono) - optional
+    ai/         # AI service app (Mastra) - preferred
+  packages/     # Shared libraries (api, database, design, ai, ...)
+
+[product]-apple  # Native iOS/macOS (Swift) — optional
+[product]-docs   # Product docs (optional; this hub remains general)
 ```
 
 **Benefits**:
-- Clear separation of concerns
-- Independent deployment
-- Technology-specific optimization
-- Parallel development
+- Clear separation within a single monorepo
+- Fast local DX with shared code
+- Consistent deployment pipelines per app
+- Optional standalone repos for special cases
 
-**Examples**: Kumori, Webs, Radar (98%+ compliance)
+**Examples**: Omitted here; this hub stays product-agnostic.
 
 ---
 
@@ -60,7 +78,7 @@ const filtersAtom = atom({ category: 'all' })
 
 ---
 
-### 3. The Documentation-First Pattern
+### 3. The Documentation-first Pattern
 **Context**: AI-assisted development  
 **Problem**: AI tools lack context, developers repeat explanations  
 **Solution**: CLAUDE.md in every major directory
@@ -201,7 +219,7 @@ Small, focused units that combine:
 - Error boundaries
 - Graceful degradation
 
-### 5. Optimize for Change
+### 5. Optimize For Change
 - Loose coupling
 - Clear interfaces
 - Version everything
@@ -211,42 +229,42 @@ Small, focused units that combine:
 
 ### Rapid Project Creation
 ```bash
-# From zero to running in < 5 minutes
+# From Zero To Running In < 5 Minutes
 /user:create myproject
 cd apps/myproject-xyz
 pnpm dev
 
-# Already includes:
-# - Full stack setup
+# Already Includes:
+# - Full Stack Setup
 # - Authentication
 # - Database
-# - Deployment ready
+# - Deployment Ready
 ```
 
 ### Continuous Improvement
 ```bash
-# Regular ecosystem health checks
+# Regular Ecosystem Health Checks
 /user:ecosystem audit all
 
-# Propagate improvements
+# Propagate Improvements
 /user:ecosystem evolve "pattern"
 
-# Extract new patterns
+# Extract New Patterns
 /user:ecosystem wisdom extract
 ```
 
-### AI-Powered Development
+### Ai-powered Development
 ```bash
-# Context-aware assistance
+# Context-aware Assistance
 /user:prime myproject
 /user:build "add user profiles"
 
-# Follows all patterns automatically
-# Maintains consistency
-# Documents changes
+# Follows All Patterns Automatically
+# Maintains Consistency
+# Documents Changes
 ```
 
-## ❌ Anti-Patterns to Avoid
+## ❌ Anti-patterns To Avoid
 
 ### 1. Premature Abstraction
 **Problem**: Creating generic solutions before understanding specific needs  
@@ -275,7 +293,7 @@ pnpm dev
 
 ## 📊 Pattern Effectiveness
 
-### Most Valuable Patterns (by impact)
+### Most Valuable Patterns (by Impact)
 1. **Four-Repository Ecosystem**: 10x maintenance improvement
 2. **Server Actions API**: 5x faster API development
 3. **CLAUDE.md Documentation**: 3x faster onboarding
@@ -294,16 +312,16 @@ pnpm dev
 ### 1. AI Agent Orchestration
 Using Mastra for complex multi-agent workflows
 
-### 2. Cross-Platform Code Sharing
+### 2. Cross-platform Code Sharing
 Sharing business logic between web and native
 
-### 3. Edge-First Architecture
+### 3. Edge-first Architecture
 Moving computation closer to users
 
 ### 4. Semantic Versioning Everything
 Including documentation and configurations
 
-### 5. Self-Healing Systems
+### 5. Self-healing Systems
 Automated error recovery and optimization
 
 ## 📚 Learning Resources
@@ -322,3 +340,13 @@ Automated error recovery and optimization
 ---
 
 *Wisdom extracted: 2025-07-05 | Patterns validated across 38 projects | Next extraction: Quarterly*
+---
+title: Wisdom & Patterns
+description: Extracted patterns and collective learnings across projects
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Readme](/ecosystem/compliance/README)
+- [Readme](/ecosystem/technology/README)

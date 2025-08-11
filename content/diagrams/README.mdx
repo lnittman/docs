@@ -1,4 +1,17 @@
+---
+title: Visual Documentation Hub
+description: Visual diagrams and architectural visualizations for the developer ecosystem
+---
+
 # Visual Documentation Hub
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 This directory contains all visual diagrams and architectural visualizations for the developer ecosystem. All diagrams are created and maintained using the `/user:diagram` Claude Code command.
 
@@ -62,16 +75,16 @@ diagrams/
 Use the `/user:diagram` command in Claude Code:
 
 ```bash
-# Create a new architecture diagram
+# Create A New Architecture Diagram
 /user:diagram architecture for webs
 
-# Visualize data flow
+# Visualize Data Flow
 /user:diagram show user authentication flow
 
-# Generate from existing code
+# Generate From Existing Code
 /user:diagram analyze packages/api and create component diagram
 
-# Update existing diagram
+# Update Existing Diagram
 /user:diagram update webs-architecture with new ai service
 ```
 
@@ -114,15 +127,15 @@ graph TB
 - Clear typography
 - Alternative text descriptions
 
-## Integration with Projects
+## Integration With Projects
 
 Each project's documentation (`[projectName]-docs/`) should reference these diagrams:
 
 ```markdown
-# In project documentation
+# In Project Documentation
 ![Architecture Overview](../../diagrams/architecture/high-level/project-overview.md)
 
-# Or embed directly
+# Or Embed Directly
 ![[diagrams/workflows/development/feature-flow.md]]
 ```
 
@@ -146,7 +159,7 @@ Each project's documentation (`[projectName]-docs/`) should reference these diag
 4. **Living Documents**: Update as systems evolve
 5. **Cross-Reference**: Link between related diagrams
 
-## Tools and Resources
+## Tools And Resources
 
 ### Recommended Tools
 - **Mermaid Live Editor**: https://mermaid.live
@@ -171,3 +184,9 @@ When adding new diagrams:
 ---
 
 *Generated and maintained via `/user:diagram` command*
+
+## See Also
+
+- [Overview](/architecture/overview)
+- [Turborepo](/architecture/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)

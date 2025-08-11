@@ -1,10 +1,23 @@
-# Prompt engineering overview
+---
+title: Prompt Engineering Overview
+description: Techniques and patterns for effective prompt design
+---
+
+# Prompt Engineering Overview
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
-## Before prompt engineering
+## Before Prompt Engineering
 
 This guide assumes that you have:
 
@@ -12,7 +25,7 @@ This guide assumes that you have:
 2. Some ways to empirically test against those criteria
 3. A first draft prompt you want to improve
 
-If not, we highly suggest you spend time establishing that first. Check out [Define your success criteria](/en/docs/test-and-evaluate/define-success) and [Create strong empirical evaluations](/en/docs/test-and-evaluate/develop-tests) for tips and guidance.
+If not, we highly suggest you spend time establishing that first. Check out [Define your success criteria](https://docs.anthropic.com/en/docs/test-and-evaluate/define-success) and [Create strong empirical evaluations](https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests) for tips and guidance.
 
 <Card title="Prompt generator" icon="link" href="https://console.anthropic.com/dashboard">
   Don't have a first draft prompt? Try the prompt generator in the Anthropic Console!
@@ -20,7 +33,7 @@ If not, we highly suggest you spend time establishing that first. Check out [Def
 
 ***
 
-## When to prompt engineer
+## When To Prompt Engineer
 
 This guide focuses on success criteria that are controllable through prompt engineering.
 Not every success criteria or failing eval is best solved by prompt engineering. For example, latency and cost can be sometimes more easily improved by selecting a different model.
@@ -42,23 +55,23 @@ Not every success criteria or failing eval is best solved by prompt engineering.
 
 ***
 
-## How to prompt engineer
+## How To Prompt Engineer
 
 The prompt engineering pages in this section have been organized from most broadly effective techniques to more specialized techniques. When troubleshooting performance, we suggest you try these techniques in order, although the actual impact of each technique will depend on your use case.
 
-1. [Prompt generator](/en/docs/build-with-claude/prompt-engineering/prompt-generator)
-2. [Be clear and direct](/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct)
-3. [Use examples (multishot)](/en/docs/build-with-claude/prompt-engineering/multishot-prompting)
-4. [Let Claude think (chain of thought)](/en/docs/build-with-claude/prompt-engineering/chain-of-thought)
-5. [Use XML tags](/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
-6. [Give Claude a role (system prompts)](/en/docs/build-with-claude/prompt-engineering/system-prompts)
-7. [Prefill Claude's response](/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response)
-8. [Chain complex prompts](/en/docs/build-with-claude/prompt-engineering/chain-prompts)
-9. [Long context tips](/en/docs/build-with-claude/prompt-engineering/long-context-tips)
+1. [Prompt generator](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-generator)
+2. [Be clear and direct](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct)
+3. [Use examples (multishot)](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting)
+4. [Let Claude think (chain of thought)](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought)
+5. [Use XML tags](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
+6. [Give Claude a role (system prompts)](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts)
+7. [Prefill Claude's response](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response)
+8. [Chain complex prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-prompts)
+9. [Long context tips](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips)
 
 ***
 
-## Prompt engineering tutorial
+## Prompt Engineering Tutorial
 
 If you're an interactive learner, you can dive into our interactive tutorials instead!
 
@@ -74,13 +87,13 @@ If you're an interactive learner, you can dive into our interactive tutorials in
 
 //
 
-# Claude 4 prompt engineering best practices
+# Claude 4 Prompt Engineering Best Practices
 
 This guide provides specific prompt engineering techniques for Claude 4 models (Opus 4 and Sonnet 4) to help you achieve optimal results in your applications. These models have been trained for more precise instruction following than previous generations of Claude models.
 
-## General principles
+## General Principles
 
-### Be explicit with your instructions
+### Be Explicit With Your Instructions
 
 Claude 4 models respond well to clear, explicit instructions. Being specific about your desired output can help enhance results. Customers who desire the "above and beyond" behavior from previous Claude models might need to more explicitly request these behaviors with Claude 4.
 
@@ -98,7 +111,7 @@ Claude 4 models respond well to clear, explicit instructions. Being specific abo
   ```
 </Accordion>
 
-### Add context to improve performance
+### Add Context To Improve Performance
 
 Providing context or motivation behind your instructions, such as explaining to Claude why such behavior is important, can help Claude 4 better understand your goals and deliver more targeted responses.
 
@@ -118,13 +131,13 @@ Providing context or motivation behind your instructions, such as explaining to 
 
 Claude is smart enough to generalize from the explanation.
 
-### Be vigilant with examples & details
+### Be Vigilant With Examples & Details
 
 Claude 4 models pay attention to details and examples as part of instruction following. Ensure that your examples align with the behaviors you want to encourage and minimize behaviors you want to avoid.
 
-## Guidance for specific situations
+## Guidance For Specific Situations
 
-### Control the format of responses
+### Control The Format Of Responses
 
 There are a few ways that we have found to be particularly effective in steering output formatting in Claude 4 models:
 
@@ -141,7 +154,7 @@ There are a few ways that we have found to be particularly effective in steering
 
    The formatting style used in your prompt may influence Claude's response style. If you are still experiencing steerability issues with output formatting, we recommend as best as you can matching your prompt style to your desired output style. For example, removing markdown from your prompt can reduce the volume of markdown in the output.
 
-### Leverage thinking & interleaved thinking capabilities
+### Leverage Thinking & Interleaved Thinking Capabilities
 
 Claude 4 offers thinking capabilities that can be especially helpful for tasks involving reflection after tool use or complex multi-step reasoning. You can guide its initial or interleaved thinking for better results.
 
@@ -150,10 +163,10 @@ After receiving tool results, carefully reflect on their quality and determine o
 ```
 
 <Info>
-  For more information on thinking capabilities, see [Extended thinking](/en/docs/build-with-claude/extended-thinking).
+  For more information on thinking capabilities, see [Extended thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
 </Info>
 
-### Optimize parallel tool calling
+### Optimize Parallel Tool Calling
 
 Claude 4 models excel at parallel tool execution. They have a high success rate in using parallel tool calling without any prompting to do so, but some minor prompting can boost this behavior to \~100% parallel tool use success rate. We have found this prompt to be most effective:
 
@@ -161,7 +174,7 @@ Claude 4 models excel at parallel tool execution. They have a high success rate 
 For maximum efficiency, whenever you need to perform multiple independent operations, invoke all relevant tools simultaneously rather than sequentially.
 ```
 
-### Reduce file creation in agentic coding
+### Reduce File Creation In Agentic Coding
 
 Claude 4 models may sometimes create new files for testing and iteration purposes, particularly when working with code. This approach allows Claude to use files, especially python scripts, as a 'temporary scratchpad' before saving its final output. Using temporary files can improve outcomes particularly for agentic coding use cases.
 
@@ -171,7 +184,7 @@ If you'd prefer to minimize net new file creation, you can instruct Claude to cl
 If you create any temporary new files, scripts, or helper files for iteration, clean up these files by removing them at the end of the task.
 ```
 
-### Enhance visual and frontend code generation
+### Enhance Visual And Frontend Code Generation
 
 For frontend code generation, you can steer Claude 4 models to create complex, detailed, and interactive designs by providing explicit encouragement:
 
@@ -186,7 +199,7 @@ You can also improve Claude's frontend performance in specific areas by providin
 * "Create an impressive demonstration showcasing web development capabilities"
 * "Apply design principles: hierarchy, contrast, balance, and movement"
 
-### Avoid focusing on passing tests and hard-coding
+### Avoid Focusing On Passing Tests And Hard-coding
 
 Frontier language models can sometimes focus too heavily on making tests pass at the expense of more general solutions. To prevent this behavior and ensure robust, generalizable solutions:
 
@@ -198,7 +211,7 @@ Focus on understanding the problem requirements and implementing the correct alg
 If the task is unreasonable or infeasible, or if any of the tests are incorrect, please tell me. The solution should be robust, maintainable, and extendable.
 ```
 
-## Migration considerations
+## Migration Considerations
 
 When migrating from Sonnet 3.7 to Claude 4:
 
@@ -210,7 +223,7 @@ When migrating from Sonnet 3.7 to Claude 4:
 
 //
 
-# Use prompt templates and variables
+# Use Prompt Templates And Variables
 
 When deploying an LLM-based application with Claude, your API calls will typically consist of two types of content:
 
@@ -225,7 +238,7 @@ A **prompt template** combines these fixed and variable parts, using placeholder
 
 ***
 
-# When to use prompt templates and variables
+# When To Use Prompt Templates And Variables
 
 You should always use prompt templates and variables when you expect any part of your prompt to be repeated in another call to Claude (only via the API or the [Anthropic Console](https://console.anthropic.com/). [claude.ai](https://claude.ai/) currently does not support prompt templates or variables).
 
@@ -239,13 +252,13 @@ Prompt templates offer several benefits:
 
 The [Anthropic Console](https://console.anthropic.com/) heavily uses prompt templates and variables in order to support features and tooling for all the above, such as with the:
 
-* **[Prompt generator](/en/docs/build-with-claude/prompt-engineering/prompt-generator):** Decides what variables your prompt needs and includes them in the template it outputs
-* **[Prompt improver](/en/docs/build-with-claude/prompt-engineering/prompt-improver):** Takes your existing template, including all variables, and maintains them in the improved template it outputs
-* **[Evaluation tool](/en/docs/test-and-evaluate/eval-tool):** Allows you to easily test, scale, and track versions of your prompts by separating the variable and fixed portions of your prompt template
+* **[Prompt generator](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-generator):** Decides what variables your prompt needs and includes them in the template it outputs
+* **[Prompt improver](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-improver):** Takes your existing template, including all variables, and maintains them in the improved template it outputs
+* **[Evaluation tool](https://docs.anthropic.com/en/docs/test-and-evaluate/eval-tool):** Allows you to easily test, scale, and track versions of your prompts by separating the variable and fixed portions of your prompt template
 
 ***
 
-# Example prompt template
+# Example Prompt Template
 
 Let's consider a simple application that translates English text to Spanish. The translated text would be variable since you would expect this text to change between users or calls to Claude. This translated text could be dynamically retrieved from databases or the user's input.
 
@@ -257,14 +270,14 @@ Translate this text from English to Spanish: {{text}}
 
 ***
 
-## Next steps
+## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Generate a prompt" icon="link" href="/en/docs/build-with-claude/prompt-engineering/prompt-generator">
+  <Card title="Generate a prompt" icon="link" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-generator">
     Learn about the prompt generator in the Anthropic Console and try your hand at getting Claude to generate a prompt for you.
   </Card>
 
-  <Card title="Apply XML tags" icon="link" href="/en/docs/build-with-claude/prompt-engineering/use-xml-tags">
+  <Card title="Apply XML tags" icon="link" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags">
     If you want to level up your prompt variable game, wrap them in XML tags.
   </Card>
 
@@ -275,10 +288,10 @@ Translate this text from English to Spanish: {{text}}
 
 //
 
-# Be clear, direct, and detailed
+# Be Clear, Direct, And Detailed
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 When interacting with Claude, think of it as a brilliant but very new employee (with amnesia) who needs explicit instructions. Like any new employee, Claude does not have context on your norms, styles, guidelines, or preferred ways of working.
@@ -286,7 +299,7 @@ The more precisely you explain what you want, the better Claude's response will 
 
 <Tip>**The golden rule of clear prompting**<br />Show your prompt to a colleague, ideally someone who has minimal context on the task, and ask them to follow the instructions. If they're confused, Claude will likely be too.</Tip>
 
-## How to be clear, contextual, and specific
+## How To Be Clear, Contextual, And Specific
 
 * **Give Claude contextual information:** Just like you might be able to better perform on a task if you knew more context, Claude will perform better if it has more contextual information. Some examples of contextual information:
   * What the task results will be used for
@@ -330,7 +343,7 @@ The more precisely you explain what you want, the better Claude's response will 
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -345,10 +358,10 @@ The more precisely you explain what you want, the better Claude's response will 
 
 //
 
-# Use examples (multishot prompting) to guide Claude's behavior
+# Use Examples (multishot Prompting) To Guide Claude's Behavior
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 Examples are your secret weapon shortcut for getting Claude to generate exactly what you need. By providing a few well-crafted examples in your prompt, you can dramatically improve the accuracy, consistency, and quality of Claude's outputs.
@@ -356,13 +369,13 @@ This technique, known as few-shot or multishot prompting, is particularly effect
 
 <Tip>**Power up your prompts**: Include 3-5 diverse, relevant examples to show Claude exactly what you want. More examples = better performance, especially for complex tasks.</Tip>
 
-## Why use examples?
+## Why Use Examples?
 
 * **Accuracy**: Examples reduce misinterpretation of instructions.
 * **Consistency**: Examples enforce uniform structure and style.
 * **Performance**: Well-chosen examples boost Claude's ability to handle complex tasks.
 
-## Crafting effective examples
+## Crafting Effective Examples
 
 For maximum effectiveness, make sure that your examples are:
 
@@ -384,7 +397,7 @@ For maximum effectiveness, make sure that your examples are:
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -399,23 +412,23 @@ For maximum effectiveness, make sure that your examples are:
 
 //
 
-# Let Claude think (chain of thought prompting) to increase performance
+# Let Claude Think (chain Of Thought Prompting) To Increase Performance
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 When faced with complex tasks like research, analysis, or problem-solving, giving Claude space to think can dramatically improve its performance. This technique, known as chain of thought (CoT) prompting, encourages Claude to break down problems step-by-step, leading to more accurate and nuanced outputs.
 
-## Before implementing CoT
+## Before Implementing Cot
 
-### Why let Claude think?
+### Why Let Claude Think?
 
 * **Accuracy:** Stepping through problems reduces errors, especially in math, logic, analysis, or generally complex tasks.
 * **Coherence:** Structured thinking leads to more cohesive, well-organized responses.
 * **Debugging:** Seeing Claude's thought process helps you pinpoint where prompts may be unclear.
 
-### Why not let Claude think?
+### Why Not Let Claude Think?
 
 * Increased output length may impact latency.
 * Not all tasks require in-depth thinking. Use CoT judiciously to ensure the right balance of performance and latency.
@@ -424,7 +437,7 @@ When faced with complex tasks like research, analysis, or problem-solving, givin
 
 ***
 
-## How to prompt for thinking
+## How To Prompt For Thinking
 
 The chain of thought techniques below are **ordered from least to most complex**. Less complex methods take up less space in the context window, but are also generally less powerful.
 
@@ -476,7 +489,7 @@ The chain of thought techniques below are **ordered from least to most complex**
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -491,17 +504,17 @@ The chain of thought techniques below are **ordered from least to most complex**
 
 //
 
-# Use XML tags to structure your prompts
+# Use XML Tags To Structure Your Prompts
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 When your prompts involve multiple components like context, instructions, and examples, XML tags can be a game-changer. They help Claude parse your prompts more accurately, leading to higher-quality outputs.
 
 <Tip>**XML tip**: Use tags like `<instructions>`, `<example>`, and `<formatting>` to clearly separate different parts of your prompt. This prevents Claude from mixing up instructions with examples or context.</Tip>
 
-## Why use XML tags?
+## Why Use XML Tags?
 
 * **Clarity:** Clearly separate different parts of your prompt and ensure your prompt is well structured.
 * **Accuracy:** Reduce errors caused by Claude misinterpreting parts of your prompt.
@@ -512,7 +525,7 @@ When your prompts involve multiple components like context, instructions, and ex
 
 ***
 
-## Tagging best practices
+## Tagging Best Practices
 
 1. **Be consistent**: Use the same tag names throughout your prompts, and refer to those tag names when talking about the content (e.g, `Using the contract in <contract> tags...`).
 2. **Nest tags**: You should nest tags `<outer><inner></inner></outer>` for hierarchical content.
@@ -544,7 +557,7 @@ When your prompts involve multiple components like context, instructions, and ex
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -559,10 +572,10 @@ When your prompts involve multiple components like context, instructions, and ex
 
 //
 
-# Giving Claude a role with a system prompt
+# Giving Claude A Role With A System Prompt
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 When using Claude, you can dramatically improve its performance by using the `system` parameter to give it a role. This technique, known as role prompting, is the most powerful way to use system prompts with Claude.
@@ -571,7 +584,7 @@ The right role can turn Claude from a general assistant into your virtual domain
 
 <Tip>**System prompt tips**: Use the `system` parameter to set Claude's role. Put everything else, like task-specific instructions, in the `user` turn instead.</Tip>
 
-## Why use role prompting?
+## Why Use Role Prompting?
 
 * **Enhanced accuracy:** In complex scenarios like legal analysis or financial modeling, role prompting can significantly boost Claude's performance.
 * **Tailored tone:** Whether you need a CFO's brevity or a copywriter's flair, role prompting adjusts Claude's communication style.
@@ -579,9 +592,9 @@ The right role can turn Claude from a general assistant into your virtual domain
 
 ***
 
-## How to give Claude a role
+## How To Give Claude A Role
 
-Use the `system` parameter in the [Messages API](/en/api/messages) to set Claude's role:
+Use the `system` parameter in the [Messages API](https://docs.anthropic.com/en/api/messages) to set Claude's role:
 
 ```python
 import anthropic
@@ -606,7 +619,7 @@ print(response.content)
 
 ## Examples
 
-### Example 1: Legal contract analysis
+### Example 1: Legal Contract Analysis
 
 Without a role, Claude might miss critical issues:
 
@@ -626,7 +639,7 @@ With a role, Claude catches critical issues that could cost millions:
   | Assistant | I've reviewed the software licensing agreement, and I have serious concerns that could expose our company to significant risks:<br /><br />1. Indemnification (Section 8):<br />   - Critical Issue: We indemnify the vendor against "any and all claims" arising from our use.<br />   - Risk: This could hold us liable even for the vendor's negligence or product defects.<br />   - Recommendation: Reject. Limit our indemnity to claims arising from our violation of the agreement.<br /><br />2. Limitation of Liability (Section 9):<br />   - Critical Issue: Damages capped at \$500, including direct damages.<br />   - Risk: Grossly inadequate. A critical failure in our data infrastructure could cost us millions in lost revenue and reputational damage.<br />   - Recommendation: Reject. Negotiate for cap at 12 months of fees for direct damages, and carve-outs for data breaches.<br /><br />3. IP Ownership (Section 12):<br />   - Critical Issue: Vendor gains joint ownership of our modifications and integrations.<br />   - Risk: They could use or sell our proprietary algorithms or data insights to competitors.<br />   - Recommendation: Reject. We must retain full ownership of our work.<br /><br />Professional Opinion: Do not sign this agreement. It is grossly unfavorable and exposes us to unacceptable levels of risk. If the vendor refuses to renegotiate these terms, I strongly advise exploring alternative providers or accelerating our in-house solution. The potential costs of proceeding with this agreement far outweigh any short-term gains. |
 </Accordion>
 
-### Example 2: Financial analysis
+### Example 2: Financial Analysis
 
 Without a role, Claude's analysis lacks depth:
 
@@ -649,7 +662,7 @@ With a role, Claude delivers actionable insights:
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -664,10 +677,10 @@ With a role, Claude delivers actionable insights:
 
 //
 
-# Prefill Claude's response for greater output control
+# Prefill Claude's Response For Greater Output Control
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 <Note>
@@ -678,7 +691,7 @@ When using Claude, you have the unique ability to guide its responses by prefill
 
 In some cases where Claude is not performing as expected, a few prefilled sentences can vastly improve Claude's performance. A little prefilling goes a long way!
 
-## How to prefill Claude's response
+## How To Prefill Claude's Response
 
 To prefill, include the desired initial text in the `Assistant` message (Claude's response will continue from where the `Assistant` message leaves off):
 
@@ -702,7 +715,7 @@ response = client.messages.create(
 
 ### Examples
 
-#### Example 1: Controlling output formatting and skipping the preamble
+#### Example 1: Controlling Output Formatting And Skipping The Preamble
 
 <Tip>**Power user tip**: Prefilling `{` forces Claude to skip the preamble and directly output the JSON object. This is cleaner, more concise, and easier for programs to parse without additional processing.</Tip>
 
@@ -723,7 +736,7 @@ response = client.messages.create(
   </Accordion>
 </AccordionGroup>
 
-#### Example 2: Maintaining character in roleplay scenarios
+#### Example 2: Maintaining Character In Roleplay Scenarios
 
 <Tip>**Role-play tip**: Prefilling a bracketed `[ROLE_NAME]` can remind Claude stay in character, even for longer and more complex conversations. This is especially powerful when combined with role prompting in the `system` parameter.</Tip>
 
@@ -747,7 +760,7 @@ response = client.messages.create(
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -762,17 +775,17 @@ response = client.messages.create(
 
 //
 
-# Chain complex prompts for stronger performance
+# Chain Complex Prompts For Stronger Performance
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 When working with complex tasks, Claude can sometimes drop the ball if you try to handle everything in a single prompt. Chain of thought (CoT) prompting is great, but what if your task has multiple distinct steps that each require in-depth thought?
 
 Enter prompt chaining: breaking down complex tasks into smaller, manageable subtasks.
 
-## Why chain prompts?
+## Why Chain Prompts?
 
 1. **Accuracy**: Each subtask gets Claude's full attention, reducing errors.
 2. **Clarity**: Simpler subtasks mean clearer instructions and outputs.
@@ -780,7 +793,7 @@ Enter prompt chaining: breaking down complex tasks into smaller, manageable subt
 
 ***
 
-## When to chain prompts
+## When To Chain Prompts
 
 Use prompt chaining for multi-step tasks like research synthesis, document analysis, or iterative content creation. When a task involves multiple transformations, citations, or instructions, chaining prevents Claude from dropping or mishandling steps.
 
@@ -790,14 +803,14 @@ Use prompt chaining for multi-step tasks like research synthesis, document analy
 
 ***
 
-## How to chain prompts
+## How To Chain Prompts
 
 1. **Identify subtasks**: Break your task into distinct, sequential steps.
 2. **Structure with XML for clear handoffs**: Use XML tags to pass outputs between prompts.
 3. **Have a single-task goal**: Each subtask should have a single, clear objective.
 4. **Iterate**: Refine subtasks based on Claude's performance.
 
-### Example chained workflows:
+### Example Chained Workflows:
 
 * **Multi-step analysis**: See the legal and business examples below.
 * **Content creation pipelines**: Research → Outline → Draft → Edit → Format.
@@ -807,7 +820,7 @@ Use prompt chaining for multi-step tasks like research synthesis, document analy
 
 <Tip>**Optimization tip**: For tasks with independent subtasks (like analyzing multiple docs), create separate prompts and run them in parallel for speed.</Tip>
 
-### Advanced: Self-correction chains
+### Advanced: Self-correction Chains
 
 You can chain prompts to have Claude review its own work! This catches errors and refines outputs, especially for high-stakes tasks.
 
@@ -900,7 +913,7 @@ You can chain prompts to have Claude review its own work! This catches errors an
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -915,15 +928,15 @@ You can chain prompts to have Claude review its own work! This catches errors an
 
 //
 
-# Long context prompting tips
+# Long Context Prompting Tips
 
 <Note>
-  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
+  While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
 
 Claude's extended context window (200K tokens for Claude 3 models) enables handling complex, data-rich tasks. This guide will help you leverage this power effectively.
 
-## Essential tips for long context prompts
+## Essential Tips For Long Context Prompts
 
 * **Put longform data at the top**: Place your long documents and inputs (\~20K+ tokens) near the top of your prompt, above your query, instructions, and examples. This can significantly improve Claude's performance across all models.
 
@@ -986,7 +999,7 @@ Claude's extended context window (200K tokens for Claude 3 models) enables handl
 ***
 
 <CardGroup cols={3}>
-  <Card title="Prompt library" icon="link" href="/en/resources/prompt-library/library">
+  <Card title="Prompt library" icon="link" href="https://docs.anthropic.com/en/resources/prompt-library/library">
     Get inspired by a curated selection of prompts for various tasks and use cases.
   </Card>
 
@@ -1001,7 +1014,7 @@ Claude's extended context window (200K tokens for Claude 3 models) enables handl
 
 //
 
-# Extended thinking tips
+# Extended Thinking Tips
 
 export const TryInConsoleButton = ({userPrompt, systemPrompt, maxTokens, thinkingBudgetTokens, buttonVariant = "primary", children}) => {
   const url = new URL("https://console.anthropic.com/workbench/new");
@@ -1027,22 +1040,22 @@ export const TryInConsoleButton = ({userPrompt, systemPrompt, maxTokens, thinkin
 
 This guide provides advanced strategies and techniques for getting the most out of Claude's extended thinking features. Extended thinking allows Claude to work through complex problems step-by-step, improving performance on difficult tasks.
 
-See [Extended thinking models](/en/docs/about-claude/models/extended-thinking-models) for guidance on deciding when to use extended thinking.
+See [Extended thinking models](https://docs.anthropic.com/en/docs/about-claude/models/extended-thinking-models) for guidance on deciding when to use extended thinking.
 
-## Before diving in
+## Before Diving In
 
-This guide presumes that you have already decided to use extended thinking mode and have reviewed our basic steps on [how to get started with extended thinking](/en/docs/about-claude/models/extended-thinking-models#getting-started-with-extended-thinking-models) as well as our [extended thinking implementation guide](/en/docs/build-with-claude/extended-thinking).
+This guide presumes that you have already decided to use extended thinking mode and have reviewed our basic steps on [how to get started with extended thinking](https://docs.anthropic.com/en/docs/about-claude/models/extended-thinking-models#getting-started-with-extended-thinking-models) as well as our [extended thinking implementation guide](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking).
 
-### Technical considerations for extended thinking
+### Technical Considerations For Extended Thinking
 
 * Thinking tokens have a minimum budget of 1024 tokens. We recommend that you start with the minimum thinking budget and incrementally increase to adjust based on your needs and task complexity.
-* For workloads where the optimal thinking budget is above 32K, we recommend that you use [batch processing](/en/docs/build-with-claude/batch-processing) to avoid networking issues. Requests pushing the model to think above 32K tokens causes long running requests that might run up against system timeouts and open connection limits.
-* Extended thinking performs best in English, though final outputs can be in [any language Claude supports](/en/docs/build-with-claude/multilingual-support).
-* If you need thinking below the minimum budget, we recommend using standard mode, with thinking turned off, with traditional chain-of-thought prompting with XML tags (like `<thinking>`). See [chain of thought prompting](/en/docs/build-with-claude/prompt-engineering/chain-of-thought).
+* For workloads where the optimal thinking budget is above 32K, we recommend that you use [batch processing](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) to avoid networking issues. Requests pushing the model to think above 32K tokens causes long running requests that might run up against system timeouts and open connection limits.
+* Extended thinking performs best in English, though final outputs can be in [any language Claude supports](https://docs.anthropic.com/en/docs/build-with-claude/multilingual-support).
+* If you need thinking below the minimum budget, we recommend using standard mode, with thinking turned off, with traditional chain-of-thought prompting with XML tags (like `<thinking>`). See [chain of thought prompting](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought).
 
-## Prompting techniques for extended thinking
+## Prompting Techniques For Extended Thinking
 
-### Use general instructions first, then troubleshoot with more step-by-step instructions
+### Use General Instructions First, Then Troubleshoot With More Step-by-step Instructions
 
 Claude often performs better with high level instructions to just think deeply about a task rather than step-by-step prescriptive guidance. The model's creativity in approaching problems may exceed a human's ability to prescribe the optimal thinking process.
 
@@ -1085,9 +1098,9 @@ Try different methods if your first approach doesn't work.`
 
 That said, Claude can still effectively follow complex structured execution steps when needed. The model can handle even longer lists with more complex instructions than previous versions. We recommend that you start with more generalized instructions, then read Claude's thinking output and iterate to provide more specific instructions to steer its thinking from there.
 
-### Multishot prompting with extended thinking
+### Multishot Prompting With Extended Thinking
 
-[Multishot prompting](/en/docs/build-with-claude/prompt-engineering/multishot-prompting) works well with extended thinking. When you provide Claude examples of how to think through problems, it will follow similar reasoning patterns within its extended thinking blocks.
+[Multishot prompting](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting) works well with extended thinking. When you provide Claude examples of how to think through problems, it will follow similar reasoning patterns within its extended thinking blocks.
 
 You can include few-shot examples in your prompt in extended thinking scenarios by using XML tags like `<thinking>` or `<scratchpad>` to indicate canonical patterns of extended thinking in those examples.
 
@@ -1140,7 +1153,7 @@ Problem 2: What is 35% of 240?`
   />
 </CodeGroup>
 
-### Maximizing instruction following with extended thinking
+### Maximizing Instruction Following With Extended Thinking
 
 Claude shows significantly improved instruction following when extended thinking is enabled. The model typically:
 
@@ -1153,7 +1166,7 @@ To maximize instruction following:
 * For complex instructions, consider breaking them into numbered steps that Claude should work through methodically
 * Allow Claude enough budget to process the instructions fully in its extended thinking
 
-### Using extended thinking to debug and steer Claude's behavior
+### Using Extended Thinking To Debug And Steer Claude's Behavior
 
 You can use Claude's thinking output to debug Claude's logic, although this method is not always perfectly reliable.
 
@@ -1162,13 +1175,13 @@ To make the best use of this methodology, we recommend the following tips:
 * We don't recommend passing Claude's extended thinking back in the user text block, as this doesn't improve performance and may actually degrade results.
 * Prefilling extended thinking is explicitly not allowed, and manually changing the model's output text that follows its thinking block is likely going to degrade results due to model confusion.
 
-When extended thinking is turned off, standard `assistant` response text [prefill](/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response) is still allowed.
+When extended thinking is turned off, standard `assistant` response text [prefill](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response) is still allowed.
 
 <Note>
   Sometimes Claude may repeat its extended thinking in the assistant output text. If you want a clean response, instruct Claude not to repeat its extended thinking and to only output the answer.
 </Note>
 
-### Making the best of long outputs and longform thinking
+### Making The Best Of Long Outputs And Longform Thinking
 
 For dataset generation use cases, try prompts such as "Please create an extremely detailed table of..." for generating comprehensive datasets.
 
@@ -1409,7 +1422,7 @@ Finally, apply the Three Horizons framework to:
   </Accordion>
 </AccordionGroup>
 
-### Have Claude reflect on and check its work for improved consistency and error handling
+### Have Claude Reflect On And Check Its Work For Improved Consistency And Error Handling
 
 You can use simple natural language prompting to improve consistency and reduce errors:
 
@@ -1450,15 +1463,21 @@ And fix any issues you find.`
   />
 </CodeGroup>
 
-## Next steps
+## Next Steps
 
 <CardGroup>
   <Card title="Extended thinking cookbook" icon="book" href="https://github.com/anthropics/anthropic-cookbook/tree/main/extended_thinking">
     Explore practical examples of extended thinking in our cookbook.
   </Card>
 
-  <Card title="Extended thinking guide" icon="code" href="/en/docs/build-with-claude/extended-thinking">
+  <Card title="Extended thinking guide" icon="code" href="https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking">
     See complete technical documentation for implementing extended thinking.
   </Card>
 </CardGroup>
 
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

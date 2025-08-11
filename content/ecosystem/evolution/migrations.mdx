@@ -1,4 +1,17 @@
+---
+title: Migrations
+description: Migration Plans
+---
+
 # Migration Plans
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 > Detailed migration strategies for bringing projects into compliance
 
@@ -24,27 +37,27 @@ Target:
 
 #### Week 1: Foundation
 ```bash
-# Day 1-2: Create new structure
+# Day 1-2: Create New Structure
 mkdir -p apps/alden-{xyz,ai,apple,docs}
 cd apps/alden-xyz
 pnpm init
 pnpm add turbo -D -w
 
-# Day 3-4: Set up monorepo
+# Day 3-4: Set Up Monorepo
 cp ../kumori-xyz/turbo.json .
 cp ../kumori-xyz/package.json . # as template
 mkdir -p apps/web packages/{ui,db,auth,shared}
 
-# Day 5-7: Move core features
-# Analyze existing code
+# Day 5-7: Move Core Features
+# Analyze Existing Code
 /user:prime alden-web
-# Create migration map
-# Start moving components
+# Create Migration Map
+# Start Moving Components
 ```
 
 #### Week 2: Stack Migration
 ```bash
-# Replace Supabase with Clerk + Prisma
+# Replace Supabase With Clerk + Prisma
 pnpm add @clerk/nextjs @prisma/client prisma
 
 # Replace Redux with Jotai/SWR
@@ -74,16 +87,16 @@ pnpm add next@15.3.4 react@19.0.0 react-dom@19.0.0
 
 echo "Starting Alden migration..."
 
-# Create new structure
+# Create New Structure
 /user:create alden --template standard
 
-# Analyze old code
+# Analyze Old Code
 /user:prime ../alden-web
 
-# Generate migration plan
+# Generate Migration Plan
 /user:ecosystem analyze alden-web --output migration-tasks.md
 
-# Execute migration
+# Execute Migration
 /user:build --migrate alden-web alden-xyz
 ```
 
@@ -104,11 +117,11 @@ Timeline: 3-5 days
 
 ### Creation Steps
 ```bash
-# Generate Apple project
+# Generate Apple Project
 cd apps/saya-apple
 /user:create saya-apple --platform ios
 
-# Copy standard structure
+# Copy Standard Structure
 cp -r ../webs-apple/{Package.swift,.swiftlint.yml} .
 mkdir -p Sources/Saya/{Models,Views,ViewModels,Services,Utils}
 
@@ -116,7 +129,7 @@ mkdir -p Sources/Saya/{Models,Views,ViewModels,Services,Utils}
 cp ../webs-apple/.github/workflows/ios.yml ../../.github/workflows/saya-ios.yml
 ```
 
-## 🏗️ Priority 3: Standardize Non-Standard Projects
+## 🏗️ Priority 3: Standardize Non-standard Projects
 
 ### Sine Consolidation Plan
 
@@ -175,9 +188,9 @@ Documentation Plan:
 
 ## 📦 Priority 4: Shared Package Extraction
 
-### Identified Patterns for Extraction
+### Identified Patterns For Extraction
 
-#### 1. UI Components Package
+#### 1. Ui Components Package
 ```typescript
 // packages/ui/index.ts
 export * from './components/Button'
@@ -218,12 +231,12 @@ export * from './rate-limiting'
 ### Next.js 15.3.4 Alignment
 
 ```bash
-# Projects needing updates:
+# Projects Needing Updates:
 # - webs (15.0.x → 15.3.4)
 # - radar (15.3.0 → 15.3.4)
 # - alden (14.x → 15.3.4)
 
-# Automated update script
+# Automated Update Script
 for project in webs radar; do
   cd apps/$project-xyz
   pnpm up next@15.3.4 react@19.0.0 react-dom@19.0.0
@@ -235,7 +248,7 @@ done
 ### Mastra 0.10.10 Update
 
 ```bash
-# Update all AI services
+# Update All AI Services
 for project in apps/*-ai; do
   cd $project
   pnpm up @mastra/core@0.10.10 @mastra/engine@0.10.10
@@ -245,7 +258,7 @@ done
 
 ## 📊 Migration Success Criteria
 
-### Per-Project Criteria
+### Per-project Criteria
 - [ ] Standard directory structure
 - [ ] Latest framework versions
 - [ ] CLAUDE.md documentation
@@ -257,15 +270,15 @@ done
 
 ### Validation Checklist
 ```bash
-# Run validation
+# Run Validation
 /user:ecosystem audit [project] --strict
 
-# Expected output:
-# ✅ Structure compliance: 100%
-# ✅ Dependencies current: 100%
-# ✅ Documentation complete: 100%
-# ✅ Tests passing: 100%
-# ✅ Security clean: 100%
+# Expected Output:
+# ✅ Structure Compliance: 100%
+# ✅ Dependencies Current: 100%
+# ✅ Documentation Complete: 100%
+# ✅ Tests Passing: 100%
+# ✅ Security Clean: 100%
 ```
 
 ## 🚦 Migration Status Tracker
@@ -282,3 +295,13 @@ done
 ---
 
 *Migration plans created: 2025-07-05 | Updates: Daily during active migrations*
+---
+title: Migrations
+description: Planned and executed migrations across the ecosystem
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Readme](/ecosystem/compliance/README)
+- [Readme](/ecosystem/technology/README)

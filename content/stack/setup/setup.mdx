@@ -1,0 +1,586 @@
+---
+title: Development Setup
+description: Complete guide for setting up local development environment, including Docker, databases, and environment management
+---
+
+# Development Setup
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview
+
+This guide provides comprehensive instructions for setting up a local development environment that mirrors production. Following these standards ensures consistency across all team members and reduces onboarding friction.
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+- **Node.js**: v20.x (LTS version)
+- **pnpm**: v8.x or later
+- **Docker**: v24.x or later (optional but recommended)
+- **Git**: Recent version
+- **Code Editor**: VS Code with recommended extensions
+
+## Initial Setup
+
+### 1. Clone And Install
+
+```bash
+# Clone The Repository
+git clone <repository-url>
+cd <project-name>
+
+# Install Dependencies
+pnpm install
+```
+
+### 2. Environment Variables
+
+Create environment files from templates:
+
+```bash
+# Copy Environment Templates
+cp .env.example .env.local
+cp .env.example .env.development.local
+```
+
+**Required Environment Variables**:
+
+```env
+# Application
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NODE_ENV=development
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/db_name
+
+# Authentication
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-here
+
+# AI Services (if Applicable)
+NEXT_PUBLIC_AI_URL=http://localhost:3999
+MASTRA_KEY=your-mastra-key
+
+# External Apis
+OPENAI_API_KEY=your-openai-key
+ANTHROPIC_API_KEY=your-anthropic-key
+```
+
+## Development Tools Setup
+
+### Vs Code Extensions
+
+Install these extensions for optimal development experience:
+
+```json
+// .vscode/extensions.json
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "Prisma.prisma",
+    "ms-vscode.docker",
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.json"
+  ]
+}
+```
+
+### Vs Code Workspace Settings
+
+```json
+// .vscode/settings.json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/build": true
+  }
+}
+```
+
+## Database Setup
+
+### Using Docker (Recommended)
+
+1. **Create docker-compose.yml**:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ${PROJECT_NAME}-postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${PROJECT_NAME}-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # Optional: AI Service
+  ai-service:
+    image: mastra/ai:latest
+    container_name: ${PROJECT_NAME}-ai
+    ports:
+      - "3999:3999"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+2. **Create .env.local with Docker settings**:
+
+```env
+# Docker-specific Variables
+DATABASE_URL=postgresql://user:password@localhost:5432/db_name
+REDIS_URL=redis://localhost:6379
+
+# Project Name For Containers
+PROJECT_NAME=myapp
+```
+
+3. **Start services**:
+
+```bash
+# Start All Services
+docker-compose up -d
+
+# View Logs
+docker-compose logs -f
+
+# Stop Services
+docker-compose down
+```
+
+### Local Database Installation
+
+#### Postgresql (macOS)
+
+```bash
+# Install Via Homebrew
+brew install postgresql
+
+# Start Postgresql
+brew services start postgresql
+
+# Create Database And User
+createdb db_name
+createuser -s user
+
+# Connect To Database
+psql -d db_name
+```
+
+#### Postgresql (Ubuntu)
+
+```bash
+# Install Postgresql
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+
+# Start And Enable Service
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# Switch To Postgres User And Create Database
+sudo -u postgres createdb db_name
+sudo -u postgres createuser -s user
+```
+
+## Database Migrations
+
+### Prisma Migration Setup
+
+1. **Initialize Prisma**:
+
+```bash
+# Install Prisma Cli
+pnpm add -D prisma
+
+# Initialize Prisma
+pnpm prisma init
+
+# Generate Client
+pnpm prisma generate
+```
+
+2. **Create migrations**:
+
+```bash
+# Create Migration
+pnpm prisma migrate dev --name init
+
+# Apply To Database
+pnpm prisma db push
+
+# Reset Database (development Only)
+pnpm prisma migrate reset
+```
+
+3. **Seed database**:
+
+```typescript
+// prisma/seed.ts
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // Create seed data
+  await prisma.user.upsert({
+    where: { email: 'admin@example.com' },
+    update: {},
+    create: {
+      email: 'admin@example.com',
+      name: 'Admin User',
+      role: 'ADMIN',
+    },
+  })
+}
+
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
+```
+
+4. **Add seed script to package.json**:
+
+```json
+{
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
+```
+
+## Development Scripts
+
+### Enhanced package.json Scripts
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "dev:debug": "NODE_OPTIONS='--inspect' next dev",
+    "dev:turbo": "turbo run dev",
+    "build": "turbo run build",
+    "start": "next start",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:unit -- --watch",
+    "test:coverage": "turbo run test -- --coverage",
+    "clean": "turbo run clean && rm -rf .turbo node_modules",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "setup": "pnpm install && pnpm db:generate && pnpm db:migrate && pnpm db:seed"
+  }
+}
+```
+
+## Docker Development Environment
+
+### Development Dockerfile
+
+```dockerfile
+# Dockerfile.dev
+FROM node:20-alpine AS base
+WORKDIR /app
+
+# Install Pnpm
+RUN npm install -g pnpm
+
+# Copy Package Files
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
+
+# Copy Source Code
+COPY . .
+
+# Generate Prisma Client
+RUN pnpm db:generate
+
+# Expose Port
+EXPOSE 3000
+
+# Development Command
+CMD ["pnpm", "dev"]
+```
+
+### Docker Compose For Development
+
+```yaml
+# docker-compose.dev.yml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: ${PROJECT_NAME}-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: ${PROJECT_NAME}-postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+```
+
+## Environment Management
+
+### Development Vs Production
+
+| Variable | Development | Production |
+|----------|-------------|------------|
+| NODE_ENV | development | production |
+| NEXTAUTH_URL | http://localhost:3000 | https://yourdomain.com |
+| DATABASE_URL | localhost | production-db |
+| LOG_LEVEL | debug | warn |
+| ANALYTICS_ENABLED | false | true |
+
+### Multiple Environments
+
+Create specific environment files:
+
+```bash
+# Development
+.env.development.local
+
+# Staging
+.env.staging.local
+
+# Production
+.env.production.local
+```
+
+**Next.js Configuration**:
+
+```typescript
+// next.config.mjs
+export default {
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  },
+}
+```
+
+## Git Hooks Setup
+
+### Husky Configuration
+
+```bash
+# Install Husky
+pnpm add -D husky
+
+# Enable Git Hooks
+npx husky install
+
+# Add Pre-commit Hook
+npx husky add .husky/pre-commit "pnpm lint-staged"
+```
+
+### Lint-staged Configuration
+
+```json
+// package.json
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
+```
+
+### Commit Message Convention
+
+```bash
+# Install Commitlint
+pnpm add -D @commitlint/cli @commitlint/config-conventional
+
+# Create Configuration
+echo "module.exports = { extends: ['@commitlint/config-conventional'] }" > commitlint.config.js
+
+# Add Commit Message Hook
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Port Already in Use**
+   ```bash
+   # Find process using port
+   lsof -ti:3000
+   
+   # Kill process
+   kill -9 $(lsof -ti:3000)
+   ```
+
+2. **Database Connection Failed**
+   ```bash
+   # Check Docker container status
+   docker ps
+   
+   # View logs
+   docker logs <container-name>
+   
+   # Reset database
+   pnpm db:reset
+   ```
+
+3. **Permission Issues with Docker**
+   ```bash
+   # Fix Docker permissions on Linux
+   sudo usermod -a -G docker $USER
+   newgrp docker
+   ```
+
+4. **Node Version Mismatch**
+   ```bash
+   # Use nvm to manage Node versions
+   nvm use 20
+   
+   # or install specific version
+   nvm install 20
+   ```
+
+### Performance Optimization
+
+1. **Increase Node Memory Limit**
+   ```bash
+   # Add to .bashrc or .zshrc
+   export NODE_OPTIONS="--max-old-space-size=4096"
+   ```
+
+2. **Use Turborepo Cache**
+   ```yaml
+   # turborepo.yml
+   globalCache: true
+   pipeline:
+     '^build': ['^build']
+     'build': ['build']
+     'test': ['build']
+   ```
+
+## Validation Checklist
+
+Before starting development, ensure:
+
+- [ ] Node.js v20.x installed
+- [ ] pnpm v8.x+ installed
+- [ ] Docker running (if applicable)
+- [ ] Environment variables configured
+- [ ] Database connected and migrated
+- [ ] Git hooks installed
+- [ ] VS Code extensions installed
+- [ ] Dependencies installed
+- [ ] Development server starts successfully
+
+## Resources
+
+- [VS Code Documentation](https://code.visualstudio.com/docs)
+- [Docker Documentation](https://docs.docker.com/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [Prisma Documentation](https://www.prisma.io/docs/)
+- [Next.js Environment Variables](https://nextjs.org/docs/basic-features/environment-variables)
+
+## See Also
+
+- [Overview](/architecture/overview)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

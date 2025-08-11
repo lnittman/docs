@@ -1,4 +1,17 @@
+---
+title: Sentry
+description: How I Use Sentry
+---
+
 # How I Use Sentry
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Sentry setup for error tracking, performance monitoring, and session replay in Next.js applications. Focus on actionable insights and minimal noise.
 
@@ -20,7 +33,7 @@ SENTRY_AUTH_TOKEN=... # For source maps
 
 ## Configuration
 
-### Client-Side Setup
+### Client-side Setup
 ```typescript
 // packages/observability/client.ts
 import { init, replayIntegration } from '@sentry/nextjs';
@@ -52,7 +65,7 @@ export const initializeSentry = () =>
   });
 ```
 
-### Server-Side Setup
+### Server-side Setup
 ```typescript
 // packages/observability/instrumentation.ts
 import { init } from '@sentry/nextjs';
@@ -202,7 +215,7 @@ export const parseError = (error: unknown): string => {
 
 ## Manual Error Capture
 
-### Try-Catch Pattern
+### Try-catch Pattern
 ```typescript
 import * as Sentry from '@sentry/nextjs';
 
@@ -500,8 +513,8 @@ init({
 # Upload source maps in CI/CD
 SENTRY_AUTH_TOKEN=... pnpm build
 
-# Or use Vercel integration
-# Automatically uploads on deploy
+# Or Use Vercel Integration
+# Automatically Uploads On Deploy
 ```
 
 ## My Conventions
@@ -551,7 +564,7 @@ async function handleSubmit(data: FormData) {
 }
 ```
 
-### Monitoring SLOs
+### Monitoring Slos
 ```typescript
 // Track critical user journeys
 const transaction = Sentry.startTransaction({
@@ -595,3 +608,10 @@ try {
 - [Data Scrubbing](https://docs.sentry.io/product/data-management-settings/scrubbing/)
 - [Sampling Rules](https://docs.sentry.io/platforms/javascript/configuration/sampling/)
 - [Release Tracking](https://docs.sentry.io/product/releases/)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

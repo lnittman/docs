@@ -1,0 +1,660 @@
+---
+title: oRPC with Turborepo
+description: Comprehensive guide for integrating oRPC into Turborepo projects with Next.js clients and Hono API routes
+---
+
+# Orpc Integration Guide For Turborepos
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview
+
+This guide provides a comprehensive, repeatable pattern for integrating oRPC into Turborepo projects with Next.js clients and Hono API routes. This architecture ensures end-to-end type safety, eliminates code duplication, and enables automatic Swift client generation for native apps.
+
+## Architecture Principles
+
+### Core Concepts
+- **Single Source of Truth**: All procedures defined once in `packages/orpc`
+- **Dual Consumption**: Same procedures power both Next.js Server Actions and Hono API routes
+- **Type Safety**: End-to-end TypeScript safety with Zod/Valibot schemas
+- **Native Integration**: Automatic OpenAPI generation for Swift/Kotlin clients
+
+### Technology Stack
+- **oRPC**: Procedure definition and RPC framework
+- **Next.js**: App Router with Server Actions for mutations
+- **Hono**: Fast, edge-ready API routes
+- **SWR**: Client-side data fetching (no TanStack Query required)
+- **OpenAPI**: Automatic spec generation
+- **Swift Package Manager**: Native iOS/macOS client generation
+
+## Project Structure
+
+```
+packages/orpc/
+├── index.ts              # Client-side exports
+├── client.ts             # Client factory
+├── router.ts             # All oRPC procedures
+├── server.ts             # Server-only utilities
+├── adapters/
+│   ├── next.ts          # Next.js Server Action adapters
+│   ├── hono.ts          # Hono middleware/handler
+│   └── openapi.ts       # OpenAPI generator
+├── hooks/
+│   ├── swr.ts           # SWR integration hooks
+│   └── actions.ts       # Server action helpers
+└── types/
+    └── index.ts         # Shared types
+
+apps/app/
+└── src/
+    ├── lib/
+    │   └── orpc-client.ts      # oRPC client instance
+    └── providers/
+        └── orpc-provider.tsx   # React provider
+
+apps/api/
+└── src/
+    └── routes/
+        └── orpc.ts            # Hono route handler
+```
+
+## Implementation Guide
+
+### 1. Package Setup
+
+#### packages/orpc/package.json
+```json
+{
+  "name": "@repo/orpc",
+  "version": "0.1.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "@orpc/client": "^1.0.0",
+    "@orpc/openapi": "^1.0.0",
+    "@orpc/openapi/hono": "^1.0.0",
+    "@orpc/server": "^1.0.0",
+    "@orpc/server-plugins": "^1.0.0",
+    "zod": "^3.22.0"
+  },
+  "peerDependencies": {
+    "hono": "^4.0.0"
+  }
+}
+```
+
+### 2. Router Definition
+
+#### packages/orpc/router.ts
+```typescript
+import { oRPC } from '@orpc/server'
+import { z } from 'zod'
+
+// Define your procedures
+export const router = oRPC
+  .router()
+  .prefix('/api')
+  .route('user', {
+    get: oRPC
+      .input(z.object({ id: z.string() }))
+      .output(z.object({ id: z.string(), name: z.string() }))
+      .query(async ({ input }) => {
+        return await db.user.findUnique({ where: { id: input.id } })
+      }),
+      
+    update: oRPC
+      .input(z.object({ id: z.string(), name: z.string() }))
+      .output(z.object({ id: z.string(), name: z.string() }))
+      .mutation(async ({ input }) => {
+        return await db.user.update({ where: { id: input.id }, data: input })
+      })
+  })
+  .route('settings', {
+    // ... more procedures
+  })
+
+// Export types
+export type Router = typeof router
+```
+
+### 3. Client Factory
+
+#### packages/orpc/client.ts
+```typescript
+import { createORPCClient } from '@orpc/client'
+import type { Router } from './router'
+
+interface ClientConfig {
+  baseUrl?: string
+  accessToken?: string
+}
+
+export function createClient(config?: ClientConfig) {
+  return createORPCClient<Router>({
+    baseUrl: config?.baseUrl ?? process.env.NEXT_PUBLIC_API_URL,
+    headers: config?.accessToken
+      ? { Authorization: `Bearer ${config.accessToken}` }
+      : {}
+  })
+}
+```
+
+### 4. Hono Adapter
+
+#### packages/orpc/adapters/hono.ts
+```typescript
+import { OpenAPIHandler } from '@orpc/openapi/hono'
+import { CORSPlugin } from '@orpc/server-plugins'
+import type { Router } from '../router'
+
+export function createORPCHonoHandler(router: Router) {
+  return new OpenAPIHandler(router, {
+    plugins: [
+      new CORSPlugin({
+        origin: '*',
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+      })
+    ]
+  })
+}
+```
+
+### 5. Openapi Generator
+
+#### packages/orpc/adapters/openapi.ts
+```typescript
+import { OpenAPIGenerator, ZodToJsonSchemaConverter } from '@orpc/openapi'
+import type { Router } from '../router'
+import { components } from './openapi-components'
+
+export async function getOpenAPIDocument(router: Router) {
+  const generator = new OpenAPIGenerator({
+    schemaConverters: [new ZodToJsonSchemaConverter()]
+  })
+
+  return generator.generate(router, {
+    openapi: '3.1.1',
+    info: {
+      title: 'Your API Name',
+      version: '1.0.0',
+      description: 'API description'
+    },
+    servers: [
+      {
+        url: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787',
+        description: 'Development server'
+      }
+    ],
+    components,
+    security: [{ bearerAuth: [] }]
+  })
+}
+```
+
+### 6. Swr Hooks
+
+#### packages/orpc/hooks/swr.ts
+```typescript
+import useSWR, { SWRConfiguration } from 'swr'
+import type { Router } from '../router'
+import { createClient } from '../client'
+
+export function createORPC(client: ReturnType<typeof createClient>) {
+  return {
+    useQuery: <TPath extends RouterPaths<Router>, TData>(
+      path: TPath,
+      input: RouterInput<Router, TPath>,
+      config?: SWRConfiguration<TData, Error>
+    ) => {
+      const fetcher = async ([path, input]: [string, any]) => {
+        const segments = path.split('.')
+        let procedure: any = client
+        
+        for (const segment of segments) {
+          procedure = procedure?.[segment]
+        }
+        
+        if (!procedure) throw new Error(`Procedure not found: ${path}`)
+        return procedure(input)
+      }
+
+      return useSWR<TData, Error>(
+        [path, input],
+        fetcher,
+        {
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false,
+          ...config
+        }
+      )
+    },
+
+    useMutation: <TPath extends RouterPaths<Router>, TData>(
+      path: TPath
+    ) => {
+      const { mutate } = useSWR<TData>()
+      
+      const mutateAsync = async (input: RouterInput<Router, TPath>) => {
+        const segments = path.split('.')
+        let procedure: any = client
+        
+        for (const segment of segments) {
+          procedure = procedure?.[segment]
+        }
+        
+        if (!procedure) throw new Error(`Procedure not found: ${path}`)
+        return procedure(input)
+      }
+
+      return { mutateAsync }
+    }
+  }
+}
+
+// Type helpers
+type RouterPaths<T> = T extends {
+  [K in keyof T]: infer R
+} ? K extends string
+  ? T[K] extends {
+      input: any
+      output: any
+    }
+    ? K
+    : `${K}.${RouterPaths<T[K]>}`
+  : never
+  : never
+
+type RouterInput<T, P> = P extends `${infer First}.${infer Rest}`
+  ? T extends { [K in First]: infer R }
+    ? RouterInput<R, Rest>
+    : never
+  : P extends keyof T
+    ? T[P] extends { input: infer I }
+      ? I
+      : never
+    : never
+```
+
+### 7. Hono Route Integration (Best Practices)
+
+#### apps/api/src/routes/orpc.ts
+```typescript
+import { Hono } from 'hono'
+import { router } from '@repo/orpc/router'
+import { OpenAPIHandler } from '@orpc/openapi/hono'
+import { CORSPlugin } from '@orpc/server-plugins'
+import { getOpenAPIDocument } from '@repo/orpc/openapi'
+
+const app = new Hono()
+
+// Bearer auth middleware - handle authentication before oRPC
+app.use('*', async (c, next) => {
+  // Skip auth for OpenAPI endpoints
+  if (c.req.path.includes('/openapi')) {
+    return next()
+  }
+
+  const authHeader = c.req.header('Authorization')
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return c.json({ error: 'Missing or invalid authorization header' }, 401)
+  }
+  
+  const token = authHeader.substring(7)
+  const authToken = process.env.API_TOKEN
+  
+  if (!authToken || token !== authToken) {
+    return c.json({ error: 'Invalid token' }, 401)
+  }
+  
+  return next()
+})
+
+// Create oRPC handler with OpenAPI support
+const handler = new OpenAPIHandler(router, {
+  plugins: [
+    new CORSPlugin({
+      origin: ['http://localhost:3000', 'https://arbor.xyz'],
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    })
+  ],
+})
+
+// Body parser proxy to prevent "Body Already Used" error
+const BODY_PARSER_METHODS = new Set(['arrayBuffer', 'blob', 'formData', 'json', 'text'] as const)
+type BodyParserMethod = typeof BODY_PARSER_METHODS extends Set<infer T> ? T : never
+
+// Register all oRPC routes with body parser proxy
+app.use('/*', async (c, next) => {
+  const request = new Proxy(c.req.raw, {
+    get(target, prop) {
+      if (BODY_PARSER_METHODS.has(prop as BodyParserMethod)) {
+        return () => c.req[prop as BodyParserMethod]()
+      }
+      return Reflect.get(target, prop, target)
+    }
+  })
+
+  const { matched, response } = await handler.handle(request, {
+    prefix: '', // No prefix since mounted at /api
+    context: async () => ({
+      // Your context logic here
+    }),
+  })
+
+  if (matched) {
+    return c.newResponse(response.body, response)
+  }
+
+  await next()
+})
+
+// OpenAPI spec endpoint
+app.get('/orpc/openapi.json', async (c) => {
+  try {
+    const spec = await getOpenAPIDocument()
+    return c.json(spec)
+  } catch (error) {
+    console.error('Failed to generate OpenAPI spec:', error)
+    return c.json({ error: 'Failed to generate OpenAPI specification' }, 500)
+  }
+})
+
+export default app
+```
+
+### 8. Next.js Client Integration
+
+#### packages/orpc/index.ts
+```typescript
+export type { Router } from './router'
+export { createClient } from './client'
+export { createORPC } from './hooks/swr'
+```
+
+#### apps/app/src/providers/orpc-provider.tsx
+```typescript
+'use client'
+
+import { createClient } from '@repo/orpc/client'
+import { createORPC } from '@repo/orpc/hooks/swr'
+import React, { createContext, useContext } from 'react'
+
+const ORPCContext = createContext<ReturnType<typeof createORPC> | null>(null)
+
+export function ORPCProvider({ children, accessToken }: {
+  children: React.ReactNode
+  accessToken?: string
+}) {
+  const client = createClient({ accessToken })
+  const orpc = createORPC(client)
+
+  return (
+    <ORPCContext.Provider value={orpc}>
+      {children}
+    </ORPCContext.Provider>
+  )
+}
+
+export function useORPC() {
+  const ctx = useContext(ORPCContext)
+  if (!ctx) throw new Error('useORPC must be used within ORPCProvider')
+  return ctx
+}
+```
+
+#### apps/app/src/lib/orpc-client.ts
+```typescript
+import { createClient } from '@repo/orpc/client'
+
+export const orpcClient = createClient()
+
+// For direct usage outside of hooks
+export const api = orpcClient
+```
+
+### 9. Usage Examples
+
+#### Next.js Component (with SWR)
+```typescript
+'use client'
+
+import { useORPC } from '@/providers/orpc-provider'
+
+export function UserProfile({ userId }: { userId: string }) {
+  const { useQuery } = useORPC()
+  
+  const { data, error, isLoading } = useQuery(
+    'user.get',
+    { id: userId }
+  )
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
+  
+  return <div>{data?.name}</div>
+}
+```
+
+#### Server Action (Mutation)
+```typescript
+'use server'
+
+import { router } from '@repo/orpc/server'
+import { revalidatePath } from 'next/cache'
+import { onSuccess } from '@orpc/server'
+
+// Use interceptors for side effects like cache revalidation
+export const updateUser = router.user.update.actionable({
+  interceptors: [
+    onSuccess(async () => {
+      revalidatePath('/profile')
+    }),
+  ],
+})
+
+// Usage in component with useServerAction hook
+export function UpdateUserForm() {
+  const { execute, status } = useServerAction(updateUser)
+  
+  const handleSubmit = async (formData: FormData) => {
+    await execute({ 
+      id: '123', 
+      name: formData.get('name') as string 
+    })
+  }
+  
+  return (
+    <form action={handleSubmit}>
+      <input name="name" required />
+      <button disabled={status === 'pending'}>
+        {status === 'pending' ? 'Updating...' : 'Update'}
+      </button>
+    </form>
+  )
+}
+```
+
+### 10. Swift Client Generation
+
+#### Update script (arbor-apple/Scripts/update-openapi-spec.sh)
+```bash
+#!/bin/bash
+
+API_URL="${API_URL:-http://localhost:8787}"
+OUTPUT_FILE="Packages/ArborClient/Sources/ArborClient/openapi.json"
+
+echo "Fetching OpenAPI spec from $API_URL..."
+
+# Fetch With Retry
+for i in {1..3}; do
+  if curl -s "$API_URL/api/orpc/openapi.json" > "$OUTPUT_FILE.tmp"; then
+    echo "✓ OpenAPI spec fetched successfully"
+    break
+  else
+    echo "✗ Attempt $i failed"
+    if [ $i -eq 3 ]; then
+      echo "✗ All attempts failed"
+      exit 1
+    fi
+    sleep 2
+  fi
+done
+
+# Validate And Pretty-print JSON If Jq Is Available
+if command -v jq &> /dev/null; then
+  if jq . "$OUTPUT_FILE.tmp" > "$OUTPUT_FILE"; then
+    echo "✓ JSON validated and formatted"
+    rm "$OUTPUT_FILE.tmp"
+  else
+    echo "✗ Invalid JSON received"
+    exit 1
+  fi
+else
+  mv "$OUTPUT_FILE.tmp" "$OUTPUT_FILE"
+fi
+
+echo "✓ OpenAPI spec saved to $OUTPUT_FILE"
+echo "Run 'swift package generate-plugin' in Xcode to regenerate client"
+```
+
+#### Swift Package Configuration
+```yaml
+# Packages/ArborClient/openapi-generator-config.yaml
+generate:
+  - types
+  - client
+accessModifier: public
+featureFlags:
+  - bundled
+filter:
+  paths:
+    - /api/user/.*
+    - /api/settings/.*
+    - /api/chats/.*
+    - /api/projects/.*
+    - /api/tasks/.*
+    - /api/workspaces/.*
+    - /api/outputs/.*
+    - /api/feedback/.*
+    - /api/share/.*
+    - /api/rpc/.*
+```
+
+### 11. CI/CD Integration
+
+#### .github/workflows/update-openapi.yml
+```yaml
+name: Update OpenAPI Spec
+
+on:
+  push:
+    branches: [main]
+    paths: ['packages/orpc/**']
+
+jobs:
+  update-openapi:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: recursive
+      
+      - name: Update OpenAPI spec
+        run: |
+          cd arbor-apple
+          ./Scripts/update-openapi-spec.sh
+      
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add arbor-apple/Packages/ArborClient/Sources/ArborClient/openapi.json
+          git diff --staged --quiet || git commit -m "chore: update OpenAPI spec"
+          git push
+```
+
+## Best Practices
+
+### 1. Procedure Organization
+- Group related procedures under logical routes
+- Use descriptive input/output schemas with Zod
+- Keep procedures focused and single-responsibility
+
+### 2. Error Handling
+- Use consistent error responses
+- Include proper HTTP status codes
+- Validate all inputs with Zod schemas
+
+### 3. Performance
+- Use Server Actions for mutations (low latency)
+- Cache frequently accessed data at the Hono level
+- Implement proper SWR configuration for client caching
+
+### 4. Type Safety
+- Export all types from the main package
+- Use strict TypeScript configuration
+- Validate OpenAPI spec generation
+
+### 5. Native Integration
+- Regenerate Swift client on API changes
+- Use path filters to limit generated code
+- Keep API versioning consistent
+
+## Migration Guide
+
+### From Direct API Calls
+1. Move API route logic to oRPC procedures
+2. Replace fetch calls with oRPC client calls
+3. Update SWR hooks to use the new oRPC hooks
+
+### From Traditional Rest
+1. Identify RPC-style operations (mutations)
+2. Keep REST-style operations as separate routes if needed
+3. Use oRPC for procedures that need dual consumption
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Type errors in client**: Ensure all procedures have proper Zod schemas
+2. **404 on oRPC routes**: Check Hono route registration
+3. **CORS errors**: Verify CORS plugin configuration
+4. **OpenAPI generation fails**: Check for circular references in schemas
+5. **Swift client not generating**: Verify path filters and JSON validity
+
+### Debug Commands
+```bash
+# Check Openapi Spec
+curl http://localhost:8787/api/orpc/openapi.json | jq .
+
+# Verify Orpc Routes
+curl -X POST http://localhost:8787/api/user/get -H "Content-Type: application/json" -d '{"id":"123"}'
+
+# Test Swift Client Generation
+swift package generate-plugin
+```
+
+## Conclusion
+
+This oRPC integration pattern provides:
+- ✅ End-to-end type safety
+- ✅ Zero code duplication between Server Actions and API routes
+- ✅ Automatic native client generation
+- ✅ Seamless SWR integration
+- ✅ Scalable architecture for multi-platform projects
+
+By following this guide, you can consistently set up oRPC in any Turborepo project with Next.js and Hono.
+
+## See Also
+
+- [Developer Standards](/architecture/standards)
+- [Turborepo (Architecture)](/architecture/turborepo)
+- [Turborepo (Stack Guide)](/tools/stack/turborepo)

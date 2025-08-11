@@ -1,10 +1,23 @@
+---
+title: Readme
+description: Standards Compliance Dashboard
+---
+
 # Standards Compliance Dashboard
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 > Real-time tracking of ecosystem adherence to STANDARDS.md and architectural rules
 
-## 📊 Overall Compliance Score: 78 percent
+## 📊 Overall Compliance Score: 78 Percent
 
-### Compliance by Category
+### Compliance By Category
 
 | Standard | Score | Projects Passing | Projects Failing | Trend |
 |----------|-------|------------------|------------------|-------|
@@ -17,18 +30,18 @@
 | **AI Architecture** | 95% | 10/10 | 0 | ✅ |
 | **Code Style** | 92% | 10/11 | 1 (Legacy) | → |
 
-## 🔍 Rule-by-Rule Analysis
+## 🔍 Rule-by-rule Analysis
 
 ### 📁 Product Layout Rules
 
-**Rule**: Repository naming convention `[product]-xyz`, `[product]-ai`, `[product]-apple`, `[product]-docs`
+**Rule**: Repository naming + monorepo structure: `[product]-xyz` (monorepo with `apps/app`, optional `apps/api`, preferred `apps/ai`), optional `[product]-apple`, optional `[product]-docs`
 
 | Status | Count | Projects |
 |--------|-------|----------|
 | ✅ Compliant | 9 | Kumori, Webs, Radar, Arbor, Voet, Yuba, Saya, Sine (partial), Alden (partial) |
 | ⚠️ Deviation | 2 | React-LM (library structure), Squish (app/svc pattern) |
 
-**Rule**: Monorepo for web, standalone for AI service
+**Rule**: Monorepo for web with `apps/ai` preferred; standalone AI repo optional
 
 | Status | Count | Projects |
 |--------|-------|----------|
@@ -50,7 +63,7 @@
 |--------|-------|----------|
 | ✅ Good | 7 | >80% documented |
 | ⚠️ Partial | 3 | 50-80% documented |
-| ❌ Poor | 1 | <50% documented |
+| ❌ Poor | 1 | Under 50% documented |
 
 ### 🛠️ Turborepo Tooling Rules
 
@@ -109,7 +122,7 @@ packages/
 | ⚠️ Partial | 2 | Missing some layers |
 | ❌ Wrong | 1 | Alden (Redux) |
 
-### 🌐 API and Data Flow Rules
+### 🌐 API And Data Flow Rules
 
 **Rule**: Server Actions as primary API
 
@@ -193,13 +206,13 @@ packages/
 
 ## 🔧 Automated Fixes Available
 
-### Quick Fixes (< 5 minutes each)
+### Quick Fixes (< 5 Minutes Each)
 
 ```bash
-# Update Mastra to latest
+# Update Mastra To Latest
 /user:ecosystem evolve "mastra@0.10.10"
 
-# Add missing Biome configs
+# Add Missing Biome Configs
 /user:ecosystem standards fix biome
 
 # Generate missing CLAUDE.md
@@ -235,3 +248,12 @@ packages/
 ---
 
 *Generated: 2025-07-05 | Compliance rules from ~/.claude/rules/*
+---
+title: Standards Compliance
+description: Track adherence to STANDARDS.md and architectural rules
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Readme](/ecosystem/technology/README)

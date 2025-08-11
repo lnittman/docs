@@ -1,4 +1,17 @@
+---
+title: Hono
+description: How I Use Hono
+---
+
 # How I Use Hono
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Hono setup for Cloudflare Worker APIs. Ultra-fast, TypeScript-first, with excellent DX.
 
@@ -211,7 +224,7 @@ export const authMiddleware = createMiddleware(async (c, next) => {
 });
 ```
 
-### Rate Limiting with KV
+### Rate Limiting With Kv
 ```typescript
 // src/middleware/rateLimit.ts
 export const rateLimit = (options: {
@@ -457,7 +470,7 @@ app.onError((err, c) => {
 });
 ```
 
-## Testing with Hono
+## Testing With Hono
 
 ### Test Setup
 ```typescript
@@ -522,7 +535,7 @@ describe('Items API', () => {
 });
 ```
 
-## WebSocket Support
+## Websocket Support
 
 ```typescript
 // src/websocket.ts
@@ -590,3 +603,10 @@ app.get('/ws', async (c) => {
 - [Testing](https://hono.dev/guides/testing)
 - [WebSocket](https://hono.dev/examples/websocket)
 - [Best Practices](https://hono.dev/guides/best-practices)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

@@ -1,4 +1,17 @@
+---
+title: Clerk
+description: How I Use Clerk
+---
+
 # How I Use Clerk
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Clerk setup for authentication across Next.js web apps and iOS/macOS native apps. Consistent auth everywhere.
 
@@ -15,7 +28,7 @@ pnpm add @clerk/nextjs
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 
-# Optional: Custom redirects
+# Optional: Custom Redirects
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
@@ -73,7 +86,7 @@ export const config = {
 };
 ```
 
-### Advanced Protection with Roles
+### Advanced Protection With Roles
 ```typescript
 // middleware.ts
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
@@ -129,7 +142,7 @@ export const config = {
 };
 ```
 
-## Server-Side Auth
+## Server-side Auth
 
 ### Server Components
 ```typescript
@@ -487,7 +500,7 @@ export default function SignUpPage() {
 }
 ```
 
-### Styling with Tailwind
+### Styling With Tailwind
 ```css
 /* globals.css - Button styles for auth forms */
 .btn-primary {
@@ -519,7 +532,7 @@ export default function SignUpPage() {
 </Clerk.FieldError>
 ```
 
-## Client-Side Auth Hooks
+## Client-side Auth Hooks
 
 ### Hooks Usage
 ```typescript
@@ -587,7 +600,7 @@ export function ProtectedContent({ children }: { children: React.ReactNode }) {
 
 ## Custom Session Claims
 
-### Configure in Clerk Dashboard
+### Configure In Clerk Dashboard
 ```json
 {
   "userId": "{{user.id}}",
@@ -841,7 +854,7 @@ dependencies: [
 ]
 ```
 
-### SwiftUI Implementation
+### Swiftui Implementation
 ```swift
 // ClerkAuth.swift
 import ClerkSDK
@@ -950,7 +963,7 @@ const token = await getToken({ skipCache: true });
 - [Organizations](https://clerk.com/docs/organizations/overview)
 - [JWT Templates](https://clerk.com/docs/backend-requests/making/jwt-templates)
 
-### SDK References
+### Sdk References
 - [@clerk/nextjs](https://clerk.com/docs/references/nextjs/overview)
 - [@clerk/elements](https://www.npmjs.com/package/@clerk/elements)
 - [iOS SDK](https://github.com/clerk/clerk-ios)
@@ -960,3 +973,10 @@ const token = await getToken({ skipCache: true });
 - [Supabase Integration](https://clerk.com/docs/integrations/databases/supabase)
 - [Vercel Deployment](https://clerk.com/docs/deployments/vercel)
 - [Multi-tenancy](https://clerk.com/docs/organizations/multi-tenancy)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

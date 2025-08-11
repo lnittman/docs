@@ -1,4 +1,17 @@
-# How I Use PostHog
+---
+title: Posthog
+description: How I Use PostHog
+---
+
+# How I Use Posthog
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard PostHog setup for product analytics, session recordings, and feature flags. Self-hosted or cloud, with consistent patterns across web and mobile.
 
@@ -221,7 +234,7 @@ export async function identifyUser() {
 }
 ```
 
-### Reset on Sign Out
+### Reset On Sign Out
 ```typescript
 export async function handleSignOut() {
   posthog.reset(); // Clear user data
@@ -415,7 +428,7 @@ Sentry.init({
 });
 ```
 
-## Self-Hosting Configuration
+## Self-hosting Configuration
 
 ### Docker Compose
 ```yaml
@@ -544,7 +557,14 @@ export function useSurvey() {
 - [Data Management](https://posthog.com/docs/data)
 - [Privacy & Compliance](https://posthog.com/docs/privacy)
 
-### API & SDKs
+### API & Sdks
 - [PostHog Node SDK](https://github.com/PostHog/posthog-node)
 - [API Reference](https://posthog.com/docs/api)
 - [Webhooks](https://posthog.com/docs/webhooks)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

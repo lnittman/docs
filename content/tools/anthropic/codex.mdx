@@ -1,4 +1,17 @@
-# OpenAI Codex Best Practices
+---
+title: Codex CLI
+description: Agentic coding interface usage notes and patterns
+---
+
+# Openai Codex Best Practices
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Overview
 OpenAI Codex powers AI coding assistants by understanding project context through AGENTS.md files. These files provide project-specific rules and guidelines that help Codex generate code that aligns with your team's standards and patterns.
@@ -53,7 +66,7 @@ This is a TypeScript monorepo using Next.js and React. We follow strict type saf
 ```markdown
 # Coding Standards
 
-## TypeScript Rules
+## Typescript Rules
 - Always use explicit return types for functions
 - Prefer interfaces over type aliases for object shapes
 - No `any` types without explicit justification
@@ -125,7 +138,7 @@ globs:
 ---
 ```
 
-### 2. Multi-Section Organization
+### 2. Multi-section Organization
 ```markdown
 # Component Development
 Rules specific to React components...
@@ -140,7 +153,7 @@ Rules specific to database queries...
 Rules specific to performance optimization...
 ```
 
-### 3. Example-Driven Rules
+### 3. Example-driven Rules
 ```markdown
 ## API Error Handling
 
@@ -171,9 +184,9 @@ export async function GET(request: Request) {
 
 ### 4. Troubleshooting Section
 ```markdown
-# Common Issues and Solutions
+# Common Issues And Solutions
 
-## TypeScript Errors
+## Typescript Errors
 - "Cannot find module": Check tsconfig paths
 - "Type 'any' is not assignable": Enable strict mode
 - "Property does not exist": Add proper type definitions
@@ -233,7 +246,7 @@ Week 4: Add troubleshooting guides
 6. **Integration**: Include workflow and troubleshooting info
 7. **Validation**: Use automated tools to enforce rules
 
-## Key Differences from Claude Code
+## Key Differences From Claude Code
 
 | Feature | AGENTS.md (Codex) | CLAUDE.md (Claude) |
 |---------|-------------------|-------------------|
@@ -242,3 +255,18 @@ Week 4: Add troubleshooting guides
 | Scope | Glob patterns | Import syntax |
 | Structure | Rule-focused | Context + instructions |
 | Caching | File-based precedence | XML cache control |
+---
+title: Codex CLI
+description: Agentic coding interface usage notes and patterns
+---
+---
+title: Codex CLI
+description: Agentic coding interface usage notes and patterns
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

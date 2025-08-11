@@ -1,4 +1,17 @@
+---
+title: Claude Code Command System
+description: Structure and usage of the Claude Code command system
+---
+
 # Claude Code Command System Documentation
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Overview
 
@@ -6,7 +19,7 @@ The Claude Code command system is a sophisticated AI-driven development framewor
 
 ## Architecture
 
-### Component-Based Design
+### Component-based Design
 
 Commands are constructed from reusable components that ensure consistency:
 
@@ -34,11 +47,13 @@ Every command follows a predictable lifecycle:
 ## Core Commands
 
 ### /user:create
-Initializes complete project ecosystems with four repositories:
-- `[project]-xyz` - Turborepo web platform
-- `[project]-ai` - Mastra AI service
-- `[project]-apple` - Native iOS/macOS app
-- `[project]-docs` - AI-optimized documentation
+Initializes a Turborepo-first project ecosystem:
+- `[project]-xyz` - Monorepo (apps + packages)
+  - `apps/app` - Next.js web application
+  - `apps/api` - API worker (optional)
+  - `apps/ai` - AI service app (preferred)
+- `[project]-apple` (optional) - Native iOS/macOS app
+- `[project]-docs` (optional) - Product docs (this hub remains general)
 
 ### /user:ecosystem
 Meta-level operations across all projects:
@@ -144,9 +159,9 @@ Add domain-specific rules in `~/.claude/rules/`:
 
 ## Integration Examples
 
-### With IDEs
+### With Ides
 ```bash
-# VS Code task
+# Vs Code Task
 "tasks": [
   {
     "label": "Create Project",
@@ -158,7 +173,7 @@ Add domain-specific rules in `~/.claude/rules/`:
 
 ### With CI/CD
 ```yaml
-# GitHub Action
+# Github Action
 - name: Audit Standards
   run: |
     claude-code ecosystem audit all
@@ -224,3 +239,10 @@ The system is designed for extension:
 ## Conclusion
 
 The Claude Code command system transforms AI assistance from simple code generation to intelligent, context-aware development that enforces your exact standards across an entire ecosystem. By combining structured commands, reusable components, and living rules, it enables consistent, high-quality development at scale.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

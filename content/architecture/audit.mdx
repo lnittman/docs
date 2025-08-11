@@ -1,14 +1,29 @@
+---
+title: Audit
+description: Actual Patterns Audit - Developer Projects
+**Date**: 2025-01-05
+**Auditor**: Claude
+---
+
 # Actual Patterns Audit - Developer Projects
 **Date**: 2025-01-05
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 **Auditor**: Claude
 
 ## Executive Summary
 
 This audit identifies actual patterns used across projects in ~/Developer/apps and ~/Developer/docs, focusing on patterns that appear in 80%+ of projects.
 
-## 1. Turborepo Projects (*-xyz)
+## 1. Turborepo Projects (*-Xyz)
 
-### Universal Patterns (100% adoption)
+### Universal Patterns (100% Adoption)
 - **Structure**: All xyz projects use turborepo monorepo structure
 - **Package Manager**: pnpm with workspaces (100%)
 - **Linting**: `ultracite lint` command using Biome (100%)
@@ -18,7 +33,7 @@ This audit identifies actual patterns used across projects in ~/Developer/apps a
   - `@repo/typescript-config` - Shared TS config
   - `@turbo/gen` - Code generation
 
-### Common Structure (90%+ adoption)
+### Common Structure (90%+ Adoption)
 ```
 project-xyz/
 ├── apps/
@@ -30,7 +45,7 @@ project-xyz/
 └── pnpm-workspace.yaml (100%)
 ```
 
-### Package Patterns (80%+ adoption)
+### Package Patterns (80%+ Adoption)
 Common packages found across projects:
 - `analytics` (85%)
 - `api` (100%)
@@ -40,7 +55,7 @@ Common packages found across projects:
 - `logger` (71%)
 - `mastra` (85%)
 
-### Script Patterns (100% adoption)
+### Script Patterns (100% Adoption)
 ```json
 {
   "scripts": {
@@ -53,7 +68,7 @@ Common packages found across projects:
 }
 ```
 
-### Technology Stack (90%+ adoption)
+### Technology Stack (90%+ Adoption)
 - **Next.js**: v15.3.x (100%)
 - **React**: v19.x (100%)
 - **TypeScript**: v5.x (100%)
@@ -88,9 +103,9 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 }
 ```
 
-## 2. AI Services (*-ai)
+## 2. AI Services (*-AI)
 
-### Universal Patterns (100% adoption)
+### Universal Patterns (100% Adoption)
 - **Structure**: Standalone TypeScript projects
 - **Mastra Framework**: 100% use Mastra for AI orchestration
 - **Directory Structure**:
@@ -106,7 +121,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   └── tsconfig.json
   ```
 
-### Mastra Configuration Pattern (100% adoption)
+### Mastra Configuration Pattern (100% Adoption)
 ```typescript
 import { Mastra } from '@mastra/core'
 import { PostgresStore } from '@mastra/pg'
@@ -130,15 +145,15 @@ export const mastra = new Mastra({
 })
 ```
 
-### Common Dependencies (90%+ adoption)
+### Common Dependencies (90%+ Adoption)
 - `@mastra/core` (100%)
 - `@mastra/pg` (100%)
 - `@mastra/loggers` (100%)
 - TypeScript (100%)
 
-## 3. Apple Projects (*-apple)
+## 3. Apple Projects (*-Apple)
 
-### Swift Package Structure (100% adoption)
+### Swift Package Structure (100% Adoption)
 All Apple projects use modular Swift Package Manager structure:
 ```
 project-apple/
@@ -169,14 +184,14 @@ let package = Package(
 )
 ```
 
-### Common Swift Dependencies (80%+ adoption)
+### Common Swift Dependencies (80%+ Adoption)
 - Glur (for blur effects)
 - SwiftUI (100%)
 - Combine (85%)
 
 ## 4. Documentation Patterns
 
-### Structure (100% adoption in project docs)
+### Structure (100% Adoption In Project Docs)
 ```
 project-docs/
 ├── README.md              (100%)
@@ -197,7 +212,7 @@ project-docs/
 └── tools/         (Tool documentation)
 ```
 
-## 5. Build and Development Patterns
+## 5. Build And Development Patterns
 
 ### Turbo.json Configuration (100% consistency)
 ```json
@@ -214,32 +229,32 @@ project-docs/
 }
 ```
 
-### Environment Configuration (100% adoption)
+### Environment Configuration (100% Adoption)
 - All projects use environment variables for configuration
 - Database URL pattern: PostgreSQL/Neon
 - API secrets for internal communication
 
 ## 6. UI/UX Technical Patterns
 
-### Component Library (100% adoption in xyz projects)
+### Component Library (100% Adoption In Xyz Projects)
 - shadcn/ui as base component library
 - Custom design system package wrapping shadcn
 - Tailwind CSS for styling (100%)
 - CSS variables for theming
 
-### Common UI Patterns
+### Common Ui Patterns
 - Toaster/notifications (Sonner - 100%)
 - Form handling (React Hook Form + Zod - 85%)
 - Icons (Lucide React - 90%)
 
-## 7. Database and API Patterns
+## 7. Database And API Patterns
 
 ### Prisma Schema Location (100%)
 - Always in `packages/database/prisma/schema.prisma`
 - Neon adapter for serverless PostgreSQL
 - Shared client exported from database package
 
-### API Structure (100% in xyz projects)
+### API Structure (100% In Xyz Projects)
 - Next.js App Router API routes
 - tRPC or REST endpoints in `apps/api`
 - Consistent error handling patterns
@@ -258,3 +273,10 @@ The codebase shows remarkable consistency with these patterns being true standar
 8. **pnpm + Biome** - Tooling standard
 
 These patterns represent actual implementation choices, not aspirational standards. Any new project should follow these established patterns for consistency.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

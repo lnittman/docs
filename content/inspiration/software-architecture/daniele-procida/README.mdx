@@ -1,4 +1,13 @@
+---
+title: Daniele Procida's Diátaxis Documentation Framework
+description: The Diátaxis framework for structuring effective documentation
+---
+
 # Daniele Procida's Diátaxis Documentation Framework
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Overview
 
@@ -6,7 +15,7 @@ Daniele Procida is a documentation expert and developer advocate who created the
 
 The Diátaxis framework addresses a fundamental problem in technical documentation: different users need different kinds of information at different times. By recognizing and categorizing these needs, the framework helps documentation authors create content that serves users effectively throughout their journey.
 
-## The Four Quadrants of Documentation
+## The Four Quadrants Of Documentation
 
 The Diátaxis framework divides documentation into four distinct quadrants, each serving a specific purpose and user need:
 
@@ -30,7 +39,7 @@ The Diátaxis framework divides documentation into four distinct quadrants, each
 **When**: User wants to understand concepts  
 **Approach**: Discussion and analysis
 
-## Key Principles and When to Use Each Type
+## Key Principles And When To Use Each Type
 
 ### Tutorial Principles
 - **Start from zero**: Assume no prior knowledge
@@ -82,7 +91,7 @@ The Diátaxis framework divides documentation into four distinct quadrants, each
 - Best practices and patterns
 - Theoretical background
 
-## Practical Examples for Each Quadrant
+## Practical Examples For Each Quadrant
 
 ### Tutorial Example: "Your First Web Server"
 ```markdown
@@ -114,9 +123,9 @@ server.listen(3000, () => {
 ```
 ```
 
-### How-to Guide Example: "How to Add Authentication"
+### How-to Guide Example: "How To Add Authentication"
 ```markdown
-# How to Add JWT Authentication to Your API
+# How To Add JWT Authentication To Your API
 
 ## Prerequisites
 - Existing Express.js application
@@ -205,12 +214,12 @@ At its core, middleware is a design pattern that allows you to compose applicati
 
 The middleware pattern emerged from the need to handle cross-cutting concerns in web applications. Instead of duplicating code for authentication, logging, or error handling in every route, middleware allows you to write this logic once and apply it wherever needed.
 
-## The Request-Response Cycle
+## The Request-response Cycle
 
 When a request arrives at your Express server, it doesn't immediately reach your route handler. Instead, it flows through a pipeline of middleware functions...
 ```
 
-## Applications for AI-Assisted Documentation
+## Applications For Ai-assisted Documentation
 
 The Diátaxis framework is particularly powerful when combined with AI assistance:
 
@@ -240,41 +249,41 @@ AI can scan codebases and existing docs to identify:
 - APIs missing reference documentation
 - Complex concepts needing explanations
 
-## Integration Patterns with Claude Commands
+## Integration Patterns With Claude Commands
 
 ### 1. Documentation Generation Commands
 
 ```bash
-# Generate a tutorial for a feature
+# Generate A Tutorial For A Feature
 claude-docs generate tutorial --feature "user-authentication" --framework "express"
 
-# Create a how-to guide from a user question
+# Create A How-to Guide From A User Question
 claude-docs generate how-to --task "migrate database schema" --context "./migrations"
 
-# Auto-generate reference docs from code
+# Auto-generate Reference Docs From Code
 claude-docs generate reference --source "./src/api" --format "markdown"
 
-# Create conceptual explanation
+# Create Conceptual Explanation
 claude-docs generate explanation --topic "microservices architecture" --audience "intermediate"
 ```
 
 ### 2. Documentation Analysis Commands
 
 ```bash
-# Analyze existing docs against Diátaxis principles
+# Analyze Existing Docs Against Diátaxis Principles
 claude-docs analyze --path "./docs" --framework "diataxis"
 
-# Identify documentation gaps
+# Identify Documentation Gaps
 claude-docs gaps --codebase "./src" --docs "./docs"
 
-# Classify documentation into quadrants
+# Classify Documentation Into Quadrants
 claude-docs classify --input "./docs/mixed-content.md"
 ```
 
 ### 3. Interactive Documentation Assistant
 
 ```python
-# Example integration with Claude API
+# Example Integration With Claude API
 class DiataxisDocAssistant:
     def __init__(self, claude_client):
         self.claude = claude_client
@@ -357,7 +366,7 @@ class DiataxisAssistant {
 }
 ```
 
-## Best Practices for AI-Enhanced Diátaxis Documentation
+## Best Practices For Ai-enhanced Diátaxis Documentation
 
 1. **Maintain Clear Boundaries**: Ensure AI understands the distinct purpose of each quadrant
 2. **Context Awareness**: Provide AI with codebase context for accurate documentation
@@ -369,3 +378,10 @@ class DiataxisAssistant {
 ## Conclusion
 
 The Diátaxis framework provides a powerful structure for creating effective developer documentation. When combined with AI assistance through tools like Claude, it becomes possible to maintain comprehensive, well-organized documentation that truly serves user needs. By understanding and applying these principles, development teams can create documentation that not only informs but empowers their users at every stage of their journey.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

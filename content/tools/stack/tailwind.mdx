@@ -1,4 +1,17 @@
-# How I Use Tailwind CSS v4
+---
+title: Tailwind
+description: How I Use Tailwind CSS v4
+---
+
+# How I Use Tailwind CSS V4
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Tailwind CSS v4 setup with the new Oxide engine, CSS-first configuration, and native cascade layers.
 
@@ -6,10 +19,10 @@ My standard Tailwind CSS v4 setup with the new Oxide engine, CSS-first configura
 
 ### Vite Projects (Preferred)
 ```bash
-# Install dependencies
+# Install Dependencies
 pnpm add -D tailwindcss@next @tailwindcss/vite
 
-# No config files needed!
+# No Config Files Needed!
 ```
 
 ```typescript
@@ -25,12 +38,12 @@ export default defineConfig({
 });
 ```
 
-### PostCSS Projects
+### Postcss Projects
 ```bash
-# Install dependencies
+# Install Dependencies
 pnpm add -D tailwindcss@next @tailwindcss/postcss
 
-# Create postcss config
+# Create Postcss Config
 ```
 
 ```javascript
@@ -116,7 +129,7 @@ export default {
 }
 ```
 
-### JavaScript Integration
+### Javascript Integration
 ```typescript
 // Access theme values in JS
 const styles = getComputedStyle(document.documentElement);
@@ -229,7 +242,7 @@ const primaryColor = styles.getPropertyValue('--color-brand-500');
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 ```
 
-### Usage in Components
+### Usage In Components
 ```jsx
 // Next.js with next-themes
 import { ThemeProvider } from 'next-themes';
@@ -243,7 +256,7 @@ import { ThemeProvider } from 'next-themes';
 </ThemeProvider>
 ```
 
-## Migration from v3
+## Migration From V3
 
 ### Key Changes
 1. **No config file** - Everything in CSS
@@ -286,7 +299,7 @@ module.exports = {
 }
 ```
 
-### Inline Theme for Critical CSS
+### Inline Theme For Critical CSS
 ```css
 /* Inline theme vars for faster initial paint */
 @import "tailwindcss" theme(inline);
@@ -481,3 +494,10 @@ function Button({ variant, size, className, ...props }) {
 - [Headless UI](https://headlessui.com)
 - [Heroicons](https://heroicons.com)
 - [Catalyst UI Kit](https://tailwindcss.com/docs/catalyst)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

@@ -1,0 +1,331 @@
+---
+title: AI SDK
+description: Comprehensive guide for AI SDK v5 integration with Mastra, providing type-safe AI capabilities across all platforms
+---
+
+# AI Sdk
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview
+
+The AI SDK provides a unified interface for AI capabilities across all applications in the turborepo, ensuring type-safe integrations, consistent patterns, and seamless streaming support with Vercel's AI SDK v5 and Mastra's orchestration framework.
+
+## Package Structure
+
+The ideal `packages/ai` structure serves as the central integration point for AI capabilities:
+
+```
+packages/ai/
+├── package.json          # Dependencies and exports
+├── index.ts              # Main barrel export
+├── client.ts             # Client-side exports (React hooks)
+├── server.ts             # Server-side exports (AI SDK core)
+├── mastra.ts             # Mastra client configuration
+├── hooks/                # Custom React hooks
+│   ├── use-agent.ts      # Generic agent interaction
+│   ├── use-workflow.ts   # Workflow execution
+│   └── agents/           # Agent-specific hooks
+├── types/                # TypeScript definitions
+│   ├── agents.ts         # Agent-related types
+│   ├── workflows.ts      # Workflow types
+│   └── streaming.ts      # Streaming types
+└── utils/                # Utility functions
+    ├── runtime-context.ts # Context helpers
+    └── stream.ts         # Stream utilities
+```
+
+## Quick Start
+
+### Installation
+
+```bash
+pnpm add ai@^5.0.0 @ai-sdk/react@^2.0.0 @mastra/client-js@latest
+```
+
+### Basic Setup
+
+#### 1. Configure The AI Package
+
+```typescript
+// packages/ai/mastra.ts
+import { MastraClient } from '@mastra/client-js'
+
+export function createMastraClient(config?: { baseUrl?: string; apiKey?: string }) {
+  return new MastraClient({
+    baseUrl: config?.baseUrl || process.env.NEXT_PUBLIC_AI_URL || 'http://localhost:3999',
+    headers: config?.apiKey 
+      ? { Authorization: `Bearer ${config.apiKey}` }
+      : {}
+  })
+}
+
+export const mastra = createMastraClient()
+```
+
+#### 2. Create Server Exports
+
+```typescript
+// packages/ai/server.ts
+import 'server-only'
+
+export {
+  generateText,
+  streamText,
+  generateObject,
+  streamObject,
+  tool,
+  embed,
+  embedMany,
+  createDataStreamResponse,
+} from 'ai'
+
+export { openai } from '@ai-sdk/openai'
+export { anthropic } from '@ai-sdk/anthropic'
+export { google } from '@ai-sdk/google'
+```
+
+#### 3. Create Client Exports
+
+```typescript
+// packages/ai/client.ts
+export {
+  useChat,
+  useCompletion,
+  useObject,
+  useAssistant,
+} from '@ai-sdk/react'
+
+export * from './hooks'
+```
+
+## Core Patterns
+
+### Agent Interaction Hook
+
+```typescript
+// packages/ai/hooks/use-agent.ts
+import { useChat } from '@ai-sdk/react'
+import { useCallback } from 'react'
+
+export function useAgent({ agentId, api = '/api/chat', ...options }: UseAgentOptions) {
+  const chat = useChat({
+    api,
+    ...options,
+    body: { agentId },
+  })
+  
+  const executeWorkflow = useCallback(async (workflowId: string, input: any) => {
+    // Execute workflow through agent
+  }, [agentId])
+  
+  const useTool = useCallback(async (toolName: string, input: any) => {
+    // Use tool through agent
+  }, [agentId])
+  
+  return { ...chat, executeWorkflow, useTool }
+}
+```
+
+### API Route Integration
+
+```typescript
+// app/api/chat/route.ts
+import { mastra } from '@/lib/mastra'
+import { extractRuntimeContext } from '@repo/ai/utils'
+
+export async function POST(req: Request) {
+  const { messages, agentId } = await req.json()
+  const runtimeContext = await extractRuntimeContext(req)
+  
+  const agent = mastra.getAgent(agentId)
+  const stream = await agent.stream(messages, { runtimeContext })
+  
+  return stream.toDataStreamResponse()
+}
+```
+
+## Implementation Standards
+
+### 1. Type Safety
+
+- Export all types alongside implementations
+- Use Zod for runtime validation
+- Maintain strict TypeScript configuration
+
+### 2. Error Handling
+
+```typescript
+// packages/ai/utils/errors.ts
+export class AIError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public details?: any
+  ) {
+    super(message)
+    this.name = 'AIError'
+  }
+}
+```
+
+### 3. Streaming Support
+
+All hooks should support:
+- Cancellation
+- Partial responses
+- Resource cleanup on unmount
+
+### 4. Runtime Context
+
+```typescript
+// packages/ai/utils/runtime-context.ts
+export function createRuntimeContext(data: Record<string, any>) {
+  const context = new RuntimeContext()
+  for (const [key, value] of Object.entries(data)) {
+    context.set(key, value)
+  }
+  return context
+}
+```
+
+## Migration Guide
+
+### From AI Sdk V4
+
+1. **Update Dependencies**
+   ```bash
+   pnpm add ai@^5.0.0 @ai-sdk/react@^2.0.0
+   ```
+
+2. **Remove V4 Compatibility**
+   ```typescript
+   // Remove: createV4CompatibleResponse
+   // Use: streamText().toDataStreamResponse()
+   ```
+
+3. **Update Hook Usage**
+   ```typescript
+   // Before
+   import { useChat } from 'ai/react'
+   
+   // After
+   import { useChat } from '@ai-sdk/react'
+   ```
+
+## Best Practices
+
+### Performance
+
+- Use React.Suspense for loading states
+- Implement request cancellation
+- Cache frequently accessed data
+
+### Security
+
+- Validate all inputs with Zod schemas
+- Use environment variables for API keys
+- Implement rate limiting
+
+### Monitoring
+
+- Log all AI interactions
+- Track token usage and costs
+- Monitor error rates
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Streaming Not Working**
+   - Verify API route returns proper stream response
+   - Check CORS configuration
+   - Ensure client supports streaming
+
+2. **Type Errors**
+   - Update to latest AI SDK types
+   - Ensure React types match React version
+   - Run type checking
+
+3. **Mastra Connection Failed**
+   - Verify AI_URL is correct
+   - Check Mastra service is running
+   - Validate API key if required
+
+## Examples
+
+### Chat Interface
+
+```typescript
+import { useAgent } from '@repo/ai/hooks'
+
+function ChatInterface() {
+  const { messages, input, handleInputChange, handleSubmit } = useAgent({
+    agentId: 'assistant',
+    onFinish: (message) => console.log('Agent responded:', message),
+  })
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={input} onChange={handleInputChange} />
+      <button type="submit">Send</button>
+    </form>
+  )
+}
+```
+
+### Workflow Execution
+
+```typescript
+import { useWorkflow } from '@repo/ai/hooks'
+
+function WorkflowButton() {
+  const { execute, isLoading } = useWorkflow({
+    workflowId: 'data-processing',
+    onSuccess: (result) => console.log('Completed:', result),
+  })
+  
+  return (
+    <button onClick={() => execute({ data: 'sample' })} disabled={isLoading}>
+      {isLoading ? 'Processing...' : 'Execute Workflow'}
+    </button>
+  )
+}
+```
+
+## Integration With Stack Components
+
+- **Turborepo**: Workspace coordination for AI packages
+- **Next.js**: App Router API routes for AI endpoints
+- **Hono**: Edge-ready API routes for AI services
+- **Clerk**: Authentication for AI interactions
+- **PostHog**: Analytics for AI usage tracking
+- **Sentry**: Error monitoring for AI failures
+
+## See Also
+
+- [Turborepo (Architecture)](/architecture/turborepo)
+- [Turborepo (Stack Guide)](/tools/stack/turborepo)
+- [Developer Standards](/architecture/standards)
+
+## Environment Setup
+
+```env
+# Mastra AI Service Url
+NEXT_PUBLIC_AI_URL=http://localhost:3999
+
+# Mastra API Key
+MASTRA_KEY=your-api-key
+
+# Default AI Model
+AI_MODEL=gpt-4-turbo
+
+# Default Temperature
+AI_TEMPERATURE=0.7
+```

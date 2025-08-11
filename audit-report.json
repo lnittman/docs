@@ -1,0 +1,3369 @@
+{
+  "summary": {
+    "totalFiles": 91,
+    "filesWithIssues": 80,
+    "issuesByType": {
+      "code": 158,
+      "headings": 288,
+      "llm": 59,
+      "structure": 6
+    }
+  },
+  "files": [
+    {
+      "path": "architecture/apple.mdx",
+      "issues": [
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 334,
+        "words": 1191,
+        "codeBlocks": 13
+      }
+    },
+    {
+      "path": "architecture/audit.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Theme/Color Mode Pattern (100% adoption)\" (should be \"Theme/Color Mode Pattern (100% Adoption)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Package.swift Pattern (100% adoption)\" (should be \"Package.swift Pattern (100% Adoption)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Turbo.json Configuration (100% consistency)\" (should be \"Turbo.json Configuration (100% Consistency)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"6. UI/UX Technical Patterns\" (should be \"6. Ui/Ux Technical Patterns\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 283,
+        "words": 946,
+        "codeBlocks": 10
+      }
+    },
+    {
+      "path": "architecture/claude.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:create\" (should be \"/User:Create\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:ecosystem\" (should be \"/User:Ecosystem\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Integration with STANDARDS.md\" (should be \"Integration With Standards.md\")"
+        }
+      ],
+      "stats": {
+        "lines": 144,
+        "words": 618,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "architecture/overview.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 95: \"Auditing Existing Projects\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. STANDARDS.md\" (should be \"1. Standards.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"In ~/Developer directory\" (should be \"In ~/Developer Directory\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 172,
+        "words": 602,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "architecture/patterns.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Standard turbo.json\" (should be \"Standard Turbo.json\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"AI Service App (`apps/ai/`)\" (should be \"AI Service App (`apps/AI/`)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"2. Mastra Package (`packages/mastra/`)\" (should be \"2. Mastra Package (`packages/Mastra/`)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/api\" (should be \"Packages/API\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/database\" (should be \"Packages/Database\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/ui\" (should be \"Packages/Ui\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"UI/UX Patterns\" (should be \"Ui/Ux Patterns\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Phase 5: UI/UX\" (should be \"Phase 5: Ui/Ux\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Ensure apps/ai exists\" (should be \"Ensure Apps/AI Exists\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 372,
+        "words": 1301,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "architecture/standards.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"4. UI/UX patterns\" (should be \"4. Ui/Ux Patterns\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 593,
+        "words": 1984,
+        "codeBlocks": 17
+      }
+    },
+    {
+      "path": "architecture/turborepo.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"With CI/CD\" (should be \"With Ci/Cd\")"
+        }
+      ],
+      "stats": {
+        "lines": 157,
+        "words": 490,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "design/design-patterns.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 60,
+        "words": 233,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "design/icons.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: jsx"
+        }
+      ],
+      "stats": {
+        "lines": 101,
+        "words": 417,
+        "codeBlocks": 1
+      }
+    },
+    {
+      "path": "design/typography.mdx",
+      "issues": [
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        }
+      ],
+      "stats": {
+        "lines": 135,
+        "words": 489,
+        "codeBlocks": 2
+      }
+    },
+    {
+      "path": "diagrams/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"4. UI/UX Diagrams\" (should be \"4. Ui/Ux Diagrams\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 193,
+        "words": 695,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "diagrams/architecture/README.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"high-level/\" (should be \"High-level/\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"data-flow/\" (should be \"Data-flow/\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"component/\" (should be \"Component/\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 105,
+        "words": 257,
+        "codeBlocks": 2
+      }
+    },
+    {
+      "path": "diagrams/architecture/high-level/webs-system-overview.mdx",
+      "issues": [
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long mermaid code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 194,
+        "words": 572,
+        "codeBlocks": 1
+      }
+    },
+    {
+      "path": "diagrams/concepts/README.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"patterns/\" (should be \"Patterns/\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"mental-models/\" (should be \"Mental-models/\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 110,
+        "words": 244,
+        "codeBlocks": 3
+      }
+    },
+    {
+      "path": "diagrams/workflows/README.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"development/\" (should be \"Development/\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"operations/\" (should be \"Operations/\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 106,
+        "words": 272,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "ecosystem/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[📊 Overview](overview/README)\" (should be \"[📊 Overview](overview/Readme)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[📁 Project Registry](projects/active)\" (should be \"[📁 Project Registry](projects/Active)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[✅ Standards Compliance](compliance/README)\" (should be \"[✅ Standards Compliance](compliance/Readme)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[🔧 Technology Stack](technology/README)\" (should be \"[🔧 Technology Stack](technology/Readme)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[🚀 Evolution Roadmap](evolution/README)\" (should be \"[🚀 Evolution Roadmap](evolution/Readme)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[💡 Wisdom & Patterns](wisdom/README)\" (should be \"[💡 Wisdom & Patterns](wisdom/Readme)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"[📈 Reports](reports/latest)\" (should be \"[📈 Reports](reports/Latest)\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding more actionable sections (Setup, Usage, Examples)"
+        }
+      ],
+      "stats": {
+        "lines": 84,
+        "words": 276,
+        "codeBlocks": 1
+      }
+    },
+    {
+      "path": "ecosystem/compliance/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 222: \"Complex Fixes (Require Planning)\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Generate missing CLAUDE.md\" (should be \"Generate Missing Claude.md\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 260,
+        "words": 1224,
+        "codeBlocks": 2
+      }
+    },
+    {
+      "path": "ecosystem/compliance/violations.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 227: \"Manual Fixes Required\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 280,
+        "words": 867,
+        "codeBlocks": 11
+      }
+    },
+    {
+      "path": "ecosystem/evolution/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 82: \"Day 3-4: Version Alignment\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 94: \"Day 5-7: Documentation\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 177: \"Manual Processes\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Generate missing CLAUDE.md\" (should be \"Generate Missing Claude.md\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 281,
+        "words": 916,
+        "codeBlocks": 7
+      }
+    },
+    {
+      "path": "ecosystem/evolution/migrations.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 58: \"Week 2: Stack Migration\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 71: \"Week 3: Feature Parity\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 248: \"Mastra 0.10.10 Update\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Replace Redux with Jotai/SWR\" (should be \"Replace Redux With Jotai/Swr\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Update to Next.js 15\" (should be \"Update To Next.js 15\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/compliance/fixes/migrate-alden.sh\" (should be \"/Compliance/Fixes/Migrate-alden.sh\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Set up CI/CD\" (should be \"Set Up Ci/Cd\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"- webs (15.0.x → 15.3.4)\" (should be \"- Webs (15.0.x → 15.3.4)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"- radar (15.3.0 → 15.3.4)\" (should be \"- Radar (15.3.0 → 15.3.4)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"- alden (14.x → 15.3.4)\" (should be \"- Alden (14.x → 15.3.4)\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 308,
+        "words": 936,
+        "codeBlocks": 16
+      }
+    },
+    {
+      "path": "ecosystem/overview/README.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding more actionable sections (Setup, Usage, Examples)"
+        }
+      ],
+      "stats": {
+        "lines": 114,
+        "words": 475,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "ecosystem/overview/stats.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding more actionable sections (Setup, Usage, Examples)"
+        }
+      ],
+      "stats": {
+        "lines": 165,
+        "words": 400,
+        "codeBlocks": 12
+      }
+    },
+    {
+      "path": "ecosystem/technology/README.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 244,
+        "words": 923,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "ecosystem/technology/dependencies.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 134: \"Phase 2: Mastra Alignment (This Week)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 141: \"Phase 3: Framework Updates (This Month)\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Align all Next.js versions\" (should be \"Align All Next.js Versions\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding more actionable sections (Setup, Usage, Examples)"
+        }
+      ],
+      "stats": {
+        "lines": 214,
+        "words": 816,
+        "codeBlocks": 8
+      }
+    },
+    {
+      "path": "ecosystem/wisdom/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 244: \"Continuous Improvement\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 256: \"Ai-powered Development\""
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 353,
+        "words": 1176,
+        "codeBlocks": 9
+      }
+    },
+    {
+      "path": "ecosystem/wisdom/best-practices.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 32: \"2. Use Extended Thinking For Complex Tasks\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 44: \"3. Document While Building\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"🎨 UI/UX Best Practices\" (should be \"🎨 Ui/Ux Best Practices\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: prisma"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 567,
+        "words": 1601,
+        "codeBlocks": 24
+      }
+    },
+    {
+      "path": "ecosystem/wisdom/success.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 397: \"10. The Performance Monitoring Pattern\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. The CLAUDE.md Context Pattern\" (should be \"1. The Claude.md Context Pattern\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"CLAUDE.md Structure That Works\" (should be \"Claude.md Structure That Works\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/deploy.yml\" (should be \".github/Workflows/Deploy.yml\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: prisma"
+        }
+      ],
+      "stats": {
+        "lines": 476,
+        "words": 1250,
+        "codeBlocks": 10
+      }
+    },
+    {
+      "path": "index.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 147,
+        "words": 436,
+        "codeBlocks": 3
+      }
+    },
+    {
+      "path": "inspiration/README.mdx",
+      "issues": [
+        {
+          "type": "structure",
+          "severity": "suggestion",
+          "message": "Consider adding Table of Contents for long documents"
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 59: \"In Claude Commands\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 121,
+        "words": 508,
+        "codeBlocks": 3
+      }
+    },
+    {
+      "path": "inspiration/ai-and-modern-development/andrej-karpathy/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 52: \"Key Insights\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 136: \"3. Interpretable AI Pipelines\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 200: \"Development Commands\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Andrej Karpathy: Software 2.0 and Neural Network Philosophy\" (should be \"Andrej Karpathy: Software 2.0 And Neural Network Philosophy\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Analyze code for Software 2.0 opportunities\" (should be \"Analyze Code For Software 2.0 Opportunities\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 241,
+        "words": 962,
+        "codeBlocks": 12
+      }
+    },
+    {
+      "path": "inspiration/ai-and-modern-development/mastra-team/README.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 370,
+        "words": 1086,
+        "codeBlocks": 22
+      }
+    },
+    {
+      "path": "inspiration/ai-and-modern-development/vercel-ai/README.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 438,
+        "words": 1244,
+        "codeBlocks": 21
+      }
+    },
+    {
+      "path": "inspiration/design-and-aesthetics/don-norman/README.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long javascript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in javascript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in javascript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long javascript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: html"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        }
+      ],
+      "stats": {
+        "lines": 782,
+        "words": 2611,
+        "codeBlocks": 17
+      }
+    },
+    {
+      "path": "inspiration/design-and-aesthetics/john-maeda/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 64: \"2. Organize - Organization Makes A System Of Many Appear Fewer\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 114: \"3. Time - Savings In Time Feel Like Simplicity\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 142: \"4. Learn - Knowledge Makes Everything Simpler\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 169: \"5. Differences - Simplicity And Complexity Need Each Other\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 257: \"9. Failure - Some Things Can Never Be Made Simple\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 335: \"2. Code Review Through Simplicity Lens\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 343: \"3. Iterative Simplification\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 382: \"Pattern 2: Reduction Workshops\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 391: \"Pattern 3: Context-aware Assistance\""
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: jsx"
+        }
+      ],
+      "stats": {
+        "lines": 497,
+        "words": 1826,
+        "codeBlocks": 22
+      }
+    },
+    {
+      "path": "inspiration/dieter-rams/color.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 6 at line 13: \"Here Too, A Striking Red-orange: The Central Fm Radio Button Of The Regie 500 Control Unit From 1968\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 81,
+        "words": 1710,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "inspiration/software-architecture/daniele-procida/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 270: \"2. Documentation Analysis Commands\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 283: \"3. Interactive Documentation Assistant\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 310: \"4. Documentation Workflow Integration\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 341: \"5. Real-time Documentation Suggestions\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Building Your First Web Server with Node.js\" (should be \"Building Your First Web Server With Node.js\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"POST /api/auth/login\" (should be \"Post /API/Auth/Login\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H2 heading may not need trailing punctuation: \"Why Middleware?\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/documentation.yml\" (should be \".github/Workflows/Documentation.yml\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 388,
+        "words": 1580,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "inspiration/software-architecture/kent-beck/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 149: \"Example 2: String Reverser\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 241: \"3. **No Duplication**\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 320: \"2. **Incremental Feature Development**\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H1 heading may not need trailing punctuation: \"Test Now Passes!\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H1 heading may not need trailing punctuation: \"Both Tests Pass!\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H1 heading may not need trailing punctuation: \"But We Might Add Validation, Error Handling, Etc.\""
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long javascript code blocks or adding explanatory comments"
+        }
+      ],
+      "stats": {
+        "lines": 509,
+        "words": 1938,
+        "codeBlocks": 18
+      }
+    },
+    {
+      "path": "inspiration/software-architecture/martin-fowler/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 90: \"2. Refactoring Techniques\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 331: \"3. Cqrs (Command Query Responsibility Segregation)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 458: \"2. Architectural Decision Records (ADRs)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 552: \"2. Distributed Tracing Implementation\""
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long javascript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long python code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long csharp code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 739,
+        "words": 2261,
+        "codeBlocks": 16
+      }
+    },
+    {
+      "path": "inspiration/systems-and-strategy/simon-wardley/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Example 1: AI/ML Platform Mapping\" (should be \"Example 1: AI/Ml Platform Mapping\")"
+        }
+      ],
+      "stats": {
+        "lines": 484,
+        "words": 2143,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "inspiration/te/te.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        }
+      ],
+      "stats": {
+        "lines": 150,
+        "words": 4434,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "prompts/audit/turbo.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 16,
+        "words": 149,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "prompts/philosophy/design-thinking.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 158: \"For ~/.claude/commands/architect.md\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 174: \"For ~/.claude/commands/ai-enhance.md\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"For ~/.claude/commands/simplify.md\" (should be \"For ~/.claude/Commands/Simplify.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"For ~/.claude/commands/architect.md\" (should be \"For ~/.claude/Commands/Architect.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"For ~/.claude/commands/ai-enhance.md\" (should be \"For ~/.claude/Commands/Ai-enhance.md\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 261,
+        "words": 1053,
+        "codeBlocks": 16
+      }
+    },
+    {
+      "path": "prompts-showcase.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        }
+      ],
+      "stats": {
+        "lines": 159,
+        "words": 462,
+        "codeBlocks": 9
+      }
+    },
+    {
+      "path": "stack/cicd/cicd.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 416: \"Docker Deployment Workflow\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 526: \"2. Security Considerations\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 591: \"Feature Flags\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"CI/CD Philosophy\" (should be \"Ci/Cd Philosophy\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`.github/workflows/ci.yml`\" (should be \"`.github/Workflows/Ci.yml`\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`.github/workflows/deploy.yml`\" (should be \"`.github/Workflows/Deploy.yml`\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/env-setup.yml\" (should be \".github/Workflows/Env-setup.yml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/deploy-docker.yml\" (should be \".github/Workflows/Deploy-docker.yml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/health-check.yml\" (should be \".github/Workflows/Health-check.yml\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long yaml code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in yaml may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long yaml code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: dockerfile"
+        }
+      ],
+      "stats": {
+        "lines": 613,
+        "words": 1405,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "stack/setup/setup.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 43: \"2. Environment Variables\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 201: \"Local Database Installation\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 220: \"Postgresql (Ubuntu)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 369: \"Docker Compose For Development\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 468: \"Lint-staged Configuration\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"docker-compose.yml\" (should be \"Docker-compose.yml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Enhanced package.json Scripts\" (should be \"Enhanced Package.json Scripts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"docker-compose.dev.yml\" (should be \"Docker-compose.dev.yml\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: env"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: dockerfile"
+        }
+      ],
+      "stats": {
+        "lines": 587,
+        "words": 1275,
+        "codeBlocks": 28
+      }
+    },
+    {
+      "path": "stack/testing/testing.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"CI/CD Integration\" (should be \"Ci/Cd Integration\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/test.yml\" (should be \".github/Workflows/Test.yml\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 623,
+        "words": 1445,
+        "codeBlocks": 21
+      }
+    },
+    {
+      "path": "tools/README.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/stack` - How I Use X\" (should be \"`/Stack` - How I Use X\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/anthropic` - Claude & Anthropic Documentation\" (should be \"`/Anthropic` - Claude & Anthropic Documentation\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        }
+      ],
+      "stats": {
+        "lines": 53,
+        "words": 204,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-4-system-card.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 29,
+        "words": 83,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-api-primer.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 257: \"Interleaved Thinking\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Handling the `max_tokens` stop reason\" (should be \"Handling The `max_tokens` Stop Reason\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Handling the `pause_turn` stop reason\" (should be \"Handling The `pause_turn` Stop Reason\")"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long python code blocks or adding explanatory comments"
+        }
+      ],
+      "stats": {
+        "lines": 538,
+        "words": 2087,
+        "codeBlocks": 20
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-code-command-system.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 174: \"With CI/CD\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 183: \"With Documentation\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:create\" (should be \"/User:Create\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:ecosystem\" (should be \"/User:Ecosystem\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:prime\" (should be \"/User:Prime\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:build\" (should be \"/User:Build\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:design\" (should be \"/User:Design\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:fix\" (should be \"/User:Fix\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:vision\" (should be \"/User:Vision\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:ship\" (should be \"/User:Ship\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/user:test\" (should be \"/User:Test\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"With CI/CD\" (should be \"With Ci/Cd\")"
+        }
+      ],
+      "stats": {
+        "lines": 249,
+        "words": 807,
+        "codeBlocks": 7
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-code-power-user.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 55: \"File Management Patterns\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 2 to 4 at line 100: \"2. User Memory (~/.claude/CLAUDE.md)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 2 to 4 at line 127: \"3. Documentation Repository (~/Developer/docs/)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 184: \"Extended Thinking Best Practices\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 211: \"User Commands (~/.claude/commands/)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 228: \"Power User Commands\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 239: \"2. Multi-Task Planning (/user:multitask)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 248: \"3. Performance Analysis (/project:perf)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 272: \"Checkpoint-heavy Workflow\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 288: \"Documentation-first Development\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 321: \"2. Reference Patterns Library\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 2 to 4 at line 335: \"3. Quick Command References\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 388: \"Context Window Optimization\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 404: \"Verification Loops\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 2 to 4 at line 437: \"2. Knowledge Sharing\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 449: \"Pair Programming With Claude\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 2 to 4 at line 497: \"2. Slow Response Times\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 505: \"3. Inconsistent Behavior\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. Project Memory (./CLAUDE.md)\" (should be \"1. Project Memory (./Claude.md)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"2. User Memory (~/.claude/CLAUDE.md)\" (should be \"2. User Memory (~/.claude/Claude.md)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"3. Documentation Repository (~/Developer/docs/)\" (should be \"3. Documentation Repository (~/Developer/Docs/)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"In CLAUDE.md, import modular instructions\" (should be \"In Claude.md, Import Modular Instructions\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Project Commands (.claude/commands/)\" (should be \"Project Commands (.claude/Commands/)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".claude/commands/test.md\" (should be \".claude/Commands/Test.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"User Commands (~/.claude/commands/)\" (should be \"User Commands (~/.claude/Commands/)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"~/.claude/commands/setup.md\" (should be \"~/.claude/Commands/Setup.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. Documentation Audit (/user:docaudit)\" (should be \"1. Documentation Audit (/User:Docaudit)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"2. Multi-Task Planning (/user:multitask)\" (should be \"2. Multi-task Planning (/User:Multitask)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"3. Performance Analysis (/project:perf)\" (should be \"3. Performance Analysis (/Project:Perf)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Structuring ~/Developer/docs/ for Claude Code\" (should be \"Structuring ~/Developer/Docs/ For Claude Code\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"~/Developer/docs/prompts/code/react-component.xml\" (should be \"~/Developer/Docs/Prompts/Code/React-component.xml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"~/Developer/docs/apps/patterns.md\" (should be \"~/Developer/Docs/Apps/Patterns.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"~/Developer/docs/reference/commands.md\" (should be \"~/Developer/Docs/Reference/Commands.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"In CLAUDE.md\" (should be \"In Claude.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. Project CLAUDE.md Template\" (should be \"1. Project Claude.md Template\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Solution: Be more explicit in CLAUDE.md\" (should be \"Solution: Be More Explicit In Claude.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Add to CLAUDE.md\" (should be \"Add To Claude.md\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 576,
+        "words": 1962,
+        "codeBlocks": 30
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-code.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 143: \"Command Integration\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"CLAUDE.md File Structure\" (should be \"Claude.md File Structure\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".claude/commands/refactor.sh\" (should be \".claude/Commands/Refactor.sh\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 226,
+        "words": 673,
+        "codeBlocks": 9
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-command-center.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 131: \"`/user:create` Enhancements\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 151: \"`/user:vision` Enhancements\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 171: \"`/user:design` Enhancements\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 187: \"`/user:brand` Enhancements\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 203: \"`/user:docaudit` Enhancements\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 280: \"Pattern 2: Quick Feature Addition\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 289: \"Pattern 3: Design-driven Development\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 351: \"3. Chain Commands Naturally\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:prime` Enhancements\" (should be \"`/User:Prime` Enhancements\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:create` Enhancements\" (should be \"`/User:Create` Enhancements\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:vision` Enhancements\" (should be \"`/User:Vision` Enhancements\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Build on /create output\" (should be \"Build On /Create Output\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Feed into /build\" (should be \"Feed Into /Build\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:design` Enhancements\" (should be \"`/User:Design` Enhancements\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Integration with /build\" (should be \"Integration With /Build\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:brand` Enhancements\" (should be \"`/User:Brand` Enhancements\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Production readiness for /build\" (should be \"Production Readiness For /Build\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"`/user:docaudit` Enhancements\" (should be \"`/User:Docaudit` Enhancements\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 408,
+        "words": 1314,
+        "codeBlocks": 17
+      }
+    },
+    {
+      "path": "tools/anthropic/claude-developer-hub.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 142: \"Phase 2: Design (Day 2-3)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 151: \"Phase 3: Build (Day 4-14)\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 160: \"Phase 4: Polish (Day 15-21)\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 271,
+        "words": 789,
+        "codeBlocks": 14
+      }
+    },
+    {
+      "path": "tools/anthropic/codex.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 156: \"3. Example-driven Rules\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 221: \"3. Validation\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 229: \"4. Performance Considerations\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"AGENTS.md File Structure\" (should be \"Agents.md File Structure\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Contributing to AGENTS.md\" (should be \"Contributing To Agents.md\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Optimizing AGENTS.md\" (should be \"Optimizing Agents.md\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in markdown may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: markdown"
+        }
+      ],
+      "stats": {
+        "lines": 273,
+        "words": 1019,
+        "codeBlocks": 16
+      }
+    },
+    {
+      "path": "tools/anthropic/how-anthropic-teams-use-claude-code.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 48,
+        "words": 167,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "tools/anthropic/prompt-engineering.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H2 heading may not need trailing punctuation: \"Why Use Examples?\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H2 heading may not need trailing punctuation: \"Why Use XML Tags?\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H2 heading may not need trailing punctuation: \"Why Use Role Prompting?\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H2 heading may not need trailing punctuation: \"Why Chain Prompts?\""
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long text code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in text may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 1484,
+        "words": 14806,
+        "codeBlocks": 24
+      }
+    },
+    {
+      "path": "tools/integrations/orpc-turborepo-guide.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 4 at line 527: \"Swift Package Configuration\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 550: \"11. CI/CD Integration\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/package.json\" (should be \"Packages/Orpc/Package.json\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/router.ts\" (should be \"Packages/Orpc/Router.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/client.ts\" (should be \"Packages/Orpc/Client.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/adapters/hono.ts\" (should be \"Packages/Orpc/Adapters/Hono.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/adapters/openapi.ts\" (should be \"Packages/Orpc/Adapters/Openapi.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/hooks/swr.ts\" (should be \"Packages/Orpc/Hooks/Swr.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"apps/api/src/routes/orpc.ts\" (should be \"Apps/API/Src/Routes/Orpc.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/orpc/index.ts\" (should be \"Packages/Orpc/Index.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"apps/app/src/providers/orpc-provider.tsx\" (should be \"Apps/App/Src/Providers/Orpc-provider.tsx\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"apps/app/src/lib/orpc-client.ts\" (should be \"Apps/App/Src/Lib/Orpc-client.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Next.js Component (with SWR)\" (should be \"Next.js Component (with Swr)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Update script (arbor-apple/Scripts/update-openapi-spec.sh)\" (should be \"Update Script (arbor-Apple/Scripts/Update-openapi-spec.sh)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Packages/ArborClient/openapi-generator-config.yaml\" (should be \"Packages/Arborclient/Openapi-generator-config.yaml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"11. CI/CD Integration\" (should be \"11. Ci/Cd Integration\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \".github/workflows/update-openapi.yml\" (should be \".github/Workflows/Update-openapi.yml\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        }
+      ],
+      "stats": {
+        "lines": 660,
+        "words": 2085,
+        "codeBlocks": 17
+      }
+    },
+    {
+      "path": "tools/stack/ai-sdk.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: env"
+        }
+      ],
+      "stats": {
+        "lines": 331,
+        "words": 934,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "tools/stack/clerk.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 38: \"Provider Setup\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 983,
+        "words": 2375,
+        "codeBlocks": 26
+      }
+    },
+    {
+      "path": "tools/stack/cloudflare.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 318: \"Environment Setup\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 326: \"Deployment\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"wrangler.toml\" (should be \"Wrangler.toml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"- --persist: Keep KV/R2 data between restarts\" (should be \"- --Persist: Keep Kv/R2 Data Between Restarts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"wrangler.toml\" (should be \"Wrangler.toml\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: toml"
+        }
+      ],
+      "stats": {
+        "lines": 451,
+        "words": 1153,
+        "codeBlocks": 18
+      }
+    },
+    {
+      "path": "tools/stack/drizzle.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"drizzle.config.ts\" (should be \"Drizzle.config.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"package.json Scripts\" (should be \"Package.json Scripts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Edit src/schema.ts\" (should be \"Edit Src/Schema.ts\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Check drizzle/migrations/0001_*.sql\" (should be \"Check Drizzle/Migrations/0001_*.sql\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        }
+      ],
+      "stats": {
+        "lines": 569,
+        "words": 1501,
+        "codeBlocks": 16
+      }
+    },
+    {
+      "path": "tools/stack/hono.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 613,
+        "words": 1586,
+        "codeBlocks": 14
+      }
+    },
+    {
+      "path": "tools/stack/ios.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long swift code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 576,
+        "words": 1465,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "tools/stack/jotai.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 594,
+        "words": 1575,
+        "codeBlocks": 21
+      }
+    },
+    {
+      "path": "tools/stack/mastra.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 40: \"Environment Setup\""
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 540,
+        "words": 1336,
+        "codeBlocks": 21
+      }
+    },
+    {
+      "path": "tools/stack/nextjs.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"next.config.js\" (should be \"Next.config.js\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"tailwind.config.ts\" (should be \"Tailwind.config.ts\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 698,
+        "words": 1807,
+        "codeBlocks": 15
+      }
+    },
+    {
+      "path": "tools/stack/posthog.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Server-Side Flags (Next.js)\" (should be \"Server-side Flags (Next.js)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"docker-compose.yml\" (should be \"Docker-compose.yml\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 571,
+        "words": 1324,
+        "codeBlocks": 26
+      }
+    },
+    {
+      "path": "tools/stack/sentry.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Upload source maps in CI/CD\" (should be \"Upload Source Maps In Ci/Cd\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 618,
+        "words": 1450,
+        "codeBlocks": 26
+      }
+    },
+    {
+      "path": "tools/stack/swr.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Next.js SSR/SSG\" (should be \"Next.js Ssr/Ssg\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "suggestion",
+          "message": "Consider splitting long typescript code blocks or adding explanatory comments"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 672,
+        "words": 1724,
+        "codeBlocks": 20
+      }
+    },
+    {
+      "path": "tools/stack/tailwind.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 41: \"Postcss Projects\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "H1 heading may not need trailing punctuation: \"No Config Files Needed!\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"With shadcn/ui Components\" (should be \"With Shadcn/Ui Components\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: jsx"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: tsx"
+        }
+      ],
+      "stats": {
+        "lines": 504,
+        "words": 1260,
+        "codeBlocks": 24
+      }
+    },
+    {
+      "path": "tools/stack/turborepo.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 176: \"Environment Variables\""
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"turbo.json\" (should be \"Turbo.json\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Root package.json\" (should be \"Root Package.json\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"pnpm-workspace.yaml\" (should be \"Pnpm-workspace.yaml\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/database\" (should be \"Packages/Database\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/services\" (should be \"Packages/Services\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"apps/app (Next.js)\" (should be \"Apps/App (Next.js)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"apps/api (Cloudflare Worker)\" (should be \"Apps/API (Cloudflare Worker)\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/database\" (should be \"Packages/Database\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"packages/services\" (should be \"Packages/Services\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 356,
+        "words": 1020,
+        "codeBlocks": 14
+      }
+    },
+    {
+      "path": "tools/stack/typescript.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Code block in typescript may contain unescaped backticks"
+        }
+      ],
+      "stats": {
+        "lines": 517,
+        "words": 1332,
+        "codeBlocks": 25
+      }
+    },
+    {
+      "path": "vision/quest/README.mdx",
+      "issues": [
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Consider adding code examples for better LLM understanding and developer reference"
+        }
+      ],
+      "stats": {
+        "lines": 137,
+        "words": 730,
+        "codeBlocks": 0
+      }
+    },
+    {
+      "path": "vision/quest/docs-directory-analysis.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"The Documentation Monastery: Analysis of ~/Developer/docs\" (should be \"The Documentation Monastery: Analysis Of ~/Developer/Docs\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/apps - The Applied Wisdom\" (should be \"/Apps - The Applied Wisdom\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/architecture - The Structural Gospels\" (should be \"/Architecture - The Structural Gospels\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/design - The Aesthetic Teachings\" (should be \"/Design - The Aesthetic Teachings\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/diagrams - The Visual Koans\" (should be \"/Diagrams - The Visual Koans\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/fonts - The Typographic Treasury\" (should be \"/Fonts - The Typographic Treasury\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/inspo - The Masters' Hall\" (should be \"/Inspo - The Masters' Hall\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/prompts - The AI Spell Book\" (should be \"/Prompts - The AI Spell Book\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/reference - The Quick Oracle\" (should be \"/Reference - The Quick Oracle\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/tools - The Workshop Manuals\" (should be \"/Tools - The Workshop Manuals\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"/vision/quest - Our Current Journey\" (should be \"/Vision/Quest - Our Current Journey\")"
+        }
+      ],
+      "stats": {
+        "lines": 302,
+        "words": 1246,
+        "codeBlocks": 1
+      }
+    },
+    {
+      "path": "vision/quest/next-claude-commands.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"1. `/user:synthesis` - Cross-Project Intelligence Weaving\" (should be \"1. `/User:Synthesis` - Cross-project Intelligence Weaving\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"2. `/user:pattern-extraction` - The Meta-Pattern Harvester\" (should be \"2. `/User:Pattern-extraction` - The Meta-pattern Harvester\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"3. `/user:ecosystem-agent` - The Living System Designer\" (should be \"3. `/User:Ecosystem-agent` - The Living System Designer\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"4. `/user:constraint-lab` - The Teenage Engineering Experiment\" (should be \"4. `/User:Constraint-lab` - The Teenage Engineering Experiment\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"5. `/user:memory-palace` - The Knowledge Architecture\" (should be \"5. `/User:Memory-palace` - The Knowledge Architecture\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"6. `/user:philosophy-manifest` - The Design Religion Codex\" (should be \"6. `/User:Philosophy-manifest` - The Design Religion Codex\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"7. `/user:cross-train` - The Project Skill Exchange\" (should be \"7. `/User:Cross-train` - The Project Skill Exchange\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"8. `/user:ai-personality` - The Agent Character Designer\" (should be \"8. `/User:Ai-personality` - The Agent Character Designer\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"9. `/user:future-history` - The Time Traveler's Guide\" (should be \"9. `/User:Future-history` - The Time Traveler's Guide\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"10. `/user:ecosystem-health` - The Vital Signs Monitor\" (should be \"10. `/User:Ecosystem-health` - The Vital Signs Monitor\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"11. `/user:prompt-forge` - The XML Spell Workshop\" (should be \"11. `/User:Prompt-forge` - The XML Spell Workshop\")"
+        },
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"12. `/user:aesthetic-engine` - The Beauty Generator\" (should be \"12. `/User:Aesthetic-engine` - The Beauty Generator\")"
+        },
+        {
+          "type": "llm",
+          "severity": "suggestion",
+          "message": "Many sections lack descriptive introductions, add context for better readability"
+        }
+      ],
+      "stats": {
+        "lines": 255,
+        "words": 1233,
+        "codeBlocks": 13
+      }
+    },
+    {
+      "path": "vision/quest/sine-analysis.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 132: \"The Real-time Challenge\""
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 281,
+        "words": 1068,
+        "codeBlocks": 4
+      }
+    },
+    {
+      "path": "vision/quest/webs-analysis.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "minor",
+          "message": "Inconsistent title case: \"Jina.ai as the Silk\" (should be \"Jina.ai As The Silk\")"
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: css"
+        }
+      ],
+      "stats": {
+        "lines": 307,
+        "words": 1159,
+        "codeBlocks": 5
+      }
+    },
+    {
+      "path": "vision/quest/yuba-analysis.mdx",
+      "issues": [
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: swift"
+        }
+      ],
+      "stats": {
+        "lines": 306,
+        "words": 1227,
+        "codeBlocks": 3
+      }
+    },
+    {
+      "path": "workflows/high-yield-command-workflows.mdx",
+      "issues": [
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 46: \"2. Cross-pollination Innovation\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 69: \"3. Continuous Improvement Loop\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 94: \"4. Mvp-to-production Pipeline\""
+        },
+        {
+          "type": "headings",
+          "severity": "warning",
+          "message": "Skipped heading level from 1 to 3 at line 119: \"5. Ai-native Feature Development\""
+        },
+        {
+          "type": "code",
+          "severity": "minor",
+          "message": "Using uncommon language identifier: mermaid"
+        }
+      ],
+      "stats": {
+        "lines": 309,
+        "words": 1058,
+        "codeBlocks": 14
+      }
+    }
+  ]
+}

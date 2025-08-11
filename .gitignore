@@ -37,3 +37,6 @@ node_modules/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Local security artifacts (never commit)
+security

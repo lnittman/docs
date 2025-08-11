@@ -1,5 +1,21 @@
+---
+title: Claude Command Center
+description: Claude Command Center Enhancement Guide
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-02  
+**Purpose**: Transform individual commands into a cohesive, interop…
+---
+
 # Claude Command Center Enhancement Guide
 **Version**: 1.0.0  
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 **Last Updated**: 2025-01-02  
 **Purpose**: Transform individual commands into a cohesive, interoperable command center
 
@@ -11,14 +27,13 @@ Your `~/.claude/commands/` directory is evolving into a powerful command center 
 - Builds on previous work
 - Executes in parallel when possible
 
-## 🔧 Universal Enhancements for All Commands
+## 🔧 Universal Enhancements For All Commands
 
 ### 1. Input Handler Pattern
 
 Add this to the beginning of each command's processing phase:
 
 ```markdown
-<universal_input_handler>
 Process $ARGUMENTS to detect and handle:
 
 **URLs Detected:**
@@ -45,7 +60,6 @@ Process $ARGUMENTS to detect and handle:
 - Separate into categories
 - Process each appropriately
 - Combine insights
-</universal_input_handler>
 ```
 
 ### 2. Context Output Pattern
@@ -53,7 +67,6 @@ Process $ARGUMENTS to detect and handle:
 Add this to each command's output:
 
 ```markdown
-<context_output>
 ## 🔗 Command Context
 **Command**: /user:[command]
 **Timestamp**: [ISO timestamp]
@@ -74,44 +87,41 @@ Add this to each command's output:
   ]
 }
 ```
-</context_output>
 
 ### 3. Session Memory Pattern
 
 Each command should check for and update session memory:
 
 ```markdown
-<session_memory>
-# Check for existing session
+# Check For Existing Session
 if exists .claude/session/current/:
   - Load previous_commands.json
   - Load accumulated_context.json
   - Build on existing knowledge
 
-# Update session
+# Update Session
 - Add command results to session
 - Update accumulated context
 - Save for next command
-</session_memory>
 ```
 
-## 📋 Command-Specific Enhancements
+## 📋 Command-specific Enhancements
 
 ### `/user:prime` Enhancements
 
 ```markdown
-# Add URL support
+# Add Url Support
 If $ARGUMENTS contains URLs:
 - Fetch documentation sites
 - Analyze example repos  
 - Extract setup patterns
 
-# Add session continuity
+# Add Session Continuity
 - Check what commands ran before
 - Skip redundant analysis
 - Focus on what's new
 
-# Add context passing
+# Add Context Passing
 Output includes:
 - project_state.json
 - suggested_next_commands
@@ -121,18 +131,18 @@ Output includes:
 ### `/user:create` Enhancements
 
 ```markdown
-# Enhanced input processing
+# Enhanced Input Processing
 - GitHub repo URL → Clone and analyze
 - Documentation URL → Extract patterns
 - Blog post URL → Understand approach
 - Multiple URLs → Combine insights
 
-# Context awareness
+# Context Awareness
 - Check if prime was run
 - Use existing project analysis
 - Build on session knowledge
 
-# Rich output
+# Rich Output
 - Structured plan.json
 - Next command suggestions
 - Context for /user:build
@@ -141,7 +151,7 @@ Output includes:
 ### `/user:vision` Enhancements
 
 ```markdown
-# Creative input sources
+# Creative Input Sources
 - Dribbble URLs → UI inspiration
 - Product Hunt → Feature ideas
 - Research papers → AI techniques
@@ -161,7 +171,7 @@ Output includes:
 ### `/user:design` Enhancements
 
 ```markdown
-# Design input handling
+# Design Input Handling
 - Figma URLs → Extract design tokens
 - Component libraries → Analyze patterns
 - Screenshots → Extract styles
@@ -177,7 +187,7 @@ Output includes:
 ### `/user:brand` Enhancements
 
 ```markdown
-# Brand input sources
+# Brand Input Sources
 - Competitor sites → Analysis
 - Brand guides → Apply principles  
 - Marketing copy → Voice extraction
@@ -193,13 +203,13 @@ Output includes:
 ### `/user:docaudit` Enhancements
 
 ```markdown
-# Documentation sources
+# Documentation Sources
 - Existing docs URLs → Gap analysis
 - Best practice guides → Standards
 - Team wikis → Context understanding
 - API docs → Integration patterns
 
-# Continuous documentation
+# Continuous Documentation
 - Update after each /build
 - Track what's documented
 - Suggest improvements
@@ -246,45 +256,45 @@ graph TB
 
 ### Pattern 1: Full Project Flow
 ```bash
-# 1. Start with an idea + reference
+# 1. Start With An Idea + Reference
 /user:create social app like BeReal but for developers [paste BeReal article URL]
 
-# 2. Explore creative possibilities
+# 2. Explore Creative Possibilities
 /user:vision [paste AI UI examples URLs]
 
-# 3. Design the system
+# 3. Design The System
 /user:design [paste component library URL]
 
-# 4. Build iteratively
+# 4. Build Iteratively
 /user:build implement auth [paste Clerk docs URL]
 /user:build add main feature
 /user:build integrate AI [paste Mastra examples]
 
-# 5. Prepare for launch
+# 5. Prepare For Launch
 /user:brand [paste competitor analysis]
 
-# 6. Document everything
+# 6. Document Everything
 /user:docaudit
 ```
 
 ### Pattern 2: Quick Feature Addition
 ```bash
-# 1. Get context
+# 1. Get Context
 /user:prime focus on payments
 
-# 2. Build with reference
+# 2. Build With Reference
 /user:build add Stripe [paste Stripe docs URL]
 ```
 
-### Pattern 3: Design-Driven Development
+### Pattern 3: Design-driven Development
 ```bash
-# 1. Design first
+# 1. Design First
 /user:design [paste Figma URL]
 
-# 2. Build components
+# 2. Build Components
 /user:build implement design system
 
-# 3. Document patterns
+# 3. Document Patterns
 /user:docaudit focus on components
 ```
 
@@ -326,10 +336,10 @@ graph TB
 
 ## 🎯 Best Practices
 
-### 1. Start with Prime
+### 1. Start With Prime
 Always begin sessions with `/user:prime` to establish context
 
-### 2. Use URLs Liberally
+### 2. Use Urls Liberally
 ```bash
 # Good
 /user:build add charts [paste D3.js examples URL]
@@ -341,12 +351,12 @@ Always begin sessions with `/user:prime` to establish context
 ### 3. Chain Commands Naturally
 Let each command suggest the next logical step
 
-### 4. Iterate with Build
+### 4. Iterate With Build
 ```bash
 /user:build → test → /user:build fix → test → /user:build enhance
 ```
 
-### 5. Document as You Go
+### 5. Document As You Go
 Run `/user:docaudit` periodically, not just at the end
 
 ## 🔮 Future Enhancements
@@ -380,3 +390,18 @@ Run `/user:docaudit` periodically, not just at the end
 ---
 
 *Your command center is now a cohesive system where every command enhances the others. Build faster, better, together.*
+---
+title: Claude Command Center
+description: Centralized command system and workflows for Claude Code
+---
+---
+title: Claude Command Center
+description: Centralized command system and workflows for Claude Code
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

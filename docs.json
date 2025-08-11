@@ -34,9 +34,7 @@
           {
             "group": "Overview",
             "pages": [
-              "index",
-              "README",
-              "CLAUDE"
+              "index"
             ]
           },
           {
@@ -55,6 +53,12 @@
             "group": "Tools",
             "pages": [
               "tools/README",
+              {
+                "group": "Integrations",
+                "pages": [
+                  "tools/integrations/orpc-turborepo-guide"
+                ]
+              },
               {
                 "group": "Claude",
                 "pages": [
@@ -90,10 +94,29 @@
               "tools/stack/hono",
               "tools/stack/jotai",
               "tools/stack/mastra",
+              "tools/stack/ai-sdk",
               "tools/stack/posthog",
               "tools/stack/sentry",
               "tools/stack/swr",
-              "tools/stack/ios"
+              "tools/stack/ios",
+              {
+                "group": "Testing",
+                "pages": [
+                  "stack/testing/testing"
+                ]
+              },
+              {
+                "group": "DevOps",
+                "pages": [
+                  "stack/cicd/cicd"
+                ]
+              },
+              {
+                "group": "Development",
+                "pages": [
+                  "stack/setup/setup"
+                ]
+              }
             ]
           },
           {
@@ -163,7 +186,7 @@
         ]
       },
       {
-        "tab": "Ecosystem",
+      "tab": "Ecosystem",
         "groups": [
           {
             "group": "Overview",
@@ -182,16 +205,6 @@
               "ecosystem/evolution/migrations",
               "ecosystem/technology/README",
               "ecosystem/technology/dependencies"
-            ]
-          },
-          {
-            "group": "Projects",
-            "pages": [
-              "ecosystem/projects/active",
-              "ecosystem/reports/latest",
-              "ecosystem/wisdom/README",
-              "ecosystem/wisdom/best-practices",
-              "ecosystem/wisdom/success"
             ]
           }
         ]
@@ -219,29 +232,7 @@
           {
             "group": "Architecture",
             "pages": [
-              "diagrams/architecture/README",
-              "diagrams/architecture/high-level/webs-system-overview"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Vision",
-        "groups": [
-          {
-            "group": "Quest Analysis",
-            "pages": [
-              "vision/quest/README",
-              "vision/quest/arbor-analysis",
-              "vision/quest/docs-directory-analysis",
-              "vision/quest/global-analysis",
-              "vision/quest/kumori-analysis",
-              "vision/quest/next-claude-commands",
-              "vision/quest/radar-analysis",
-              "vision/quest/sine-analysis",
-              "vision/quest/squish-analysis",
-              "vision/quest/webs-analysis",
-              "vision/quest/yuba-analysis"
+              "diagrams/architecture/README"
             ]
           }
         ]

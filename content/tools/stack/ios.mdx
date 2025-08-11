@@ -1,4 +1,17 @@
-# How I Use Swift & SwiftUI
+---
+title: Ios
+description: How I Use Swift & SwiftUI
+---
+
+# How I Use Swift & Swiftui
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard iOS/macOS app setup for -apple projects. Clean architecture with Swift Package Manager.
 
@@ -76,7 +89,7 @@ let package = Package(
 
 ## Architecture Patterns
 
-### MVVM with SwiftUI
+### Mvvm With Swiftui
 ```swift
 // View Model
 @MainActor
@@ -123,7 +136,7 @@ struct HomeView: View {
 }
 ```
 
-### Dependency Injection with Factory
+### Dependency Injection With Factory
 ```swift
 // In Core package
 import Factory
@@ -154,7 +167,7 @@ extension Container {
 }
 ```
 
-### Networking with Get
+### Networking With Get
 ```swift
 // In Networking package
 import Get
@@ -197,7 +210,7 @@ final class AuthDelegate: APIClientDelegate {
 }
 ```
 
-## UI Patterns
+## Ui Patterns
 
 ### Design System Components
 ```swift
@@ -288,7 +301,7 @@ struct MainTabView: View {
 
 ## State Management
 
-### SwiftUI Native State
+### Swiftui Native State
 ```swift
 // Local State
 @State private var searchText = ""
@@ -318,9 +331,9 @@ final class DataStore {
 }
 ```
 
-## Authentication with Clerk
+## Authentication With Clerk
 
-### Setup in Auth Package
+### Setup In Auth Package
 ```swift
 import ClerkSDK
 
@@ -358,9 +371,9 @@ final class ClerkAuth: ObservableObject {
 }
 ```
 
-## Analytics with PostHog
+## Analytics With Posthog
 
-### Setup in Analytics Package
+### Setup In Analytics Package
 ```swift
 import PostHog
 
@@ -477,7 +490,7 @@ enum LoadingState<T> {
 6. **Protocol-oriented** - Testable abstractions
 7. **Modular packages** - Reusable components
 
-## Integration with -xyz Projects
+## Integration With -Xyz Projects
 
 ### API Integration
 - Point to Cloudflare Worker API
@@ -553,3 +566,10 @@ enum LoadingState<T> {
     </div>
   </CardContent>
 </Card>
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

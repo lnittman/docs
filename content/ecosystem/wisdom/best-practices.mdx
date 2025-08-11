@@ -1,4 +1,17 @@
+---
+title: Best Practices
+description: Best Practices Guide
+---
+
 # Best Practices Guide
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 > Curated best practices derived from ecosystem analysis and real-world success
 
@@ -7,7 +20,7 @@
 ### 1. Start Every Session Right
 
 ```bash
-# Always run these commands at session start
+# Always Run These Commands At Session Start
 /user:prime [project]         # Load context
 /user:ecosystem audit [project]  # Check health
 git status                    # Check state
@@ -16,13 +29,13 @@ pnpm install                  # Sync dependencies
 
 **Why**: Ensures you have current context and clean state
 
-### 2. Use Extended Thinking for Complex Tasks
+### 2. Use Extended Thinking For Complex Tasks
 
 ```bash
-# For non-trivial features
+# For Non-trivial Features
 /user:build --think "implement user profiles with avatar upload"
 
-# For architectural decisions
+# For Architectural Decisions
 /user:vision --think "explore micro-frontend architecture"
 ```
 
@@ -52,7 +65,7 @@ function processData(data: UserEvent): AnalyticsEvent {
 
 ## 🏗️ Architecture Best Practices
 
-### 1. Server-First, Always
+### 1. Server-first, Always
 
 ```typescript
 // ❌ Bad: Client-side data fetching
@@ -118,7 +131,7 @@ app/
 
 ## 💾 Data Best Practices
 
-### 1. Validate at the Border
+### 1. Validate At The Border
 
 ```typescript
 // ✅ Good: Validate all external data
@@ -146,7 +159,7 @@ export async function POST(req: Request) {
 
 **Why**: Prevents runtime errors and security issues
 
-### 2. Use Transactions for Related Operations
+### 2. Use Transactions For Related Operations
 
 ```typescript
 // ✅ Good: Atomic operations
@@ -196,7 +209,7 @@ const activeUsers = await db.user.findMany({
 
 ## 🧪 Testing Best Practices
 
-### 1. Test the Contract, Not Implementation
+### 1. Test The Contract, Not Implementation
 
 ```typescript
 // ❌ Bad: Testing implementation details
@@ -340,7 +353,7 @@ function Dashboard() {
 
 ## 🔒 Security Best Practices
 
-### 1. Always Authenticate Server-Side
+### 1. Always Authenticate Server-side
 
 ```typescript
 // ✅ Good: Server-side auth check
@@ -441,7 +454,7 @@ function TodoItem({ todo }) {
 
 **Why**: Feels instant, handles failures gracefully
 
-### 3. Accessible by Default
+### 3. Accessible By Default
 
 ```typescript
 // ✅ Good: Proper ARIA and keyboard support
@@ -478,7 +491,7 @@ function Modal({ isOpen, onClose, children }) {
 
 ## 📝 Documentation Best Practices
 
-### 1. Write for Your Future Self
+### 1. Write For Your Future Self
 
 ```markdown
 # Payment Integration
@@ -517,7 +530,7 @@ function formatCurrency(amount: number, currency = 'USD'): string {
 
 **Why**: Examples are worth 1000 words
 
-### 3. Document the Non-Obvious
+### 3. Document The Non-obvious
 
 ```typescript
 // ✅ Good: Explains the why
@@ -541,3 +554,13 @@ function getUserName(user) {
 ---
 
 *Best practices derived from production experience across 38 projects | Last updated: 2025-07-05*
+---
+title: Best Practices
+description: Proven approaches and patterns that deliver results
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Readme](/ecosystem/compliance/README)
+- [Readme](/ecosystem/technology/README)

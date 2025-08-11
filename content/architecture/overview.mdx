@@ -1,4 +1,17 @@
+---
+title: Overview
+description: Development Standards Overview
+---
+
 # Development Standards Overview
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Standards Hierarchy
 
@@ -43,14 +56,14 @@ Projects (Reality)
 
 ### Example Flow
 
-1. **Standard**: "Products use a four-repository structure"
-2. **Rules**: Detailed specifications for each repository type
-3. **Command**: `/user:create` initializes all four repositories
+1. **Standard**: "Products use a Turborepo with `apps/app`, `apps/api` (optional), and `apps/ai` (preferred)"
+2. **Rules**: Detailed specifications for monorepo structure and packages
+3. **Command**: `/user:create` initializes the monorepo structure
 4. **Result**: Consistent project structure with zero manual configuration
 
 ## Key Principles
 
-### 1. Reality-Based
+### 1. Reality-based
 - Standards derived from what actually works in production
 - Not theoretical ideals or aspirational patterns
 - Validated by 80%+ adoption across projects
@@ -67,7 +80,7 @@ Projects (Reality)
 
 ## Practical Usage
 
-### Starting a New Project
+### Starting A New Project
 ```bash
 # In ~/Developer directory
 /user:create "AI-powered recipe manager"
@@ -142,3 +155,17 @@ This handles:
 4. **Contribute** patterns that achieve 80%+ adoption
 
 The standards, rules, and commands form a complete system for maintaining consistency and quality across an entire development ecosystem while preserving flexibility where it matters most.
+
+## Related
+
+- [Standards](/architecture/standards)
+- [Turborepo](/architecture/turborepo)
+- [Apple platform](/architecture/apple)
+- [Claude rules](/architecture/claude)
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

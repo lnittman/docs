@@ -1,4 +1,17 @@
+---
+title: Cloudflare
+description: How I Use Cloudflare Workers
+---
+
 # How I Use Cloudflare Workers
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Cloudflare Worker setup for API services. Always paired with Hono for the framework.
 
@@ -22,12 +35,12 @@ vars = { ENVIRONMENT = "staging" }
 binding = "R2_BUCKET"
 bucket_name = "project-storage"
 
-# Hyperdrive for PostgreSQL
+# Hyperdrive For Postgresql
 [[hyperdrive]]
 binding = "HYPERDRIVE"
 id = "your-hyperdrive-id"
 
-# KV Namespace for caching
+# Kv Namespace For Caching
 [[kv_namespaces]]
 binding = "CACHE"
 id = "your-kv-namespace-id"
@@ -95,7 +108,7 @@ export function createDb(hyperdrive: Hyperdrive) {
 }
 ```
 
-### Using in Routes
+### Using In Routes
 ```typescript
 // src/routes/users.ts
 app.get('/users/:id', async (c) => {
@@ -163,7 +176,7 @@ app.get('/files/:key', async (c) => {
 });
 ```
 
-## KV Caching Pattern
+## Kv Caching Pattern
 
 ### Cache Wrapper
 ```typescript
@@ -294,11 +307,11 @@ app.onError((err, c) => {
 
 ### Local Development
 ```bash
-# Start dev server
+# Start Dev Server
 pnpm dev
 
-# This runs: wrangler dev --local --persist
-# - --local: Run on local machine
+# This Runs: Wrangler Dev --Local --Persist
+# - --Local: Run On Local Machine
 # - --persist: Keep KV/R2 data between restarts
 ```
 
@@ -312,13 +325,13 @@ DATABASE_URL=postgresql://...
 
 ### Deployment
 ```bash
-# Deploy to production
+# Deploy To Production
 pnpm deploy
 
-# Deploy to staging
+# Deploy To Staging
 pnpm deploy:staging
 
-# This runs: wrangler deploy --env [environment]
+# This Runs: Wrangler Deploy --Env [Environment]
 ```
 
 ## Testing Pattern
@@ -428,3 +441,10 @@ const audioResponse = await fetch(c.env.AUDIO_SERVICE_URL + '/process', {
 - [Vitest Integration](https://developers.cloudflare.com/workers/testing/vitest-integration/)
 - [Local Development](https://developers.cloudflare.com/workers/learning/local-development/)
 - [Debugging](https://developers.cloudflare.com/workers/learning/debugging-workers/)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

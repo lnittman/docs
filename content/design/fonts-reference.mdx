@@ -38,7 +38,7 @@ If you need to share fonts with team members:
 2. Create a separate fonts-only repository with Git LFS
 3. Share via direct file transfer
 
-## Usage in Projects
+## Usage In Projects
 When referencing fonts in projects:
 ```css
 /* Reference local development fonts */
@@ -57,8 +57,15 @@ When referencing fonts in projects:
 ## Git Configuration
 Fonts are excluded from git tracking via `.gitignore`:
 ```bash
-# .gitignore entry
+# .gitignore Entry
 /fonts/
 ```
 
 This keeps the repository lightweight while fonts remain available locally for development.
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

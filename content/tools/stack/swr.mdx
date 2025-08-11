@@ -1,4 +1,17 @@
-# How I Use SWR
+---
+title: Swr
+description: How I Use SWR
+---
+
+# How I Use Swr
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard SWR setup for data fetching in React/Next.js. Stale-while-revalidate for fast, real-time UI.
 
@@ -93,7 +106,7 @@ export const authFetcher = (url: string, token: string) =>
 const { data } = useSWR('/api/protected', url => authFetcher(url, token));
 ```
 
-## TypeScript Integration
+## Typescript Integration
 
 ### Typed Hooks
 ```typescript
@@ -361,7 +374,7 @@ export function useLiveData(interval = 5000) {
 }
 ```
 
-### WebSocket Integration
+### Websocket Integration
 ```typescript
 // hooks/use-realtime.ts
 import useSWR from 'swr';
@@ -438,7 +451,7 @@ export function useRetryableData(key: string) {
 }
 ```
 
-## Prefetching & SSR
+## Prefetching & Ssr
 
 ### Prefetching
 ```typescript
@@ -549,7 +562,7 @@ function ComponentB() {
 
 ## Common Helpers
 
-### useAPI Hook
+### Useapi Hook
 ```typescript
 // hooks/use-api.ts
 export function useAPI<T = any>(
@@ -649,3 +662,10 @@ export const cache = {
     </div>
   </CardContent>
 </Card>
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

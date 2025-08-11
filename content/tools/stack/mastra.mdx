@@ -1,4 +1,17 @@
+---
+title: Mastra
+description: How I Use Mastra
+---
+
 # How I Use Mastra
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard approach to building AI applications with Mastra, focusing on agents, workflows, tools, and memory management. Mastra is my TypeScript AI framework of choice for orchestrating LLM-powered features.
 
@@ -11,13 +24,13 @@ pnpm add @mastra/core @ai-sdk/openai
 
 ### Additional Packages
 ```bash
-# Memory & storage
+# Memory & Storage
 pnpm add @mastra/memory @mastra/libsql
 
 # Logging
 pnpm add @mastra/loggers
 
-# MCP support
+# Mcp Support
 pnpm add @mastra/mcp
 
 # Deployment
@@ -65,7 +78,7 @@ export const mastra = new Mastra({
 
 ## Agent Patterns
 
-### Dynamic Agents with Runtime Context
+### Dynamic Agents With Runtime Context
 ```typescript
 // agents/chat/index.ts
 import { Agent } from '@mastra/core/agent';
@@ -118,7 +131,7 @@ export const chatAgent = new Agent({
 });
 ```
 
-### Tool-Enabled Agents
+### Tool-enabled Agents
 ```typescript
 // agents/analyzer/index.ts
 export const analyzerAgent = new Agent({
@@ -154,7 +167,7 @@ export const analyzerAgent = new Agent({
 
 ## Workflow Patterns
 
-### Multi-Step Workflows
+### Multi-step Workflows
 ```typescript
 // workflows/analyze-content/index.ts
 import { createWorkflow, createStep } from '@mastra/core/workflows';
@@ -229,7 +242,7 @@ export const analyzeContentWorkflow = createWorkflow({
   .commit();
 ```
 
-### Using Agents in Workflows
+### Using Agents In Workflows
 ```typescript
 // Create step from agent
 const agentStep = createStep(analyzerAgent);
@@ -283,9 +296,9 @@ const memory = new Memory({
 });
 ```
 
-## MCP Integration
+## Mcp Integration
 
-### Using MCP Tools
+### Using Mcp Tools
 ```typescript
 import { MCPClient } from '@mastra/mcp';
 
@@ -306,7 +319,7 @@ const agent = new Agent({
 });
 ```
 
-### Creating MCP Servers
+### Creating Mcp Servers
 ```typescript
 import { MCPServer } from '@mastra/mcp';
 
@@ -517,3 +530,10 @@ try {
 - [Workflow API](https://mastra.ai/docs/reference/workflow)
 - [Memory API](https://mastra.ai/docs/reference/memory)
 - [MCP Client](https://mastra.ai/docs/reference/mcp-client)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

@@ -1,9 +1,21 @@
+---
+title: Claude Code Power User
+description: Claude Code Power User Guide
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-02  
+**Purpose**: Maximize productivity with Claude Code through advanced features…
+---
+
 # Claude Code Power User Guide
 **Version**: 1.0.0  
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 **Last Updated**: 2025-01-02  
 **Purpose**: Maximize productivity with Claude Code through advanced features and workflows
 
-## Table of Contents
+## Table Of Contents
 
 1. [Quick Reference](#quick-reference)
 2. [Memory Management](#memory-management)
@@ -24,16 +36,16 @@
 
 ### Power User Commands
 ```bash
-# Resume last conversation
+# Resume Last Conversation
 claude --continue
 
-# Select from recent conversations
+# Select From Recent Conversations
 claude --resume
 
-# Set custom model
+# Set Custom Model
 claude --model claude-opus-4-20250514
 
-# Extended thinking prompts
+# Extended Thinking Prompts
 "think about this problem"
 "think harder about the architecture"
 "think longer about the implementation"
@@ -42,20 +54,20 @@ claude --model claude-opus-4-20250514
 
 ### File Management Patterns
 ```bash
-# Reference documentation
+# Reference Documentation
 @~/Developer/docs/apps/docs.md
 
-# Import modular instructions
+# Import Modular Instructions
 @path/to/component-guide.md
 
-# Quick file navigation
+# Quick File Navigation
 /open src/components/Button.tsx
 /close
 ```
 
 ## Memory Management
 
-### Three-Layer Memory System
+### Three-layer Memory System
 
 #### 1. Project Memory (./CLAUDE.md)
 **Purpose**: Team-shared context for the current project
@@ -139,13 +151,13 @@ claude --model claude-opus-4-20250514
 @~/Developer/docs/apps/patterns.md
 @~/Developer/docs/tools/claude-code-power-user.md#workflow-optimization
 
-# Maximum recursion depth: 5 levels
-# Keep imports focused and relevant
+# Maximum Recursion Depth: 5 Levels
+# Keep Imports Focused And Relevant
 ```
 
 ## Extended Thinking
 
-### When to Use Extended Thinking
+### When To Use Extended Thinking
 
 #### Ideal Use Cases
 1. **Architecture Design**: "think about the best architecture for this feature"
@@ -156,14 +168,14 @@ claude --model claude-opus-4-20250514
 
 #### Prompting Strategies
 ```markdown
-# Basic thinking (5-10 seconds)
+# Basic Thinking (5-10 Seconds)
 "think about this problem"
 
-# Medium thinking (10-30 seconds)
+# Medium Thinking (10-30 Seconds)
 "think harder about this"
 "think more carefully"
 
-# Deep thinking (30+ seconds)
+# Deep Thinking (30+ Seconds)
 "think longer about this implementation"
 "think deeply about all edge cases"
 "think extensively about the architecture"
@@ -217,28 +229,28 @@ Project type: $ARGUMENTS
 
 #### 1. Documentation Audit (/user:docaudit)
 ```bash
-# Comprehensive documentation analysis
+# Comprehensive Documentation Analysis
 /user:docaudit
 
-# With specific focus
+# With Specific Focus
 /user:docaudit focus on API documentation
 ```
 
 #### 2. Multi-Task Planning (/user:multitask)
 ```bash
-# Create parallelized implementation plan
+# Create Parallelized Implementation Plan
 /user:multitask implement real-time collaboration
 
-# With specific constraints
+# With Specific Constraints
 /user:multitask add authentication using Clerk
 ```
 
 #### 3. Performance Analysis (/project:perf)
 ```bash
-# Analyze and optimize performance
+# Analyze And Optimize Performance
 /project:perf analyze bundle size
 
-# With specific metrics
+# With Specific Metrics
 /project:perf optimize Core Web Vitals
 ```
 
@@ -248,44 +260,44 @@ Project type: $ARGUMENTS
 
 Use multiple Claude Code instances with git worktrees:
 ```bash
-# Set up parallel workspaces
+# Set Up Parallel Workspaces
 git worktree add ../feature-auth feature/authentication
 git worktree add ../feature-api feature/api-integration
 
-# Run separate Claude instances
+# Run Separate Claude Instances
 cd ../feature-auth && claude  # Terminal 1
 cd ../feature-api && claude   # Terminal 2
 ```
 
-### Checkpoint-Heavy Workflow
+### Checkpoint-heavy Workflow
 
 ```bash
-# 1. Start with clear intention
+# 1. Start With Clear Intention
 claude "implement user dashboard"
 
-# 2. Checkpoint after each component
+# 2. Checkpoint After Each Component
 git add -A && git commit -m "feat: add dashboard layout"
 
-# 3. Test incrementally
+# 3. Test Incrementally
 pnpm test:watch
 
-# 4. Easy rollback if needed
+# 4. Easy Rollback If Needed
 git reset --hard HEAD~1
 ```
 
-### Documentation-First Development
+### Documentation-first Development
 
 ```markdown
-# 1. Start with docs
+# 1. Start With Docs
 /user:docaudit
 
-# 2. Create implementation plan from docs
+# 2. Create Implementation Plan From Docs
 "Based on the documentation, create implementation plan"
 
-# 3. Generate code matching docs
+# 3. Generate Code Matching Docs
 "Implement according to the API specification"
 
-# 4. Update docs with implementation details
+# 4. Update Docs With Implementation Details
 "Update documentation with implementation notes"
 ```
 
@@ -333,16 +345,16 @@ Create a React component following these patterns:
 - `pnpm db:studio` - Open Prisma Studio
 ```
 
-### Using Docs as Context
+### Using Docs As Context
 
 ```bash
-# Reference specific sections
+# Reference Specific Sections
 @~/Developer/docs/apps/patterns.md#state-management
 
-# Import entire guides
+# Import Entire Guides
 @~/Developer/docs/tools/claude-code-power-user.md
 
-# Chain multiple contexts
+# Chain Multiple Contexts
 @~/Developer/docs/apps/docs.md
 @~/Developer/docs/prompts/code/react-component.xml
 "Create dashboard following our patterns"
@@ -350,7 +362,7 @@ Create a React component following these patterns:
 
 ## Advanced Patterns
 
-### Self-Improving Documentation
+### Self-improving Documentation
 
 ```markdown
 # In CLAUDE.md
@@ -364,7 +376,7 @@ Create a React component following these patterns:
 ### Intelligent Task Distribution
 
 ```python
-# Determine sync vs async tasks
+# Determine Sync Vs Async Tasks
 if task.requires_creativity or task.is_exploratory:
     use_claude_code()  # Async with extended thinking
 elif task.is_well_defined and task.has_clear_specs:
@@ -376,14 +388,14 @@ else:
 ### Context Window Optimization
 
 ```markdown
-# Prioritize context loading
+# Prioritize Context Loading
 1. Current task requirements
 2. Project-specific CLAUDE.md
 3. Relevant documentation sections
 4. Code examples and patterns
 5. Historical context (if needed)
 
-# Avoid context bloat
+# Avoid Context Bloat
 - Don't import entire repositories
 - Reference specific sections
 - Use grep/search for targeted context
@@ -392,7 +404,7 @@ else:
 ### Verification Loops
 
 ```bash
-# Self-verifying implementation
+# Self-verifying Implementation
 "Implement feature X with tests"
 "Run the tests and fix any failures"
 "Verify edge cases are handled"
@@ -424,17 +436,17 @@ else:
 
 #### 2. Knowledge Sharing
 ```bash
-# Export learnings
+# Export Learnings
 claude "Document the patterns we discovered"
 
-# Share custom commands
+# Share Custom Commands
 cp .claude/commands/useful-command.md ~/.claude/commands/
 
-# Update team documentation
+# Update Team Documentation
 "Update team docs with new patterns"
 ```
 
-### Pair Programming with Claude
+### Pair Programming With Claude
 
 ```markdown
 # Driver Pattern
@@ -472,22 +484,22 @@ Claude: [Security fixes]
 
 ## Troubleshooting
 
-### Common Issues and Solutions
+### Common Issues And Solutions
 
 #### 1. Claude Not Following Patterns
 ```markdown
 # Solution: Be more explicit in CLAUDE.md
-## IMPORTANT: Always follow these patterns
+## Important: Always Follow These Patterns
 - Specific pattern with example
 - Another pattern with rationale
 ```
 
 #### 2. Slow Response Times
 ```bash
-# Clear conversation and restart
+# Clear Conversation And Restart
 /clear
-# Use more specific prompts
-# Break into smaller tasks
+# Use More Specific Prompts
+# Break Into Smaller Tasks
 ```
 
 #### 3. Inconsistent Behavior
@@ -546,3 +558,18 @@ Claude: [Security fixes]
 ---
 
 *Remember: Claude Code is most powerful when you invest in setting up good context and workflows. The time spent on CLAUDE.md and custom commands pays back exponentially in productivity.*
+---
+title: Claude Code Power User Guide
+description: Advanced techniques and workflows for using Claude Code effectively
+---
+---
+title: Claude Code Power User Guide
+description: Advanced techniques and workflows for using Claude Code effectively
+---
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

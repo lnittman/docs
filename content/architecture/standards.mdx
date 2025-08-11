@@ -1,4 +1,17 @@
+---
+title: Standards
+description: Developer Standards & Patterns
+---
+
 # Developer Standards & Patterns
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 **Version**: 1.0.0  
 **Last Updated**: 2025-01-03  
@@ -6,7 +19,7 @@
 **Category**: Architecture  
 **Purpose**: Comprehensive architectural standards for all projects in ~/Developer ecosystem
 
-## 📋 Table of Contents
+## 📋 Table Of Contents
 
 1. [Product Layout](#product-layout)
 2. [Documentation and AI Guidance](#documentation-and-ai-guidance)
@@ -18,14 +31,17 @@
 
 ## Product Layout
 
-### 1. Monorepo and Standalone Services
+### 1. Monorepo (preferred) And Standalone (optional)
 
-A product must be organized into a primary web monorepo and standalone service directories:
+A product is organized primarily as a Turborepo monorepo. Standalone AI repos are optional for special cases:
 
-- `[product-name]-xyz/`: The web platform, managed as a Turborepo monorepo with pnpm
-- `[product-name]-ai/`: The AI service, managed as a standalone Node.js/TypeScript project
-- `[product-name]-apple/`: The native Apple platform project (if applicable)
-- `[product-name]-docs/`: Centralized documentation for the entire product
+- `[product-name]-xyz/`: The monorepo, managed with Turborepo and pnpm
+  - `apps/app`: Main Next.js application
+  - `apps/api`: API worker (Hono/Cloudflare) when needed
+  - `apps/ai`: AI service app (preferred location for AI)
+  - `packages/*`: Shared libraries (e.g., `api`, `database`, `design`, `ai`)
+- `[product-name]-apple/` (optional): Native Apple platform project
+- `[product-name]-docs/` (optional): Product-specific docs site (this hub remains general)
 
 ### 2. Naming Conventions
 
@@ -34,9 +50,9 @@ A product must be organized into a primary web monorepo and standalone service d
 - **Apple**: Use `-apple` suffix
 - **Docs**: Use `-docs` suffix
 
-## Documentation and AI Guidance
+## Documentation And AI Guidance
 
-### 1. LLM-Specific Documentation
+### 1. Llm-specific Documentation
 
 Key directories must contain documentation optimized for AI interpretation:
 
@@ -45,7 +61,7 @@ Key directories must contain documentation optimized for AI interpretation:
 - **Purpose**: Provide high-level overview, architecture, patterns, and operational guidelines
 - **Content**: Written as "system prompts" explaining the "why" behind the code
 
-### 2. Code-Level Documentation
+### 2. Code-level Documentation
 
 - **TSDoc/JSDoc**: All exported functions, classes, and complex types must be documented
 - **Required Tags**: `@param`, `@returns`, brief summary, `@example` (encouraged)
@@ -70,7 +86,7 @@ Key directories must contain documentation optimized for AI interpretation:
 
 ## Turborepo Standards
 
-### 1. Core Tooling and Dependencies
+### 1. Core Tooling And Dependencies
 
 All `*-xyz` projects must use:
 
@@ -141,7 +157,7 @@ All `*-xyz` projects must use:
 - **UI**: `Clerk Elements` for custom unstyled auth forms
 - **Middleware**: Protect routes via middleware configuration
 
-### 6. UI and Styling
+### 6. Ui And Styling
 
 - **Styling**: `Tailwind CSS` v4 with CSS variables
 - **Components**: `Radix UI` primitives + `shadcn/ui` patterns
@@ -150,7 +166,7 @@ All `*-xyz` projects must use:
 
 ### 7. State Management
 
-#### Client UI State
+#### Client Ui State
 - **Library**: `Jotai` for ephemeral client-side state
 - **Organization**: Atoms in `apps/app/src/atoms/` by feature
 - **Usage**: Modal states, UI toggles, menus
@@ -167,7 +183,7 @@ All `*-xyz` projects must use:
 - **Client**: Exported from `@repo/database`
 - **Migrations**: Version controlled in `prisma/migrations/`
 
-### 9. API and Data Flow
+### 9. API And Data Flow
 
 #### Primary Pattern: Server Actions
 ```typescript
@@ -217,7 +233,7 @@ export const itemService = {
 ### 1. Project Structure
 
 ```
-[projectName]-ai/
+apps/ai/
 ├── src/
 │   └── mastra/
 │       ├── agents/       # Agent definitions
@@ -293,7 +309,7 @@ export function getChatModel() {
 </agent_instructions>
 ```
 
-### 5. Storage and Memory
+### 5. Storage And Memory
 
 - **Database**: Same PostgreSQL instance as web app
 - **Storage**: `@mastra/pg` for PostgresStore and PgVector
@@ -352,7 +368,7 @@ let package = Package(
 
 ### 3. Architecture Patterns
 
-#### MVVM Pattern
+#### Mvvm Pattern
 - **View**: SwiftUI views, lightweight presentation only
 - **ViewModel**: ObservableObject managing view state
 - **Model**: Simple structs, Codable and Identifiable
@@ -377,7 +393,7 @@ class AppDependencies {
 - Protocol-oriented design
 - ViewModels depend on protocols, not implementations
 
-### 4. UI/UX Patterns
+### 4. UI/UX patterns
 
 #### Glass Morphism Design
 - **Base**: `ultraThinMaterial` blur effect
@@ -553,6 +569,24 @@ export interface ButtonProps
 - **Input Validation**: Validate all user input with Zod
 - **SQL Injection**: Use Prisma parameterized queries
 
+## Related
+
+- [Architecture overview](/architecture/overview)
+- [Turborepo](/tools/stack/turborepo)
+- [AI SDK](/tools/stack/ai-sdk)
+- [Next.js](/tools/stack/nextjs)
+- [Tailwind CSS](/tools/stack/tailwind)
+- [TypeScript](/tools/stack/typescript)
+- [Auth (Clerk)](/tools/stack/clerk)
+- [Server state (SWR)](/tools/stack/swr)
+- [Client state (Jotai)](/tools/stack/jotai)
+
 ---
 
 *This document represents the actual implemented standards across all projects. Updates should reflect real pattern changes, not aspirational features.*
+
+## See Also
+
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

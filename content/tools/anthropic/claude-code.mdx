@@ -1,11 +1,24 @@
+---
+title: Anthropic Claude Code Best Practices
+description: Best practices and memory patterns for using Claude Code effectively
+---
+
 # Anthropic Claude Code Best Practices
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 ## Overview
 Claude Code is an agentic coding tool that operates directly in your terminal, designed to help developers code faster through natural language commands. It maintains project context awareness and can perform real coding operations.
 
 ## CLAUDE.md File Structure
 
-### File Types and Locations
+### File Types And Locations
 1. **Project Memory**: `./CLAUDE.md`
    - Version controlled, shared with team
    - Contains project-specific instructions
@@ -63,7 +76,7 @@ See @README.md for detailed project information
 </claude_instructions>
 ```
 
-### Chain of Thought Prompting
+### Chain Of Thought Prompting
 ```xml
 <thinking_requirements>
   <analysis_phase>
@@ -118,13 +131,13 @@ Store in `.claude/commands/` directory:
 ```bash
 # .claude/commands/refactor.sh
 #!/bin/bash
-# Usage: refactor <component-name>
-# Refactors a component to follow new patterns
+# Usage: Refactor <component-Name>
+# Refactors A Component To Follow New Patterns
 
 COMPONENT=$ARGUMENTS
 
 echo "Refactoring $COMPONENT..."
-# Implementation steps
+# Implementation Steps
 ```
 
 ### Command Integration
@@ -169,7 +182,7 @@ echo "Refactoring $COMPONENT..."
 - Review and refine instructions periodically
 - Remove outdated information
 
-## Project-Specific Optimizations
+## Project-specific Optimizations
 
 ### Development Workflow
 ```xml
@@ -197,3 +210,16 @@ echo "Refactoring $COMPONENT..."
 5. **Iterate**: Continuously improve based on experience
 6. **Cache Smartly**: Separate static from dynamic content
 7. **Be Explicit**: Specific instructions yield better results
+
+## Related
+
+- [Command system](/tools/anthropic/claude-code-command-system)
+- [Developer hub](/tools/anthropic/claude-developer-hub)
+- [Prompts showcase](/prompts-showcase)
+
+## See Also
+
+- [Standards](/architecture/standards)
+- [Turborepo](/tools/stack/turborepo)
+- [AI Sdk](/tools/stack/ai-sdk)
+- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)

@@ -1,0 +1,623 @@
+---
+title: Testing
+description: Comprehensive testing strategies, frameworks, and patterns for full-stack applications
+---
+
+# Testing
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Overview
+
+Testing is a critical component of the development workflow that ensures code reliability, prevents regressions, and maintains high-quality standards across all projects. This guide covers testing strategies from unit tests to end-to-end testing.
+
+## Testing Pyramid
+
+```
+         ┌─────────────┐
+         │ E2E Tests   │
+         │   (10%)     │
+    ┌─────┴─────────────┴─────┐
+    │   Integration Tests     │
+    │        (20%)            │
+    ┌─────┴─────────────┴─────┐
+    │    Unit Tests           │
+    │      (70%)              │
+    └─────────────────────────┘
+```
+
+## Testing Stack
+
+### Framework Selection
+
+- **Vitest**: Modern, fast unit and integration testing
+- **Testing Library**: User-centric testing utilities
+- **Playwright**: End-to-end testing across browsers
+- **MSW**: Mock Service Worker for API mocking
+
+## Directory Structure
+
+```
+apps/
+├── app/
+│   ├── __tests__/
+│   │   ├── unit/
+│   │   ├── integration/
+│   │   └── e2e/
+│   └── playwright/
+│       ├── fixtures/
+│       └── tests/
+└── api/
+    ├── __tests__/
+    │   ├── unit/
+    │   ├── integration/
+    │   └── e2e/
+    └── playwright/
+
+packages/
+├── ui/
+│   ├── __tests__/
+│   │   ├── unit/
+│   │   └── integration/
+│   └── .storybook/
+│       └── test-runner/
+└── shared/
+    └── __tests__/
+        └── unit/
+```
+
+## Configuration
+
+### Vitest Configuration
+
+```typescript
+// vitest.config.ts
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+})
+```
+
+### Test Setup
+
+```typescript
+// src/test/setup.ts
+import '@testing-library/jest-dom'
+import { vi } from 'vitest'
+
+// Mock Next.js router
+vi.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '/',
+      query: {},
+      asPath: '/',
+      push: vi.fn(),
+      pop: vi.fn(),
+      reload: vi.fn(),
+      back: vi.fn(),
+      prefetch: vi.fn().mockResolvedValue(undefined),
+      beforePopState: vi.fn(),
+      events: {
+        on: vi.fn(),
+        off: vi.fn(),
+        emit: vi.fn(),
+      },
+    }
+  },
+}))
+
+// Global fetch mock
+global.fetch = vi.fn()
+```
+
+## Unit Testing
+
+### Best Practices
+
+1. **Test isolated units**
+2. **Mock external dependencies**
+3. **Focus on business logic**
+4. **Achieve high coverage quickly**
+
+### Component Testing
+
+```typescript
+// components/Button.test.tsx
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Button } from './Button'
+
+describe('Button', () => {
+  it('renders correctly', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument()
+  })
+
+  it('handles click events', async () => {
+    const handleClick = vi.fn()
+    const user = userEvent.setup()
+    
+    render(<Button onClick={handleClick}>Click me</Button>)
+    await user.click(screen.getByRole('button'))
+    
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('is disabled when loading', () => {
+    render(<Button loading>Click me</Button>)
+    expect(screen.getByRole('button')).toBeDisabled()
+  })
+})
+```
+
+### Hook Testing
+
+```typescript
+// hooks/useCounter.test.ts
+import { renderHook, act } from '@testing-library/react'
+import { useCounter } from './useCounter'
+
+describe('useCounter', () => {
+  it('initializes with default value', () => {
+    const { result } = renderHook(() => useCounter())
+    expect(result.current.count).toBe(0)
+  })
+
+  it('increments count', () => {
+    const { result } = renderHook(() => useCounter())
+    
+    act(() => {
+      result.current.increment()
+    })
+    
+    expect(result.current.count).toBe(1)
+  })
+})
+```
+
+## Integration Testing
+
+### API Route Testing
+
+```typescript
+// app/api/auth/login.test.ts
+import { createMocks } from 'node-mocks-http'
+import { POST } from '../route'
+
+describe('POST /api/auth/login', () => {
+  it('returns 400 for missing email', async () => {
+    const { req } = createMocks({
+      method: 'POST',
+      body: { password: 'password123' },
+    })
+
+    const res = await POST(req)
+    expect(res.status).toBe(400)
+  })
+
+  it('returns token for valid credentials', async () => {
+    const { req } = createMocks({
+      method: 'POST',
+      body: {
+        email: 'user@example.com',
+        password: 'password123',
+      },
+    })
+
+    const res = await POST(req)
+    expect(res.status).toBe(200)
+    const data = await res.json()
+    expect(data.token).toBeDefined()
+  })
+})
+```
+
+### Database Testing
+
+```typescript
+// lib/db.test.ts
+import { prisma } from './prisma'
+import { testUser } from '../__fixtures__/user'
+
+describe('Database Operations', () => {
+  beforeEach(async () => {
+    // Clean up database
+    await prisma.user.deleteMany()
+  })
+
+  afterAll(async () => {
+    await prisma.$disconnect()
+  })
+
+  it('creates user successfully', async () => {
+    const user = await prisma.user.create({
+      data: testUser,
+    })
+
+    expect(user.id).toBeDefined()
+    expect(user.email).toBe(testUser.email)
+  })
+})
+```
+
+## End-to-end Testing
+
+### Playwright Configuration
+
+```typescript
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './playwright/tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+  },
+
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+  ],
+
+  webServer: {
+    command: 'pnpm dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  },
+})
+```
+
+### E2e Test Examples
+
+```typescript
+// tests/auth.spec.ts
+import { test, expect } from '@playwright/test'
+
+test.describe('Authentication', () => {
+  test('login flow works correctly', async ({ page }) => {
+    await page.goto('/login')
+    
+    await page.fill('[data-testid="email"]', 'user@example.com')
+    await page.fill('[data-testid="password"]', 'password123')
+    await page.click('[data-testid="submit"]')
+    
+    await expect(page).toHaveURL('/dashboard')
+    await expect(page.locator('[data-testid="user-menu"]')).toBeVisible()
+  })
+
+  test('logout flow works correctly', async ({ page }) => {
+    // Login first
+    await page.goto('/login')
+    await page.fill('[data-testid="email"]', 'user@example.com')
+    await page.fill('[data-testid="password"]', 'password123')
+    await page.click('[data-testid="submit"]')
+    
+    // Then logout
+    await page.click('[data-testid="user-menu"]')
+    await page.click('[data-testid="logout"]')
+    
+    await expect(page).toHaveURL('/login')
+  })
+})
+```
+
+## Mocking Strategies
+
+### API Mocking With Msw
+
+```typescript
+// mocks/handlers.ts
+import { http, HttpResponse } from 'msw'
+
+export const handlers = [
+  http.get('/api/user', () => {
+    return HttpResponse.json({
+      id: '1',
+      name: 'John Doe',
+      email: 'john@example.com',
+    })
+  }),
+  
+  http.post('/api/auth/login', async ({ request }) => {
+    const body = await request.json()
+    
+    if (body.email === 'user@example.com' && body.password === 'password123') {
+      return HttpResponse.json({
+        token: 'fake-jwt-token',
+        user: { id: '1', email: body.email },
+      })
+    }
+    
+    return HttpResponse.json(
+      { error: 'Invalid credentials' },
+      { status: 401 }
+    )
+  }),
+]
+```
+
+### Setup Msw In Tests
+
+```typescript
+// src/test/setup-msw.ts
+import { setupServer } from 'msw/node'
+import { handlers } from '../../mocks/handlers'
+
+export const server = setupServer(...handlers)
+
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+```
+
+## Testing Utilities
+
+### Custom Matchers
+
+```typescript
+// test/matchers.ts
+import { expect } from 'vitest'
+import { isValidEmail } from '../utils/validation'
+
+expect.extend({
+  toBeValidEmail(received: string) {
+    const pass = isValidEmail(received)
+    return {
+      pass,
+      message: pass
+        ? () => `Expected ${received} not to be a valid email`
+        : () => `Expected ${received} to be a valid email`,
+    }
+  },
+})
+
+declare module 'vitest' {
+  interface Assertion<T = any> {
+    toBeValidEmail(): void
+  }
+  interface AsymmetricMatchersContaining {
+    toBeValidEmail(): void
+  }
+}
+```
+
+### Test Factories
+
+```typescript
+// test/factories/user.ts
+import { faker } from '@faker-js/faker'
+
+export const userFactory = (overrides?: Partial<User>) => ({
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  avatar: faker.image.avatar(),
+  createdAt: new Date(),
+  ...overrides,
+})
+```
+
+### Test Helpers
+
+```typescript
+// test/helpers/render.tsx
+import { render, RenderOptions } from '@testing-library/react'
+import { AllProviders } from '../providers/all-providers'
+
+const customRender = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>
+) => {
+  return render(ui, {
+    wrapper: AllProviders,
+    ...options,
+  })
+}
+
+export * from '@testing-library/react'
+export { customRender as render }
+```
+
+## CI/CD Integration
+
+### Github Actions Workflow
+
+```yaml
+# .github/workflows/test.yml
+name: Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install
+        
+      - name: Run linting
+        run: pnpm lint
+        
+      - name: Run type checking
+        run: pnpm typecheck
+        
+      - name: Run unit tests
+        run: pnpm test:unit
+        
+      - name: Run integration tests
+        run: pnpm test:integration
+        
+      - name: Run E2E tests
+        run: pnpm test:e2e
+```
+
+## Testing Best Practices
+
+### 1. Write Maintainable Tests
+
+```typescript
+✅ Good:
+describe('UserProfile', () => {
+  it('displays user information', () => {
+    render(<UserProfile user={mockUser} />)
+    expect(screen.getByText(mockUser.name)).toBeInTheDocument()
+  })
+})
+
+❌ Avoid:
+describe('UserProfile', () => {
+  it('should render correctly', () => {
+    const component = render(<UserProfile user={mockUser} />)
+    expect(component).toBeTruthy()
+  })
+})
+```
+
+### 2. Test Behavior, Not Implementation
+
+```typescript
+✅ Good:
+it('submits form on button click', async () => {
+  const onSubmit = vi.fn()
+  const user = userEvent.setup()
+  
+  render(<ContactForm onSubmit={onSubmit} />)
+  await user.click(screen.getByRole('button', { name: /submit/i }))
+  
+  expect(onSubmit).toHaveBeenCalled()
+})
+
+❌ Avoid:
+it('calls handleSubmit function', async () => {
+  const handleSubmit = vi.fn()
+  const wrapper = shallow(<ContactForm onSubmit={handleSubmit} />)
+  wrapper.find('button').simulate('click')
+  expect(handleSubmit).toHaveBeenCalled()
+})
+```
+
+### 3. Use Meaningful Test Names
+
+```typescript
+✅ Good:
+it('requires email and password for login')
+it('redirects to dashboard after successful login')
+it('displays error message for invalid credentials')
+
+❌ Avoid:
+it('test login')
+it('login works')
+it('login test 1')
+```
+
+## Test Coverage
+
+### Configuration
+
+```typescript
+// vitest.config.ts
+export default defineConfig({
+  test: {
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'test/',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/coverage/**',
+      ],
+    },
+  },
+})
+```
+
+### Coverage Goals
+
+- **Unit Tests**: 80-90% coverage
+- **Integration Tests**: 60-70% coverage
+- **E2E Tests**: Focus on critical user flows, not coverage
+
+## Continuous Testing
+
+### Pre-commit Hooks
+
+```json
+// package.json
+{
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "pnpm lint --fix",
+      "pnpm typecheck",
+      "pnpm test:unit --changedSince=main"
+    ]
+  }
+}
+```
+
+## Resources
+
+- [Vitest Documentation](https://vitest.dev/)
+- [Testing Library](https://testing-library.com/)
+- [Playwright Documentation](https://playwright.dev/)
+- [Mock Service Worker](https://mswjs.io/)
+
+## See Also
+
+- [CI/CD](/stack/cicd/cicd)
+- [Turborepo (Stack Guide)](/tools/stack/turborepo)

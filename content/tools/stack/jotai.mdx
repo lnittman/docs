@@ -1,4 +1,17 @@
+---
+title: Jotai
+description: How I Use Jotai
+---
+
 # How I Use Jotai
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Jotai setup for React state management. Atomic state that's simple, performant, and TypeScript-first.
 
@@ -52,7 +65,7 @@ export const themeAtom = atom<'light' | 'dark'>('light');
 themeAtom.debugLabel = 'theme';
 ```
 
-### Using Atoms in Components
+### Using Atoms In Components
 ```typescript
 // components/counter.tsx
 'use client';
@@ -75,7 +88,7 @@ export function Counter() {
 
 ## Derived Atoms
 
-### Read-Only Derived
+### Read-only Derived
 ```typescript
 // atoms/derived.ts
 import { atom } from 'jotai';
@@ -103,7 +116,7 @@ export const fullNameAtom = atom((get) => {
 });
 ```
 
-### Write-Only Actions
+### Write-only Actions
 ```typescript
 // atoms/actions.ts
 export const addItemAtom = atom(
@@ -129,7 +142,7 @@ export const toggleItemAtom = atom(
 );
 ```
 
-### Read-Write Atoms
+### Read-write Atoms
 ```typescript
 // atoms/filters.ts
 const filterAtom = atom<'all' | 'active' | 'completed'>('all');
@@ -186,7 +199,7 @@ export function App() {
 }
 ```
 
-### Async with Loading States
+### Async With Loading States
 ```typescript
 // atoms/weather.ts
 import { atom } from 'jotai';
@@ -286,7 +299,7 @@ export const isFormValidAtom = atom(
 );
 ```
 
-### Global UI State
+### Global Ui State
 ```typescript
 // atoms/ui.ts
 import { atom } from 'jotai';
@@ -328,7 +341,7 @@ export const addToastAtom = atom(
 );
 ```
 
-### Persistence with localStorage
+### Persistence With Localstorage
 ```typescript
 // atoms/settings.ts
 import { atomWithStorage } from 'jotai/utils';
@@ -386,7 +399,7 @@ export const resetFiltersAtom = atom(
 
 ## Utils & Helpers
 
-### atomFamily for Dynamic Atoms
+### Atomfamily For Dynamic Atoms
 ```typescript
 // atoms/items.ts
 import { atomFamily } from 'jotai/utils';
@@ -403,7 +416,7 @@ function ItemEditor({ id }: { id: string }) {
 }
 ```
 
-### selectAtom for Performance
+### Selectatom For Performance
 ```typescript
 // atoms/selectors.ts
 import { selectAtom } from 'jotai/utils';
@@ -420,7 +433,7 @@ export const isCompletedAtom = selectAtom(
 );
 ```
 
-## DevTools Integration
+## Devtools Integration
 
 ### Setup
 ```typescript
@@ -456,7 +469,7 @@ function DebuggedComponent() {
 }
 ```
 
-## TypeScript Patterns
+## Typescript Patterns
 
 ### Typed Atoms
 ```typescript
@@ -502,7 +515,7 @@ export const updateUserAtom = atom<
 
 ## Common Patterns
 
-### Search with Debounce
+### Search With Debounce
 ```typescript
 const searchInputAtom = atom('');
 const debouncedSearchAtom = atom(
@@ -571,3 +584,10 @@ const updateItemOptimisticallyAtom = atom(
 - [Comparison with Other Libraries](https://jotai.org/docs/basics/comparison)
 - [TypeScript Guide](https://jotai.org/docs/guides/typescript)
 - [Performance Tips](https://jotai.org/docs/guides/performance)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

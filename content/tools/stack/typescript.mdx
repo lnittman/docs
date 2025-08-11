@@ -1,4 +1,17 @@
-# How I Use TypeScript
+---
+title: Typescript
+description: How I Use TypeScript
+---
+
+# How I Use Typescript
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My TypeScript configuration approach for strict type safety and optimal developer experience across turborepo monorepos. Focus on catching errors early while maintaining fast compilation.
 
@@ -11,16 +24,16 @@ pnpm add -D typescript @types/node
 
 ### Additional Type Packages
 ```bash
-# React types
+# React Types
 pnpm add -D @types/react @types/react-dom
 
-# Common utility types
+# Common Utility Types
 pnpm add -D @types/lodash @types/uuid
 ```
 
 ## Configuration Structure
 
-### Monorepo TypeScript Config
+### Monorepo Typescript Config
 ```
 packages/typescript-config/
 ├── base.json         # Shared base configuration
@@ -101,7 +114,7 @@ packages/typescript-config/
 }
 ```
 
-## App-Level Configuration
+## App-level Configuration
 
 ### Next.js App
 ```json
@@ -217,7 +230,7 @@ import { Button } from '@repo/design/components';
 import { db } from '@repo/database';
 ```
 
-## Type-Only Imports
+## Type-only Imports
 
 ### Explicit Type Imports
 ```typescript
@@ -294,7 +307,7 @@ declare module 'next-auth' {
 
 ## Type Guards
 
-### User-Defined Type Guards
+### User-defined Type Guards
 ```typescript
 // Type guard functions
 function isUser(obj: any): obj is User {
@@ -408,9 +421,9 @@ type PersonGetters = Getters<Person>;
 7. **Explicit overrides** - Clear inheritance
 8. **Source maps** - Always enabled for debugging
 
-## Integration with Tools
+## Integration With Tools
 
-### ESLint Integration
+### Eslint Integration
 ```json
 // .eslintrc.json
 {
@@ -427,7 +440,7 @@ type PersonGetters = Getters<Person>;
 }
 ```
 
-### VS Code Settings
+### Vs Code Settings
 ```json
 // .vscode/settings.json
 {
@@ -494,3 +507,10 @@ type PersonGetters = Getters<Person>;
   </CardContent>
 </Card>
 - [Project References](https://www.typescriptlang.org/docs/handbook/project-references.html)
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)

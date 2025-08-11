@@ -1,4 +1,17 @@
+---
+title: Nextjs
+description: How I Use Next.js 15
+---
+
 # How I Use Next.js 15
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
 
 My standard Next.js setup with App Router, React 19, Server Components, and Tailwind CSS v4.
 
@@ -130,7 +143,7 @@ export default config;
 
 ## Layout Patterns
 
-### Root Layout with Clerk
+### Root Layout With Clerk
 ```typescript
 // app/layout.tsx
 import { ClerkProvider } from '@clerk/nextjs';
@@ -290,7 +303,7 @@ export async function POST(request: Request) {
 
 ## Client Components & State
 
-### Form with Server Actions
+### Form With Server Actions
 ```typescript
 // app/(dashboard)/items/new/page.tsx
 import { createItem } from './actions';
@@ -366,7 +379,7 @@ export async function createItem(formData: FormData) {
 }
 ```
 
-### Client State with Jotai
+### Client State With Jotai
 ```typescript
 // components/items/list.tsx
 'use client';
@@ -435,7 +448,7 @@ export function ItemList({ items }: { items: Item[] }) {
 }
 ```
 
-## Data Fetching with SWR
+## Data Fetching With Swr
 
 ### API Client Setup
 ```typescript
@@ -472,7 +485,7 @@ export function useAPI<T = any>(path: string | null) {
 }
 ```
 
-### Using in Components
+### Using In Components
 ```typescript
 // components/stats/overview.tsx
 'use client';
@@ -675,3 +688,10 @@ DATABASE_URL=postgresql://...
     </div>
   </CardContent>
 </Card>
+
+## See Also
+
+- [Patterns](/architecture/patterns)
+- [Turborepo](/tools/stack/turborepo)
+- [Cicd](/stack/cicd/cicd)
+- [Testing](/stack/testing/testing)
