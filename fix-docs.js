@@ -138,14 +138,65 @@ function ensureTOC(content) {
   return parts.join('\n');
 }
 
+function ensureH2Presence(content) {
+  // Ensure at least one H2 exists after the first H1
+  if (/^##\s+/m.test(content)) return content;
+  const lines = content.split('\n');
+  const h1Index = lines.findIndex((l) => /^#\s+/.test(l));
+  if (h1Index === -1) return content;
+  const insertion = ['', '## Overview', ''];
+  lines.splice(h1Index + 1, 0, ...insertion);
+  return lines.join('\n');
+}
+
 function normalizeHeadings(content) {
-  // Title-Case all headings except those containing code/backticks or file paths
-  return content.replace(/^(#{1,6})\s+(.+)$/gm, (full, hashes, text) => {
-    if (text.includes('`') || /[\w-]+\.[\w]+/.test(text) || text.includes('/')) {
-      return full; // skip headings with code/file paths
+  // Normalize heading levels to avoid skips and enforce casing/punctuation
+  const lines = content.split('\n');
+
+  // First pass: collect heading indices and levels
+  const headingRegex = /^(#{1,6})\s+(.+)$/;
+  const indices = [];
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(headingRegex);
+    if (m) indices.push({ i, level: m[1].length, text: m[2] });
+  }
+
+  // Second pass: adjust levels to avoid jumps (except for first heading which can be H1)
+  let lastLevel = null;
+  for (const h of indices) {
+    if (lastLevel == null) {
+      lastLevel = h.level; // keep as-is; ensureH1 runs elsewhere
+      continue;
     }
-    return `${hashes} ${toTitleCase(text)}`;
-  });
+    if (h.level > lastLevel + 1) {
+      const newLevel = lastLevel + 1;
+      lines[h.i] = `${'#'.repeat(newLevel)} ${h.text}`;
+      h.level = newLevel;
+    }
+    lastLevel = h.level;
+  }
+
+  // Third pass: title-case and strip trailing punctuation for H1/H2 when safe
+  for (const h of indices) {
+    const original = lines[h.i];
+    const m = original.match(headingRegex);
+    if (!m) continue;
+    const hashes = m[1];
+    let text = m[2];
+    // Skip headings with inline code, file paths, or links
+    if (text.includes('`') || /[\w-]+\.[\w]+/.test(text) || text.includes('/') || /\[[^\]]+\]\(/.test(text)) {
+      continue;
+    }
+    // Title case
+    text = toTitleCase(text);
+    // Remove trailing punctuation for H1/H2
+    if (hashes.length <= 2) {
+      text = text.replace(/[.!?]+$/,'');
+    }
+    lines[h.i] = `${hashes} ${text}`;
+  }
+
+  return lines.join('\n');
 }
 
 function applyPolicyUpdates(content) {
@@ -236,6 +287,7 @@ function processFile(filePath) {
 
   content = ensureFrontmatter(content, filePath);
   content = ensureH1(content);
+  content = ensureH2Presence(content);
   content = ensureTOC(content);
   content = normalizeHeadings(content);
   content = applyPolicyUpdates(content);

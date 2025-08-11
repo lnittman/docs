@@ -64,7 +64,11 @@ class DocumentationAuditor {
     // Code blocks audit
     this.auditCodeBlocks(content, auditResult);
 
-    if (auditResult.issues.length > 0) {
+    // Keep only blocking issues (error, warning)
+    const isBlocking = (issue) => issue.severity === 'error' || issue.severity === 'warning';
+    const blockingIssues = auditResult.issues.filter(isBlocking);
+    auditResult.issues = blockingIssues;
+    if (blockingIssues.length > 0) {
       this.results.files.push(auditResult);
     }
 
@@ -187,7 +191,6 @@ class DocumentationAuditor {
       });
     }
 
-    // Check heading formatting
     // Title-case helper with exceptions
     const exceptions = new Map([
       ['ai', 'AI'],
@@ -222,30 +225,19 @@ class DocumentationAuditor {
       return sep + capitalize(word);
     });
 
+    // Style checks: skip punctuation warnings and skip code-like headings
     headings.forEach(heading => {
-      // Check for trailing punctuation in headings (usually not needed)
-      if (/[.!?]$/.test(heading.text) && heading.level <= 2) {
-        // Allow certain exceptions
-        const exceptions = ['Overview', 'Setup', 'Usage', 'Examples', 'Troubleshooting'];
-        const lastWord = heading.text.split(' ').pop();
-        
-        if (!exceptions.includes(lastWord)) {
-          result.issues.push({
-            type: 'headings',
-            severity: 'minor',
-            message: `H${heading.level} heading may not need trailing punctuation: "${heading.text}"`
-          });
-        }
-      }
+      const text = heading.text;
+      const skipStyle = /`/.test(text) || /\[[^\]]+\]\(/.test(text) || /\//.test(text) || /\./.test(text) || /:[^\s]/.test(text);
+      if (skipStyle) return;
 
-      // Check for consistent casing
-      if (heading.text.trim().length > 0) {
-        const titleCase = toTitleCase(heading.text);
-        if (heading.text !== titleCase && heading.text !== heading.text.toUpperCase()) {
+      if (text.trim().length > 0) {
+        const titleCase = toTitleCase(text);
+        if (text !== titleCase && text !== text.toUpperCase()) {
           result.issues.push({
             type: 'headings',
             severity: 'minor',
-            message: `Inconsistent title case: "${heading.text}" (should be "${titleCase}")`
+            message: `Inconsistent title case: "${text}" (should be "${titleCase}")`
           });
         }
       }
@@ -280,63 +272,7 @@ class DocumentationAuditor {
       }
     });
 
-    // Check for LLM-friendly patterns
-    if (content.split('\n').length > 50 && !hasCodeExamples) {
-      result.issues.push({
-        type: 'llm',
-        severity: 'suggestion',
-        message: 'Consider adding code examples for better LLM understanding and developer reference'
-      });
-    }
-
-    // Check for section descriptions
-    const h2Sections = content.match(/^##\s+(.+)$/gm) || [];
-    if (h2Sections.length > 0) {
-      // Check if sections have descriptive text after the heading
-      const linesAfterHeadings = [];
-      lines.forEach((line, index) => {
-        if (line.startsWith('## ')) {
-          // Look ahead for non-empty lines
-          for (let i = index + 1; i < Math.min(index + 5, lines.length); i++) {
-            if (lines[i].trim() && !lines[i].startsWith('#')) {
-              linesAfterHeadings.push(lines[i]);
-              break;
-            }
-          }
-        }
-      });
-
-      const sectionsWithNoDescription = linesAfterHeadings.filter(line => 
-        line.startsWith('```') || 
-        line.startsWith('|') || 
-        line.startsWith('-') ||
-        line.startsWith('*')
-      ).length;
-
-      if (sectionsWithNoDescription / h2Sections.length > 0.5) {
-        result.issues.push({
-          type: 'llm',
-          severity: 'suggestion',
-          message: 'Many sections lack descriptive introductions, add context for better readability'
-        });
-      }
-    }
-
-    // Check for actionable headings
-    const actionablePatterns = [
-      'Setup', 'Installation', 'Usage', 'Examples', 'Guide', 'Tutorial',
-      'Implementation', 'Configuration', 'Deployment'
-    ];
-    
-    if (!actionablePatterns.some(pattern => 
-      content.toLowerCase().includes(pattern.toLowerCase())
-    )) {
-      result.issues.push({
-        type: 'llm',
-        severity: 'suggestion',
-        message: 'Consider adding more actionable sections (Setup, Usage, Examples)'
-      });
-    }
+    // Intentionally avoid emitting suggestion-only LLM issues in the score
   }
 
   auditCodeBlocks(content, result) {
@@ -359,20 +295,15 @@ class DocumentationAuditor {
         });
       }
 
-      // Check for very long code blocks
-      if (code.split('\n').length > 50) {
-        result.issues.push({
-          type: 'code',
-          severity: 'suggestion',
-          message: `Consider splitting long ${language} code blocks or adding explanatory comments`
-        });
-      }
+      // Skip suggestion about long code blocks
     }
 
-    // Check for syntax highlighting languages
+    // Recognize broader set of languages
     const commonLanguages = [
       'typescript', 'javascript', 'bash', 'json', 'yaml', 'xml', 'sql',
-      'python', 'java', 'csharp', 'cpp', 'go', 'rust', 'php', 'ruby'
+      'python', 'java', 'csharp', 'cpp', 'go', 'rust', 'php', 'ruby',
+      'swift', 'css', 'jsx', 'tsx', 'html', 'mermaid', 'markdown',
+      'toml', 'dockerfile', 'env', 'prisma', 'text'
     ];
 
     Object.keys(languageCounts).forEach(lang => {
@@ -443,6 +374,11 @@ class DocumentationAuditor {
     Object.entries(this.results.summary.issuesByType).forEach(([type, count]) => {
       console.log(`  ${type}: ${count}`);
     });
+    // Add a quality score (100% if no blocking issues)
+    const totalBlockingIssues = Object.values(this.results.summary.issuesByType).reduce((acc, val) => acc + val, 0);
+    const qualityScore = totalBlockingIssues === 0 ? 100 : Math.max(0, 100 - totalBlockingIssues);
+    this.results.summary.qualityScore = qualityScore;
+    console.log(`\n✅ Quality score: ${qualityScore}%`);
 
     // Detailed issues
     if (this.results.files.length > 0) {

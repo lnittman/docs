@@ -13,6 +13,10 @@ description: Techniques and patterns for effective prompt design
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 <Note>
   While these tips apply broadly to all Claude models, you can find prompting tips specific to extended thinking models [here](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips).
 </Note>
@@ -369,7 +373,7 @@ This technique, known as few-shot or multishot prompting, is particularly effect
 
 <Tip>**Power up your prompts**: Include 3-5 diverse, relevant examples to show Claude exactly what you want. More examples = better performance, especially for complex tasks.</Tip>
 
-## Why Use Examples?
+## Why Use Examples
 
 * **Accuracy**: Examples reduce misinterpretation of instructions.
 * **Consistency**: Examples enforce uniform structure and style.
@@ -514,7 +518,7 @@ When your prompts involve multiple components like context, instructions, and ex
 
 <Tip>**XML tip**: Use tags like `<instructions>`, `<example>`, and `<formatting>` to clearly separate different parts of your prompt. This prevents Claude from mixing up instructions with examples or context.</Tip>
 
-## Why Use XML Tags?
+## Why Use XML Tags
 
 * **Clarity:** Clearly separate different parts of your prompt and ensure your prompt is well structured.
 * **Accuracy:** Reduce errors caused by Claude misinterpreting parts of your prompt.
@@ -584,7 +588,7 @@ The right role can turn Claude from a general assistant into your virtual domain
 
 <Tip>**System prompt tips**: Use the `system` parameter to set Claude's role. Put everything else, like task-specific instructions, in the `user` turn instead.</Tip>
 
-## Why Use Role Prompting?
+## Why Use Role Prompting
 
 * **Enhanced accuracy:** In complex scenarios like legal analysis or financial modeling, role prompting can significantly boost Claude's performance.
 * **Tailored tone:** Whether you need a CFO's brevity or a copywriter's flair, role prompting adjusts Claude's communication style.
@@ -785,7 +789,7 @@ When working with complex tasks, Claude can sometimes drop the ball if you try t
 
 Enter prompt chaining: breaking down complex tasks into smaller, manageable subtasks.
 
-## Why Chain Prompts?
+## Why Chain Prompts
 
 1. **Accuracy**: Each subtask gets Claude's full attention, reducing errors.
 2. **Clarity**: Simpler subtasks mean clearer instructions and outputs.

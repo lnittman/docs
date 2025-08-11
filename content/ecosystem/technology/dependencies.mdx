@@ -13,6 +13,10 @@ description: Dependency Matrix
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 > Detailed dependency analysis across all active projects
 
 ## 📊 Dependency Overview
@@ -131,14 +135,14 @@ pnpm update next@latest -r --filter alden-web
 pnpm audit fix --production
 ```
 
-### Phase 2: Mastra Alignment (This Week)
+## Phase 2: Mastra Alignment (This Week)
 ```bash
 # Update All AI Services To Latest Mastra
 pnpm update @mastra/core@^0.10.10 -r --filter "*-ai"
 pnpm update @mastra/engine@^0.10.10 -r --filter "*-ai"
 ```
 
-### Phase 3: Framework Updates (This Month)
+## Phase 3: Framework Updates (This Month)
 ```bash
 # Align all Next.js versions
 pnpm update next@^15.3.4 react@^19.0.0 -r --filter "*-xyz"

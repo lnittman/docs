@@ -13,6 +13,10 @@ description: Complete guide for setting up local development environment, includ
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 ## Overview
 
 This guide provides comprehensive instructions for setting up a local development environment that mirrors production. Following these standards ensures consistency across all team members and reduces onboarding friction.
@@ -40,7 +44,7 @@ cd <project-name>
 pnpm install
 ```
 
-### 2. Environment Variables
+## 2. Environment Variables
 
 Create environment files from templates:
 
@@ -198,9 +202,9 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### Local Database Installation
+## Local Database Installation
 
-#### Postgresql (macOS)
+### Postgresql (macOS)
 
 ```bash
 # Install Via Homebrew
@@ -217,7 +221,7 @@ createuser -s user
 psql -d db_name
 ```
 
-#### Postgresql (Ubuntu)
+## Postgresql (Ubuntu)
 
 ```bash
 # Install Postgresql
@@ -366,7 +370,7 @@ EXPOSE 3000
 CMD ["pnpm", "dev"]
 ```
 
-### Docker Compose For Development
+## Docker Compose For Development
 
 ```yaml
 # docker-compose.dev.yml
@@ -465,7 +469,7 @@ npx husky install
 npx husky add .husky/pre-commit "pnpm lint-staged"
 ```
 
-### Lint-staged Configuration
+## Lint-staged Configuration
 
 ```json
 // package.json

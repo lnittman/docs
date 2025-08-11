@@ -12,6 +12,10 @@ description: Claude Code Power User Guide
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 **Last Updated**: 2025-01-02  
 **Purpose**: Maximize productivity with Claude Code through advanced features and workflows
 
@@ -52,7 +56,7 @@ claude --model claude-opus-4-20250514
 "think more about edge cases"
 ```
 
-### File Management Patterns
+## File Management Patterns
 ```bash
 # Reference Documentation
 @~/Developer/docs/apps/docs.md
@@ -97,7 +101,7 @@ claude --model claude-opus-4-20250514
 - Performance considerations
 ```
 
-#### 2. User Memory (~/.claude/CLAUDE.md)
+### 2. User Memory (~/.claude/CLAUDE.md)
 **Purpose**: Personal preferences and cross-project patterns
 **Location**: `~/.claude/CLAUDE.md`
 **Optimize for Your Workflow**:
@@ -124,7 +128,7 @@ claude --model claude-opus-4-20250514
 - Node.js with TypeScript
 ```
 
-#### 3. Documentation Repository (~/Developer/docs/)
+### 3. Documentation Repository (~/Developer/docs/)
 **Purpose**: Comprehensive reference and patterns library
 **Recommended Structure**:
 ```
@@ -181,7 +185,7 @@ claude --model claude-opus-4-20250514
 "think extensively about the architecture"
 ```
 
-### Extended Thinking Best Practices
+## Extended Thinking Best Practices
 
 1. **Be Specific**: "think about database schema design" > "think about this"
 2. **Chain Thinking**: Let Claude think, then refine based on output
@@ -208,7 +212,7 @@ pnpm test:coverage && open coverage/index.html
 $ARGUMENTS
 ```
 
-#### User Commands (~/.claude/commands/)
+## User Commands (~/.claude/commands/)
 ```markdown
 # ~/.claude/commands/setup.md
 Initialize new project with standard configuration
@@ -225,9 +229,9 @@ Project type: $ARGUMENTS
 </setup_command>
 ```
 
-### Power User Commands
+## Power User Commands
 
-#### 1. Documentation Audit (/user:docaudit)
+### 1. Documentation Audit (/user:docaudit)
 ```bash
 # Comprehensive Documentation Analysis
 /user:docaudit
@@ -236,7 +240,7 @@ Project type: $ARGUMENTS
 /user:docaudit focus on API documentation
 ```
 
-#### 2. Multi-Task Planning (/user:multitask)
+## 2. Multi-Task Planning (/user:multitask)
 ```bash
 # Create Parallelized Implementation Plan
 /user:multitask implement real-time collaboration
@@ -245,7 +249,7 @@ Project type: $ARGUMENTS
 /user:multitask add authentication using Clerk
 ```
 
-#### 3. Performance Analysis (/project:perf)
+## 3. Performance Analysis (/project:perf)
 ```bash
 # Analyze And Optimize Performance
 /project:perf analyze bundle size
@@ -269,7 +273,7 @@ cd ../feature-auth && claude  # Terminal 1
 cd ../feature-api && claude   # Terminal 2
 ```
 
-### Checkpoint-heavy Workflow
+## Checkpoint-heavy Workflow
 
 ```bash
 # 1. Start With Clear Intention
@@ -285,7 +289,7 @@ pnpm test:watch
 git reset --hard HEAD~1
 ```
 
-### Documentation-first Development
+## Documentation-first Development
 
 ```markdown
 # 1. Start With Docs
@@ -318,7 +322,7 @@ Create a React component following these patterns:
 </component_template>
 ```
 
-#### 2. Reference Patterns Library
+## 2. Reference Patterns Library
 ```markdown
 # ~/Developer/docs/apps/patterns.md
 ## State Management Pattern
@@ -332,7 +336,7 @@ Create a React component following these patterns:
 - Cache aggressively
 ```
 
-#### 3. Quick Command References
+### 3. Quick Command References
 ```markdown
 # ~/Developer/docs/reference/commands.md
 ## Development Commands
@@ -385,7 +389,7 @@ else:
     create_plan_first()  # Plan then implement
 ```
 
-### Context Window Optimization
+## Context Window Optimization
 
 ```markdown
 # Prioritize Context Loading
@@ -401,7 +405,7 @@ else:
 - Use grep/search for targeted context
 ```
 
-### Verification Loops
+## Verification Loops
 
 ```bash
 # Self-verifying Implementation
@@ -434,7 +438,7 @@ else:
 - Performance targets
 ```
 
-#### 2. Knowledge Sharing
+### 2. Knowledge Sharing
 ```bash
 # Export Learnings
 claude "Document the patterns we discovered"
@@ -446,7 +450,7 @@ cp .claude/commands/useful-command.md ~/.claude/commands/
 "Update team docs with new patterns"
 ```
 
-### Pair Programming With Claude
+## Pair Programming With Claude
 
 ```markdown
 # Driver Pattern
@@ -494,7 +498,7 @@ Claude: [Security fixes]
 - Another pattern with rationale
 ```
 
-#### 2. Slow Response Times
+### 2. Slow Response Times
 ```bash
 # Clear Conversation And Restart
 /clear
@@ -502,7 +506,7 @@ Claude: [Security fixes]
 # Break Into Smaller Tasks
 ```
 
-#### 3. Inconsistent Behavior
+## 3. Inconsistent Behavior
 ```markdown
 # Add to CLAUDE.md
 ## Consistency Rules

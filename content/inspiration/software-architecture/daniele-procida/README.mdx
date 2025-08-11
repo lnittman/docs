@@ -9,6 +9,10 @@ description: The Diátaxis framework for structuring effective documentation
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 ## Overview
 
 Daniele Procida is a documentation expert and developer advocate who created the Diátaxis framework - a systematic approach to technical documentation that has revolutionized how we think about and organize documentation. The framework, whose name comes from the Greek word meaning "arrangement" or "disposition," provides a clear structure for creating comprehensive, user-focused documentation.
@@ -210,7 +214,7 @@ Middleware functions are the backbone of Express applications, but what exactly 
 
 At its core, middleware is a design pattern that allows you to compose application logic from small, focused functions. Think of it as an assembly line where each station (middleware function) performs a specific task on the request before passing it to the next station.
 
-## Why Middleware?
+## Why Middleware
 
 The middleware pattern emerged from the need to handle cross-cutting concerns in web applications. Instead of duplicating code for authentication, logging, or error handling in every route, middleware allows you to write this logic once and apply it wherever needed.
 
@@ -267,7 +271,7 @@ claude-docs generate reference --source "./src/api" --format "markdown"
 claude-docs generate explanation --topic "microservices architecture" --audience "intermediate"
 ```
 
-### 2. Documentation Analysis Commands
+## 2. Documentation Analysis Commands
 
 ```bash
 # Analyze Existing Docs Against Diátaxis Principles
@@ -280,7 +284,7 @@ claude-docs gaps --codebase "./src" --docs "./docs"
 claude-docs classify --input "./docs/mixed-content.md"
 ```
 
-### 3. Interactive Documentation Assistant
+## 3. Interactive Documentation Assistant
 
 ```python
 # Example Integration With Claude API
@@ -307,7 +311,7 @@ class DiataxisDocAssistant:
         return response.quadrant
 ```
 
-### 4. Documentation Workflow Integration
+## 4. Documentation Workflow Integration
 
 ```yaml
 # .github/workflows/documentation.yml
@@ -338,7 +342,7 @@ jobs:
           claude-docs generate missing --output ./docs/generated
 ```
 
-### 5. Real-time Documentation Suggestions
+## 5. Real-time Documentation Suggestions
 
 ```javascript
 // VSCode Extension Example

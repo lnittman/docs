@@ -13,6 +13,10 @@ description: Continuous Integration and Deployment pipelines for automated testi
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 ## Overview
 
 Continuous Integration and Continuous Deployment (CI/CD) automates the software delivery process, enabling teams to ship code faster and more reliably. This guide covers CI/CD patterns for Next.js applications using GitHub Actions, Turborepo, and deployment platforms.
@@ -413,7 +417,7 @@ ENV HOSTNAME "0.0.0.0"
 CMD ["node", "server.js"]
 ```
 
-### Docker Deployment Workflow
+## Docker Deployment Workflow
 
 ```yaml
 # .github/workflows/deploy-docker.yml
@@ -523,7 +527,7 @@ strategy:
     key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 ```
 
-### 2. Security Considerations
+## 2. Security Considerations
 
 - Always use secrets for sensitive data
 - Limit permissions with least privilege原则
@@ -588,7 +592,7 @@ jobs:
           pnpm --filter ${{ matrix.app }} deploy
 ```
 
-### Feature Flags
+## Feature Flags
 
 ```yaml
 # Deploy Features Behind Flags

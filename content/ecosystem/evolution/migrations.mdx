@@ -13,6 +13,10 @@ description: Migration Plans
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 > Detailed migration strategies for bringing projects into compliance
 
 ## 🚨 Priority 1: Alden Migration
@@ -55,7 +59,7 @@ mkdir -p apps/web packages/{ui,db,auth,shared}
 # Start Moving Components
 ```
 
-#### Week 2: Stack Migration
+## Week 2: Stack Migration
 ```bash
 # Replace Supabase With Clerk + Prisma
 pnpm add @clerk/nextjs @prisma/client prisma
@@ -68,13 +72,13 @@ pnpm add jotai swr
 pnpm add next@15.3.4 react@19.0.0 react-dom@19.0.0
 ```
 
-#### Week 3: Feature Parity
+## Week 3: Feature Parity
 - Port all existing features
 - Update API routes to Server Actions
 - Migrate database schema
 - Add test coverage
 
-#### Week 4: Documentation & Polish
+### Week 4: Documentation & Polish
 - Generate CLAUDE.md files
 - Add comprehensive tests
 - Performance optimization
@@ -245,7 +249,7 @@ for project in webs radar; do
 done
 ```
 
-### Mastra 0.10.10 Update
+## Mastra 0.10.10 Update
 
 ```bash
 # Update All AI Services

@@ -13,6 +13,10 @@ description: Comprehensive guide for integrating oRPC into Turborepo projects wi
 
 <!-- Generated placeholder; add anchors as needed -->
 
+## Table Of Contents
+
+<!-- Generated placeholder; add anchors as needed -->
+
 ## Overview
 
 This guide provides a comprehensive, repeatable pattern for integrating oRPC into Turborepo projects with Next.js clients and Hono API routes. This architecture ensures end-to-end type safety, eliminates code duplication, and enables automatic Swift client generation for native apps.
@@ -524,7 +528,7 @@ echo "✓ OpenAPI spec saved to $OUTPUT_FILE"
 echo "Run 'swift package generate-plugin' in Xcode to regenerate client"
 ```
 
-#### Swift Package Configuration
+## Swift Package Configuration
 ```yaml
 # Packages/ArborClient/openapi-generator-config.yaml
 generate:
@@ -547,9 +551,9 @@ filter:
     - /api/rpc/.*
 ```
 
-### 11. CI/CD Integration
+## 11. CI/CD Integration
 
-#### .github/workflows/update-openapi.yml
+### .github/workflows/update-openapi.yml
 ```yaml
 name: Update OpenAPI Spec
 
