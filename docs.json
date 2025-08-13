@@ -42,6 +42,7 @@
             "pages": [
               "architecture/patterns",
               "architecture/standards",
+              "architecture/services",
               "architecture/turborepo",
               "architecture/apple",
               "architecture/claude",
@@ -92,6 +93,7 @@
               "tools/stack/cloudflare",
               "tools/stack/drizzle",
               "tools/stack/hono",
+              "tools/stack/orpc",
               "tools/stack/jotai",
               "tools/stack/mastra",
               "tools/stack/ai-sdk",

@@ -43,19 +43,11 @@ This document serves as a comprehensive guide and template for building and audi
 │   │   ├── database/        # Database client & schemas
 │   │   ├── ui/              # Shared UI components
 │   │   └── typescript-config/ # Shared TS configs
+│   ├── docs/                  # Internal AI-optimized development docs
 │   ├── turbo.json
 │   ├── package.json
 │   └── pnpm-workspace.yaml
-├── [projectName]-ai/         # Standalone Mastra service
-│   ├── src/
-│   │   └── mastra/
-│   │       ├── agents/
-│   │       ├── tools/
-│   │       ├── workflows/
-│   │       └── index.ts
-│   ├── package.json
-│   └── .env
-└── [projectName]-apple/      # iOS/macOS/watchOS clients
+└── [projectName]-apple/      # iOS/macOS/watchOS clients (optional)
     ├── Packages/
     │   ├── Auth/
     │   ├── Design/
@@ -132,7 +124,7 @@ export const vectors = mastra.vectors
 
 ### 3. API Package Integration
 ```typescript
-// packages/api/src/services/[domain]Service.ts
+// packages/services/src/services/[domain]Service.ts
 import { agents } from '@repo/mastra'
 import { database } from '@repo/database'
 
@@ -149,12 +141,12 @@ export async function performDomainAction(input: string) {
 
 ## Package Architecture
 
-### packages/api
+### packages/services
 **Purpose**: Domain services, business logic, API utilities
 
 **Structure**:
 ```
-packages/api/
+packages/services/
 ├── src/
 │   ├── services/
 │   │   ├── [domain]Service.ts    # Domain-specific logic
@@ -307,7 +299,7 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 ### Phase 1: Structure
 - [ ] Ensure `apps/ai` exists in the monorepo
 - [ ] Create/update `packages/ai/` or `packages/mastra/`
-- [ ] Create/update `packages/api/`
+- [ ] Create/update `packages/services/`
 
 ### Phase 2: Dependencies
 - [ ] Remove direct `@mastra/client-js` from packages
@@ -322,7 +314,7 @@ export const modalOpenAtom = atom<ModalType | null>(null)
 - [ ] Update user components
 
 ### Phase 4: API Layer
-- [ ] Create domain services in `packages/api`
+- [ ] Create domain services in `packages/services`
 - [ ] Wrap Mastra calls with business logic
 - [ ] Set up proper error handling
 - [ ] Add caching where appropriate

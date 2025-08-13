@@ -1,0 +1,599 @@
+---
+title: oRPC
+description: Type-safe API communication layer
+---
+
+# oRPC - Type-Safe API Layer
+
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-13  
+**Purpose**: End-to-end type safety between Hono API and Next.js app
+
+## Overview
+
+oRPC (or tRPC) provides type-safe API communication between `apps/api` (Hono) and `apps/app` (Next.js). It ensures that API contracts are enforced at compile time, eliminating runtime type errors.
+
+## Architecture
+
+### Package Structure
+```
+packages/orpc/
+├── src/
+│   ├── index.ts           # Main exports
+│   ├── client.ts          # Client initialization
+│   ├── server.ts          # Server router setup
+│   ├── routers/           # API routers
+│   │   ├── users.ts       # User procedures
+│   │   ├── items.ts       # Item procedures
+│   │   └── index.ts       # Root router
+│   ├── types/             # Shared types
+│   │   ├── api.ts         # API types
+│   │   └── models.ts      # Data models
+│   └── utils/             # Utilities
+├── package.json
+└── tsconfig.json
+```
+
+## Core Setup
+
+### Server Router (Hono)
+```typescript
+// packages/orpc/src/server.ts
+import { initORPC } from '@orpc/server'
+import { z } from 'zod'
+import type { Context } from 'apps/api/src/types'
+
+// Initialize oRPC with context
+const orpc = initORPC.context<Context>().create()
+
+// Create procedures
+export const publicProcedure = orpc.procedure
+export const protectedProcedure = orpc.procedure.use(
+  async ({ ctx, next }) => {
+    if (!ctx.userId) {
+      throw new Error('Unauthorized')
+    }
+    return next()
+  }
+)
+
+// Define router
+export const createRouter = orpc.router
+export type AppRouter = typeof appRouter
+
+// Root router
+export const appRouter = createRouter({
+  health: publicProcedure
+    .query(() => ({ status: 'ok' })),
+    
+  users: userRouter,
+  items: itemRouter,
+  // ... other routers
+})
+```
+
+### User Router Example
+```typescript
+// packages/orpc/src/routers/users.ts
+import { z } from 'zod'
+import { createRouter, protectedProcedure } from '../server'
+import { userService } from '@repo/services'
+
+export const userRouter = createRouter({
+  // Get current user
+  me: protectedProcedure
+    .query(async ({ ctx }) => {
+      return await userService.findById(ctx.userId)
+    }),
+    
+  // Get user by ID
+  byId: protectedProcedure
+    .input(z.object({
+      id: z.string()
+    }))
+    .query(async ({ input }) => {
+      return await userService.findById(input.id)
+    }),
+    
+  // Create user
+  create: protectedProcedure
+    .input(z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      role: z.enum(['user', 'admin']).optional()
+    }))
+    .mutation(async ({ input, ctx }) => {
+      return await userService.create({
+        ...input,
+        createdBy: ctx.userId
+      })
+    }),
+    
+  // Update user
+  update: protectedProcedure
+    .input(z.object({
+      id: z.string(),
+      name: z.string().optional(),
+      email: z.string().email().optional()
+    }))
+    .mutation(async ({ input }) => {
+      const { id, ...data } = input
+      return await userService.update(id, data)
+    }),
+    
+  // List users with pagination
+  list: protectedProcedure
+    .input(z.object({
+      page: z.number().min(1).default(1),
+      limit: z.number().min(1).max(100).default(20),
+      search: z.string().optional()
+    }))
+    .query(async ({ input }) => {
+      return await userService.findMany(input)
+    })
+})
+```
+
+### Hono Integration
+```typescript
+// apps/api/src/index.ts
+import { Hono } from 'hono'
+import { orpcHandler } from '@orpc/server/hono'
+import { appRouter } from '@repo/orpc/server'
+
+const app = new Hono()
+
+// Mount oRPC handler
+app.all('/trpc/*', (c) => {
+  return orpcHandler({
+    router: appRouter,
+    context: {
+      userId: c.get('userId'),
+      sessionId: c.get('sessionId')
+    }
+  })(c)
+})
+
+export default app
+```
+
+## Client Setup
+
+### Client Configuration
+```typescript
+// packages/orpc/src/client.ts
+import { createORPCClient } from '@orpc/client'
+import type { AppRouter } from './server'
+
+// Create typed client
+export const createClient = (options?: {
+  headers?: () => HeadersInit | Promise<HeadersInit>
+}) => {
+  return createORPCClient<AppRouter>({
+    url: process.env.NEXT_PUBLIC_API_URL + '/trpc',
+    headers: options?.headers
+  })
+}
+
+// Default client for server components
+export const api = createClient()
+```
+
+### Next.js App Usage
+
+#### Server Components
+```typescript
+// apps/app/src/app/users/page.tsx
+import { api } from '@repo/orpc/client'
+
+export default async function UsersPage() {
+  // Direct server-side call
+  const users = await api.users.list.query({
+    page: 1,
+    limit: 20
+  })
+  
+  return (
+    <div>
+      {users.data.map(user => (
+        <UserCard key={user.id} user={user} />
+      ))}
+    </div>
+  )
+}
+```
+
+#### Client Components with React Query
+```typescript
+// packages/orpc/src/react.tsx
+'use client'
+
+import { createORPCReact } from '@orpc/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { httpLink } from '@orpc/client'
+import type { AppRouter } from './server'
+
+export const orpc = createORPCReact<AppRouter>()
+
+// Provider component
+export function ORPCProvider({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient())
+  const [orpcClient] = useState(() =>
+    orpc.createClient({
+      links: [
+        httpLink({
+          url: process.env.NEXT_PUBLIC_API_URL + '/trpc',
+          headers: async () => {
+            const token = await getAuthToken()
+            return {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        })
+      ]
+    })
+  )
+  
+  return (
+    <orpc.Provider client={orpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </orpc.Provider>
+  )
+}
+```
+
+#### Using in Client Components
+```typescript
+// apps/app/src/components/user-list.tsx
+'use client'
+
+import { orpc } from '@repo/orpc/react'
+
+export function UserList() {
+  // Query hook
+  const { data, isLoading, error } = orpc.users.list.useQuery({
+    page: 1,
+    limit: 20
+  })
+  
+  // Mutation hook
+  const createUser = orpc.users.create.useMutation({
+    onSuccess: () => {
+      // Invalidate and refetch
+      orpc.users.list.invalidate()
+    }
+  })
+  
+  if (isLoading) return <Spinner />
+  if (error) return <Error error={error} />
+  
+  return (
+    <div>
+      {data?.data.map(user => (
+        <div key={user.id}>{user.name}</div>
+      ))}
+      
+      <button onClick={() => createUser.mutate({
+        name: 'New User',
+        email: 'new@example.com'
+      })}>
+        Add User
+      </button>
+    </div>
+  )
+}
+```
+
+## Advanced Patterns
+
+### Optimistic Updates
+```typescript
+const updateUser = orpc.users.update.useMutation({
+  onMutate: async (newData) => {
+    // Cancel outgoing refetches
+    await orpc.users.byId.cancel({ id: newData.id })
+    
+    // Snapshot previous value
+    const previousUser = orpc.users.byId.getData({ id: newData.id })
+    
+    // Optimistically update
+    orpc.users.byId.setData({ id: newData.id }, (old) => ({
+      ...old,
+      ...newData
+    }))
+    
+    return { previousUser }
+  },
+  
+  onError: (err, newData, context) => {
+    // Rollback on error
+    if (context?.previousUser) {
+      orpc.users.byId.setData(
+        { id: newData.id },
+        context.previousUser
+      )
+    }
+  },
+  
+  onSettled: () => {
+    // Always refetch after error or success
+    orpc.users.byId.invalidate()
+  }
+})
+```
+
+### Infinite Queries
+```typescript
+// Router
+export const itemRouter = createRouter({
+  infiniteList: protectedProcedure
+    .input(z.object({
+      limit: z.number().default(20),
+      cursor: z.string().optional()
+    }))
+    .query(async ({ input }) => {
+      const items = await itemService.findMany({
+        limit: input.limit + 1,
+        cursor: input.cursor
+      })
+      
+      let nextCursor: string | undefined
+      if (items.length > input.limit) {
+        const nextItem = items.pop()
+        nextCursor = nextItem!.id
+      }
+      
+      return {
+        items,
+        nextCursor
+      }
+    })
+})
+
+// Client usage
+export function InfiniteItemList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = orpc.items.infiniteList.useInfiniteQuery(
+    { limit: 20 },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor
+    }
+  )
+  
+  return (
+    <div>
+      {data?.pages.map((page) =>
+        page.items.map((item) => (
+          <ItemCard key={item.id} item={item} />
+        ))
+      )}
+      
+      <button
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? 'Loading more...'
+          : hasNextPage
+          ? 'Load More'
+          : 'Nothing more to load'}
+      </button>
+    </div>
+  )
+}
+```
+
+### Subscriptions (WebSocket)
+```typescript
+// Server
+export const notificationRouter = createRouter({
+  onMessage: protectedProcedure
+    .subscription(async function* ({ ctx }) {
+      // Subscribe to events
+      const unsubscribe = subscribeToUserEvents(ctx.userId, (event) => {
+        yield event
+      })
+      
+      // Cleanup on disconnect
+      try {
+        await new Promise(() => {}) // Keep alive
+      } finally {
+        unsubscribe()
+      }
+    })
+})
+
+// Client
+export function NotificationListener() {
+  orpc.notifications.onMessage.useSubscription({
+    onData: (data) => {
+      toast.info(data.message)
+    }
+  })
+  
+  return null
+}
+```
+
+## Error Handling
+
+### Custom Error Classes
+```typescript
+// packages/orpc/src/errors.ts
+import { ORPCError } from '@orpc/server'
+
+export class ValidationError extends ORPCError {
+  constructor(message: string, fields?: Record<string, string>) {
+    super({
+      code: 'BAD_REQUEST',
+      message,
+      cause: fields
+    })
+  }
+}
+
+export class NotFoundError extends ORPCError {
+  constructor(resource: string) {
+    super({
+      code: 'NOT_FOUND',
+      message: `${resource} not found`
+    })
+  }
+}
+
+export class UnauthorizedError extends ORPCError {
+  constructor() {
+    super({
+      code: 'UNAUTHORIZED',
+      message: 'You must be logged in'
+    })
+  }
+}
+```
+
+### Error Handling in Client
+```typescript
+const { mutate } = orpc.users.create.useMutation({
+  onError: (error) => {
+    if (error.data?.code === 'BAD_REQUEST') {
+      // Handle validation errors
+      const fields = error.data.cause
+      setFieldErrors(fields)
+    } else if (error.data?.code === 'UNAUTHORIZED') {
+      // Redirect to login
+      router.push('/login')
+    } else {
+      // Generic error
+      toast.error(error.message)
+    }
+  }
+})
+```
+
+## Testing
+
+### Testing Routers
+```typescript
+// packages/orpc/src/routers/users.test.ts
+import { describe, it, expect } from 'vitest'
+import { userRouter } from './users'
+import { createMockContext } from '../test-utils'
+
+describe('User Router', () => {
+  it('creates a user', async () => {
+    const ctx = createMockContext({
+      userId: 'test-user'
+    })
+    
+    const result = await userRouter.create({
+      input: {
+        name: 'Test User',
+        email: 'test@example.com'
+      },
+      ctx
+    })
+    
+    expect(result.email).toBe('test@example.com')
+  })
+  
+  it('requires authentication', async () => {
+    const ctx = createMockContext({
+      userId: undefined
+    })
+    
+    await expect(
+      userRouter.me({ ctx })
+    ).rejects.toThrow('Unauthorized')
+  })
+})
+```
+
+## Best Practices
+
+### 1. Input Validation
+Always validate inputs with Zod:
+```typescript
+.input(z.object({
+  email: z.string().email(),
+  age: z.number().min(0).max(120)
+}))
+```
+
+### 2. Context Type Safety
+Define context types clearly:
+```typescript
+interface Context {
+  userId?: string
+  sessionId?: string
+  req: Request
+}
+```
+
+### 3. Error Boundaries
+Wrap client components with error boundaries:
+```typescript
+<ErrorBoundary fallback={<ErrorFallback />}>
+  <UserList />
+</ErrorBoundary>
+```
+
+### 4. Optimistic UI
+Use optimistic updates for better UX:
+```typescript
+onMutate: async (newData) => {
+  // Update UI immediately
+}
+```
+
+### 5. Caching Strategy
+Configure React Query caching:
+```typescript
+new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+    }
+  }
+})
+```
+
+## Migration from REST
+
+### Before (REST)
+```typescript
+// API
+app.get('/api/users/:id', async (c) => {
+  const user = await getUser(c.req.param('id'))
+  return c.json(user)
+})
+
+// Client
+const res = await fetch(`/api/users/${id}`)
+const user = await res.json() // No type safety
+```
+
+### After (oRPC)
+```typescript
+// Router
+byId: procedure
+  .input(z.object({ id: z.string() }))
+  .query(async ({ input }) => {
+    return await userService.findById(input.id)
+  })
+
+// Client
+const user = await api.users.byId.query({ id }) // Full type safety
+```
+
+## See Also
+- [Hono Integration](/tools/stack/hono)
+- [Service Layer](/architecture/services)
+- [Type Safety Patterns](/architecture/patterns#type-safety)
+- [API Architecture](/architecture/patterns#api-patterns)

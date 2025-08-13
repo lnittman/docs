@@ -1,0 +1,429 @@
+---
+title: Service Layer Pattern
+description: Business logic architecture with packages/services
+---
+
+# Service Layer Pattern
+
+**Version**: 1.0.0  
+**Last Updated**: 2025-01-13  
+**Purpose**: Centralized business logic pattern for turborepo projects
+
+## Overview
+
+The service layer (`packages/services`) is the single source of truth for all business logic in the turborepo. It acts as an intermediary between the presentation layer (apps) and the data layer (database), ensuring clean separation of concerns.
+
+## Architecture
+
+### Package Structure
+```
+packages/services/
+├── src/
+│   ├── index.ts              # Main exports
+│   ├── users/                # User domain
+│   │   ├── service.ts        # User service
+│   │   ├── types.ts          # Domain types
+│   │   └── validators.ts     # Business validators
+│   ├── items/                # Item domain
+│   │   ├── service.ts
+│   │   ├── types.ts
+│   │   └── validators.ts
+│   └── shared/               # Shared utilities
+│       ├── errors.ts         # Custom error classes
+│       └── utils.ts          # Helper functions
+├── package.json
+└── tsconfig.json
+```
+
+## Core Principles
+
+### 1. Single Responsibility
+Each service handles one domain area:
+- `userService` - User management
+- `itemService` - Item operations
+- `authService` - Authentication logic
+
+### 2. Framework Agnostic
+Services don't depend on:
+- HTTP/REST concepts
+- Next.js specifics
+- Hono particulars
+
+### 3. Database Abstraction
+Services are the only layer that:
+- Imports from `@repo/database`
+- Executes database queries
+- Manages transactions
+
+## Implementation Patterns
+
+### Basic Service Structure
+```typescript
+// packages/services/src/users/service.ts
+import { db } from '@repo/database'
+import { users, insertUserSchema } from '@repo/database/schema'
+import { eq } from 'drizzle-orm'
+import { ServiceError, NotFoundError } from '../shared/errors'
+import type { User, CreateUserInput, UpdateUserInput } from './types'
+
+export const userService = {
+  async findById(id: string): Promise<User | null> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1)
+    
+    return user || null
+  },
+
+  async findByEmail(email: string): Promise<User | null> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1)
+    
+    return user || null
+  },
+
+  async create(input: CreateUserInput): Promise<User> {
+    // Business validation
+    const existing = await this.findByEmail(input.email)
+    if (existing) {
+      throw new ServiceError('User with this email already exists')
+    }
+
+    // Database operation
+    const [user] = await db
+      .insert(users)
+      .values(input)
+      .returning()
+    
+    return user
+  },
+
+  async update(id: string, input: UpdateUserInput): Promise<User> {
+    const [updated] = await db
+      .update(users)
+      .set(input)
+      .where(eq(users.id, id))
+      .returning()
+    
+    if (!updated) {
+      throw new NotFoundError('User')
+    }
+    
+    return updated
+  },
+
+  async delete(id: string): Promise<void> {
+    const result = await db
+      .delete(users)
+      .where(eq(users.id, id))
+    
+    if (result.rowsAffected === 0) {
+      throw new NotFoundError('User')
+    }
+  }
+}
+```
+
+### Complex Business Logic
+```typescript
+// packages/services/src/items/service.ts
+export const itemService = {
+  async purchase(
+    userId: string,
+    itemId: string,
+    quantity: number
+  ): Promise<Order> {
+    // Start transaction
+    return await db.transaction(async (tx) => {
+      // Check inventory
+      const item = await this.findById(itemId)
+      if (!item) {
+        throw new NotFoundError('Item')
+      }
+      
+      if (item.stock < quantity) {
+        throw new ServiceError('Insufficient stock')
+      }
+      
+      // Update inventory
+      await tx
+        .update(items)
+        .set({ stock: item.stock - quantity })
+        .where(eq(items.id, itemId))
+      
+      // Create order
+      const [order] = await tx
+        .insert(orders)
+        .values({
+          userId,
+          itemId,
+          quantity,
+          totalPrice: item.price * quantity
+        })
+        .returning()
+      
+      // Send notification (async, non-blocking)
+      notificationService.sendOrderConfirmation(order).catch(console.error)
+      
+      return order
+    })
+  }
+}
+```
+
+### Service Composition
+```typescript
+// packages/services/src/orders/service.ts
+import { userService } from '../users/service'
+import { itemService } from '../items/service'
+import { paymentService } from '../payments/service'
+
+export const orderService = {
+  async createOrder(input: CreateOrderInput): Promise<Order> {
+    // Use other services
+    const user = await userService.findById(input.userId)
+    if (!user) {
+      throw new NotFoundError('User')
+    }
+    
+    const item = await itemService.findById(input.itemId)
+    if (!item) {
+      throw new NotFoundError('Item')
+    }
+    
+    // Process payment
+    const payment = await paymentService.charge(
+      user.paymentMethodId,
+      item.price * input.quantity
+    )
+    
+    // Create order
+    return await this.create({
+      ...input,
+      paymentId: payment.id,
+      status: 'confirmed'
+    })
+  }
+}
+```
+
+## Usage in Apps
+
+### In Hono API (apps/api)
+```typescript
+// apps/api/src/routes/users.ts
+import { userService } from '@repo/services'
+
+app.get('/:id', async (c) => {
+  const id = c.req.param('id')
+  const user = await userService.findById(id)
+  
+  if (!user) {
+    return c.notFound()
+  }
+  
+  return c.json(user)
+})
+
+app.post('/', zValidator('json', createUserSchema), async (c) => {
+  const input = c.req.valid('json')
+  
+  try {
+    const user = await userService.create(input)
+    return c.json(user, 201)
+  } catch (error) {
+    if (error instanceof ServiceError) {
+      return c.json({ error: error.message }, 400)
+    }
+    throw error
+  }
+})
+```
+
+### In Next.js Server Actions (apps/app)
+```typescript
+// apps/app/src/actions/users.ts
+'use server'
+
+import { userService } from '@repo/services'
+import { revalidatePath } from 'next/cache'
+
+export async function createUser(formData: FormData) {
+  try {
+    const user = await userService.create({
+      name: formData.get('name') as string,
+      email: formData.get('email') as string
+    })
+    
+    revalidatePath('/users')
+    return { success: true, user }
+  } catch (error) {
+    if (error instanceof ServiceError) {
+      return { success: false, error: error.message }
+    }
+    throw error
+  }
+}
+```
+
+### In AI Service (apps/ai)
+```typescript
+// apps/ai/src/mastra/tools/user-tools.ts
+import { userService } from '@repo/services'
+
+export const userTools = {
+  findUser: tool({
+    description: 'Find a user by email',
+    parameters: z.object({
+      email: z.string().email()
+    }),
+    execute: async ({ email }) => {
+      const user = await userService.findByEmail(email)
+      return user || 'User not found'
+    }
+  })
+}
+```
+
+## Error Handling
+
+### Custom Error Classes
+```typescript
+// packages/services/src/shared/errors.ts
+export class ServiceError extends Error {
+  constructor(message: string, public code?: string) {
+    super(message)
+    this.name = 'ServiceError'
+  }
+}
+
+export class NotFoundError extends ServiceError {
+  constructor(resource: string) {
+    super(`${resource} not found`, 'NOT_FOUND')
+  }
+}
+
+export class ValidationError extends ServiceError {
+  constructor(message: string, public fields?: Record<string, string>) {
+    super(message, 'VALIDATION_ERROR')
+  }
+}
+
+export class ConflictError extends ServiceError {
+  constructor(message: string) {
+    super(message, 'CONFLICT')
+  }
+}
+```
+
+## Testing Services
+
+```typescript
+// packages/services/src/users/service.test.ts
+import { describe, it, expect, beforeEach } from 'vitest'
+import { userService } from './service'
+import { db } from '@repo/database'
+
+describe('UserService', () => {
+  beforeEach(async () => {
+    // Clean database
+    await db.delete(users)
+  })
+  
+  it('creates a user', async () => {
+    const user = await userService.create({
+      name: 'John Doe',
+      email: 'john@example.com'
+    })
+    
+    expect(user.id).toBeDefined()
+    expect(user.email).toBe('john@example.com')
+  })
+  
+  it('prevents duplicate emails', async () => {
+    await userService.create({
+      name: 'John',
+      email: 'john@example.com'
+    })
+    
+    await expect(
+      userService.create({
+        name: 'Jane',
+        email: 'john@example.com'
+      })
+    ).rejects.toThrow(ServiceError)
+  })
+})
+```
+
+## Best Practices
+
+### 1. Pure Business Logic
+Services should contain only business logic, not:
+- HTTP status codes
+- Request/response handling
+- Framework-specific code
+
+### 2. Consistent Naming
+- `findById()` - Single item lookup
+- `findMany()` - Multiple items
+- `create()` - Create new
+- `update()` - Update existing
+- `delete()` - Remove item
+
+### 3. Transaction Management
+```typescript
+async transferCredits(fromId: string, toId: string, amount: number) {
+  return await db.transaction(async (tx) => {
+    // All operations in transaction
+  })
+}
+```
+
+### 4. Input Validation
+- Use Zod schemas for type safety
+- Validate business rules in service
+- Return meaningful error messages
+
+### 5. Service Independence
+Services should be:
+- Independently testable
+- Reusable across apps
+- Free of circular dependencies
+
+## Migration Guide
+
+### From packages/api to packages/services
+1. Move business logic from `packages/api` to `packages/services`
+2. Update imports in apps
+3. Remove HTTP concepts from services
+4. Add proper error handling
+
+### Example Migration
+```typescript
+// Before (packages/api)
+export async function createUser(req: Request) {
+  const data = await req.json()
+  const user = await db.insert(users).values(data)
+  return new Response(JSON.stringify(user), { status: 201 })
+}
+
+// After (packages/services)
+export const userService = {
+  async create(input: CreateUserInput) {
+    const [user] = await db.insert(users).values(input).returning()
+    return user
+  }
+}
+```
+
+## See Also
+- [Turborepo Architecture](/architecture/turborepo)
+- [API Patterns](/architecture/patterns#api-patterns)
+- [Hono Integration](/tools/stack/hono)
+- [Database Layer](/tools/stack/drizzle)
