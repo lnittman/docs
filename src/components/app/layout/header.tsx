@@ -17,7 +17,7 @@ export function Header({ className }: HeaderProps) {
       'font-mono',
       className
     )}>
-      <div className="container mx-auto px-4">
+      <div className="max-w-full px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
@@ -46,7 +46,7 @@ export function Header({ className }: HeaderProps) {
           {/* Actions */}
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/lnittman/docs" target="_blank" rel="noopener noreferrer">
                 github
               </a>
             </Button>

@@ -11,27 +11,61 @@ import { Breadcrumb } from "@/components/ui/breadcrumb"
 
 const sidebarItems = [
   {
-    title: "getting started",
+    title: "overview",
     items: [
       { title: "introduction", href: "/" },
-      { title: "installation", href: "/docs/installation" },
-      { title: "quick start", href: "/docs/quick-start" },
+      { title: "prompts showcase", href: "/prompts-showcase" },
     ],
   },
   {
-    title: "core concepts",
+    title: "architecture",
     items: [
-      { title: "architecture", href: "/docs/architecture" },
-      { title: "components", href: "/docs/components" },
-      { title: "styling", href: "/docs/styling" },
+      { title: "overview", href: "/architecture/overview" },
+      { title: "patterns", href: "/architecture/patterns" },
+      { title: "services", href: "/architecture/services" },
+      { title: "standards", href: "/architecture/standards" },
+      { title: "turborepo", href: "/architecture/turborepo" },
+      { title: "apple", href: "/architecture/apple" },
+      { title: "claude", href: "/architecture/claude" },
+      { title: "audit", href: "/architecture/audit" },
     ],
   },
   {
-    title: "API reference",
+    title: "design",
     items: [
-      { title: "configuration", href: "/docs/api/configuration" },
-      { title: "functions", href: "/docs/api/functions" },
-      { title: "hooks", href: "/docs/api/hooks" },
+      { title: "overview", href: "/design" },
+      { title: "design patterns", href: "/design/design-patterns" },
+      { title: "fonts", href: "/design/fonts/jgs" },
+    ],
+  },
+  {
+    title: "ecosystem",
+    items: [
+      { title: "overview", href: "/ecosystem" },
+    ],
+  },
+  {
+    title: "prompts",
+    items: [
+      { title: "overview", href: "/prompts" },
+    ],
+  },
+  {
+    title: "inspiration",
+    items: [
+      { title: "overview", href: "/inspiration" },
+    ],
+  },
+  {
+    title: "tools",
+    items: [
+      { title: "overview", href: "/tools" },
+    ],
+  },
+  {
+    title: "stack",
+    items: [
+      { title: "overview", href: "/stack" },
     ],
   },
 ]
