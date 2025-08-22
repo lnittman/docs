@@ -2,11 +2,10 @@
 
 import * as React from "react"
 import { Sidebar } from "@/components/ui/sidebar"
-import { ChatSidebar } from "@/components/ui/chat-sidebar"
 import { Header } from "@/components/app/layout/header"
 import { TableOfContents } from "@/components/ui/table-of-contents"
 import { CopyPageButton } from "@/components/ui/copy-page-button"
-import { AskAIButton } from "@/components/ui/ask-ai-button"
+import { AskAIChat } from "@/components/ui/ask-ai-chat"
 import { Feedback } from "@/components/ui/feedback"
 import { Breadcrumb } from "@/components/ui/breadcrumb"
 
@@ -44,24 +43,9 @@ interface DocsLayoutProps {
 }
 
 export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLayoutProps) {
-  const [isChatOpen, setIsChatOpen] = React.useState(false)
-
-  // Extract headings for TOC if not provided
-  React.useEffect(() => {
-    if (tocItems.length === 0) {
-      const headings = document.querySelectorAll('article h2, article h3')
-      Array.from(headings).map((heading) => ({
-        id: heading.id || heading.textContent?.toLowerCase().replace(/\s+/g, '-') || '',
-        title: heading.textContent || '',
-        level: parseInt(heading.tagName.substring(1))
-      }))
-      // Dynamic TOC extraction - items are passed from parent
-    }
-  }, [tocItems])
-
   return (
     <>
-      <Header onChatClick={() => setIsChatOpen(!isChatOpen)} />
+      <Header />
       <div className="flex min-h-screen pt-16">
         {/* Left Sidebar */}
         <Sidebar items={sidebarItems} className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64" />
@@ -74,11 +58,9 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
               <Breadcrumb items={breadcrumbs} className="mb-4" />
             )}
             
-            {/* Page Header with Copy Button */}
-            <div className="flex items-start justify-between mb-8">
-              <div className="flex-1">
-                {children}
-              </div>
+            {/* Page Content */}
+            <div className="flex-1">
+              {children}
             </div>
             
             {/* Feedback */}
@@ -97,13 +79,10 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
             </div>
           </aside>
         )}
-
-        {/* Chat Sidebar */}
-        <ChatSidebar isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       </div>
       
       {/* Floating Ask AI Button */}
-      <AskAIButton />
+      <AskAIChat />
     </>
   )
 }

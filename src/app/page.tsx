@@ -1,6 +1,6 @@
 import { MDXRemote } from "next-mdx-remote/rsc"
 import { mdxComponents } from "@/components/mdx"
-import { DocsLayout } from "./docs-layout-client"
+import { DocsLayout } from "./docs-layout"
 
 const introductionContent = `# introduction
 

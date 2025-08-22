@@ -7,10 +7,9 @@ import { cn } from '@/lib/utils'
 
 interface HeaderProps {
   className?: string
-  onChatClick?: () => void
 }
 
-export function Header({ className, onChatClick }: HeaderProps) {
+export function Header({ className }: HeaderProps) {
   return (
     <header className={cn(
       'fixed top-0 left-0 right-0 z-40',
@@ -29,7 +28,7 @@ export function Header({ className, onChatClick }: HeaderProps) {
           </Link>
 
           {/* Navigation Tabs */}
-          <nav className="flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/docs">documentation</Link>
             </Button>
@@ -46,12 +45,7 @@ export function Header({ className, onChatClick }: HeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            {onChatClick && (
-              <Button variant="outline" size="sm" onClick={onChatClick}>
-                ai chat
-              </Button>
-            )}
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
               <a href="https://github.com" target="_blank" rel="noopener noreferrer">
                 github
               </a>
