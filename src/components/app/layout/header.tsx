@@ -20,7 +20,7 @@ export function Header({ className }: HeaderProps) {
       <div className="max-w-full px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 ml-12 md:ml-0">
             <div className="w-8 h-8 bg-black" />
             <span className="text-lg font-bold lowercase tracking-wider">
               docs
