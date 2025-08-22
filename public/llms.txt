@@ -1,0 +1,47 @@
+# LLMs.txt - Documentation for AI Agents
+
+This file helps AI assistants understand and navigate our documentation.
+
+## Project Overview
+Terminal-inspired documentation system with brutalist design aesthetics.
+
+## Key Files
+- /src/app/page.tsx - Homepage
+- /src/app/docs/[...slug]/page.tsx - Documentation pages
+- /src/components/ - UI components
+- /content/ - MDX documentation content
+
+## API Endpoints
+None - This is a static documentation site.
+
+## Key Concepts
+- Terminal aesthetic with monospace fonts
+- Sharp corners (no border-radius)
+- Minimal, lowercase text style
+- MDX support for rich content
+- Responsive design
+
+## Documentation Structure
+/getting-started
+  - introduction
+  - installation
+  - quick-start
+
+/core-concepts
+  - architecture
+  - components
+  - styling
+
+/api-reference
+  - configuration
+  - functions
+  - hooks
+
+## How to Use This Documentation
+1. Navigate using the sidebar
+2. Search with cmd+K (coming soon)
+3. Copy pages for offline reference
+4. Ask AI for help understanding concepts
+
+## Contact
+For questions about this documentation, open an issue on GitHub.
