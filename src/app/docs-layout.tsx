@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
 
 const sidebarItems = [
   {
-    title: "overview",
+    title: "getting started",
     items: [
       { title: "introduction", href: "/" },
       { title: "prompts showcase", href: "/prompts-showcase" },
@@ -36,39 +36,41 @@ const sidebarItems = [
   {
     title: "design",
     items: [
-      { title: "overview", href: "/design" },
+      { title: "overview", href: "/design/README" },
       { title: "design patterns", href: "/design/design-patterns" },
-      { title: "fonts", href: "/design/fonts/jgs" },
+      { title: "typography", href: "/design/typography" },
+      { title: "icons", href: "/design/icons" },
+      { title: "fonts reference", href: "/design/fonts-reference" },
     ],
   },
   {
     title: "ecosystem",
     items: [
-      { title: "overview", href: "/ecosystem" },
+      { title: "overview", href: "/ecosystem/README" },
     ],
   },
   {
-    title: "prompts",
+    title: "workflows",
     items: [
-      { title: "overview", href: "/prompts" },
+      { title: "high yield commands", href: "/workflows/high-yield-command-workflows" },
+    ],
+  },
+  {
+    title: "diagrams",
+    items: [
+      { title: "overview", href: "/diagrams/README" },
     ],
   },
   {
     title: "inspiration",
     items: [
-      { title: "overview", href: "/inspiration" },
+      { title: "overview", href: "/inspiration/README" },
     ],
   },
   {
     title: "tools",
     items: [
-      { title: "overview", href: "/tools" },
-    ],
-  },
-  {
-    title: "stack",
-    items: [
-      { title: "overview", href: "/stack" },
+      { title: "overview", href: "/tools/README" },
     ],
   },
 ]
@@ -114,11 +116,10 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
       <button
         onClick={() => setIsDesktopSidebarCollapsed(!isDesktopSidebarCollapsed)}
         className={cn(
-          "fixed top-20 z-30 p-2",
+          "fixed top-20 left-4 z-30 p-2",
           "bg-white border-2 border-black",
-          "hover:bg-gray-100 transition-all duration-200",
-          "hidden md:block",
-          isDesktopSidebarCollapsed ? "left-4" : "left-[248px]"
+          "hover:bg-gray-100 transition-colors",
+          "hidden md:block"
         )}
         aria-label="Toggle sidebar"
       >
