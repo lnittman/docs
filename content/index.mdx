@@ -5,150 +5,94 @@ description: AI-optimized developer knowledge base with reusable patterns and do
 
 # Welcome To The Developer Documentation Hub
 
-## Table Of Contents
-
-<!-- Generated placeholder; add anchors as needed -->
-
-## Table Of Contents
-
-<!-- Generated placeholder; add anchors as needed -->
-
-## Table Of Contents
-
-<!-- Generated placeholder; add anchors as needed -->
-
-## Table Of Contents
-
-<!-- Generated placeholder; add anchors as needed -->
-
-## Table Of Contents
-
-<!-- Generated placeholder; add anchors as needed -->
-
 This is your centralized knowledge base optimized for use with Claude Code and other AI development tools. It contains reusable prompts, documentation standards, tool guides, and project patterns.
 
-<CardGroup cols={2}>
-  <Card
-    title="Architecture Standards"
-    icon="building"
-    href="/architecture/standards"
-  >
-    Overall architectural guidelines, technology stack specifications, and development workflow standards
-  </Card>
-  <Card
-    title="Claude Code Guide"
-    icon="robot"
-    href="/tools/anthropic/claude-code"
-    color="#0066CC"
-  >
-    Comprehensive guide to using Claude Code effectively for development
-  </Card>
-  <Card
-    title="Design System"
-    icon="palette"
-    href="/design/README"
-  >
-    Design assets, patterns, and typography collection
-  </Card>
-  <Card
-    title="Prompt Library"
-    icon="code"
-    href="/prompts-showcase"
-  >
-    Reusable prompt templates for code, documentation, and AI integration
-  </Card>
-</CardGroup>
+## Key Resources
+
+### [Architecture Standards](/architecture/standards)
+Overall architectural guidelines, technology stack specifications, and development workflow standards
+
+### [Claude Code Guide](/tools/anthropic/claude-code)
+Comprehensive guide to using Claude Code effectively for development
+
+### [Design System](/design/README)
+Design assets, patterns, and typography collection
+
+### [Prompt Library](/prompts-showcase)
+Reusable prompt templates for code, documentation, and AI integration
 
 ## Quick Start
 
 ### For Claude Code Users
 
-<Steps>
-  <Step title="Reference in CLAUDE.md">
-    Import documentation standards in your project's CLAUDE.md:
-    ```markdown
-    # Import documentation standards
-    @~/Developer/docs/architecture/standards.mdx
-    
-    # Import specific patterns
-    @~/Developer/docs/architecture/patterns.mdx#state-management
-    ```
-  </Step>
-  <Step title="Use in Commands">
-    Reference documentation directly in commands:
-    ```bash
-    # Reference documentation
-    @~/Developer/docs/prompts/code/code-review.xml
-    "Review this implementation"
-    ```
-  </Step>
-  <Step title="Create Custom Commands">
-    Build custom commands that reference docs:
-    ```bash
-    # Reference docs in custom commands
-    cat > ~/.claude/commands/standards.md << 'EOF'
-    # Apply Documentation Standards
-    
-    Apply our documentation standards to the current project.
-    
-    @~/Developer/docs/apps/docs.md
-    
-    $ARGUMENTS
-    EOF
-    ```
-  </Step>
-</Steps>
+#### 1. Reference in CLAUDE.md
+Import documentation standards in your project's CLAUDE.md:
+```markdown
+# Import documentation standards
+@~/Developer/docs/architecture/standards.mdx
+
+# Import specific patterns
+@~/Developer/docs/architecture/patterns.mdx#state-management
+```
+
+#### 2. Use in Commands
+Reference documentation directly in commands:
+```bash
+# Reference documentation
+@~/Developer/docs/prompts/code/code-review.xml
+"Review this implementation"
+```
+
+#### 3. Create Custom Commands
+Build custom commands that reference docs:
+```bash
+# Reference docs in custom commands
+cat > ~/.claude/commands/standards.md << 'EOF'
+# Apply Documentation Standards
+
+Apply our documentation standards to the current project.
+
+@~/Developer/docs/apps/docs.md
+
+$ARGUMENTS
+EOF
+```
 
 ## Key Directories
 
-<AccordionGroup>
-  <Accordion title="Architecture" icon="building">
-    Documentation standards, patterns, and architectural guidelines
-  </Accordion>
-  <Accordion title="Tools" icon="wrench">
-    Tool-specific documentation including Claude Code, Next.js, and more
-  </Accordion>
-  <Accordion title="Prompts" icon="code">
-    Reusable prompt templates (XML and Markdown) for various development tasks
-  </Accordion>
-  <Accordion title="Design" icon="palette">
-    Design assets, fonts, icons, and UI components
-  </Accordion>
-  <Accordion title="Inspiration" icon="lightbulb">
-    Design philosophy and thought leadership from industry masters
-  </Accordion>
-</AccordionGroup>
+### Architecture
+Documentation standards, patterns, and architectural guidelines
 
-## Ai-native Features
+### Tools
+Tool-specific documentation including Claude Code, Next.js, and more
+
+### Prompts
+Reusable prompt templates (XML and Markdown) for various development tasks
+
+### Design
+Design assets, fonts, icons, and UI components
+
+### Inspiration
+Design philosophy and thought leadership from industry masters
+
+## AI-native Features
 
 This documentation hub includes AI-native features to enhance your development workflow:
 
-<CardGroup cols={2}>
-  <Card title="Copy as Markdown" icon="copy">
-    Quickly copy any page as markdown for use in AI tools
-  </Card>
-  <Card title="Open in Claude" icon="robot">
-    Open documentation directly in Claude for instant assistance
-  </Card>
-  <Card title="Open in ChatGPT" icon="message">
-    Send documentation to ChatGPT for alternative perspectives
-  </Card>
-  <Card title="View Source" icon="eye">
-    View the markdown source of any page
-  </Card>
-</CardGroup>
+- **Copy as Markdown**: Quickly copy any page as markdown for use in AI tools
+- **Open in Claude**: Open documentation directly in Claude for instant assistance
+- **Open in ChatGPT**: Send documentation to ChatGPT for alternative perspectives
+- **View Source**: View the markdown source of any page
 
 ## Contributing
 
 This documentation hub is a living resource. Contribute your learnings to help the entire team level up!
 
-<Tip>
-  Remember to review and update documentation monthly, archive outdated content, and test all code examples before documenting.
-</Tip>
+> **Tip**: Remember to review and update documentation monthly, archive outdated content, and test all code examples before documenting.
 
 ## See Also
 
 - [Standards](/architecture/standards)
 - [Turborepo](/tools/stack/turborepo)
-- [AI Sdk](/tools/stack/ai-sdk)
-- [Orpc Turborepo Guide](/tools/integrations/orpc-turborepo-guide)
+- [AI SDK](/tools/stack/ai-sdk)
+- [oRPC Turborepo Guide](/tools/integrations/orpc-turborepo-guide)
