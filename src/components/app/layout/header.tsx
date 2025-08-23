@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -17,13 +18,13 @@ export function Header({ className }: HeaderProps) {
       'font-mono',
       className
     )}>
-      <div className="max-w-full px-6">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full">
+        <div className="flex items-center justify-between h-16 px-4 md:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 ml-12 md:ml-0">
-            <div className="w-8 h-8 bg-black" />
+            <Image src="/assets/logo-2.png" alt="luke-docs" width={32} height={32} className="w-8 h-8" />
             <span className="text-lg font-bold lowercase tracking-wider">
-              docs
+              luke-docs
             </span>
           </Link>
 

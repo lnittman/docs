@@ -55,7 +55,9 @@ export function Sidebar({ items, className, onSearchClick }: SidebarProps) {
 }
 
 function SidebarSection({ item, pathname }: { item: SidebarItem; pathname: string }) {
-  const [isOpen, setIsOpen] = React.useState(true)
+  // Check if any child is active to auto-expand
+  const hasActiveChild = item.items?.some(subItem => pathname === subItem.href) || false
+  const [isOpen, setIsOpen] = React.useState(hasActiveChild)
   const hasChildren = item.items && item.items.length > 0
 
   if (!hasChildren && item.href) {

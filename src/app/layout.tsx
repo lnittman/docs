@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import { metadata, viewport } from "./metadata";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -7,10 +7,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-export const metadata: Metadata = {
-  title: "Luke Docs - Terminal-Inspired Documentation",
-  description: "AI-optimized developer documentation with US Graphics terminal aesthetic",
-};
+export { metadata, viewport };
 
 export default function RootLayout({
   children,
@@ -19,6 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="default" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="luke-docs" name="apple-mobile-web-app-title" />
+        <meta content="yes" name="mobile-web-app-capable" />
+        <meta content="#ffffff" name="theme-color" />
+      </head>
       <body
         className={`${jetbrainsMono.variable} font-mono antialiased bg-white text-black`}
       >
