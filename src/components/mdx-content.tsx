@@ -22,35 +22,67 @@ type CodeProps = React.HTMLAttributes<HTMLElement> & {
   className?: string
 }
 
-// Custom MDX components for documentation
-const Card = ({ title, icon, href, children, color }: any) => (
-  <a href={href} className="block p-4 border-2 border-black hover:bg-gray-50 transition-colors mb-4">
-    <h3 className="font-bold mb-2">{title}</h3>
-    <p className="text-sm">{children}</p>
-  </a>
-)
+// Custom component types
+interface CardProps {
+  title: string
+  href?: string
+  children?: React.ReactNode
+}
 
-const CardGroup = ({ children, cols }: any) => (
-  <div className="grid gap-4 mb-8" style={{ gridTemplateColumns: `repeat(${cols || 1}, 1fr)` }}>
+interface CardGroupProps {
+  children?: React.ReactNode
+  cols?: number
+}
+
+interface CalloutProps {
+  children?: React.ReactNode
+}
+
+// Custom MDX components for documentation
+const Card: React.FC<CardProps> = ({ title, href, children }) => {
+  const content = (
+    <>
+      <h3 className="font-bold mb-2">{title}</h3>
+      <p className="text-sm">{children}</p>
+    </>
+  )
+
+  if (href) {
+    return (
+      <a href={href} className="block p-4 border-2 border-black hover:bg-gray-50 transition-colors mb-4">
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <div className="block p-4 border-2 border-black mb-4">
+      {content}
+    </div>
+  )
+}
+
+const CardGroup: React.FC<CardGroupProps> = ({ children, cols = 1 }) => (
+  <div className="grid gap-4 mb-8" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
     {children}
   </div>
 )
 
-const Tip = ({ children }: any) => (
+const Tip: React.FC<CalloutProps> = ({ children }) => (
   <div className="p-4 bg-blue-50 border-l-4 border-blue-500 mb-4">
     <p className="font-semibold mb-1">Tip</p>
     {children}
   </div>
 )
 
-const Warning = ({ children }: any) => (
+const Warning: React.FC<CalloutProps> = ({ children }) => (
   <div className="p-4 bg-yellow-50 border-l-4 border-yellow-500 mb-4">
     <p className="font-semibold mb-1">Warning</p>
     {children}
   </div>
 )
 
-const Note = ({ children }: any) => (
+const Note: React.FC<CalloutProps> = ({ children }) => (
   <div className="p-4 bg-gray-50 border-l-4 border-gray-500 mb-4">
     <p className="font-semibold mb-1">Note</p>
     {children}
