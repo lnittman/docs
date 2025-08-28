@@ -1,10 +1,10 @@
-import { JetBrains_Mono } from "next/font/google";
-import { metadata, viewport } from "./metadata";
-import "./globals.css";
+import { JetBrains_Mono } from 'next/font/google';
+import { metadata, viewport } from './metadata';
+import './globals.css';
 
 const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+  subsets: ['latin'],
+  variable: '--font-mono',
 });
 
 export { metadata, viewport };
@@ -24,11 +24,9 @@ export default function RootLayout({
         <meta content="#ffffff" name="theme-color" />
       </head>
       <body
-        className={`${jetbrainsMono.variable} font-mono antialiased bg-white text-black`}
+        className={`${jetbrainsMono.variable} bg-white font-mono text-black antialiased`}
       >
-        <div className="min-h-screen">
-          {children}
-        </div>
+        <div className="min-h-screen">{children}</div>
       </body>
     </html>
   );

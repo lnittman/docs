@@ -17,10 +17,12 @@
   --color-red-100: #fee2e2;
   --color-red-600: #dc2626;
   --color-terminal: #00ff00;
-  
+
   --radius-none: 0;
   --font-sans: system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo,
+    monospace;
 }
 
 * {

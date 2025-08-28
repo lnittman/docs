@@ -1,58 +1,58 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import { ThumbsUp, ThumbsDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 export function Feedback() {
-  const [feedback, setFeedback] = React.useState<'yes' | 'no' | null>(null)
+  const [feedback, setFeedback] = React.useState<'yes' | 'no' | null>(null);
 
   const handleFeedback = (type: 'yes' | 'no') => {
-    setFeedback(type)
-    // Here you would send feedback to your analytics service
-    console.log('Feedback:', type)
-  }
+    setFeedback(type);
+  };
 
   return (
-    <div className="border-t-2 border-gray-200 mt-16 pt-8">
+    <div className="mt-16 border-gray-200 border-t-2 pt-8">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-mono text-gray-600">was this page helpful?</p>
+        <p className="font-mono text-gray-600 text-sm">
+          was this page helpful?
+        </p>
         <div className="flex gap-2">
           <button
-            onClick={() => handleFeedback('yes')}
             className={cn(
-              'px-3 py-1.5 border-2 font-mono text-sm lowercase',
+              'border-2 px-3 py-1.5 font-mono text-sm lowercase',
               'transition-all duration-200',
               'hover:scale-[1.02] active:scale-[0.98]',
-              feedback === 'yes' 
-                ? 'bg-black text-white border-black' 
-                : 'bg-white text-black border-gray-300 hover:border-black'
+              feedback === 'yes'
+                ? 'border-black bg-black text-white'
+                : 'border-gray-300 bg-white text-black hover:border-black'
             )}
+            onClick={() => handleFeedback('yes')}
           >
-            <ThumbsUp className="h-3 w-3 inline mr-1" />
+            <ThumbsUp className="mr-1 inline h-3 w-3" />
             yes
           </button>
           <button
-            onClick={() => handleFeedback('no')}
             className={cn(
-              'px-3 py-1.5 border-2 font-mono text-sm lowercase',
+              'border-2 px-3 py-1.5 font-mono text-sm lowercase',
               'transition-all duration-200',
               'hover:scale-[1.02] active:scale-[0.98]',
-              feedback === 'no' 
-                ? 'bg-black text-white border-black' 
-                : 'bg-white text-black border-gray-300 hover:border-black'
+              feedback === 'no'
+                ? 'border-black bg-black text-white'
+                : 'border-gray-300 bg-white text-black hover:border-black'
             )}
+            onClick={() => handleFeedback('no')}
           >
-            <ThumbsDown className="h-3 w-3 inline mr-1" />
+            <ThumbsDown className="mr-1 inline h-3 w-3" />
             no
           </button>
         </div>
       </div>
       {feedback && (
-        <p className="text-xs font-mono text-gray-500 mt-2">
+        <p className="mt-2 font-mono text-gray-500 text-xs">
           thanks for your feedback!
         </p>
       )}
     </div>
-  )
+  );
 }

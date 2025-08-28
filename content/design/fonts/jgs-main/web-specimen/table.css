@@ -11,15 +11,15 @@ header article {
 }
 
 .jgs5 pre {
-  font-family: 'jgs5';
+  font-family: "jgs5";
 }
 
 .jgs7 pre {
-  font-family: 'jgs7';
+  font-family: "jgs7";
 }
 
 .jgs9 pre {
-  font-family: 'jgs9';
+  font-family: "jgs9";
 }
 
 .x1.jgs5 pre {
@@ -97,7 +97,8 @@ table {
   border-collapse: collapse;
 }
 
-table th, table td {
+table th,
+table td {
   border: solid 1px;
   padding: 0.25rem;
 }

@@ -1,24 +1,28 @@
-"use client"
+'use client';
 
-import { cn } from "@/lib/utils"
-import { Copy } from "lucide-react"
-import React from "react"
+import { Copy } from 'lucide-react';
+import React from 'react';
+import { cn } from '@/lib/utils';
 
-const Pre = ({ className, children, ...props }: React.HTMLAttributes<HTMLPreElement>) => {
-  const [copied, setCopied] = React.useState(false)
-  
+const Pre = ({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLPreElement>) => {
+  const [copied, setCopied] = React.useState(false);
+
   const handleCopy = () => {
-    const code = extractTextFromChildren(children)
-    navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-  
+    const code = extractTextFromChildren(children);
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="relative mb-4">
       <pre
         className={cn(
-          "overflow-x-auto p-4 bg-black text-[#00ff00] border-2 border-black font-mono text-sm",
+          'overflow-x-auto border-2 border-black bg-black p-4 font-mono text-[#00ff00] text-sm',
           className
         )}
         {...props}
@@ -26,8 +30,8 @@ const Pre = ({ className, children, ...props }: React.HTMLAttributes<HTMLPreElem
         {children}
       </pre>
       <button
+        className="absolute top-2 right-2 bg-black/80 p-2 text-[#00ff00] transition-colors hover:bg-black"
         onClick={handleCopy}
-        className="absolute top-2 right-2 p-2 bg-black/80 hover:bg-black text-[#00ff00] transition-colors"
       >
         {copied ? (
           <span className="text-xs uppercase">Copied!</span>
@@ -36,14 +40,14 @@ const Pre = ({ className, children, ...props }: React.HTMLAttributes<HTMLPreElem
         )}
       </button>
     </div>
-  )
-}
+  );
+};
 
 export const mdxComponents = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        "mt-8 mb-4 text-4xl font-bold uppercase tracking-wider font-mono",
+        'mt-8 mb-4 font-bold font-mono text-4xl uppercase tracking-wider',
         className
       )}
       {...props}
@@ -52,7 +56,7 @@ export const mdxComponents = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "mt-8 mb-4 text-2xl font-bold uppercase tracking-wider font-mono border-b-2 border-black pb-2",
+        'mt-8 mb-4 border-black border-b-2 pb-2 font-bold font-mono text-2xl uppercase tracking-wider',
         className
       )}
       {...props}
@@ -61,7 +65,7 @@ export const mdxComponents = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        "mt-6 mb-3 text-xl font-bold uppercase tracking-wider font-mono",
+        'mt-6 mb-3 font-bold font-mono text-xl uppercase tracking-wider',
         className
       )}
       {...props}
@@ -70,91 +74,79 @@ export const mdxComponents = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        "mt-4 mb-2 text-lg font-bold uppercase tracking-wider font-mono",
+        'mt-4 mb-2 font-bold font-mono text-lg uppercase tracking-wider',
         className
       )}
       {...props}
     />
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p
-      className={cn("mb-4 leading-7", className)}
-      {...props}
-    />
+    <p className={cn('mb-4 leading-7', className)} {...props} />
   ),
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul
-      className={cn("mb-4 ml-6 list-disc space-y-2", className)}
-      {...props}
-    />
+    <ul className={cn('mb-4 ml-6 list-disc space-y-2', className)} {...props} />
   ),
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
     <ol
-      className={cn("mb-4 ml-6 list-decimal space-y-2", className)}
+      className={cn('mb-4 ml-6 list-decimal space-y-2', className)}
       {...props}
     />
   ),
   li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <li
-      className={cn("leading-7", className)}
-      {...props}
-    />
+    <li className={cn('leading-7', className)} {...props} />
   ),
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <blockquote
-      className={cn(
-        "mb-4 border-l-4 border-black pl-4 italic",
-        className
-      )}
+      className={cn('mb-4 border-black border-l-4 pl-4 italic', className)}
       {...props}
     />
   ),
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
     // Check if this is inline code (parent is not pre)
-    const isInline = props.children && typeof props.children === 'string'
-    
+    const isInline = props.children && typeof props.children === 'string';
+
     if (isInline) {
       return (
         <code
           className={cn(
-            "px-1 py-0.5 bg-gray-100 border border-gray-300 font-mono text-sm",
+            'border border-gray-300 bg-gray-100 px-1 py-0.5 font-mono text-sm',
             className
           )}
           {...props}
         />
-      )
+      );
     }
-    
-    return <code className={cn("font-mono text-sm", className)} {...props} />
+
+    return <code className={cn('font-mono text-sm', className)} {...props} />;
   },
   pre: Pre,
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="mb-4 w-full overflow-auto">
       <table
-        className={cn(
-          "w-full border-2 border-black",
-          className
-        )}
+        className={cn('w-full border-2 border-black', className)}
         {...props}
       />
     </div>
   ),
-  thead: ({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead
-      className={cn("bg-black text-white", className)}
-      {...props}
-    />
+  thead: ({
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead className={cn('bg-black text-white', className)} {...props} />
   ),
-  tbody: ({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
+  tbody: ({
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLTableSectionElement>) => (
     <tbody
-      className={cn("[&_tr:nth-child(even)]:bg-gray-50", className)}
+      className={cn('[&_tr:nth-child(even)]:bg-gray-50', className)}
       {...props}
     />
   ),
   th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
       className={cn(
-        "border border-gray-300 px-4 py-2 text-left font-bold uppercase tracking-wider font-mono text-sm",
+        'border border-gray-300 px-4 py-2 text-left font-bold font-mono text-sm uppercase tracking-wider',
         className
       )}
       {...props}
@@ -162,37 +154,39 @@ export const mdxComponents = {
   ),
   td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <td
-      className={cn(
-        "border border-gray-300 px-4 py-2",
-        className
-      )}
+      className={cn('border border-gray-300 px-4 py-2', className)}
       {...props}
     />
   ),
-  a: ({ className, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  a: ({
+    className,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       className={cn(
-        "underline underline-offset-4 hover:text-gray-600 transition-colors",
+        'underline underline-offset-4 transition-colors hover:text-gray-600',
         className
       )}
       {...props}
     />
   ),
   hr: ({ ...props }) => (
-    <hr className="my-8 border-t-2 border-black" {...props} />
+    <hr className="my-8 border-black border-t-2" {...props} />
   ),
-}
+};
 
 function extractTextFromChildren(children: React.ReactNode): string {
-  if (typeof children === 'string') return children
+  if (typeof children === 'string') {
+    return children;
+  }
   if (React.isValidElement(children)) {
-    const props = children.props as { children?: React.ReactNode }
+    const props = children.props as { children?: React.ReactNode };
     if (props.children) {
-      return extractTextFromChildren(props.children)
+      return extractTextFromChildren(props.children);
     }
   }
   if (Array.isArray(children)) {
-    return children.map(extractTextFromChildren).join('')
+    return children.map(extractTextFromChildren).join('');
   }
-  return ''
+  return '';
 }

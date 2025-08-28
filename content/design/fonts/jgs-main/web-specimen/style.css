@@ -6,11 +6,11 @@ a {
 }
 
 .day a {
-  color: #00F;
+  color: #00f;
 }
 
 .night a {
-  color: #0FF;
+  color: #0ff;
 }
 
 a:hover {
@@ -33,7 +33,7 @@ header {
 }
 
 .day header {
-  background-color: #08F;
+  background-color: #08f;
 }
 
 .night header {
@@ -56,15 +56,15 @@ pre {
 }
 
 .jgs5 pre {
-  font-family: 'jgs5';
+  font-family: "jgs5";
 }
 
 .jgs7 pre {
-  font-family: 'jgs7';
+  font-family: "jgs7";
 }
 
 .jgs9 pre {
-  font-family: 'jgs9';
+  font-family: "jgs9";
 }
 
 .x1.jgs5 pre {
@@ -166,12 +166,14 @@ pre {
   width: calc(36px * 80);
 }
 
-.day, .dya #font_tools {
+.day,
+.dya #font_tools {
   color: black;
   background-color: white;
 }
 
-.night, .night #font_tools {
+.night,
+.night #font_tools {
   color: white;
   background-color: black;
 }

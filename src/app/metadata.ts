@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata, Viewport } from 'next';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -7,7 +7,7 @@ export const viewport: Viewport = {
   minimumScale: 1,
   maximumScale: 1,
   userScalable: false,
-}
+};
 
 export const metadata: Metadata = {
   title: 'luke-docs',
@@ -62,4 +62,4 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-}
+};

@@ -1,109 +1,109 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Sidebar } from "@/components/ui/sidebar"
-import { Header } from "@/components/app/layout/header"
-import { TableOfContents } from "@/components/ui/table-of-contents"
-import { CopyPageButton } from "@/components/ui/copy-page-button"
-import { AskAIChat } from "@/components/ui/ask-ai-chat"
-import { Feedback } from "@/components/ui/feedback"
-import { Breadcrumb } from "@/components/ui/breadcrumb"
-import { Menu, X, PanelLeftClose, PanelLeft } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, PanelLeft, PanelLeftClose, X } from 'lucide-react';
+import * as React from 'react';
+import { Header } from '@/components/app/layout/header';
+import { AskAIChat } from '@/components/ui/ask-ai-chat';
+import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { CopyPageButton } from '@/components/ui/copy-page-button';
+import { Feedback } from '@/components/ui/feedback';
+import { Sidebar } from '@/components/ui/sidebar';
+import { TableOfContents } from '@/components/ui/table-of-contents';
+import { cn } from '@/lib/utils';
 
 const sidebarItems = [
   {
-    title: "getting started",
+    title: 'getting started',
     items: [
-      { title: "introduction", href: "/" },
-      { title: "prompts showcase", href: "/prompts-showcase" },
+      { title: 'introduction', href: '/' },
+      { title: 'prompts showcase', href: '/prompts-showcase' },
     ],
   },
   {
-    title: "architecture",
+    title: 'architecture',
     items: [
-      { title: "overview", href: "/architecture/overview" },
-      { title: "patterns", href: "/architecture/patterns" },
-      { title: "services", href: "/architecture/services" },
-      { title: "standards", href: "/architecture/standards" },
-      { title: "turborepo", href: "/architecture/turborepo" },
-      { title: "apple", href: "/architecture/apple" },
-      { title: "claude", href: "/architecture/claude" },
-      { title: "audit", href: "/architecture/audit" },
+      { title: 'overview', href: '/architecture/overview' },
+      { title: 'patterns', href: '/architecture/patterns' },
+      { title: 'services', href: '/architecture/services' },
+      { title: 'standards', href: '/architecture/standards' },
+      { title: 'turborepo', href: '/architecture/turborepo' },
+      { title: 'apple', href: '/architecture/apple' },
+      { title: 'claude', href: '/architecture/claude' },
+      { title: 'audit', href: '/architecture/audit' },
     ],
   },
   {
-    title: "design",
+    title: 'design',
     items: [
-      { title: "overview", href: "/design/README" },
-      { title: "design patterns", href: "/design/design-patterns" },
-      { title: "typography", href: "/design/typography" },
-      { title: "icons", href: "/design/icons" },
-      { title: "fonts reference", href: "/design/fonts-reference" },
+      { title: 'overview', href: '/design/README' },
+      { title: 'design patterns', href: '/design/design-patterns' },
+      { title: 'typography', href: '/design/typography' },
+      { title: 'icons', href: '/design/icons' },
+      { title: 'fonts reference', href: '/design/fonts-reference' },
     ],
   },
   {
-    title: "ecosystem",
+    title: 'ecosystem',
+    items: [{ title: 'overview', href: '/ecosystem/README' }],
+  },
+  {
+    title: 'workflows',
     items: [
-      { title: "overview", href: "/ecosystem/README" },
+      {
+        title: 'high yield commands',
+        href: '/workflows/high-yield-command-workflows',
+      },
     ],
   },
   {
-    title: "workflows",
-    items: [
-      { title: "high yield commands", href: "/workflows/high-yield-command-workflows" },
-    ],
+    title: 'diagrams',
+    items: [{ title: 'overview', href: '/diagrams/README' }],
   },
   {
-    title: "diagrams",
-    items: [
-      { title: "overview", href: "/diagrams/README" },
-    ],
+    title: 'inspiration',
+    items: [{ title: 'overview', href: '/inspiration/README' }],
   },
   {
-    title: "inspiration",
-    items: [
-      { title: "overview", href: "/inspiration/README" },
-    ],
+    title: 'tools',
+    items: [{ title: 'overview', href: '/tools/README' }],
   },
-  {
-    title: "tools",
-    items: [
-      { title: "overview", href: "/tools/README" },
-    ],
-  },
-]
+];
 
 interface DocsLayoutProps {
-  children: React.ReactNode
-  tocItems?: Array<{ id: string; title: string; level: number }>
-  breadcrumbs?: Array<{ title: string; href?: string }>
+  children: React.ReactNode;
+  tocItems?: Array<{ id: string; title: string; level: number }>;
+  breadcrumbs?: Array<{ title: string; href?: string }>;
 }
 
-export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLayoutProps) {
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false)
-  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = React.useState(false)
+export function DocsLayout({
+  children,
+  tocItems = [],
+  breadcrumbs = [],
+}: DocsLayoutProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
+    React.useState(false);
 
   // Close mobile sidebar on route change
   React.useEffect(() => {
-    setIsSidebarOpen(false)
-  }, [breadcrumbs])
+    setIsSidebarOpen(false);
+  }, []);
 
   return (
     <>
       <Header />
-      
+
       {/* Mobile Menu Button */}
       <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className={cn(
-          "fixed top-4 left-4 z-50 p-2",
-          "bg-white border-2 border-black",
-          "hover:bg-gray-100 transition-colors",
-          "md:hidden"
-        )}
         aria-label="Toggle menu"
+        className={cn(
+          'fixed top-4 left-4 z-50 p-2',
+          'border-2 border-black bg-white',
+          'transition-colors hover:bg-gray-100',
+          'md:hidden'
+        )}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         {isSidebarOpen ? (
           <X className="h-5 w-5" />
@@ -114,14 +114,14 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
 
       {/* Desktop Sidebar Toggle */}
       <button
-        onClick={() => setIsDesktopSidebarCollapsed(!isDesktopSidebarCollapsed)}
-        className={cn(
-          "fixed top-20 left-4 z-30 p-2",
-          "bg-white border-2 border-black",
-          "hover:bg-gray-100 transition-colors",
-          "hidden md:block"
-        )}
         aria-label="Toggle sidebar"
+        className={cn(
+          'fixed top-20 left-4 z-30 p-2',
+          'border-2 border-black bg-white',
+          'transition-colors hover:bg-gray-100',
+          'hidden md:block'
+        )}
+        onClick={() => setIsDesktopSidebarCollapsed(!isDesktopSidebarCollapsed)}
       >
         {isDesktopSidebarCollapsed ? (
           <PanelLeft className="h-4 w-4" />
@@ -135,18 +135,18 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
         <AnimatePresence mode="wait">
           {!isDesktopSidebarCollapsed && (
             <motion.div
-              initial={{ x: -256, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -256, opacity: 0 }}
-              transition={{ 
-                duration: 0.3, 
-                ease: [0.23, 1, 0.32, 1]
-              }}
               className="hidden md:block"
+              exit={{ x: -256, opacity: 0 }}
+              initial={{ x: -256, opacity: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: [0.23, 1, 0.32, 1],
+              }}
             >
-              <Sidebar 
-                items={sidebarItems} 
-                className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 z-20" 
+              <Sidebar
+                className="fixed top-16 left-0 z-20 h-[calc(100vh-4rem)] w-64"
+                items={sidebarItems}
               />
             </motion.div>
           )}
@@ -158,50 +158,50 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
             <>
               {/* Backdrop */}
               <motion.div
-                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                className="fixed inset-0 z-40 bg-black/50 md:hidden"
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                initial={{ opacity: 0 }}
                 onClick={() => setIsSidebarOpen(false)}
+                transition={{ duration: 0.2 }}
               />
-              
+
               {/* Mobile Sidebar */}
               <motion.div
-                initial={{ x: -256 }}
                 animate={{ x: 0 }}
+                className="fixed top-0 left-0 z-50 h-full md:hidden"
                 exit={{ x: -256 }}
-                transition={{ 
+                initial={{ x: -256 }}
+                transition={{
                   duration: 0.3,
-                  ease: [0.23, 1, 0.32, 1]
+                  ease: [0.23, 1, 0.32, 1],
                 }}
-                className="fixed left-0 top-0 h-full z-50 md:hidden"
               >
-                <Sidebar 
-                  items={sidebarItems} 
-                  className="h-full w-64 border-r-4" 
+                <Sidebar
+                  className="h-full w-64 border-r-4"
+                  items={sidebarItems}
                 />
               </motion.div>
             </>
           )}
         </AnimatePresence>
-        
+
         {/* Main Content */}
-        <main className={cn(
-          "flex-1 transition-all duration-300",
-          isDesktopSidebarCollapsed ? "md:ml-0" : "md:ml-64"
-        )}>
-          <div className="max-w-4xl mx-auto px-6 md:px-8 py-8">
+        <main
+          className={cn(
+            'flex-1 transition-all duration-300',
+            isDesktopSidebarCollapsed ? 'md:ml-0' : 'md:ml-64'
+          )}
+        >
+          <div className="mx-auto max-w-4xl px-6 py-8 md:px-8">
             {/* Breadcrumb */}
             {breadcrumbs.length > 0 && (
-              <Breadcrumb items={breadcrumbs} className="mb-4" />
+              <Breadcrumb className="mb-4" items={breadcrumbs} />
             )}
-            
+
             {/* Page Content */}
-            <div className="flex-1">
-              {children}
-            </div>
-            
+            <div className="flex-1">{children}</div>
+
             {/* Feedback */}
             <Feedback />
           </div>
@@ -209,7 +209,7 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
 
         {/* Right TOC Sidebar */}
         {tocItems.length > 0 && (
-          <aside className="hidden xl:block w-64 pr-8">
+          <aside className="hidden w-64 pr-8 xl:block">
             <div className="sticky top-20 pt-8">
               <CopyPageButton />
               <div className="mt-6">
@@ -219,9 +219,9 @@ export function DocsLayout({ children, tocItems = [], breadcrumbs = [] }: DocsLa
           </aside>
         )}
       </div>
-      
+
       {/* Floating Ask AI Button */}
       <AskAIChat />
     </>
-  )
+  );
 }

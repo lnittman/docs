@@ -1,0 +1,24 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "extends": ["ultracite"],
+  "files": {
+    "experimentalScannerIgnores": [
+      "content/design/fonts/**",
+      ".next/**",
+      "node_modules/**"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "style": {
+        "useAsConstAssertion": "off"
+      },
+      "nursery": {
+        "useConsistentTypeDefinitions": "off"
+      }
+    }
+  }
+}

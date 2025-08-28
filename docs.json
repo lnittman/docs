@@ -33,9 +33,7 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": [
-              "index"
-            ]
+            "pages": ["index"]
           },
           {
             "group": "Architecture",
@@ -56,9 +54,7 @@
               "tools/README",
               {
                 "group": "Integrations",
-                "pages": [
-                  "tools/integrations/orpc-turborepo-guide"
-                ]
+                "pages": ["tools/integrations/orpc-turborepo-guide"]
               },
               {
                 "group": "Claude",
@@ -76,9 +72,7 @@
               },
               {
                 "group": "Development",
-                "pages": [
-                  "tools/anthropic/codex"
-                ]
+                "pages": ["tools/anthropic/codex"]
               }
             ]
           },
@@ -103,21 +97,15 @@
               "tools/stack/ios",
               {
                 "group": "Testing",
-                "pages": [
-                  "stack/testing/testing"
-                ]
+                "pages": ["stack/testing/testing"]
               },
               {
                 "group": "DevOps",
-                "pages": [
-                  "stack/cicd/cicd"
-                ]
+                "pages": ["stack/cicd/cicd"]
               },
               {
                 "group": "Development",
-                "pages": [
-                  "stack/setup/setup"
-                ]
+                "pages": ["stack/setup/setup"]
               }
             ]
           },
@@ -188,7 +176,7 @@
         ]
       },
       {
-      "tab": "Ecosystem",
+        "tab": "Ecosystem",
         "groups": [
           {
             "group": "Overview",
@@ -216,9 +204,7 @@
         "groups": [
           {
             "group": "Commands",
-            "pages": [
-              "workflows/high-yield-command-workflows"
-            ]
+            "pages": ["workflows/high-yield-command-workflows"]
           }
         ]
       },
@@ -227,15 +213,11 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": [
-              "diagrams/README"
-            ]
+            "pages": ["diagrams/README"]
           },
           {
             "group": "Architecture",
-            "pages": [
-              "diagrams/architecture/README"
-            ]
+            "pages": ["diagrams/architecture/README"]
           }
         ]
       }
@@ -262,12 +244,7 @@
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude"
-    ]
+    "options": ["copy", "view", "chatgpt", "claude"]
   },
   "api": {
     "playground": {
