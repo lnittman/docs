@@ -1,7 +1,9 @@
 'use client';
 
+import { Diamond, Github, Search, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -53,33 +55,48 @@ export function Header({ className }: HeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              className="hidden sm:inline-flex"
-              size="sm"
-              variant="outline"
-            >
-              <a
-                href="https://github.com/lnittman/docs"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                github
-              </a>
-            </Button>
-            <Button
+            {/* Diamond Search Button with kbd */}
+            <button
+              className="relative flex items-center gap-2 px-3 py-1.5 border-2 border-black bg-white hover:bg-gray-50 transition-colors"
               onClick={() => {
-                // Open current page content in Claude
-                const content =
-                  document.querySelector('article')?.innerText || '';
-                const url = `https://claude.ai/new?q=${encodeURIComponent(content.substring(0, 1000))}`;
-                window.open(url, '_blank');
+                // TODO: Open command menu for search
+                console.log('Open search/command menu');
               }}
-              size="sm"
-              variant="default"
+              type="button"
             >
-              open in claude
-            </Button>
+              <Diamond className="h-4 w-4 fill-current" />
+              <span className="text-sm">Search</span>
+              <kbd className="ml-2 px-1.5 py-0.5 text-xs border border-gray-300 rounded bg-gray-50">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* AI Sparkle Button with kbd */}
+            <button
+              className="relative flex items-center gap-1 p-2 border-2 border-black bg-white hover:bg-gray-50 transition-colors"
+              onClick={() => {
+                // TODO: Open AI command menu
+                console.log('Open AI command menu');
+              }}
+              title="AI Assistant (Press /)"
+              type="button"
+            >
+              <Sparkles className="h-4 w-4" />
+              <kbd className="absolute -bottom-1 -right-1 px-1 py-0.5 text-xs border border-gray-300 rounded bg-white">
+                /
+              </kbd>
+            </button>
+
+            {/* GitHub Icon Button */}
+            <a
+              className="p-2 border-2 border-black bg-white hover:bg-gray-50 transition-colors"
+              href="https://github.com/lnittman/docs"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="View on GitHub"
+            >
+              <Github className="h-4 w-4 fill-current" />
+            </a>
           </div>
         </div>
       </div>

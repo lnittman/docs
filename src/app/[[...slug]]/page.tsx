@@ -136,9 +136,13 @@ export default async function Page({
 
   const tocItems = extractTOC(mdxData.content);
   const breadcrumbs = generateBreadcrumbs(slug);
+  
+  // Extract title from content (first h1)
+  const titleMatch = mdxData.content.match(/^#\s+(.+)$/m);
+  const title = titleMatch ? titleMatch[1] : slug[slug.length - 1] || 'Documentation';
 
   return (
-    <DocsLayout breadcrumbs={breadcrumbs} tocItems={tocItems}>
+    <DocsLayout breadcrumbs={breadcrumbs} tocItems={tocItems} title={title} content={mdxData.content}>
       <MDXContent content={mdxData.content} />
     </DocsLayout>
   );
